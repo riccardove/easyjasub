@@ -1,45 +1,36 @@
 package com.github.riccardove.easyjasub;
 
-import java.io.*;
-import java.util.*;
+import static org.rendersnake.HtmlAttributesFactory.charset;
+import static org.rendersnake.HtmlAttributesFactory.lang;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.regex.Pattern;
 
-import javax.imageio.*;
+import javax.imageio.ImageReader;
 import javax.imageio.spi.IIORegistry;
 import javax.imageio.stream.FileImageInputStream;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.commons.lang3.StringUtils;
-//import org.jsoup.*;
-//import org.jsoup.nodes.*;
 import org.rendersnake.HtmlCanvas;
 import org.rendersnake.Renderable;
-import org.rendersnake.tools.PrettyWriter;
-import org.xml.sax.*;
-import org.xml.sax.helpers.XMLFilterImpl;
-import org.xml.sax.helpers.XMLReaderFactory;
+import org.xml.sax.SAXException;
 
-import subtitleFile.*;
 import bdsup2sub.BDSup2Sub;
-import bdsup2sub.core.Core;
 
+import com.github.riccardove.easyjasub.inputnihongojtalk.InputNihongoJTalkHtmlFile;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubCaption;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubFile;
 import com.sun.imageio.plugins.png.PNGImageReaderSpi;
 
-import static org.rendersnake.HtmlAttributesFactory.style;
-import static org.rendersnake.HtmlAttributesFactory.type;
-import static org.rendersnake.HtmlAttributesFactory.charset;
-import static org.rendersnake.HtmlAttributesFactory.lang;
-
 public class EasyJaSub {
-	
-	// 720x480
-	private static final String FileName =
-			"Fairy Tail  Ep.01";
-//			"0first.htm";
-	
+		
 	private static final String CssFileName = 
 			"file:///C:/Users/riccardo/workspace/jsubs/default.css";
 	
@@ -55,22 +46,21 @@ public class EasyJaSub {
 	private static final Pattern WashPattern = Pattern.compile("[^\\p{L}\\p{Nd}]");
 	private static final Pattern WashPattern2 = Pattern.compile("__+");
 	
-	public static void main(String[] args) {
+	public static int run(String[] args) throws Exception {
 		HashSet<Phases> phases = null;
-		if (args.length > 0) {
+		if (args.length == 0) {
+			System.err.println("File name without extension as first argument");
+			return -2;
+		}
+		String fileName = args[0];
+		if (args.length > 1) {
 			phases = new HashSet<EasyJaSub.Phases>();
-			for (String arg : args) {
-				Phases phase = Phases.valueOf(arg);
+			for (int i = 1; i<args.length; ++i) {
+				Phases phase = Phases.valueOf(args[i]);
 				phases.add(phase);
 			}
 		}
-		try {
-		    int result = run(phases, FileName);
-			System.exit(result);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		return run(phases, fileName);
 	}
 
 	private static int run(HashSet<Phases> phases, String fileName) throws Exception {
@@ -119,11 +109,6 @@ public class EasyJaSub {
 			System.out.println("writeImages");
 		    result = writeImages(s, htmlFolder, bdnFolder);
 		}
-		
-//			String curdir = System.getProperty("user.dir");
-//			curdir =  "file:///" + curdir.replace('\\', '/').replace(':', '|')  + "/page.html";
-//			System.out.println(curdir);
-//			WebVector.run(new String[] {curdir, "page.png", "png"});
 
 		if (phases == null || phases.contains(Phases.Bdm)) {
 			System.out.println("writeBDM");
@@ -198,7 +183,7 @@ public class EasyJaSub {
 
 	private static void writeHtmls(SubtitleList s, File htmlFolder) throws IOException{
 		for (SubtitleLine l : s) {
-			String htmlStr = toHtml(l);
+			String htmlStr = toHtml(l, CssFileName);
 			
 			File file = new File(htmlFolder, l.getHtmlFile());
 			toFile(htmlStr, file);
@@ -210,10 +195,8 @@ public class EasyJaSub {
 		int result  = 0;
 		LinkedList<Process> processes = new LinkedList<Process>(); 
 		for (SubtitleLine l : s) {
-			String htmlStr = toHtml(l);
 			
 			File file = new File(htmlFolder, l.getHtmlFile());
-			toFile(htmlStr, file);
 
 			File pngFile = new File(pngFolder, l.getPngFile());
 			Process p = toImage(file.getAbsolutePath(), pngFile.getAbsolutePath(), s.getWidth());
@@ -383,26 +366,17 @@ public class EasyJaSub {
 	private static void parseJhtml(File file, SubtitleList s)
 			throws IOException, SAXException
 	{
-	    XMLReader saxParser = XMLReaderFactory.createXMLReader("org.ccil.cowan.tagsoup.Parser");
-
-	    HtmlParser handler = new HtmlParser(s);
-
-	    saxParser.setContentHandler(handler);
-		saxParser.setEntityResolver(handler);
-		
-		BufferedReader br = new BufferedReader(new FileReader(file));
-
-		saxParser.parse(new InputSource(br));
+		InputNihongoJTalkHtmlFile.parse(file, s);
 	}
 	
-	private static String toHtml(Renderable s) throws IOException 
+	private static String toHtml(Renderable s, String cssFileRef) throws IOException 
 	{
 		HtmlCanvas html = new HtmlCanvas();
 		html.write("<!DOCTYPE html>", false)
 		.html(lang("ja"))
 		.head()
 		.meta(charset("utf-8"))
-		.write("<link href=\"" + CssFileName + "\" rel=\"stylesheet\" type=\"text/css\" />", false)
+		.write("<link href=\"" + cssFileRef + "\" rel=\"stylesheet\" type=\"text/css\" />", false)
 		._head().body();
 		s.renderOn(html);
 		html._body()._html();

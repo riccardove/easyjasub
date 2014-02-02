@@ -1,23 +1,17 @@
-package com.github.riccardove.easyjasub;
+package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 import org.xml.sax.*;
 
-public class TextareaParser implements SectionParser {
+import com.github.riccardove.easyjasub.SubtitleLine;
+import com.github.riccardove.easyjasub.SubtitleList;
+
+class TextareaHtmlHandler implements SectionHtmlHandler {
 
 	private final SubtitleList subtitleList;
 	
-	public TextareaParser(SubtitleList subtitleList) {
+	public TextareaHtmlHandler(SubtitleList subtitleList) {
 		text = new StringBuffer();
 		this.subtitleList = subtitleList; 
-	}
-	
-	public void startPrefixMapping(String prefix, String uri)
-			throws SAXException {
-		
-	}
-
-	public void endPrefixMapping(String prefix) throws SAXException {
-		
 	}
 
 	public void startElement(String uri, String localName, String qName,
@@ -76,20 +70,6 @@ public class TextareaParser implements SectionParser {
 		line.setOriginalText(text.toString());
 	}
 
-	public void ignorableWhitespace(char[] ch, int start, int length)
-			throws SAXException {
-//		text.append(ch, start, length);
-	}
-
-	public void processingInstruction(String target, String data)
-			throws SAXException {
-		
-	}
-
-	public void skippedEntity(String name) throws SAXException {
-		
-	}
-
 	public void startSection(String uri, String localName, String qName,
 			Attributes atts) throws SAXException {
 		
@@ -103,5 +83,4 @@ public class TextareaParser implements SectionParser {
 		}
 		System.out.println("textarea" + subtitleList.size());
 	}
-
 }

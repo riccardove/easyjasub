@@ -1,21 +1,19 @@
-package com.github.riccardove.easyjasub;
-
-import java.io.IOException;
+package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class HtmlParser extends DefaultHandler {
+import com.github.riccardove.easyjasub.SubtitleList;
 
-	public HtmlParser(SubtitleList subtitleList) {
+class InputNihongoJTalkHtmlHandler extends DefaultHandler {
+
+	public InputNihongoJTalkHtmlHandler(SubtitleList subtitleList) {
 		this.subtitleList = subtitleList;
 	}
 	
 	private final SubtitleList subtitleList;
-	private SectionParser sectionParser;
+	private SectionHtmlHandler sectionParser;
 	private int divCount;
 	
 	public void startElement(String uri, String localName, String qName,
@@ -25,13 +23,13 @@ public class HtmlParser extends DefaultHandler {
 		}
 		else if ("textarea".equals(qName)) {
 			System.out.println("textarea section start");
-			sectionParser = new TextareaParser(subtitleList);
+			sectionParser = new TextareaHtmlHandler(subtitleList);
 			sectionParser.startSection(uri, localName, qName, attributes);
 		}
 		else if ("div".equals(qName)) {
 			if ("rollover".equals(attributes.getValue("id"))) {
 				System.out.println("hiragana section start");
-				sectionParser = new HiraganaSectionParser(subtitleList);
+				sectionParser = new HiraganaDivHtmlHandler(subtitleList);
 				sectionParser.startSection(uri, localName, qName, attributes);
 			}
 			if (sectionParser != null) {
@@ -64,32 +62,5 @@ public class HtmlParser extends DefaultHandler {
 		}
 		
 	}
-/*@Override
-public void warning(SAXParseException e) throws SAXException {
 
 }
-*/
-@Override
-public void unparsedEntityDecl(String name, String publicId,
-		String systemId, String notationName) throws SAXException {
-
-}
-
-
-/*
-@Override
-public InputSource resolveEntity(String publicId, String systemId)
-		throws IOException, SAXException {
-	return null;
-}
-*/
-/*	@Override
-	public void error(SAXParseException e) throws SAXException {
-		
-	}
-	
-	@Override
-	public void fatalError(SAXParseException e) throws SAXException {
-		
-	}
-*/}

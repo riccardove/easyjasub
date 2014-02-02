@@ -1,20 +1,20 @@
-package com.github.riccardove.easyjasub;
+package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 import java.util.Iterator;
-
-import junit.framework.Test;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class HiraganaSectionParser implements SectionParser {
+import com.github.riccardove.easyjasub.SubtitleLine;
+import com.github.riccardove.easyjasub.SubtitleList;
+
+class HiraganaDivHtmlHandler implements SectionHtmlHandler {
 
 	private int span;
 	private String classAttribute;
 	private boolean trg;
 	private String triggerStr;
 
-	private final SubtitleList subtitleList;
 	private final Iterator<SubtitleLine> iter;
 	private SubtitleLine line;
 	
@@ -23,8 +23,7 @@ public class HiraganaSectionParser implements SectionParser {
 	private String posText;
 	private String englishrubyText;
 	
-	public HiraganaSectionParser(SubtitleList subtitleList) {
-		this.subtitleList = subtitleList;
+	public HiraganaDivHtmlHandler(SubtitleList subtitleList) {
 		iter = subtitleList.iterator();
 		next();
 	}
@@ -36,15 +35,6 @@ public class HiraganaSectionParser implements SectionParser {
 		else {
 			line = null;
 		}
-	}
-	
-	public void startPrefixMapping(String prefix, String uri)
-			throws SAXException {
-		
-	}
-
-	public void endPrefixMapping(String prefix) throws SAXException {
-		
 	}
 
 	public void startElement(String uri, String localName, String qName,
@@ -123,23 +113,6 @@ public class HiraganaSectionParser implements SectionParser {
 
 	}
 
-	public void ignorableWhitespace(char[] ch, int start, int length)
-			throws SAXException {
-//		String str = String.valueOf(ch, start, length);
-		
-//		System.out.print(str);	
-		}
-
-	public void processingInstruction(String target, String data)
-			throws SAXException {
-
-		
-	}
-
-	public void skippedEntity(String name) throws SAXException {
-		
-	}
-
 	public void startSection(String uri, String localName, String qName,
 			Attributes atts) throws SAXException {
 		
@@ -149,5 +122,4 @@ public class HiraganaSectionParser implements SectionParser {
 			throws SAXException {
 		
 	}
-
 }

@@ -36,6 +36,8 @@ public class DictSubtitleLineItem extends RedSubtitleLineItem {
 			}
 			break;
 		}
+		default:
+			break;
 		}
 	}
 

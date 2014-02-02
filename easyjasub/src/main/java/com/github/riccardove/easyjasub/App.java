@@ -1,13 +1,18 @@
 package com.github.riccardove.easyjasub;
 
 /**
- * Hello world!
- *
+ * Entry point for a console application
  */
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+		try {
+		    int result = EasyJaSub.run(args);
+			System.exit(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
     }
 }
