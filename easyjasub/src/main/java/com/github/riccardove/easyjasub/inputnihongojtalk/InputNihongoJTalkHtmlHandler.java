@@ -8,6 +8,10 @@ import com.github.riccardove.easyjasub.SubtitleList;
 
 class InputNihongoJTalkHtmlHandler extends DefaultHandler {
 
+	private static final String ID_ATTRIBUTE = "id";
+	private static final String DIV_ELEMENT = "div";
+	private static final String TEXTAREA_ELEMENT = "textarea";
+
 	public InputNihongoJTalkHtmlHandler(SubtitleList subtitleList) {
 		this.subtitleList = subtitleList;
 	}
@@ -21,14 +25,12 @@ class InputNihongoJTalkHtmlHandler extends DefaultHandler {
 		if (sectionParser != null) {
 			sectionParser.startElement(uri, localName, qName, attributes);
 		}
-		else if ("textarea".equals(qName)) {
-			System.out.println("textarea section start");
+		else if (TEXTAREA_ELEMENT.equals(qName)) {
 			sectionParser = new TextareaHtmlHandler(subtitleList);
 			sectionParser.startSection(uri, localName, qName, attributes);
 		}
-		else if ("div".equals(qName)) {
-			if ("rollover".equals(attributes.getValue("id"))) {
-				System.out.println("hiragana section start");
+		else if (DIV_ELEMENT.equals(qName)) {
+			if ("rollover".equals(attributes.getValue(ID_ATTRIBUTE))) {
 				sectionParser = new HiraganaDivHtmlHandler(subtitleList);
 				sectionParser.startSection(uri, localName, qName, attributes);
 			}
@@ -41,10 +43,10 @@ class InputNihongoJTalkHtmlHandler extends DefaultHandler {
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 		if (sectionParser != null) {
-			if ("div".equals(qName)) {
+			if (DIV_ELEMENT.equals(qName)) {
 				divCount--;
 			}
-			if (("textarea".equals(qName) || divCount == 0)) {
+			if ((TEXTAREA_ELEMENT.equals(qName) || divCount == 0)) {
 				System.out.println("section end");
 				sectionParser.endSection(uri, localName, qName);
 				sectionParser = null;

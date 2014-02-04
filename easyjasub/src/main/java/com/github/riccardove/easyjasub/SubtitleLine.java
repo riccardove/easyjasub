@@ -29,88 +29,27 @@ public class SubtitleLine implements Renderable {
 		originalText = text;
 		ja = true;
 	}
-	
-	private String lastText;
-	
+		
 	public int getIndex() {
 		return index;
 	}
 	
-	private static final String ErrorStr ="[?]";
 	private boolean ja;
 	
 	public boolean isJa() {
 		return ja;
 	}
-	
-	public void addText(String text) {
-		if (ErrorStr.equals(text)) {
-			return;
-		}
-		if (text.contains(ErrorStr)) {
-			text = text.replace(ErrorStr, "");
-		}
- 		if (lastText == null) {
-			lastText = text;
-			TextSubtitleLineItem item = new TextSubtitleLineItem(this, text);
-			item.setIndex(items.size());
-			items.add(item);
-		}
-		else {
-			lastText = lastText + text;
-			((TextSubtitleLineItem) items.get(items.size()-1)).setText(lastText);
-		}
-	}
 
-	public void addSpan(String triggerStr, String baseText,
-			String dictreadingText, String posText, String englishrubyText) {
-		try {
-			if (triggerStr == null) {
-				throw new NullPointerException("Invalid trigger");
-			}
-			if (triggerStr.length() == 1 && !JapaneseChar.isJapaneseChar(triggerStr.charAt(0))) {
-				addText(triggerStr);
-				return;
-			}
-			if (baseText != null) {
-				if (baseText.length() == 1) {
-					char c = baseText.charAt(0);
-					if (!JapaneseChar.isJapaneseChar(c)) {
-						addText(baseText);
-						return;
-					}
-				}
-				if ( englishrubyText == null) {
-					addNonText(new FuriSubtitleLineItem(this, baseText, triggerStr,
-							posText, dictreadingText));
-				}
-				else {
-					addNonText(new ComplexSubtitleLineItem(this, baseText, triggerStr, englishrubyText,
-							posText, dictreadingText));
-				}
-			}
-			else {
-				if (englishrubyText == null) {
-					addNonText(new RedSubtitleLineItem(this, triggerStr,
-							posText, dictreadingText));
-				}
-				else {
-					addNonText(new DictSubtitleLineItem(this, triggerStr, englishrubyText,
-							posText, dictreadingText));
-				}
-			}
-		}
-		catch (Exception ex) {
-			throw new NullPointerException("Error at line " + index + ": " + ex.getMessage() + " " + ex.getStackTrace()[0].getClassName());
-		}
-	}
-	
-	private void addNonText(SubtitleLineItem item) {
-		lastText = null;
+	public void addItem(SubtitleLineItem item) {
 		item.setIndex(items.size());
 		items.add(item);
 	}
 
+	public SubtitleLineItem getLastItem() 
+	{
+		return items.get(items.size()-1);
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder text = new StringBuilder();

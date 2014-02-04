@@ -1,7 +1,7 @@
 package com.github.riccardove.easyjasub;
 
 
-class JapaneseChar {
+public class JapaneseChar {
 
 	public static boolean isJapaneseChar(char c)
 	{

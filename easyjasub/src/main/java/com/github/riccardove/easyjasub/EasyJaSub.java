@@ -87,7 +87,7 @@ public class EasyJaSub {
 		    readJapaneseSubtitles(s, fileName +".ass", new File(fileName +".ass"));
 		    
 			System.out.println("readEnglishSubtitles");
-		    readEnglishSubtitles(s, fileName + ".en.ass", new File(fileName +".en.ass"), true);
+		    readEnglishSubtitles(s, fileName + ".en.ass", new File(fileName +".en.ass"));
 			for (String pos : RedSubtitleLineItem.PosSet) {
 				System.out.println(pos);
 			}
@@ -234,59 +234,57 @@ public class EasyJaSub {
 		}
 	}
 
-	private static void readEnglishSubtitles(SubtitleList s, String fileName, File file, boolean add) throws Exception {
+	private static void readEnglishSubtitles(SubtitleList s, String fileName, File file) throws Exception {
 		InputTextSubFile subs = parseAssFile(fileName, file);
 		s.setEnglishTitle(subs.title);
-		if (add) {
-			for (InputTextSubCaption enCaption : subs.getCaptions()) {
-				boolean added = false;
+		for (InputTextSubCaption enCaption : subs.getCaptions()) {
+			boolean added = false;
+			for (SubtitleLine jaLine : s) {
+				if (jaLine.isJa() &&
+					jaLine.compatibleWith(enCaption)) {
+					jaLine.addEnglish(enCaption.getContent());
+					added = true;
+				}
+				else if (added) {
+					break;
+				}
+			}
+			if (!added) {
 				for (SubtitleLine jaLine : s) {
 					if (jaLine.isJa() &&
-						jaLine.compatibleWith(enCaption)) {
+						jaLine.approxCompatibleWith(enCaption)) {
 						jaLine.addEnglish(enCaption.getContent());
-						added = true;
+						if (!added) {
+							added = true;
+						}
+						else {
+							System.out.println("Duplicated english caption " + enCaption.getContent() + " starting at " + enCaption.getStart() + " at " + jaLine.getIdxStartTime());
+						}
 					}
 					else if (added) {
 						break;
 					}
 				}
-				if (!added) {
-					for (SubtitleLine jaLine : s) {
-						if (jaLine.isJa() &&
-							jaLine.approxCompatibleWith(enCaption)) {
-							jaLine.addEnglish(enCaption.getContent());
-							if (!added) {
-								added = true;
-							}
-							else {
-								System.out.println("Duplicated english caption " + enCaption.getContent() + " starting at " + enCaption.getStart() + " at " + jaLine.getIdxStartTime());
-							}
-						}
-						else if (added) {
-							break;
-						}
-					}
-				}
-				if (!added) {
-					s.insertEnglish(enCaption);
-				}
 			}
-			String lastEnglish = null;
-			for (SubtitleLine jaLine : s) {
-				if (jaLine.isJa())
-				{
-					if (!jaLine.isEnglish()) {
-						if (lastEnglish != null) {
-							jaLine.addEnglish(lastEnglish);
-						}
-					}
-					else {
-						lastEnglish = jaLine.getEnglish();
+			if (!added) {
+				s.insertEnglish(enCaption);
+			}
+		}
+		String lastEnglish = null;
+		for (SubtitleLine jaLine : s) {
+			if (jaLine.isJa())
+			{
+				if (!jaLine.isEnglish()) {
+					if (lastEnglish != null) {
+						jaLine.addEnglish(lastEnglish);
 					}
 				}
 				else {
-					lastEnglish = null;
+					lastEnglish = jaLine.getEnglish();
 				}
+			}
+			else {
+				lastEnglish = null;
 			}
 		}
 	}

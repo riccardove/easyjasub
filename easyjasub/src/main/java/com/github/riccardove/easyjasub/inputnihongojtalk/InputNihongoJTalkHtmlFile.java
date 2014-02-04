@@ -14,10 +14,12 @@ import com.github.riccardove.easyjasub.SubtitleList;
 
 public class InputNihongoJTalkHtmlFile {
 
+	private static final String TAGSOUP_PARSER = "org.ccil.cowan.tagsoup.Parser";
+
 	public static void parse(File file, SubtitleList s)
 			throws IOException, SAXException
 	{
-	    XMLReader saxParser = XMLReaderFactory.createXMLReader("org.ccil.cowan.tagsoup.Parser");
+	    XMLReader saxParser = XMLReaderFactory.createXMLReader(TAGSOUP_PARSER);
 
 	    InputNihongoJTalkHtmlHandler handler = new InputNihongoJTalkHtmlHandler(s);
 
