@@ -7,10 +7,10 @@ import java.util.LinkedList;
 class SubtitleListPngFilesWriter {
 	
 	public SubtitleListPngFilesWriter() {
-		wkhtmltoimageexe = "C:\\Program Files (x86)\\wkhtmltopdf\\wkhtmltoimage.exe";
+		wkhtmltoimageexe = new WkHtmlToImageProcessBuilder();
 	}
 	
-	private final String wkhtmltoimageexe;
+	private final WkHtmlToImageProcessBuilder wkhtmltoimageexe;
 	
 	public int writeImages(SubtitleList s, File htmlFolder, File pngFolder) throws IOException, InterruptedException 
 	{
@@ -21,7 +21,7 @@ class SubtitleListPngFilesWriter {
 			File file = new File(htmlFolder, l.getHtmlFile());
 		
 			File pngFile = new File(pngFolder, l.getPngFile());
-			Process p = toImage(file.getAbsolutePath(), pngFile.getAbsolutePath(), s.getWidth());
+			Process p = wkhtmltoimageexe.start(file.getAbsolutePath(), pngFile.getAbsolutePath(), s.getWidth());
 			processes.add(p);
 			if (processes.size() > 10 || l.getIndex() == 1) {
 				do {
@@ -44,13 +44,6 @@ class SubtitleListPngFilesWriter {
 		while (result == 0 && processes.size() > 0);
 		System.out.println();
 		return result;
-	}
-
-	private Process toImage(String htmlFile, String pngFile, int width) throws IOException {
-		return new ProcessBuilder(wkhtmltoimageexe,
-				"--width", Integer.toString(width), //"--disable-smart-width",
-				"--transparent",
-				htmlFile, pngFile).start();
 	}
 
 }

@@ -48,6 +48,7 @@ class SubtitleListBdmXmlFileWriter {
 			ir.setInput(is);
 			int width = ir.getWidth(0);
 			int height = ir.getHeight(0);
+			ir.setInput(null);
 			is.close();
 
 			String inTC = l.getInTC();
