@@ -13,15 +13,6 @@ import com.github.riccardove.easyjasub.inputnihongojtalk.InputNihongoJTalkHtmlFi
 
 public class EasyJaSub {
 	
-	private enum Phases {
-		All,
-		Html,
-		Png,
-		Bdm,
-		Sup,
-		Idx, SupXml, Htmls, Ifo,
-	};
-	
 	private static final Pattern WashPattern = Pattern.compile("[^\\p{L}\\p{Nd}]");
 	private static final Pattern WashPattern2 = Pattern.compile("__+");
 	
@@ -33,7 +24,7 @@ public class EasyJaSub {
 		}
 		String fileName = args[0];
 		if (args.length > 1) {
-			phases = new HashSet<EasyJaSub.Phases>();
+			phases = new HashSet<Phases>();
 			for (int i = 1; i<args.length; ++i) {
 				Phases phase = Phases.valueOf(args[i]);
 				phases.add(phase);
