@@ -4,8 +4,6 @@ import java.util.Set;
 
 public interface EasyJaSubInputCommand {
 
-	public abstract String getMessage();
-
 	public abstract boolean isHelp();
 
 	public abstract String getVideoFileName();

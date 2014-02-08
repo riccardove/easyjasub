@@ -1,6 +1,9 @@
 package com.github.riccardove.easyjasub.commandline;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.*;
+
 import org.apache.commons.cli.*;
 
 class CommandLineOptionList {
@@ -36,16 +39,18 @@ class CommandLineOptionList {
         return new CommandLineContent(line);
     }
     
-    public void printHelp() {
+    public void printHelp(PrintWriter stream,
+            String header, String footer) {
         HelpFormatter formatter = new HelpFormatter();
         formatter.setOptionComparator(new Comparator<Option>() {
             @Override
             public int compare(Option opt1, Option opt2) {
-                return (int) Math.signum(optionsOrder.get(opt1) - optionsOrder.get(opt2));
+                return (int) Math.signum(optionsOrder.get(opt1.getOpt()) - optionsOrder.get(opt2.getOpt()));
             }
         });
-        formatter.setWidth(79);
-        formatter.printHelp("java -jar easyjasub [options]", options);
+        formatter.printHelp(stream, HelpFormatter.DEFAULT_WIDTH,
+        		"java -jar easyjasub [options]", header, options, HelpFormatter.DEFAULT_LEFT_PAD,
+        		HelpFormatter.DEFAULT_DESC_PAD, footer);
     }
 
 }

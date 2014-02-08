@@ -1,5 +1,8 @@
 package com.github.riccardove.easyjasub.commandline;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
@@ -68,7 +71,6 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private String message;
 	private boolean isHelp;
 
-	@Override
 	public String getMessage() {
 		return message;
 	}
@@ -187,7 +189,7 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 		}
 	}
 
-	public void printHelp() {
-		list.printHelp();
+	public void printHelp(PrintWriter stream) {
+		list.printHelp(stream, null, null);
 	}
 }

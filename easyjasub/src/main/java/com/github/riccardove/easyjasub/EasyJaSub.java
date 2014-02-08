@@ -2,7 +2,7 @@ package com.github.riccardove.easyjasub;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import org.xml.sax.SAXException;
@@ -15,25 +15,11 @@ public class EasyJaSub {
 	
 	private static final Pattern WashPattern = Pattern.compile("[^\\p{L}\\p{Nd}]");
 	private static final Pattern WashPattern2 = Pattern.compile("__+");
-	
-	public static int run(String[] args) throws Exception {
-		HashSet<Phases> phases = null;
-		if (args.length == 0) {
-			System.err.println("File name without extension as first argument");
-			return -2;
-		}
-		String fileName = args[0];
-		if (args.length > 1) {
-			phases = new HashSet<Phases>();
-			for (int i = 1; i<args.length; ++i) {
-				Phases phase = Phases.valueOf(args[i]);
-				phases.add(phase);
-			}
-		}
-		return run(phases, fileName);
-	}
 
-	private static int run(HashSet<Phases> phases, String fileName) throws Exception {
+	public static int run(EasyJaSubInputCommand command) throws Exception {
+		
+		Set<Phases> phases = command.getPhases();
+		String fileName = command.getVideoFileName();
 		String washedFileName = WashPattern.matcher(fileName).replaceAll("_");
 		washedFileName = WashPattern2.matcher(washedFileName).replaceAll("_");
 		SubtitleList s = new SubtitleList(washedFileName);

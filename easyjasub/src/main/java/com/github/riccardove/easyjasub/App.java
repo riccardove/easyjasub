@@ -1,18 +1,23 @@
 package com.github.riccardove.easyjasub;
 
+import java.io.PrintWriter;
+
 /**
- * Entry point for a console application
+ * Default entry point for the easyjasub console application
  */
 public class App 
 {
     public static void main( String[] args )
     {
 		try {
-		    int result = EasyJaSub.run(args);
+		    int result = new EasyJaSubCommandLineApp().run(args, 
+		    	new PrintWriter(System.out, true), 
+		    	new PrintWriter(System.err, true));
 			System.exit(result);
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
+			System.err.println("Unhandled application error:");
+			e.printStackTrace(System.err);
+			System.exit(-1000);
 		}
     }
 }
