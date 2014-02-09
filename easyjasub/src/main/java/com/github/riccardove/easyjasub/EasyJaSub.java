@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import javax.jws.Oneway;
+
 import org.apache.commons.io.FilenameUtils;
 import org.xml.sax.SAXException;
 
@@ -23,8 +25,7 @@ public class EasyJaSub {
 	
 	
 	
-	public int run(EasyJaSubInput command,
-			PrintWriter outputStream, PrintWriter errorStream) throws Exception {
+	public int run(EasyJaSubInput command, EasyJaSubObserver observer) throws Exception {
 		
 		
 		
@@ -48,25 +49,29 @@ public class EasyJaSub {
 				|| phases.contains(Phases.Idx)
 				|| phases.contains(Phases.Bdm)
 				|| phases.contains(Phases.Png)) {
-			System.out.println("parseJhtml");
-		    InputNihongoJTalkHtmlFile.parse(command.getNihongoJtalkHtmlFile(), s);
+			File f = command.getNihongoJtalkHtmlFile();
+			observer.onInputNihongoJTalkHtmlFileParseStart(f);
+		    InputNihongoJTalkHtmlFile.parse(f, s, observer);
+			observer.onInputNihongoJTalkHtmlFileParseEnd(f, RedSubtitleLineItem.PosSet);
 		    
-			System.out.println("readJapaneseSubtitles");
-		    new SubtitleListJapaneseSubFileReader().readJapaneseSubtitles(s, command.getJapaneseSubFile());
+			File jaF = command.getJapaneseSubFile();
+		    observer.onReadJapaneseSubtitlesStart(jaF);
+		    new SubtitleListJapaneseSubFileReader().readJapaneseSubtitles(s, jaF);
+		    observer.onReadJapaneseSubtitlesEnd(jaF);
 		    
-			System.out.println("readEnglishSubtitles");
-		    new SubtitleListTranslatedSubFileReader().readEnglishSubtitles(s, command.getTranslatedSubFile());
-//			for (String pos : RedSubtitleLineItem.PosSet) {
-//				System.out.println(pos);
-//			}
+		    File enF = command.getTranslatedSubFile();
+		    observer.onReadTranslatedSubtitlesStart(enF);
+		    new SubtitleListTranslatedSubFileReader().readEnglishSubtitles(s, enF);
+		    observer.onReadTranslatedSubtitlesEnd(enF);
 		}
 
 		File htmlFolder = createFolder(command.getOutputHtmlDirectory());
 
 		if (phases == null 
 				|| phases.contains(Phases.Htmls)) {
-			System.out.println("writeHtmls");
-			new SubtitleListHtmlFilesWriter(htmlFolder).writeHtmls(s);;
+			observer.onWriteHtmlStart(htmlFolder);
+			new SubtitleListHtmlFilesWriter(htmlFolder).writeHtmls(s);
+			observer.onWriteHtmlEnd(htmlFolder);
 		}
 
 		File bdnFolder = createFolder(command.getBdnXmlFile().getParentFile());
@@ -74,26 +79,28 @@ public class EasyJaSub {
 		int result = 0;
 		if (phases == null 
 				|| phases.contains(Phases.Png)) {
-			System.out.println("writeImages");
-		    result = new SubtitleListPngFilesWriter(command.getWkhtmltoimageFile()).writeImages(s, htmlFolder, bdnFolder);
+			String wkhtml = command.getWkhtmltoimageFile();
+			observer.onWriteImagesStart(wkhtml, htmlFolder, bdnFolder);
+		    result = new SubtitleListPngFilesWriter(wkhtml).writeImages(s, htmlFolder, bdnFolder);
+			observer.onWriteImagesEnd(wkhtml, htmlFolder, bdnFolder);
 		}
 
 		if (phases == null || phases.contains(Phases.Bdm)) {
-			System.out.println("writeBDM");
-			new SubtitleListBdmXmlFileWriter().writeBDM(s, command.getBdnXmlFile());
-			System.out.println("BDN file created");
+			File f = command.getBdnXmlFile();
+			observer.onWriteBdnXmlFileStart(f);
+			new SubtitleListBdmXmlFileWriter().writeBDM(s, f);
+			observer.onWriteBdnXmlFileEnd(f);
 		}
 
 		if (phases == null 
 				|| phases.contains(Phases.Idx)) {
-			System.out.println("writeBDM");
-			
-			File folder = createFolder(command.getOutputIdxFile());
+			File file = command.getOutputIdxFile();
+			File folder = createFolder(file.getParentFile());
 			// TODO Core.timestampsStr = s.getIdxTimestamps();
-			
+			observer.onWriteIdxFileStart(file);
 			// TODO output file
-			new BDSup2SubWrapper().toIdx(bdnFolder, command.getBdnXmlFile(), folder, new File(command.getVideoFile() + ".idx"), s.getWidth());
-			System.out.println("Idx");
+			new BDSup2SubWrapper().toIdx(bdnFolder, command.getBdnXmlFile(), folder, file, s.getWidth());
+			observer.onWriteIdxFileEnd(file);
 		}
 
 /*		    if (phases == null 

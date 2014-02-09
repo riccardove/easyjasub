@@ -319,8 +319,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			String extension = getExtension(file);
 			
 
-			if ((extension == "html" ||
-				extension == "htm") &&
+			if ((extension == "HTML" ||
+				extension == "HTM") &&
 				isTextContentType(file)) {
 				return file;
 			}
@@ -329,7 +329,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static String getExtension(File file) {
-		return FilenameUtils.getExtension(file.getName()).toLowerCase();
+		return FilenameUtils.getExtension(file.getName()).toUpperCase();
 	}
 
 	private static void checkFile(String fileName, File file) throws Exception {

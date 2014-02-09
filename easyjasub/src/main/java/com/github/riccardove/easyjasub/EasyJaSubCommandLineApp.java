@@ -29,6 +29,6 @@ public class EasyJaSubCommandLineApp {
 			errorStream.println("Command error:");
 			errorStream.println(ex.getMessage());
 		}
-		return new EasyJaSub().run(input, outputStream, errorStream);
+		return new EasyJaSub().run(input, new EasyJaSubConsole(outputStream, errorStream));
 	}
 }

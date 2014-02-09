@@ -4,6 +4,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.github.riccardove.easyjasub.EasyJaSubObserver;
 import com.github.riccardove.easyjasub.SubtitleList;
 
 class InputNihongoJTalkHtmlHandler extends DefaultHandler {
@@ -11,9 +12,12 @@ class InputNihongoJTalkHtmlHandler extends DefaultHandler {
 	private static final String ID_ATTRIBUTE = "id";
 	private static final String DIV_ELEMENT = "div";
 	private static final String TEXTAREA_ELEMENT = "textarea";
+	private final EasyJaSubObserver observer;
 
-	public InputNihongoJTalkHtmlHandler(SubtitleList subtitleList) {
+	public InputNihongoJTalkHtmlHandler(SubtitleList subtitleList,
+			EasyJaSubObserver observer) {
 		this.subtitleList = subtitleList;
+		this.observer = observer;
 	}
 	
 	private final SubtitleList subtitleList;
@@ -26,11 +30,13 @@ class InputNihongoJTalkHtmlHandler extends DefaultHandler {
 			sectionParser.startElement(uri, localName, qName, attributes);
 		}
 		else if (TEXTAREA_ELEMENT.equals(qName)) {
+			observer.onInputNihongoJTalkHtmlFileParseTextareaStart();
 			sectionParser = new TextareaHtmlHandler(subtitleList);
 			sectionParser.startSection(uri, localName, qName, attributes);
 		}
 		else if (DIV_ELEMENT.equals(qName)) {
 			if ("rollover".equals(attributes.getValue(ID_ATTRIBUTE))) {
+				observer.onInputNihongoJTalkHtmlFileParseHiraganaDivStart();
 				sectionParser = new HiraganaDivHtmlHandler(subtitleList);
 				sectionParser.startSection(uri, localName, qName, attributes);
 			}
@@ -46,9 +52,15 @@ class InputNihongoJTalkHtmlHandler extends DefaultHandler {
 			if (DIV_ELEMENT.equals(qName)) {
 				divCount--;
 			}
-			if ((TEXTAREA_ELEMENT.equals(qName) || divCount == 0)) {
-				System.out.println("section end");
+			boolean endDiv = divCount == 0;
+			if ((endDiv || TEXTAREA_ELEMENT.equals(qName))) {
 				sectionParser.endSection(uri, localName, qName);
+				if (endDiv) {
+					observer.onInputNihongoJTalkHtmlFileParseHiraganaDivEnd();
+				}
+				else {
+					observer.onInputNihongoJTalkHtmlFileParseTextareaEnd();
+				}
 				sectionParser = null;
 			}
 			else {
@@ -62,7 +74,6 @@ class InputNihongoJTalkHtmlHandler extends DefaultHandler {
 		if (sectionParser != null) {
 			sectionParser.characters(data, start, length);
 		}
-		
 	}
 
 }

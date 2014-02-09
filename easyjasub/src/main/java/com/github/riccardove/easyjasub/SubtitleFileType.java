@@ -4,8 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public enum SubtitleFileType {
-	ass,
-	srt,
+	SRT,
+	STL,
+	SCC,
+	XML,
+	ASS
 	;
 	
 	static {
