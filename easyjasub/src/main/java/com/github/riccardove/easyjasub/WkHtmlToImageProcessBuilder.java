@@ -3,8 +3,8 @@ package com.github.riccardove.easyjasub;
 import java.io.IOException;
 
 class WkHtmlToImageProcessBuilder {
-	public WkHtmlToImageProcessBuilder() {
-		wkhtmltoimageexe = "C:\\Program Files (x86)\\wkhtmltopdf\\wkhtmltoimage.exe";
+	public WkHtmlToImageProcessBuilder(String command) {
+		wkhtmltoimageexe = command;
 	}
 	
 	private final String wkhtmltoimageexe;

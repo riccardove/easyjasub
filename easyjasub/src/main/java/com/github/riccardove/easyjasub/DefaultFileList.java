@@ -3,6 +3,7 @@ package com.github.riccardove.easyjasub;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,6 +18,14 @@ class DefaultFileList implements Iterable<File> {
 	}
 	
 	private List<File> list;
+	private String defaultFileNamePrefix;
+	
+	public String getDefaultFileNamePrefix() {
+		if (defaultFileNamePrefix == null) {
+			defaultFileNamePrefix = getDefaultFileNamePrefix(command);
+		}
+		return defaultFileNamePrefix;
+	}
 	
 	private static String getDefaultFileNamePrefix(EasyJaSubInputCommand command) {
 		String fileName = command.getVideoFileName();
@@ -37,7 +46,7 @@ class DefaultFileList implements Iterable<File> {
 	
 	private static List<File> getDefaultDirectories(EasyJaSubInputCommand command) {
 		ArrayList<File> result = new ArrayList<File>();
-		result.add(new File(SystemProperty.getUserDir()));
+		result.add(getUserDir());
 		for (String fileName : new String[] {
 			command.getVideoFileName(),
 			command.getJapaneseSubFileName(),
@@ -47,6 +56,10 @@ class DefaultFileList implements Iterable<File> {
 			addParentDirectoryIfDistinct(result, fileName);
 		}
 		return result;
+	}
+
+	private static File getUserDir() {
+		return new File(SystemProperty.getUserDir());
 	}
 
 	private static void addParentDirectoryIfDistinct(ArrayList<File> result,
@@ -95,9 +108,9 @@ class DefaultFileList implements Iterable<File> {
 	@Override
 	public Iterator<File> iterator() {
 		if (list == null) {
-			String defaultFileNamePrefix = getDefaultFileNamePrefix(command);
+			String defaultFileNamePrefix = getDefaultFileNamePrefix();
 			if (defaultFileNamePrefix == null) {
-				list = new ArrayList<File>();
+				list = Arrays.asList(getUserDir());
 			}
 			else {
 				List<File> defaultDirectories = getDefaultDirectories(command);

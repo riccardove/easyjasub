@@ -75,7 +75,7 @@ public class EasyJaSub {
 		if (phases == null 
 				|| phases.contains(Phases.Png)) {
 			System.out.println("writeImages");
-		    result = new SubtitleListPngFilesWriter().writeImages(s, htmlFolder, bdnFolder);
+		    result = new SubtitleListPngFilesWriter(command.getWkhtmltoimageFile()).writeImages(s, htmlFolder, bdnFolder);
 		}
 
 		if (phases == null || phases.contains(Phases.Bdm)) {
@@ -88,7 +88,7 @@ public class EasyJaSub {
 				|| phases.contains(Phases.Idx)) {
 			System.out.println("writeBDM");
 			
-			File folder = createFolder(command.getOutputIdxDirectory());
+			File folder = createFolder(command.getOutputIdxFile());
 			// TODO Core.timestampsStr = s.getIdxTimestamps();
 			
 			// TODO output file

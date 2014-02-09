@@ -3,6 +3,9 @@ package com.github.riccardove.easyjasub;
 import java.io.File;
 import java.util.Set;
 
+/**
+ * Input arguments for EasyJaSub
+ */
 public interface EasyJaSubInput {
 	
 	public abstract Set<Phases> getPhases();
@@ -21,12 +24,12 @@ public interface EasyJaSubInput {
 
 	public abstract String getTranslatedSubLanguage();
 
-	public abstract File getOutputIdxDirectory();
+	public abstract File getOutputIdxFile();
 
 	public abstract File getOutputHtmlDirectory();
 
 	public abstract File getBdnXmlFile();
 
-	public abstract File getWkhtmltoimageFile();
+	public abstract String getWkhtmltoimageFile();
 
 }

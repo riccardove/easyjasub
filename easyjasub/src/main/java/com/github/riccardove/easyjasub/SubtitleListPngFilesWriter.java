@@ -6,8 +6,8 @@ import java.util.LinkedList;
 
 class SubtitleListPngFilesWriter {
 	
-	public SubtitleListPngFilesWriter() {
-		wkhtmltoimageexe = new WkHtmlToImageProcessBuilder();
+	public SubtitleListPngFilesWriter(String command) {
+		wkhtmltoimageexe = new WkHtmlToImageProcessBuilder(command);
 	}
 	
 	private final WkHtmlToImageProcessBuilder wkhtmltoimageexe;

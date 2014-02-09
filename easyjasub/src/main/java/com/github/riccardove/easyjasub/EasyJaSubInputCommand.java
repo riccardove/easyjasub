@@ -16,11 +16,15 @@ public interface EasyJaSubInputCommand {
 
 	public abstract String getTranslatedSubLanguage();
 
+	public abstract String getOutputIdxFileName();
+
 	public abstract String getOutputIdxDirectory();
 
 	public abstract String getOutputHtmlDirectory();
 
 	public abstract String getOutputBdnDirectory();
+
+	public abstract String getOutputBdnFileName();
 
 	public abstract String getWkhtmltoimage();
 

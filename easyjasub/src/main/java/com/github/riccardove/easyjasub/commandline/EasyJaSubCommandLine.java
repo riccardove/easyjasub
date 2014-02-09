@@ -57,7 +57,7 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 						+ "By default reads it from the translated subtitle file.",
 				"language");
 		list.addOption(IDX, "output-idx",
-				"Writes produced IDX/SUB files in directory", "directory");
+				"File name for IDX file of IDX/SUB subtitles", "file");
 		list.addOption(HTML, "output-html",
 				"Writes HTML intermediate files in directory", "directory");
 		list.addOption(BDN, "output-bdmxml",
@@ -106,8 +106,8 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	}
 
 	@Override
-	public String getOutputIdxDirectory() {
-		return outputIdxDirectory;
+	public String getOutputIdxFileName() {
+		return outputIdxFileName;
 	}
 
 	@Override
@@ -135,13 +135,26 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private String translatedSubFileName;
 	private String nihongoJtalkHtmlFileName;
 	private String translatedSubLanguage;
-	private String outputIdxDirectory;
+	private String outputIdxFileName;
 	private String outputHtmlDirectory;
 	private String outputBdnDirectory;
 	private String wkhtmltoimage;
 
 	private HashSet<Phases> phases;
 
+
+	@Override
+	public String getOutputIdxDirectory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getOutputBdnFileName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public boolean parse(String[] args) {
 		try {
 			CommandLineContent cm = list.parse(args);
@@ -151,7 +164,7 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 			translatedSubFileName = cm.getOptionValue(TR);
 			nihongoJtalkHtmlFileName = cm.getOptionValue(NJ);
 			translatedSubLanguage = cm.getOptionValue(TRL);
-			outputIdxDirectory = cm.getOptionValue(IDX);
+			outputIdxFileName = cm.getOptionValue(IDX);
 			outputHtmlDirectory = cm.getOptionValue(HELP);
 			outputBdnDirectory = cm.getOptionValue(BDN);
 			wkhtmltoimage = cm.getOptionValue(WK);
@@ -192,4 +205,5 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	public void printHelp(PrintWriter stream) {
 		list.printHelp(stream, null, null);
 	}
+
 }

@@ -7,26 +7,28 @@ import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
 
+/**
+ * Checks input commands and determines valid program input using some heuristic
+ */
 class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	public EasyJaSubInputFromCommand(EasyJaSubInputCommand command) throws Exception {
-		Iterable<File> defaultFileList = new DefaultFileList(command);
+		DefaultFileList defaultFileList = new DefaultFileList(command);
 		nihongoJtalkHtmlFile = getNihongoJtalkHtmlFile(command, defaultFileList);
 		phases = command.getPhases();
 		japaneseSubFile = getJapaneseSubFile(command, defaultFileList);
 		japaneseSubFileType = getSubtitleFileType(japaneseSubFile);
-		translatedSubFile = getTranslatedSubFile(command, defaultFileList);
+		translatedSubFile = getTranslatedSubFile(command, defaultFileList, japaneseSubFile);
 		translatedSubFileType = getSubtitleFileType(japaneseSubFile);
 		translatedSubLanguage = command.getTranslatedSubLanguage();
 		if (translatedSubLanguage == null) {
 			translatedSubLanguage = getSubtitleLanguageFromFileName(translatedSubFile.getName());
 		}
 		videoFile = getVideoFile(command, defaultFileList);
-//		String bdmXmlDirectoryName = command.getOutputBdnDirectory();
-//		File bdmXmlDirectory = bdmXmlDirectoryName == null ? 
-//				new File(videoFile.getParent(), videoFile.getName() + "_bdm") 
-//		: File();
-//			
-//		}
+		outputIdxFile = getOutputIdxFile(command, videoFile, defaultFileList);
+		bdmXmlFile = getOutputBdmFile(command, outputIdxFile, defaultFileList);
+		outputHtmlDirectory = getOutputHtmlDirectory(command, bdmXmlFile, defaultFileList);
+		wkhtmltoimageFile = getWkhtmltoimageFile(command);
+		// TODO: ignore error depending on selected phases
 	}
 
 	private static SubtitleFileType getSubtitleFileType(File file) {
@@ -48,7 +50,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 
-	private File getVideoFile(EasyJaSubInputCommand command,
+	private static File getVideoFile(EasyJaSubInputCommand command,
 			Iterable<File> defaultFileList) throws Exception {
 		String fileName = command.getVideoFileName();
 		if (fileName != null) {
@@ -65,8 +67,95 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				return file;
 			}
 		}
-		throw new Exception("Could not find any japanese sub file");
+		return null;
 	}
+
+	
+
+	private static File getOutputIdxFile(EasyJaSubInputCommand command,
+			File videoFile,
+			DefaultFileList defaultFileList) throws Exception {
+		String fileName = command.getOutputIdxFileName();
+		File file = null;
+		if (fileName != null) {
+			file = new File(fileName);
+		}
+		if (file == null) {
+			if (videoFile == null) {
+				file = new File(defaultFileList.getDefaultFileNamePrefix() + ".idx");
+			}
+			else {
+			    file = new File(videoFile.getParentFile(), FilenameUtils.getBaseName(videoFile.getName()) + ".idx");
+			}
+			fileName = file.getAbsolutePath();
+		}
+		checkOutputFile(fileName, file);
+		return file;
+	}
+
+	private static File getOutputHtmlDirectory(EasyJaSubInputCommand command,
+			File outputBdmFile,
+			DefaultFileList defaultFileList) throws Exception {
+		String directoryName = command.getOutputHtmlDirectory();
+		File directory = null;
+		if (directoryName != null) {
+			directory = new File(directoryName);
+		}
+		else if (outputBdmFile != null)
+		{
+			directory = outputBdmFile;
+		}
+		else {
+			directory = new File(defaultFileList.getDefaultFileNamePrefix() + "_html");
+		}
+		// TODO check and accept this file used as input file
+		return directory;
+	}
+
+	private static File getOutputBdmFile(EasyJaSubInputCommand command,
+			File outputIdxFile,
+			DefaultFileList defaultFileList) throws Exception {
+		String fileName = command.getOutputBdnFileName();
+		File file = null;
+		File directory = null;
+		String fileNameBase = null;
+		if (fileName != null) {
+			file = new File(fileName);
+		}
+		else {
+			fileNameBase = FilenameUtils.getBaseName(outputIdxFile.getName());
+			String directoryName = command.getOutputBdnDirectory();
+			if (directoryName != null) {
+				directory = new File(directoryName);
+			}
+			else {
+			    directory = new File(outputIdxFile.getParentFile(), fileNameBase + "_bdmxml");
+			}
+			file = new File(directory, fileNameBase + ".xml");
+			fileName = file.getAbsolutePath();
+		}
+		checkOutputFile(fileName, file); // TODO accept this file used as input file
+		return file;
+	}
+
+	private static void checkOutputFile(String fileName, File file)
+			throws Exception {
+		if (file.exists()) {
+			if (file.isDirectory()) {
+				throw new Exception("Invalid output file, " + fileName + " is a directory");
+			}
+			throw new Exception("Output file " + fileName + " already exists");
+		}
+		File directory = null;
+		do {
+			directory = file.getParentFile();
+		}
+		while (!directory.exists());
+		if (!directory.canWrite()) {
+			throw new Exception("Can not write on " + directory.getAbsolutePath() + " to create " + fileName);
+		}
+	}
+
 	
 	private SubtitleFileType japaneseSubFileType;
 	private SubtitleFileType translatedSubFileType;
@@ -84,7 +173,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return japaneseSubFile;
 	}
 
-	private File getJapaneseSubFile(EasyJaSubInputCommand command,
+	private static File getJapaneseSubFile(EasyJaSubInputCommand command,
 			Iterable<File> defaultFileList) throws Exception {
 		String fileName = command.getJapaneseSubFileName();
 		if (fileName != null) {
@@ -109,7 +198,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		throw new Exception("Could not find any japanese sub file");
 	}
 	
-	private String getSubtitleLanguageFromFileName(String fileName) {
+	private static String getSubtitleLanguageFromFileName(String fileName) {
 		int index = fileName.lastIndexOf('.');
 		if (index > 3 &&
 			fileName.charAt(index-3) == '.') {
@@ -131,8 +220,9 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return translatedSubFile;
 	}
 
-	private File getTranslatedSubFile(EasyJaSubInputCommand command,
-			Iterable<File> defaultFileList) throws Exception {
+	private static File getTranslatedSubFile(EasyJaSubInputCommand command,
+			Iterable<File> defaultFileList,
+			File japaneseSubFile) throws Exception {
 		String fileName = command.getJapaneseSubFileName();
 		if (fileName != null) {
 			File file = new File(fileName);
@@ -167,8 +257,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	@Override
-	public File getOutputIdxDirectory() {
-		return outputIdxDirectory;
+	public File getOutputIdxFile() {
+		return outputIdxFile;
 	}
 
 	@Override
@@ -177,16 +267,42 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	@Override
-	public File getWkhtmltoimageFile() {
+	public String getWkhtmltoimageFile() {
 		return wkhtmltoimageFile;
+	}
+	
+	private static String getWkhtmltoimageFile(EasyJaSubInputCommand command)
+	throws Exception {
+		// TODO: this is very system dependant
+		String fileName = command.getWkhtmltoimage();
+		if (fileName != null) {
+			File file = new File(fileName);
+			checkFile(fileName, file);
+			return fileName;
+		}
+		if (CommonsLangSystemUtils.isWindows()) {
+			String programFiles = SystemEnv.getWindowsProgramFiles32();
+			if (programFiles == null) {
+				programFiles = SystemEnv.getWindowsProgramFiles();
+			}
+			File directory = new File(programFiles, "wkhtmltopdf");
+			if (!directory.exists()) {
+				throw new Exception("Could not find directory " + directory.getAbsolutePath());
+			}
+			File file = new File(directory, "wkhtmltoimage.exe");
+			fileName = file.getAbsolutePath();
+			checkFile(fileName, file);
+			return fileName;
+		}
+		return "/usr/bin/wkhtmltoimage";
 	}
 
 	private File translatedSubFile;
 	private File nihongoJtalkHtmlFile;
 	private String translatedSubLanguage;
-	private File outputIdxDirectory;
+	private File outputIdxFile;
 	private File outputHtmlDirectory;
-	private File wkhtmltoimageFile;
+	private String wkhtmltoimageFile;
 
 	private File getNihongoJtalkHtmlFile(EasyJaSubInputCommand command,
 			Iterable<File> defaultFileList) throws Exception {
