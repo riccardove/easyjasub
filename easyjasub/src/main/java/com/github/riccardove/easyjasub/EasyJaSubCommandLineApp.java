@@ -21,6 +21,14 @@ public class EasyJaSubCommandLineApp {
 			commandLine.printHelp(outputStream);
 			return 0;
 		}
-		return EasyJaSub.run(commandLine);
+		EasyJaSubInputFromCommand input = null;
+		try {
+			new EasyJaSubInputFromCommand(commandLine);
+		}
+		catch (Exception ex) {
+			errorStream.println("Command error:");
+			errorStream.println(ex.getMessage());
+		}
+		return new EasyJaSub().run(input, outputStream, errorStream);
 	}
 }

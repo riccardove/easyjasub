@@ -1,10 +1,14 @@
 package com.github.riccardove.easyjasub;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FilenameUtils;
 import org.xml.sax.SAXException;
 
 import bdsup2sub.BDSup2Sub;
@@ -15,14 +19,22 @@ public class EasyJaSub {
 	
 	private static final Pattern WashPattern = Pattern.compile("[^\\p{L}\\p{Nd}]");
 	private static final Pattern WashPattern2 = Pattern.compile("__+");
-
-	public static int run(EasyJaSubInputCommand command) throws Exception {
+	
+	
+	
+	
+	public int run(EasyJaSubInput command,
+			PrintWriter outputStream, PrintWriter errorStream) throws Exception {
+		
+		
+		
+//		command.getNihongoJtalkHtmlFileName()
 		
 		Set<Phases> phases = command.getPhases();
-		String fileName = command.getVideoFileName();
-		String washedFileName = WashPattern.matcher(fileName).replaceAll("_");
-		washedFileName = WashPattern2.matcher(washedFileName).replaceAll("_");
-		SubtitleList s = new SubtitleList(washedFileName);
+//		String fileName = command.getVideoFileName();
+//		String washedFileName = WashPattern.matcher(fileName).replaceAll("_");
+//		washedFileName = WashPattern2.matcher(washedFileName).replaceAll("_");
+		SubtitleList s = new SubtitleList(command.getVideoFile().getName());
 //		    s.setWidth(1366);
 //		    s.setHeight(768);
 
@@ -37,19 +49,19 @@ public class EasyJaSub {
 				|| phases.contains(Phases.Bdm)
 				|| phases.contains(Phases.Png)) {
 			System.out.println("parseJhtml");
-		    InputNihongoJTalkHtmlFile.parse(new File(fileName + ".htm"), s);
+		    InputNihongoJTalkHtmlFile.parse(command.getNihongoJtalkHtmlFile(), s);
 		    
 			System.out.println("readJapaneseSubtitles");
-		    new SubtitleListJapaneseSubFileReader().readJapaneseSubtitles(s, fileName +".ass", new File(fileName +".ass"));
+		    new SubtitleListJapaneseSubFileReader().readJapaneseSubtitles(s, command.getJapaneseSubFile());
 		    
 			System.out.println("readEnglishSubtitles");
-		    new SubtitleListTranslatedSubFileReader().readEnglishSubtitles(s, fileName + ".en.ass", new File(fileName +".en.ass"));
+		    new SubtitleListTranslatedSubFileReader().readEnglishSubtitles(s, command.getTranslatedSubFile());
 //			for (String pos : RedSubtitleLineItem.PosSet) {
 //				System.out.println(pos);
 //			}
 		}
 
-		File htmlFolder = createFolder(washedFileName + "_html");
+		File htmlFolder = createFolder(command.getOutputHtmlDirectory());
 
 		if (phases == null 
 				|| phases.contains(Phases.Htmls)) {
@@ -57,7 +69,7 @@ public class EasyJaSub {
 			new SubtitleListHtmlFilesWriter(htmlFolder).writeHtmls(s);;
 		}
 
-		File bdnFolder = createFolder(washedFileName + "_bdn");
+		File bdnFolder = createFolder(command.getBdnXmlFile().getParentFile());
 
 		int result = 0;
 		if (phases == null 
@@ -68,7 +80,7 @@ public class EasyJaSub {
 
 		if (phases == null || phases.contains(Phases.Bdm)) {
 			System.out.println("writeBDM");
-			new SubtitleListBdmXmlFileWriter().writeBDM(s, bdnFolder, fileName + ".xml");
+			new SubtitleListBdmXmlFileWriter().writeBDM(s, command.getBdnXmlFile());
 			System.out.println("BDN file created");
 		}
 
@@ -76,10 +88,11 @@ public class EasyJaSub {
 				|| phases.contains(Phases.Idx)) {
 			System.out.println("writeBDM");
 			
-			File folder = createFolder(washedFileName + "_idx");
+			File folder = createFolder(command.getOutputIdxDirectory());
 			// TODO Core.timestampsStr = s.getIdxTimestamps();
 			
-			new BDSup2SubWrapper().toIdx(bdnFolder, fileName + ".xml", folder, fileName + ".idx", s.getWidth());
+			// TODO output file
+			new BDSup2SubWrapper().toIdx(bdnFolder, command.getBdnXmlFile(), folder, new File(command.getVideoFile() + ".idx"), s.getWidth());
 			System.out.println("Idx");
 		}
 
@@ -107,8 +120,7 @@ public class EasyJaSub {
 		return result;
 	}
 
-	private static File createFolder(String name) {
-		File bdnFolder = new File(name);
+	private static File createFolder(File bdnFolder) {
 		if (!bdnFolder.exists()) {
 			bdnFolder.mkdir();
 		}

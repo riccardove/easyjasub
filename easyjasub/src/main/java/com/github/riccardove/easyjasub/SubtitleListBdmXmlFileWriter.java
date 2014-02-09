@@ -19,8 +19,8 @@ class SubtitleListBdmXmlFileWriter {
 	
 	private final ImageReader ir;
 	
-	public void writeBDM(SubtitleList s, File folder, String fileName) throws IOException, FileNotFoundException {
-		f = new FileWriter(new File(folder, fileName));
+	public void writeBDM(SubtitleList s, File file) throws IOException, FileNotFoundException {
+		f = new FileWriter(file);
 
 		writeln("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         writeln("<BDN Version=\"0.93\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"BD-03-006-0093b BDN File Format.xsd\">");
@@ -40,7 +40,7 @@ class SubtitleListBdmXmlFileWriter {
 		int videoWidth = s.getWidth();
 		int videoHeight = s.getHeight();
 		for (SubtitleLine l : s) {
-			File imageFile = new File(folder, l.getPngFile());
+			File imageFile = new File(file.getParentFile(), l.getPngFile());
 			if (!imageFile.canRead()) {
 				throw new IOException("Can not read file " + imageFile.getAbsolutePath());
 			}

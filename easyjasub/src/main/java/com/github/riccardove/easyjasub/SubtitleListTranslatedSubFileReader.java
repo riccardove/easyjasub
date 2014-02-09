@@ -8,8 +8,8 @@ import com.github.riccardove.easyjasub.inputtextsub.InputTextSubCaption;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubFile;
 
 class SubtitleListTranslatedSubFileReader {
-	public void readEnglishSubtitles(SubtitleList s, String fileName, File file) throws Exception {
-		InputTextSubFile subs = parseAssFile(fileName, file);
+	public void readEnglishSubtitles(SubtitleList s, File file) throws Exception {
+		InputTextSubFile subs = parseAssFile(file.getName(), file);
 		s.setEnglishTitle(subs.title);
 		for (InputTextSubCaption enCaption : subs.getCaptions()) {
 			boolean added = false;

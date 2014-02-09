@@ -10,8 +10,8 @@ import com.github.riccardove.easyjasub.inputtextsub.InputTextSubFile;
 
 class SubtitleListJapaneseSubFileReader {
 
-	public void readJapaneseSubtitles(SubtitleList s, String fileName, File file) throws Exception {
-		InputTextSubFile subs = parseAssFile(fileName, file);
+	public void readJapaneseSubtitles(SubtitleList s, File file) throws Exception {
+		InputTextSubFile subs = parseAssFile(file.getName(), file);
 		s.setTitle(subs.title);
 		Iterator<InputTextSubCaption> ci = subs.getCaptions().iterator(); 
 		Iterator<SubtitleLine> si = s.iterator();
