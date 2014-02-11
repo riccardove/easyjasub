@@ -12,20 +12,18 @@ import org.rendersnake.HtmlCanvas;
 import org.rendersnake.Renderable;
 
 class SubtitleListHtmlFilesWriter {
-	private File htmlFolder;
+	private final File htmlFolder;
+	private final String cssFile;
 
-	public SubtitleListHtmlFilesWriter(File htmlFolder){
+	public SubtitleListHtmlFilesWriter(File htmlFolder, String cssFileUrl){
 		this.htmlFolder = htmlFolder;
+		this.cssFile = cssFileUrl;
 	}
-	
-	
-	private static final String CssFileName = 
-		"file:///C:/Users/riccardo/workspace/jsubs/default.css";
 
 	public void writeHtmls(SubtitleList s) throws IOException{
 		ArrayList<FileWriter> writers = new ArrayList<FileWriter>(s.size());
 		for (SubtitleLine l : s) {
-			String htmlStr = toHtml(l, CssFileName);
+			String htmlStr = toHtml(l, cssFile);
 			
 			File file = new File(htmlFolder, l.getHtmlFile());
 			writers.add(toFile(htmlStr, file));

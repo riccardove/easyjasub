@@ -8,6 +8,7 @@ import com.github.riccardove.easyjasub.SubtitleList;
 class TextareaHtmlHandler implements SectionHtmlHandler {
 
 	private final SubtitleList subtitleList;
+	private int index;
 	
 	public TextareaHtmlHandler(SubtitleList subtitleList) {
 		text = new StringBuffer();
@@ -66,7 +67,7 @@ class TextareaHtmlHandler implements SectionHtmlHandler {
 	}
 
 	private void addText() {
-		SubtitleLine line = subtitleList.add();
+		SubtitleLine line = subtitleList.get(index++);
 		line.setOriginalText(text.toString());
 	}
 
@@ -81,6 +82,5 @@ class TextareaHtmlHandler implements SectionHtmlHandler {
 		{
 			addText();
 		}
-		System.out.println("textarea" + subtitleList.size());
 	}
 }

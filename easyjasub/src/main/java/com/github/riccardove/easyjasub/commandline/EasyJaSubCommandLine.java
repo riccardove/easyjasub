@@ -22,6 +22,8 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private static final String BDN = "obdn";
 	private static final String PH = "p";
 	private static final String WK = "wk";
+	private static final String TX = "txt";
+	private static final String CSS = "css";
 
 	public EasyJaSubCommandLine() {
 		list = new CommandLineOptionList();
@@ -56,6 +58,10 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 				"Sets language (two letter ISO code) as language used for translation. "
 						+ "By default reads it from the translated subtitle file.",
 				"language");
+		list.addOption(TX, "output-text",
+				"File name for text file of japanese subtitles", "file");
+		list.addOption(CSS, "css-style",
+				"File name for CSS file used to style subtitles", "file");
 		list.addOption(IDX, "output-idx",
 				"File name for IDX file of IDX/SUB subtitles", "file");
 		list.addOption(HTML, "output-html",
@@ -139,7 +145,8 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private String outputHtmlDirectory;
 	private String outputBdnDirectory;
 	private String wkhtmltoimage;
-
+	private String outputJapaneseTextFileName;
+	private String cssFileName;
 	private HashSet<Phases> phases;
 
 
@@ -168,6 +175,8 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 			outputHtmlDirectory = cm.getOptionValue(HELP);
 			outputBdnDirectory = cm.getOptionValue(BDN);
 			wkhtmltoimage = cm.getOptionValue(WK);
+			outputJapaneseTextFileName = cm.getOptionValue(TX);
+			cssFileName = cm.getOptionValue(CSS);
 			String phasesStr = cm.getOptionValue(PH);
 			for (Object invalidArg : cm.getArgList()) {
 				addErrorMessage(invalidArg);
@@ -204,6 +213,16 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 
 	public void printHelp(PrintWriter stream) {
 		list.printHelp(stream, null, null);
+	}
+
+	@Override
+	public String getOutputJapaneseTextFileName() {
+		return outputJapaneseTextFileName;
+	}
+
+	@Override
+	public String getCssFileName() {
+		return cssFileName;
 	}
 
 }

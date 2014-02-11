@@ -29,7 +29,11 @@ public class SubtitleLine implements Renderable {
 		originalText = text;
 		ja = true;
 	}
-		
+	
+	public String getJapaneseText() {
+		return caption.getContent();
+	}
+	
 	public int getIndex() {
 		return index;
 	}

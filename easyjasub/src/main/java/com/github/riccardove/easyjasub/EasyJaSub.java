@@ -49,28 +49,48 @@ public class EasyJaSub {
 				|| phases.contains(Phases.Idx)
 				|| phases.contains(Phases.Bdm)
 				|| phases.contains(Phases.Png)) {
-			File f = command.getNihongoJtalkHtmlFile();
-			observer.onInputNihongoJTalkHtmlFileParseStart(f);
-		    InputNihongoJTalkHtmlFile.parse(f, s, observer);
-			observer.onInputNihongoJTalkHtmlFileParseEnd(f, RedSubtitleLineItem.PosSet);
-		    
 			File jaF = command.getJapaneseSubFile();
 		    observer.onReadJapaneseSubtitlesStart(jaF);
-		    new SubtitleListJapaneseSubFileReader().readJapaneseSubtitles(s, jaF);
+		    new SubtitleListJapaneseSubFileReader().readJapaneseSubtitles(s, jaF, 
+		    		command.getJapaneseSubFileType());
 		    observer.onReadJapaneseSubtitlesEnd(jaF);
 		    
+		    File txtFile = command.getOutputJapaneseTextFile();
+		    if (txtFile != null) {
+		    	observer.onWriteOutputJapaneseTextFileStart(txtFile);
+		    	
+		    	observer.onWriteOutputJapaneseTextFileEnd(txtFile);
+		    }
+
+			File f = command.getNihongoJtalkHtmlFile();
+			if (f != null) {
+				observer.onInputNihongoJTalkHtmlFileParseStart(f);
+			    InputNihongoJTalkHtmlFile.parse(f, s, observer);
+				observer.onInputNihongoJTalkHtmlFileParseEnd(f, RedSubtitleLineItem.PosSet);
+			}
+
 		    File enF = command.getTranslatedSubFile();
-		    observer.onReadTranslatedSubtitlesStart(enF);
-		    new SubtitleListTranslatedSubFileReader().readEnglishSubtitles(s, enF);
-		    observer.onReadTranslatedSubtitlesEnd(enF);
+		    if (enF != null) {
+			    observer.onReadTranslatedSubtitlesStart(enF);
+			    new SubtitleListTranslatedSubFileReader().readEnglishSubtitles(s, enF,
+			    		command.getTranslatedSubFileType());
+			    observer.onReadTranslatedSubtitlesEnd(enF);
+		    }
 		}
 
 		File htmlFolder = createFolder(command.getOutputHtmlDirectory());
 
 		if (phases == null 
 				|| phases.contains(Phases.Htmls)) {
-			observer.onWriteHtmlStart(htmlFolder);
-			new SubtitleListHtmlFilesWriter(htmlFolder).writeHtmls(s);
+			File cssFile = command.getCssFile();
+			if (!cssFile.exists()) {
+				observer.onWriteCssStart(cssFile);
+				new SubtitleListCssFileWriter().write(cssFile);
+				observer.onWriteCssEnd(cssFile);
+			}
+			String cssFileUrl = cssFile.toURI().toString();
+			observer.onWriteHtmlStart(htmlFolder, cssFileUrl);
+			new SubtitleListHtmlFilesWriter(htmlFolder, cssFileUrl).writeHtmls(s);
 			observer.onWriteHtmlEnd(htmlFolder);
 		}
 

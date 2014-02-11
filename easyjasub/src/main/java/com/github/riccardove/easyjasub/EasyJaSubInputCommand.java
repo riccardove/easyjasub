@@ -30,4 +30,8 @@ public interface EasyJaSubInputCommand {
 
 	public abstract Set<Phases> getPhases();
 
+	public abstract String getOutputJapaneseTextFileName();
+
+	public abstract String getCssFileName();
+
 }

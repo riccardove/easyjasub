@@ -26,6 +26,10 @@ public class SubtitleList implements Iterable<SubtitleLine>, Renderable {
 		lines.add(line);
 		return line;
 	}
+	
+	public SubtitleLine get(int index) {
+		return lines.get(index);
+	}
 
 	private SubtitleLine createSubtitleLine() {
 		SubtitleLine line = new SubtitleLine(++count);

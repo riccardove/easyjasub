@@ -14,6 +14,8 @@ public interface EasyJaSubInput {
 
 	public abstract File getJapaneseSubFile();
 	
+	public abstract File getOutputJapaneseTextFile();
+
 	public abstract File getTranslatedSubFile();
 
 	public abstract SubtitleFileType getJapaneseSubFileType();
@@ -27,6 +29,8 @@ public interface EasyJaSubInput {
 	public abstract File getOutputIdxFile();
 
 	public abstract File getOutputHtmlDirectory();
+
+	public abstract File getCssFile();
 
 	public abstract File getBdnXmlFile();
 

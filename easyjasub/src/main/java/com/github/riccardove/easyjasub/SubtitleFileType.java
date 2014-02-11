@@ -8,7 +8,8 @@ public enum SubtitleFileType {
 	STL,
 	SCC,
 	XML,
-	ASS
+	ASS, 
+	TTML
 	;
 	
 	static {

@@ -25,7 +25,7 @@ public interface EasyJaSubObserver {
 
 	void onReadTranslatedSubtitlesEnd(File jaF);
 
-	void onWriteHtmlStart(File htmlFolder);
+	void onWriteHtmlStart(File htmlFolder, String cssFileUrl);
 
 	void onWriteHtmlEnd(File htmlFolder);
 
@@ -40,5 +40,13 @@ public interface EasyJaSubObserver {
 	void onWriteIdxFileStart(File file);
 
 	void onWriteIdxFileEnd(File file);
+
+	void onWriteOutputJapaneseTextFileStart(File txtFile);
+
+	void onWriteOutputJapaneseTextFileEnd(File txtFile);
+
+	void onWriteCssStart(File cssFile);
+
+	void onWriteCssEnd(File cssFile);
 
 }

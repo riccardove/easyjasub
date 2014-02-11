@@ -8,9 +8,11 @@ import com.github.riccardove.easyjasub.inputtextsub.InputTextSubCaption;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubFile;
 
 class SubtitleListTranslatedSubFileReader {
-	public void readEnglishSubtitles(SubtitleList s, File file) throws Exception {
-		InputTextSubFile subs = parseAssFile(file.getName(), file);
-		s.setEnglishTitle(subs.title);
+	public void readEnglishSubtitles(SubtitleList s, File file, SubtitleFileType type) throws Exception {
+		FileInputStream stream = new FileInputStream(file);
+		InputTextSubFile subs = new InputTextSubFile(type, file.getName(), stream);
+		stream.close();
+		s.setEnglishTitle(subs.getTitle());
 		for (InputTextSubCaption enCaption : subs.getCaptions()) {
 			boolean added = false;
 			for (SubtitleLine jaLine : s) {
@@ -62,10 +64,4 @@ class SubtitleListTranslatedSubFileReader {
 			}
 		}
 	}
-
-	private static InputTextSubFile parseAssFile(String fileName, File file) throws IOException,
-			Exception {
-		return new InputTextSubFile("ASS", fileName, new FileInputStream(file));
-	}
-
 }
