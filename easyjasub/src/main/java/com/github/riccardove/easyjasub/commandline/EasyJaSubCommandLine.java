@@ -22,6 +22,8 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private static final String WK = "wk";
 	private static final String TX = "txt";
 	private static final String CSS = "css";
+	private static final String MATCHTIME = "mt";
+	private static final String APPROXTIME = "At";
 
 	public EasyJaSubCommandLine() {
 		list = new CommandLineOptionList();
@@ -68,6 +70,10 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 				"Writes BDN/XML intermediate files in directory", "directory");
 		list.addOption(WK, "wkhtmltoimage",
 				"Command to execute wkhtmltoimage program", "command");
+		list.addOption(MATCHTIME, "match-diff-milliseconds",
+				"Amount of milliseconds of difference in time to consider two subtitle lines the same", "milliseconds");
+		list.addOption(APPROXTIME, "approx-match-diff-milliseconds",
+				"Amount of milliseconds of difference in time to consider two subtitle lines approximately the same", "milliseconds");
 		list.addOption(HELP, "help", "Displays help");
 	}
 
@@ -146,7 +152,8 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private String outputJapaneseTextFileName;
 	private String cssFileName;
 	private HashSet<Phases> phases;
-
+	private String exactMatchTimeDiff;
+	private String approxMatchTimeDiff;
 
 	@Override
 	public String getOutputIdxDirectory() {
@@ -175,6 +182,8 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 			wkhtmltoimage = cm.getOptionValue(WK);
 			outputJapaneseTextFileName = cm.getOptionValue(TX);
 			cssFileName = cm.getOptionValue(CSS);
+			exactMatchTimeDiff = cm.getOptionValue(MATCHTIME);
+			approxMatchTimeDiff = cm.getOptionValue(APPROXTIME);
 			String phasesStr = cm.getOptionValue(PH);
 			for (Object invalidArg : cm.getArgList()) {
 				addErrorMessage(invalidArg);
@@ -221,6 +230,16 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	@Override
 	public String getCssFileName() {
 		return cssFileName;
+	}
+
+	@Override
+	public String getExactMatchTimeDiff() {
+		return exactMatchTimeDiff;
+	}
+
+	@Override
+	public String getApproxMatchTimeDiff() {
+		return approxMatchTimeDiff;
 	}
 
 }

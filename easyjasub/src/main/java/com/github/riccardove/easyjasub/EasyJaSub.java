@@ -173,7 +173,9 @@ public class EasyJaSub {
 		if (enF != null) {
 		    observer.onReadTranslatedSubtitlesStart(enF);
 		    try {
-			    new SubtitleListTranslatedSubFileReader().readTranslationSubtitles(s, enF,
+			    new SubtitleListTranslatedSubFileReader(
+			    		command.getExactMatchTimeDiff(),
+			    		command.getApproxMatchTimeDiff()).readTranslationSubtitles(s, enF,
 			    		command.getTranslatedSubFileType(), observer);
 			    observer.onReadTranslatedSubtitlesEnd(enF);
 		    }

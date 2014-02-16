@@ -34,7 +34,6 @@ class TextareaHtmlHandler implements SectionHtmlHandler {
 			switch (c) {
 			case '\n': {
 				addText();
-//				System.out.println(text);
 				text.setLength(0);
 				break;
 			}

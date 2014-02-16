@@ -36,4 +36,8 @@ public interface EasyJaSubInput {
 
 	public abstract String getWkhtmltoimageFile();
 
+	public abstract int getExactMatchTimeDiff();
+
+	public abstract int getApproxMatchTimeDiff();
+
 }

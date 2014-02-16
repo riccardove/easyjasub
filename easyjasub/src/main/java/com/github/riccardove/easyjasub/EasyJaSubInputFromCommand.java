@@ -11,25 +11,25 @@ import org.apache.commons.io.FilenameUtils;
  * Checks input commands and determines valid program input using some heuristic
  */
 class EasyJaSubInputFromCommand implements EasyJaSubInput {
-	private static void checkFile(String fileName, File file) throws Exception {
+	private static void checkFile(String fileName, File file) throws EasyJaSubException {
 		if (!file.exists()) {
-			throw new Exception("File " + fileName + " does not exist");
+			throw new EasyJaSubException("File " + fileName + " does not exist");
 		}
 		if (!file.isFile()) {
-			throw new Exception(fileName + " is not a file");
+			throw new EasyJaSubException(fileName + " is not a file");
 		}
 		if (!file.canRead()) {
-			throw new Exception("File " + fileName + " can not be read");
+			throw new EasyJaSubException("File " + fileName + " can not be read");
 		}
 	}
 
 	private static void checkOutputFile(String fileName, File file)
-			throws Exception {
+			throws EasyJaSubException {
 		if (file.exists()) {
 			if (file.isDirectory()) {
-				throw new Exception("Invalid output file, " + fileName + " is a directory");
+				throw new EasyJaSubException("Invalid output file, " + fileName + " is a directory");
 			}
-			throw new Exception("Output file " + fileName + " already exists");
+			throw new EasyJaSubException("Output file " + fileName + " already exists");
 		}
 		File directory = null;
 		do {
@@ -37,7 +37,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		}
 		while (!directory.exists());
 		if (!directory.canWrite()) {
-			throw new Exception("Can not write on " + directory.getAbsolutePath() + " to create " + fileName);
+			throw new EasyJaSubException("Can not write on " + directory.getAbsolutePath() + " to create " + fileName);
 		}
 	}
 
@@ -46,16 +46,16 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 	
 	private static File getJapaneseSubFile(EasyJaSubInputCommand command,
-			Iterable<File> defaultFileList) throws Exception {
+			Iterable<File> defaultFileList) throws EasyJaSubException {
 		String fileName = command.getJapaneseSubFileName();
 		if (fileName != null) {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			if (!isTextContentType(file)) {
-				throw new Exception("File " + fileName + " does not seem to be text");
+				throw new EasyJaSubException("File " + fileName + " does not seem to be text");
 			}
 			if (!isSubExtension(getExtension(file))) {
-				throw new Exception("File " + fileName + " does not have a valid subtitle file extension");
+				throw new EasyJaSubException("File " + fileName + " does not have a valid subtitle file extension");
 			}
 			return file;
 		}
@@ -67,11 +67,11 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				return file;
 			}
 		}
-		throw new Exception("Could not find any japanese sub file");
+		throw new EasyJaSubException("Could not find any japanese sub file");
 	}
 	private static File getOutputBdmFile(EasyJaSubInputCommand command,
 			File outputIdxFile,
-			DefaultFileList defaultFileList) throws Exception {
+			DefaultFileList defaultFileList) throws EasyJaSubException {
 		String fileName = command.getOutputBdnFileName();
 		File file = null;
 		File directory = null;
@@ -96,7 +96,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 	private static File getOutputHtmlDirectory(EasyJaSubInputCommand command,
 			File outputBdmFile,
-			DefaultFileList defaultFileList) throws Exception {
+			DefaultFileList defaultFileList) throws EasyJaSubException {
 		String directoryName = command.getOutputHtmlDirectory();
 		File directory = null;
 		if (directoryName != null) {
@@ -115,7 +115,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 	private static File getOutputIdxFile(EasyJaSubInputCommand command,
 			File videoFile,
-			DefaultFileList defaultFileList) throws Exception {
+			DefaultFileList defaultFileList) throws EasyJaSubException {
 		String fileName = command.getOutputIdxFileName();
 		File file = null;
 		if (fileName != null) {
@@ -137,7 +137,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	private static File getOutputJapaneseTextFile(EasyJaSubInputCommand command,
 			File videoFile,
 			File japaneseSubFile,
-			DefaultFileList defaultFileList) throws Exception {
+			DefaultFileList defaultFileList) throws EasyJaSubException {
 		String fileName = command.getOutputJapaneseTextFileName();
 		File file = null;
 		String fileNameBase = null;
@@ -172,16 +172,16 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 	private static File getTranslatedSubFile(EasyJaSubInputCommand command,
 			Iterable<File> defaultFileList,
-			File japaneseSubFile) throws Exception {
+			File japaneseSubFile) throws EasyJaSubException {
 		String fileName = command.getJapaneseSubFileName();
 		if (fileName != null) {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			if (!isTextContentType(file)) {
-				throw new Exception("File " + fileName + " does not seem to be text");
+				throw new EasyJaSubException("File " + fileName + " does not seem to be text");
 			}
 			if (!isSubExtension(getExtension(file))) {
-				throw new Exception("File " + fileName + " does not have a valid subtitle file extension");
+				throw new EasyJaSubException("File " + fileName + " does not have a valid subtitle file extension");
 			}
 			return file;
 		}
@@ -193,7 +193,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				return file;
 			}
 		}
-		throw new Exception("Could not find any japanese sub file");
+		throw new EasyJaSubException("Could not find any japanese sub file");
 	}
 
 	private static String getTranslatedSubLanguage(EasyJaSubInputCommand command, File translatedSubFile) {
@@ -205,13 +205,13 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static File getVideoFile(EasyJaSubInputCommand command,
-			Iterable<File> defaultFileList) throws Exception {
+			Iterable<File> defaultFileList) throws EasyJaSubException {
 		String fileName = command.getVideoFileName();
 		if (fileName != null) {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			if (!isVideoContentType(file)) {
-				throw new Exception("File " + fileName + " does not seem to be video");
+				throw new EasyJaSubException("File " + fileName + " does not seem to be video");
 			}
 			return file;
 		}
@@ -225,8 +225,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static String getWkhtmltoimageFile(EasyJaSubInputCommand command)
-	throws Exception {
-		// TODO: this is very system dependant
+	throws EasyJaSubException {
+		// TODO: this is very system dependent
 		String fileName = command.getWkhtmltoimage();
 		if (fileName != null) {
 			File file = new File(fileName);
@@ -319,8 +319,11 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 	private final File videoFile;
 	private final String wkhtmltoimageFile;
-	
-	public EasyJaSubInputFromCommand(EasyJaSubInputCommand command) throws Exception {
+
+	private int exactMatchTimeDiff;
+	private int approxMatchTimeDiff;
+
+	public EasyJaSubInputFromCommand(EasyJaSubInputCommand command) throws EasyJaSubException {
 		DefaultFileList defaultFileList = new DefaultFileList(command);
 		nihongoJtalkHtmlFile = getNihongoJtalkHtmlFile(command, defaultFileList);
 		phases = command.getPhases();
@@ -337,7 +340,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		outputJapaneseTextFile = getOutputJapaneseTextFile(command, videoFile,
 				japaneseSubFile, defaultFileList);
 		cssFile = getCssFile(command, outputHtmlDirectory, defaultFileList);
-		// TODO: ignore error depending on selected phases
+		exactMatchTimeDiff = getTimeDiff(command.getExactMatchTimeDiff(), 2000);
+		approxMatchTimeDiff = getTimeDiff(command.getApproxMatchTimeDiff(), 500);
 	}
 	
 	@Override
@@ -357,15 +361,22 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	public File getNihongoJtalkHtmlFile() {
 		return nihongoJtalkHtmlFile;
 	}
+	
+	private int getTimeDiff(String timeStr, int defaultValue) {
+		if (timeStr == null) {
+			return defaultValue;
+		}
+		return Integer.parseInt(timeStr);
+	}
 
 	private static File getNihongoJtalkHtmlFile(EasyJaSubInputCommand command,
-			Iterable<File> defaultFileList) throws Exception {
+			Iterable<File> defaultFileList) throws EasyJaSubException {
 		String fileName = command.getNihongoJtalkHtmlFileName();
 		if (fileName != null) {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			if (!isHtmlContentType(file)) {
-				throw new Exception("File " + fileName + " does not seem to be HTML");
+				throw new EasyJaSubException("File " + fileName + " does not seem to be HTML");
 			}
 			return file;
 		}
@@ -379,19 +390,19 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				return file;
 			}
 		}
-		throw new Exception("Could not find any HTML file");
+		throw new EasyJaSubException("Could not find any HTML file");
 	}
 
 	private static File getCssFile(EasyJaSubInputCommand command,
 			File htmlDirectory,
-			DefaultFileList defaultFileList) throws Exception {
+			DefaultFileList defaultFileList) throws EasyJaSubException {
 		String fileName = command.getCssFileName();
 		if (fileName != null) {
 			File file = new File(fileName);
 			if (file.exists()) {
 				checkFile(fileName, file);
 				if (!isCssContentType(file)) {
-					throw new Exception("File " + fileName + " does not seem to be CSS");
+					throw new EasyJaSubException("File " + fileName + " does not seem to be CSS");
 				}
 			}
 			return file;
@@ -453,5 +464,15 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	@Override
 	public File getCssFile() {
 		return cssFile;
+	}
+	
+	@Override
+	public int getExactMatchTimeDiff() {
+		return exactMatchTimeDiff;
+	}
+
+	@Override
+	public int getApproxMatchTimeDiff() {
+		return approxMatchTimeDiff;
 	}
 }

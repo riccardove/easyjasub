@@ -2,7 +2,6 @@ package com.github.riccardove.easyjasub;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
@@ -11,6 +10,15 @@ import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubFile;
 
 class SubtitleListTranslatedSubFileReader {
+	
+	private int msecondsMatch;
+	private int msecondsApproxMatch;
+
+	public SubtitleListTranslatedSubFileReader(int msecondsMatch, int msecondsApproxMatch) {
+		this.msecondsMatch = msecondsMatch;
+		this.msecondsApproxMatch = msecondsApproxMatch;
+	}
+	
 	public void readTranslationSubtitles(SubtitleList s, File file, SubtitleFileType type,
 			EasyJaSubObserver observer) throws IOException, InputTextSubException {
 		FileInputStream stream = new FileInputStream(file);
@@ -72,7 +80,7 @@ class SubtitleListTranslatedSubFileReader {
 		}
 	}
 
-	private static void addTranslation(SubtitleLine jaLine, InputTextSubCaption enCaption) {
+	private void addTranslation(SubtitleLine jaLine, InputTextSubCaption enCaption) {
 		addTranslation(jaLine, enCaption.getContent());
 	}
 
@@ -88,23 +96,18 @@ class SubtitleListTranslatedSubFileReader {
 		jaLine.setTranslatedText(translation);
 	}
 	
-
 	private static final Pattern TranslationReplace = Pattern.compile("<br ?/>");
 	private static final String BreakStr = "&nbsp;&nbsp;&nbsp;";
-	
-	public void addTranslation(String content) {
-	}
 
-
-	private static boolean startsAfter(SubtitleLine line, InputTextSubCaption enCaption) {
+	private boolean startsAfter(SubtitleLine line, InputTextSubCaption enCaption) {
 		return line.getStartTime() >= enCaption.getEnd().getMSeconds();
 	}
 
-	private static boolean endsBefore(SubtitleLine line, InputTextSubCaption enCaption) {
+	private boolean endsBefore(SubtitleLine line, InputTextSubCaption enCaption) {
 		return line.getEndTime() <= enCaption.getStart().getMSeconds();
 	}
 
-	private static void insertTranslation(SubtitleList lines, InputTextSubCaption enCaption) {
+	private void insertTranslation(SubtitleList lines, InputTextSubCaption enCaption) {
 		for (int i = 0; i<lines.size(); ++i) {
 			SubtitleLine line = lines.get(i);
 			if (line.isJa() && startsAfter(line, enCaption)) {
@@ -125,26 +128,26 @@ class SubtitleListTranslatedSubFileReader {
 	}
 
 
-	private static boolean compatibleWith(SubtitleLine line, InputTextSubCaption enCaption) {
+	private boolean compatibleWith(SubtitleLine line, InputTextSubCaption enCaption) {
 		int startDiff = line.getStartTime() - enCaption.getStart().getMSeconds();
 		int endDiff = line.getEndTime() - enCaption.getEnd().getMSeconds();
 		// both start and end of the line are nearby
 		return 
-				(Math.abs(startDiff) < 2000 || Math.abs(endDiff) < 2000);
+				(Math.abs(startDiff) < msecondsMatch || Math.abs(endDiff) < msecondsMatch);
 	}
 
-	private static  boolean approxCompatibleWith(SubtitleLine line, InputTextSubCaption enCaption) {
+	private boolean approxCompatibleWith(SubtitleLine line, InputTextSubCaption enCaption) {
 		int startDiff = line.getStartTime() - enCaption.getStart().getMSeconds();
 		int endDiff = line.getEndTime() - enCaption.getEnd().getMSeconds();
 		// ja: ------------***************--------------
 		// en: -------**************************--------
-		if (startDiff > -500 && endDiff < 500) {
+		if (startDiff > -msecondsApproxMatch && endDiff < msecondsApproxMatch) {
 			// japanese line is a part of translation translation
 			return true;
 		}
 		// ja: -------**************************--------
 		// en: ------------***************--------------
-		if (startDiff < 500 && endDiff > -500) {
+		if (startDiff < msecondsApproxMatch && endDiff > -msecondsApproxMatch) {
 			// translation line is a part of japanese translation
 			return true;
 		}
@@ -153,13 +156,13 @@ class SubtitleListTranslatedSubFileReader {
 		int interEndDiff = line.getEndTime() - enCaption.getStart().getMSeconds();
 		// ja: -------************----------------------
 		// en: ------------***************--------------
-		if (startDiff < 0 && endDiff < 0 && interEndDiff > 500) {
+		if (startDiff < 0 && endDiff < 0 && interEndDiff > msecondsApproxMatch) {
 			// japanese line starts before translation line but they share 0.5 seconds
 			return true;
 		}
 		// ja: ------------***************--------------
 		// en: -------************----------------------
-		if (startDiff > 0 && endDiff > 0 && interStartDiff > 500) {
+		if (startDiff > 0 && endDiff > 0 && interStartDiff > msecondsApproxMatch) {
 			// japanese line starts after translation line but they share 0.5 seconds
 			return true;
 		}

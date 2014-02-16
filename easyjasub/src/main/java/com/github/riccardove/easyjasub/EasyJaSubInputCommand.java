@@ -34,4 +34,8 @@ public interface EasyJaSubInputCommand {
 
 	public abstract String getCssFileName();
 
+	public abstract String getExactMatchTimeDiff();
+
+	public abstract String getApproxMatchTimeDiff();
+
 }
