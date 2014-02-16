@@ -1,10 +1,14 @@
 package com.github.riccardove.easyjasub;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.xml.sax.SAXException;
+
+import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 class EasyJaSubConsole implements EasyJaSubObserver {
 
@@ -91,8 +95,8 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 
 	@Override
 	public void onWriteImagesStart(String wkhtml, File htmlFolder,
-			File bdnFolder) {
-		outputStream.println("onWriteImagesStart " + bdnFolder.getAbsolutePath() + " " + wkhtml);
+			File bdnFolder, int width) {
+		outputStream.println("onWriteImagesStart " + bdnFolder.getAbsolutePath() + " " + wkhtml + " " + width);
 		outputStream.flush();
 	}
 
@@ -148,5 +152,77 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	public void onWriteCssEnd(File cssFile) {
 		outputStream.println("onWriteCssStart " + cssFile.getAbsolutePath());
 		outputStream.flush();
+	}
+
+	@Override
+	public void onWriteImage(File pngFile, File file) {
+		outputStream.println("writing image " + pngFile.getAbsolutePath());
+		outputStream.flush();
+	}
+
+	@Override
+	public void onReadJapaneseSubtitlesIOError(File jaF, IOException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error reading japanese subtitles file " + jaF.getAbsolutePath() + ": " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onReadJapaneseSubtitlesParseError(File jaF,
+			InputTextSubException ex) throws EasyJaSubException {
+		throw new EasyJaSubException("Error parsing japanese subtitles file " + jaF.getAbsolutePath() + " content: " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onInputNihongoJTalkHtmlFileIOError(File f, IOException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error reading nihongo.j-talk file " + f.getAbsolutePath() + ": " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onInputNihongoJTalkHtmlFileParseError(File f, SAXException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error parsing nihongo.j-talk file " + f.getAbsolutePath() + "content: " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onReadTranslatedSubtitlesIOError(File jaF, IOException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error reading translated subtitles file " + jaF.getAbsolutePath() + ": " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onReadTranslatedSubtitlesParseError(File jaF,
+			InputTextSubException ex) throws EasyJaSubException {
+		throw new EasyJaSubException("Error parsing translated subtitles file " + jaF.getAbsolutePath() + " content: " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onWriteCssIOError(File cssFile, IOException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error writing css file " + cssFile.getAbsolutePath() + " : " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onWriteHtmlError(File htmlFolder, IOException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error writing html file on folder " + htmlFolder.getAbsolutePath() + " : " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onWriteImagesWkhtmlError(File bdnFolder, Exception ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error invoking wkhtmltoimage to write files on folder " + bdnFolder.getAbsolutePath() + " : " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onWriteImagesIOError(File bdnFolder, IOException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error writing image files on folder " + bdnFolder.getAbsolutePath() + " : " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onWriteBdnXmlFileIOError(File f, IOException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error writing BDMXML file " + f.getAbsolutePath() + " : " + ex.getLocalizedMessage());
 	}
 }

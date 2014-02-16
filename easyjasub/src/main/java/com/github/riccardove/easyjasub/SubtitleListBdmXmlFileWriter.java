@@ -17,6 +17,7 @@ class SubtitleListBdmXmlFileWriter {
 		ir = getImageReader();
 	}
 	
+	private static final String LineSeparator = SystemProperty.getLineSeparator();
 	private final ImageReader ir;
 	
 	public void writeBDM(SubtitleList s, File file) throws IOException, FileNotFoundException {
@@ -79,6 +80,7 @@ class SubtitleListBdmXmlFileWriter {
 	
 	private void writeln(String line) throws IOException
 	{
-		f.write(line + "\r\n");
+		f.write(line);
+		f.write(LineSeparator);
 	}
 }

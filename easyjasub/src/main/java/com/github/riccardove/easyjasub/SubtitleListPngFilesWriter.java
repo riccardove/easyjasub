@@ -12,37 +12,35 @@ class SubtitleListPngFilesWriter {
 	
 	private final WkHtmlToImageProcessBuilder wkhtmltoimageexe;
 	
-	public int writeImages(SubtitleList s, File htmlFolder, File pngFolder) throws IOException, InterruptedException 
+	public int writeImages(SubtitleList s, File htmlFolder, File pngFolder, int width,
+			EasyJaSubObserver observer) throws IOException, InterruptedException, WkhtmltoimageException 
 	{
 		int result  = 0;
-		LinkedList<Process> processes = new LinkedList<Process>(); 
+		LinkedList<Process> processes = new LinkedList<Process>();
+		boolean first = true;
 		for (SubtitleLine l : s) {
 			
 			File file = new File(htmlFolder, l.getHtmlFile());
 		
 			File pngFile = new File(pngFolder, l.getPngFile());
-			Process p = wkhtmltoimageexe.start(file.getAbsolutePath(), pngFile.getAbsolutePath(), s.getWidth());
+			observer.onWriteImage(pngFile, file);
+			Process p = wkhtmltoimageexe.start(file.getAbsolutePath(), pngFile.getAbsolutePath(), width);
 			processes.add(p);
-			if (processes.size() > 10 || l.getIndex() == 1) {
+			if (first || processes.size() > 10) {
+				first = false;
 				do {
 					result = processes.removeFirst().waitFor();
 				}
 				while (result == 0 && processes.size() > 3);
 			}
-			if (result > 0) {
-				break;
+			if (result != 0) {
+				throw new WkhtmltoimageException("Error invoking wkhtmltoimage command, it returned " + result);
 			}
-			System.out.print('*');
-			if (l.getIndex() % 80 == 0) {
-				System.out.println();
-			}
-			System.out.flush();
 		}
 		do {
 			result = processes.removeFirst().waitFor();
 		}
 		while (result == 0 && processes.size() > 0);
-		System.out.println();
 		return result;
 	}
 

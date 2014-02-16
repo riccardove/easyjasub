@@ -239,15 +239,22 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				programFiles = SystemEnv.getWindowsProgramFiles();
 			}
 			File directory = new File(programFiles, "wkhtmltopdf");
-			if (!directory.exists()) {
-				throw new Exception("Could not find directory " + directory.getAbsolutePath());
+			if (directory.exists()) {
+				File file = new File(directory, "wkhtmltoimage.exe");
+				if (file.exists()) {
+					fileName = file.getAbsolutePath();
+					checkFile(fileName, file);
+					return fileName;
+				}
 			}
-			File file = new File(directory, "wkhtmltoimage.exe");
-			fileName = file.getAbsolutePath();
-			checkFile(fileName, file);
-			return fileName;
 		}
-		return "/usr/bin/wkhtmltoimage";
+		else {
+			File file = new File("/usr/bin/wkhtmltoimage");
+			if (file.exists()) {
+				return file.getAbsolutePath();
+			}
+		}
+		return null;
 	}
 
 	

@@ -11,7 +11,7 @@ public class EasyJaSubCommandLineApp {
 
 	EasyJaSubCommandLine commandLine;
 	
-	public int run(String[] args, PrintWriter outputStream, PrintWriter errorStream) throws Exception {
+	public int run(String[] args, PrintWriter outputStream, PrintWriter errorStream) {
 		if (!commandLine.parse(args)) {
 			errorStream.println("Command invocation error:");
 			errorStream.println(commandLine.getMessage());
@@ -28,7 +28,21 @@ public class EasyJaSubCommandLineApp {
 		catch (Exception ex) {
 			errorStream.println("Command error:");
 			errorStream.println(ex.getMessage());
+			return -2;
 		}
-		return new EasyJaSub().run(input, new EasyJaSubConsole(outputStream, errorStream));
+		try {
+			return new EasyJaSub().run(input, new EasyJaSubConsole(outputStream, errorStream));
+		}
+		catch (EasyJaSubException ex) {
+			errorStream.println("Execution error:");
+			errorStream.println(ex.getMessage());
+			return -3;
+		}
+		catch (Exception ex) {
+			errorStream.println("Unexpected error:");
+			errorStream.println(ex.getMessage());
+			errorStream.println("This error may be a problem in the program, please report it.");
+			return -100;
+		}
 	}
 }

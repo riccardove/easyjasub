@@ -1,5 +1,6 @@
 package com.github.riccardove.easyjasub.inputtextsub;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -26,8 +27,13 @@ public class InputTextSubFile {
 		throw new IllegalArgumentException("Unrecognized input format: "+inputFormat+" only [SRT,STL,SCC,XML,ASS] are possible");
 	}
 	
-	public InputTextSubFile(SubtitleFileType inputFormat, String fileName, InputStream is) throws Exception {
-		tto = createFormat(inputFormat).parseFile(fileName, is);
+	public InputTextSubFile(SubtitleFileType inputFormat, String fileName, InputStream is) throws InputTextSubException, IOException {
+		try {
+			tto = createFormat(inputFormat).parseFile(fileName, is);
+		}
+		catch (FatalParsingException ex) {
+			throw new InputTextSubException("Parse error returned by subtitle read library", ex);
+		}
 		captions = new ArrayList<InputTextSubCaption>(tto.captions.size()); 
 		for (Caption caption : tto.captions.values()) {
 			captions.add(new InputTextSubCaption(caption));

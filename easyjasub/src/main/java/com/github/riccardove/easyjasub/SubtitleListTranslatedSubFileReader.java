@@ -2,13 +2,15 @@ package com.github.riccardove.easyjasub;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubCaption;
+import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubFile;
 
 class SubtitleListTranslatedSubFileReader {
-	public void readEnglishSubtitles(SubtitleList s, File file, SubtitleFileType type) throws Exception {
+	public void readEnglishSubtitles(SubtitleList s, File file, SubtitleFileType type) throws IOException, InputTextSubException {
 		FileInputStream stream = new FileInputStream(file);
 		InputTextSubFile subs = new InputTextSubFile(type, file.getName(), stream);
 		stream.close();
