@@ -13,7 +13,7 @@ class SubtitleListPngFilesJavaWriter {
 
 	private final HtmlImageGenerator imageGenerator;
 
-	public int writeImages(SubtitleList s, File htmlFolder, File pngFolder, int width,
+	public void writeImages(SubtitleList s, File htmlFolder, File pngFolder, int width,
 			EasyJaSubObserver observer) throws IOException, InterruptedException 
 	{
 		for (SubtitleLine l : s) {
@@ -27,7 +27,6 @@ class SubtitleListPngFilesJavaWriter {
 			imageGenerator.saveAsImage(file.getAbsolutePath());
 			// TODO store the image size
 		}
-		return 0;
 	}
 
 }

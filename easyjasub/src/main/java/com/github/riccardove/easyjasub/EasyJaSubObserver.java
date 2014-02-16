@@ -78,4 +78,7 @@ public interface EasyJaSubObserver {
 
 	void onWriteBdnXmlFileIOError(File f, IOException ex) throws EasyJaSubException;
 
+	void onWriteOutputJapaneseTextFileIOError(File txtFile, IOException ex) throws EasyJaSubException ;
+
+	void onTranslatedSubDuplicated(String content, int mSeconds, int startTime);
 }

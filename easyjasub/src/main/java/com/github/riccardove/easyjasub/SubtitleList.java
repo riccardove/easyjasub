@@ -8,10 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.rendersnake.HtmlCanvas;
 import org.rendersnake.Renderable;
 
-import com.github.riccardove.easyjasub.inputtextsub.InputTextSubCaption;
-
-import subtitleFile.*;
-
 public class SubtitleList implements Iterable<SubtitleLine>, Renderable {
 
 	public SubtitleList(String name) {
@@ -24,6 +20,12 @@ public class SubtitleList implements Iterable<SubtitleLine>, Renderable {
 	public SubtitleLine add() {
 		SubtitleLine line = createSubtitleLine();
 		lines.add(line);
+		return line;
+	}
+	
+	public SubtitleLine add(int index) {
+		SubtitleLine line = createExtraSubtitleLine();
+		lines.add(index, line);
 		return line;
 	}
 	
@@ -49,25 +51,6 @@ public class SubtitleList implements Iterable<SubtitleLine>, Renderable {
 
 	private int count;
 	private int extraCount;
-	
-	public void insertEnglish(InputTextSubCaption enCaption) {
-		for (int i = 0; i<lines.size(); ++i) {
-			SubtitleLine line = lines.get(i);
-			if (line.isJa() && line.startsAfter(enCaption)) {
-				if (i>0 && !lines.get(i-1).endsBefore(enCaption)) {
-					lines.get(i-1).addEnglish(enCaption.getContent());
-				}
-				else {
-					SubtitleLine englishLine = createExtraSubtitleLine();
-					englishLine.setCaption(enCaption);
-					englishLine.addEnglish(enCaption.getContent());
-					lines.add(i, englishLine);
-				}
-				break;
-			}
-		}
-		
-	}
 
 	public Iterator<SubtitleLine> iterator() {
 		return lines.iterator();
@@ -101,7 +84,7 @@ public class SubtitleList implements Iterable<SubtitleLine>, Renderable {
 		this.title = title;
 	}
 
-	public void setEnglishTitle(String title2) {
+	public void setTranslationTitle(String title2) {
 		if (StringUtils.isEmpty(title)) {
 			title = title2;
 		}
@@ -129,11 +112,33 @@ public class SubtitleList implements Iterable<SubtitleLine>, Renderable {
 		this.height = height;
 	}
 
-	public String[] getIdxTimestamps() {
-		String[] result = new String[lines.size()];
-		for (int i = 0; i<lines.size(); ++i) {
-			result[i] = lines.get(i).getIdxStartTime();
-		}
-		return result;
+	public void setJapaneseSubWarnings(String warnings) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setJapaneseSubDescription(String description) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setJapaneseSubLanguage(String language) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setTranslatedSubDescription(String description) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setTranslatedSubLanguage(String language) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setTranslatedSubWarnings(String warnings) {
+		// TODO Auto-generated method stub
+		
 	}
 }

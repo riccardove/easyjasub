@@ -28,134 +28,38 @@ public class EasyJaSub {
 				|| phases.contains(Phases.Idx)
 				|| phases.contains(Phases.Bdm)
 				|| phases.contains(Phases.Png)) {
-			File jaF = command.getJapaneseSubFile();
-		    observer.onReadJapaneseSubtitlesStart(jaF);
-		    try {
-			    new SubtitleListJapaneseSubFileReader().readJapaneseSubtitles(s, jaF, 
-			    		command.getJapaneseSubFileType());
-			    observer.onReadJapaneseSubtitlesEnd(jaF);
-		    }
-		    catch (IOException ex) {
-		    	observer.onReadJapaneseSubtitlesIOError(jaF, ex);
-		    }
-		    catch (InputTextSubException ex) {
-		    	observer.onReadJapaneseSubtitlesParseError(jaF, ex);
-		    }
+			readJapaneseSubtitles(command, observer, s);
 		    
-		    File txtFile = command.getOutputJapaneseTextFile();
-		    if (txtFile != null) {
-		    	observer.onWriteOutputJapaneseTextFileStart(txtFile);
-		    	
-		    	observer.onWriteOutputJapaneseTextFileEnd(txtFile);
-		    }
+		    writeOutputJapaneseTextFile(command, observer, s);
 
-			File f = command.getNihongoJtalkHtmlFile();
-			if (f != null) {
-				observer.onInputNihongoJTalkHtmlFileParseStart(f);
-				try {
-				    InputNihongoJTalkHtmlFile.parse(f, s, observer);
-					observer.onInputNihongoJTalkHtmlFileParseEnd(f, RedSubtitleLineItem.PosSet);
-				}
-				catch (IOException ex) {
-					observer.onInputNihongoJTalkHtmlFileIOError(f, ex);
-				}
-				catch (SAXException ex) {
-					observer.onInputNihongoJTalkHtmlFileParseError(f, ex);
-				}
-			}
+			parseNihongoJTalkFile(command, observer, s);
 
-		    File enF = command.getTranslatedSubFile();
-		    if (enF != null) {
-			    observer.onReadTranslatedSubtitlesStart(enF);
-			    try {
-				    new SubtitleListTranslatedSubFileReader().readEnglishSubtitles(s, enF,
-				    		command.getTranslatedSubFileType());
-				    observer.onReadTranslatedSubtitlesEnd(enF);
-			    }
-			    catch (IOException ex) {
-			    	observer.onReadTranslatedSubtitlesIOError(jaF, ex);
-			    }
-			    catch (InputTextSubException ex) {
-			    	observer.onReadTranslatedSubtitlesParseError(jaF, ex);
-			    }
-		    }
+		    readTranslatedSubFile(command, observer, s);
 		}
 
 		File htmlFolder = createFolder(command.getOutputHtmlDirectory());
 
 		if (phases == null 
 				|| phases.contains(Phases.Htmls)) {
-			File cssFile = command.getCssFile();
-			if (!cssFile.exists()) {
-				observer.onWriteCssStart(cssFile);
-				try {
-					new SubtitleListCssFileWriter(cssFile).write();
-					observer.onWriteCssEnd(cssFile);
-				}
-			    catch (IOException ex) {
-			    	observer.onWriteCssIOError(cssFile, ex);
-			    }
-			}
-			String cssFileUrl = cssFile.toURI().toString();
-			observer.onWriteHtmlStart(htmlFolder, cssFileUrl);
-			try {
-				new SubtitleListHtmlFilesWriter(htmlFolder, cssFileUrl).writeHtmls(s);
-				observer.onWriteHtmlEnd(htmlFolder);
-			}
-			catch (IOException ex) {
-				observer.onWriteHtmlError(htmlFolder, ex);
-			}
+			String cssFileUrl = createCssFile(command, observer);
+			
+			writeHtmlFiles(observer, s, htmlFolder, cssFileUrl);
 		}
 
 		File bdnFolder = createFolder(command.getBdnXmlFile().getParentFile());
 
-		int result = 0;
 		if (phases == null 
 				|| phases.contains(Phases.Png)) {
-			String wkhtml = command.getWkhtmltoimageFile();
-			int width = s.getWidth();
-			observer.onWriteImagesStart(wkhtml, htmlFolder, bdnFolder, width);
-			try {
-				if (wkhtml != null) {
-				    result = new SubtitleListPngFilesWriter(wkhtml).writeImages(s, htmlFolder, bdnFolder, width, observer);
-				}
-				else {
-				    result = new SubtitleListPngFilesJavaWriter().writeImages(s, htmlFolder, bdnFolder, width, observer);
-				}
-				observer.onWriteImagesEnd(wkhtml, htmlFolder, bdnFolder);
-			}
-			catch (WkhtmltoimageException ex) {
-				observer.onWriteImagesWkhtmlError(bdnFolder, ex);
-			}
-			catch (InterruptedException ex) {
-				observer.onWriteImagesWkhtmlError(bdnFolder, ex);
-			}
-			catch (IOException ex) {
-				observer.onWriteImagesIOError(bdnFolder, ex);
-			}
+			writePngFiles(command, observer, s, htmlFolder, bdnFolder);
 		}
 
 		if (phases == null || phases.contains(Phases.Bdm)) {
-			File f = command.getBdnXmlFile();
-			observer.onWriteBdnXmlFileStart(f);
-			try {
-				new SubtitleListBdmXmlFileWriter().writeBDM(s, f);
-				observer.onWriteBdnXmlFileEnd(f);
-			}
-			catch (IOException ex) {
-				observer.onWriteBdnXmlFileIOError(f, ex);
-			}
+			writeBdmXmlFile(command, observer, s);
 		}
 
 		if (phases == null 
 				|| phases.contains(Phases.Idx)) {
-			File file = command.getOutputIdxFile();
-			File folder = createFolder(file.getParentFile());
-			// TODO Core.timestampsStr = s.getIdxTimestamps();
-			observer.onWriteIdxFileStart(file);
-			// TODO output file
-			new BDSup2SubWrapper().toIdx(bdnFolder, command.getBdnXmlFile(), folder, file, s.getWidth());
-			observer.onWriteIdxFileEnd(file);
+			writeIdxFile(command, observer, s, bdnFolder);
 		}
 
 /*		    if (phases == null 
@@ -179,7 +83,160 @@ public class EasyJaSub {
 			System.out.println("SupXml");
 		}
 */
-		return result;
+		return 0;
+	}
+
+	private void writeIdxFile(EasyJaSubInput command,
+			EasyJaSubObserver observer, SubtitleList s, File bdnFolder) {
+		File file = command.getOutputIdxFile();
+		File folder = createFolder(file.getParentFile());
+		// TODO Core.timestampsStr = s.getIdxTimestamps();
+		observer.onWriteIdxFileStart(file);
+		// TODO output file
+		new BDSup2SubWrapper().toIdx(bdnFolder, command.getBdnXmlFile(), folder, file, s.getWidth());
+		observer.onWriteIdxFileEnd(file);
+	}
+
+	private void writeBdmXmlFile(EasyJaSubInput command,
+			EasyJaSubObserver observer, SubtitleList s)
+			throws EasyJaSubException {
+		File f = command.getBdnXmlFile();
+		observer.onWriteBdnXmlFileStart(f);
+		try {
+			new SubtitleListBdmXmlFileWriter().writeBDM(s, f);
+			observer.onWriteBdnXmlFileEnd(f);
+		}
+		catch (IOException ex) {
+			observer.onWriteBdnXmlFileIOError(f, ex);
+		}
+	}
+
+	private void writePngFiles(EasyJaSubInput command,
+			EasyJaSubObserver observer, SubtitleList s, File htmlFolder,
+			File bdnFolder) throws EasyJaSubException {
+		String wkhtml = command.getWkhtmltoimageFile();
+		int width = s.getWidth();
+		observer.onWriteImagesStart(wkhtml, htmlFolder, bdnFolder, width);
+		try {
+			if (wkhtml != null) {
+			    new SubtitleListPngFilesWriter(wkhtml).writeImages(s, htmlFolder, bdnFolder, width, observer);
+			}
+			else {
+			    new SubtitleListPngFilesJavaWriter().writeImages(s, htmlFolder, bdnFolder, width, observer);
+			}
+			observer.onWriteImagesEnd(wkhtml, htmlFolder, bdnFolder);
+		}
+		catch (WkhtmltoimageException ex) {
+			observer.onWriteImagesWkhtmlError(bdnFolder, ex);
+		}
+		catch (InterruptedException ex) {
+			observer.onWriteImagesWkhtmlError(bdnFolder, ex);
+		}
+		catch (IOException ex) {
+			observer.onWriteImagesIOError(bdnFolder, ex);
+		}
+	}
+
+	private void writeHtmlFiles(EasyJaSubObserver observer, SubtitleList s,
+			File htmlFolder, String cssFileUrl) throws EasyJaSubException {
+		observer.onWriteHtmlStart(htmlFolder, cssFileUrl);
+		try {
+			new SubtitleListHtmlFilesWriter(htmlFolder, cssFileUrl).writeHtmls(s);
+			observer.onWriteHtmlEnd(htmlFolder);
+		}
+		catch (IOException ex) {
+			observer.onWriteHtmlError(htmlFolder, ex);
+		}
+	}
+
+	private String createCssFile(EasyJaSubInput command,
+			EasyJaSubObserver observer) throws EasyJaSubException {
+		File cssFile = command.getCssFile();
+		if (!cssFile.exists()) {
+			observer.onWriteCssStart(cssFile);
+			try {
+				new SubtitleListCssFileWriter(cssFile).write();
+				observer.onWriteCssEnd(cssFile);
+			}
+		    catch (IOException ex) {
+		    	observer.onWriteCssIOError(cssFile, ex);
+		    }
+		}
+		String cssFileUrl = cssFile.toURI().toString();
+		return cssFileUrl;
+	}
+
+	private void readTranslatedSubFile(EasyJaSubInput command,
+			EasyJaSubObserver observer, SubtitleList s)
+			throws EasyJaSubException {
+		File enF = command.getTranslatedSubFile();
+		if (enF != null) {
+		    observer.onReadTranslatedSubtitlesStart(enF);
+		    try {
+			    new SubtitleListTranslatedSubFileReader().readTranslationSubtitles(s, enF,
+			    		command.getTranslatedSubFileType(), observer);
+			    observer.onReadTranslatedSubtitlesEnd(enF);
+		    }
+		    catch (IOException ex) {
+		    	observer.onReadTranslatedSubtitlesIOError(enF, ex);
+		    }
+		    catch (InputTextSubException ex) {
+		    	observer.onReadTranslatedSubtitlesParseError(enF, ex);
+		    }
+		}
+	}
+
+	private void parseNihongoJTalkFile(EasyJaSubInput command,
+			EasyJaSubObserver observer, SubtitleList s)
+			throws EasyJaSubException {
+		File f = command.getNihongoJtalkHtmlFile();
+		if (f != null) {
+			observer.onInputNihongoJTalkHtmlFileParseStart(f);
+			try {
+			    InputNihongoJTalkHtmlFile.parse(f, s, observer);
+				observer.onInputNihongoJTalkHtmlFileParseEnd(f, RedSubtitleLineItem.PosSet);
+			}
+			catch (IOException ex) {
+				observer.onInputNihongoJTalkHtmlFileIOError(f, ex);
+			}
+			catch (SAXException ex) {
+				observer.onInputNihongoJTalkHtmlFileParseError(f, ex);
+			}
+		}
+	}
+
+	private void writeOutputJapaneseTextFile(EasyJaSubInput command,
+			EasyJaSubObserver observer, SubtitleList s)
+			throws EasyJaSubException {
+		File txtFile = command.getOutputJapaneseTextFile();
+		if (txtFile != null) {
+			observer.onWriteOutputJapaneseTextFileStart(txtFile);
+			try {
+				new SubtitleListJapaneseTextFileWriter().write(s, txtFile);
+			}
+			catch (IOException ex) {
+				observer.onWriteOutputJapaneseTextFileIOError(txtFile, ex);
+			}
+			observer.onWriteOutputJapaneseTextFileEnd(txtFile);
+		}
+	}
+
+	private void readJapaneseSubtitles(EasyJaSubInput command,
+			EasyJaSubObserver observer, SubtitleList s)
+			throws EasyJaSubException {
+		File jaF = command.getJapaneseSubFile();
+		observer.onReadJapaneseSubtitlesStart(jaF);
+		try {
+		    new SubtitleListJapaneseSubFileReader().readJapaneseSubtitles(s, jaF, 
+		    		command.getJapaneseSubFileType(), observer);
+		    observer.onReadJapaneseSubtitlesEnd(jaF);
+		}
+		catch (IOException ex) {
+			observer.onReadJapaneseSubtitlesIOError(jaF, ex);
+		}
+		catch (InputTextSubException ex) {
+			observer.onReadJapaneseSubtitlesParseError(jaF, ex);
+		}
 	}
 
 	private static File createFolder(File bdnFolder) {

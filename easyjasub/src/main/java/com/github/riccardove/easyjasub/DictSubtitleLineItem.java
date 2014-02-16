@@ -88,11 +88,11 @@ public class DictSubtitleLineItem extends RedSubtitleLineItem {
 	@Override
 	public void renderOnLast(HtmlCanvas html) throws IOException {
 		if (dict != null) {
-			String englishTranslation = subtitleLine.getDictionaryMatch(text, dict);
-			if (englishTranslation == null) {
-				englishTranslation = dict.get(0);
+			String translationTranslation = subtitleLine.getDictionaryMatch(text, dict);
+			if (translationTranslation == null) {
+				translationTranslation = dict.get(0);
 			}
-			html.td().content(englishTranslation);
+			html.td().content(translationTranslation);
 		}
 		else {
 			super.renderOnLast(html);

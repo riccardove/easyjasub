@@ -2,7 +2,7 @@ package com.github.riccardove.easyjasub.inputtextsub;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.*;
 
 import com.github.riccardove.easyjasub.SubtitleFileType;
 
@@ -55,7 +55,7 @@ public class InputTextSubFile {
 		return tto.language;
 	}
 	
-	public Iterable<InputTextSubCaption> getCaptions() {
+	public List<InputTextSubCaption> getCaptions() {
 		return captions;
 	}
 

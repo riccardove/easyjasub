@@ -68,7 +68,7 @@ class TextareaHtmlHandler implements SectionHtmlHandler {
 
 	private void addText() {
 		SubtitleLine line = subtitleList.get(index++);
-		line.setOriginalText(text.toString());
+		line.setNihongoJTalkJapaneseText(text.toString());
 	}
 
 	public void startSection(String uri, String localName, String qName,

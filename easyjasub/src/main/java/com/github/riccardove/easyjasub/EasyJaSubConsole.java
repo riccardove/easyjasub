@@ -225,4 +225,17 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 			throws EasyJaSubException {
 		throw new EasyJaSubException("Error writing BDMXML file " + f.getAbsolutePath() + " : " + ex.getLocalizedMessage());
 	}
+
+	@Override
+	public void onWriteOutputJapaneseTextFileIOError(File txtFile,
+			IOException ex) throws EasyJaSubException {
+		throw new EasyJaSubException("Error writing japanese text file " + txtFile.getAbsolutePath() + " : " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onTranslatedSubDuplicated(String content, int mSeconds,
+			int startTime) {
+		outputStream.println("Duplicated translation caption " + content + " starting at " + mSeconds + " at " + startTime);
+		outputStream.flush();
+	}
 }

@@ -12,7 +12,7 @@ class SubtitleListPngFilesWriter {
 	
 	private final WkHtmlToImageProcessBuilder wkhtmltoimageexe;
 	
-	public int writeImages(SubtitleList s, File htmlFolder, File pngFolder, int width,
+	public void writeImages(SubtitleList s, File htmlFolder, File pngFolder, int width,
 			EasyJaSubObserver observer) throws IOException, InterruptedException, WkhtmltoimageException 
 	{
 		int result  = 0;
@@ -41,7 +41,9 @@ class SubtitleListPngFilesWriter {
 			result = processes.removeFirst().waitFor();
 		}
 		while (result == 0 && processes.size() > 0);
-		return result;
+		if (result != 0) {
+			throw new WkhtmltoimageException("Error invoking wkhtmltoimage command, it returned " + result);
+		}
 	}
 
 }

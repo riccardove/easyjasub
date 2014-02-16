@@ -15,33 +15,30 @@ import static org.rendersnake.HtmlAttributesFactory.class_;
 
 public class SubtitleLine implements Renderable {
 
-	private String originalText;
+	private String nihongoJTalkJapaneseText;
 	private ArrayList<SubtitleLineItem> items;
 	private final int index;
-	private String english;
+	private String translation;
 	
 	public SubtitleLine(int index) {
 		items = new ArrayList<SubtitleLineItem>();
 		this.index = index;
 	}
 	
-	public void setOriginalText(String text) {
-		originalText = text;
-		ja = true;
+	public void setNihongoJTalkJapaneseText(String text) {
+		nihongoJTalkJapaneseText = text;
 	}
 	
 	public String getJapaneseText() {
-		return caption.getContent();
+		return japanese;
 	}
 	
 	public int getIndex() {
 		return index;
 	}
 	
-	private boolean ja;
-	
 	public boolean isJa() {
-		return ja;
+		return japanese != null;
 	}
 
 	public void addItem(SubtitleLineItem item) {
@@ -57,7 +54,7 @@ public class SubtitleLine implements Renderable {
 	@Override
 	public String toString() {
 		StringBuilder text = new StringBuilder();
-		text.append(originalText);
+		text.append(nihongoJTalkJapaneseText);
 		text.append(" - ");
 		for (SubtitleLineItem item : items) {
 			text.append(item.toString());
@@ -68,7 +65,7 @@ public class SubtitleLine implements Renderable {
 	public static final String Newline = "\r\n";
 	
 	public void renderOn(HtmlCanvas html) throws IOException {
-		if (ja) {
+		if (isJa()) {
 			html.write(Newline, false).table().write(Newline, false).tr(class_("top")).write(Newline, false);
 			for (SubtitleLineItem item : items) {
 				html.write("  ");
@@ -95,11 +92,11 @@ public class SubtitleLine implements Renderable {
 			}
 			html._tr().write(Newline, false)._table();
 		}
-		if (english != null) {
+		if (translation != null) {
 			html.write(Newline, false)
-			.p().write(english, false)._p();
+			.p().write(translation, false)._p();
 		}
-		if (ja) {
+		if (isJa()) {
 			html.write("<!--" + Newline, false);
 			for (SubtitleLineItem item : items) {
 				String comment = item.getComment();
@@ -140,67 +137,9 @@ public class SubtitleLine implements Renderable {
 		return caption.getEnd().getBDMTime();
 	}
 	
+	@Deprecated
 	public void setCaption(InputTextSubCaption next) {
 		caption = next;
-	}
-
-	public String getIdxStartTime() {
-		return caption.getIdxStartTime();
-	}
-
-	private static final Pattern EnglishReplace = Pattern.compile("<br ?/>");
-	private static final String BreakStr = "&nbsp;&nbsp;&nbsp;";
-	
-	public void addEnglish(String content) {
-		System.out.println(content + " in line " + index + ": " + originalText);
-		String text = EnglishReplace.matcher(content).replaceAll(" ");
-		if (english == null) {
-			english = text;
-		}
-		else {
-			english += BreakStr + text;
-		}
-	}
-
-	public boolean compatibleWith(InputTextSubCaption enCaption) {
-		int startDiff = caption.getStart().getMSeconds() - enCaption.getStart().getMSeconds();
-		int endDiff = caption.getEnd().getMSeconds() - enCaption.getEnd().getMSeconds();
-		// both start and end of the line are nearby
-		return 
-				(Math.abs(startDiff) < 2000 || Math.abs(endDiff) < 2000);
-	}
-
-	public boolean approxCompatibleWith(InputTextSubCaption enCaption) {
-		int startDiff = caption.getStart().getMSeconds() - enCaption.getStart().getMSeconds();
-		int endDiff = caption.getEnd().getMSeconds() - enCaption.getEnd().getMSeconds();
-		// ja: ------------***************--------------
-		// en: -------**************************--------
-		if (startDiff > -500 && endDiff < 500) {
-			// japanese line is a part of english translation
-			return true;
-		}
-		// ja: -------**************************--------
-		// en: ------------***************--------------
-		if (startDiff < 500 && endDiff > -500) {
-			// english line is a part of japanese translation
-			return true;
-		}
-		
-		int interStartDiff = enCaption.getEnd().getMSeconds() - caption.getStart().getMSeconds();
-		int interEndDiff = caption.getEnd().getMSeconds() - enCaption.getStart().getMSeconds();
-		// ja: -------************----------------------
-		// en: ------------***************--------------
-		if (startDiff < 0 && endDiff < 0 && interEndDiff > 500) {
-			// japanese line starts before english line but they share 0.5 seconds
-			return true;
-		}
-		// ja: ------------***************--------------
-		// en: -------************----------------------
-		if (startDiff > 0 && endDiff > 0 && interStartDiff > 500) {
-			// japanese line starts after english line but they share 0.5 seconds
-			return true;
-		}
-		return false;
 	}
 	
 	// TODO: be a class
@@ -210,17 +149,17 @@ public class SubtitleLine implements Renderable {
 		matches.put(jaText, dictItem);
 	}
 
-	private boolean matchEnglish(String dictItem) {
-		return english.contains(dictItem);
+	private boolean matchTranslation(String dictItem) {
+		return translation.contains(dictItem);
 	}
 
 	public String getDictionaryMatch(String jaText, Iterable<String> dict) {
-		if (english == null) {
+		if (translation == null) {
 			return null;
 		}
 		for (String dictItem : dict) {
 			// matches completely
-			if (matchEnglish(dictItem)) {
+			if (matchTranslation(dictItem)) {
 				storeDictionaryMatch(jaText, dictItem);
 				return dictItem;
 			}
@@ -233,8 +172,8 @@ public class SubtitleLine implements Renderable {
 		for (String dictItem : dict) {
 			// matches but a small prefix or suffix
 			if (dictItem.length()>5 &&
-					(matchEnglish(dictItem.substring(2)) ||
-							matchEnglish(dictItem.substring(0, dictItem.length()-2)))) {
+					(matchTranslation(dictItem.substring(2)) ||
+							matchTranslation(dictItem.substring(0, dictItem.length()-2)))) {
 				storeDictionaryMatch(jaText, dictItem);
 				return dictItem;
 			}
@@ -243,7 +182,7 @@ public class SubtitleLine implements Renderable {
 			if (dictItem.length()>7 && dictItem.contains(" ")) {
 				for (String part : dictItem.split(" ")) {
 					if (part.length() > 4 &&
-							matchEnglish(part)) {
+							matchTranslation(part)) {
 //						storeDictionaryMatch(jaText, dictItem);
 						return dictItem;
 					}
@@ -253,19 +192,43 @@ public class SubtitleLine implements Renderable {
 		return null;
 	}
 
-	public boolean startsAfter(InputTextSubCaption enCaption) {
-		return caption.getStart().compareTo(enCaption.getEnd()) >= 0;
+	public boolean isTranslation() {
+		return translation != null;
 	}
 
-	public boolean endsBefore(InputTextSubCaption enCaption) {
-		return caption.getEnd().compareTo(enCaption.getStart()) <= 0;
+	public String getTranslation() {
+		return translation;
 	}
 
-	public boolean isEnglish() {
-		return english != null;
+	public void setTranslatedText(String text) {
+		translation = text;
+	}
+	
+	private int startTime;
+	private int endTime;
+	private String japanese;
+	
+	public int getStartTime() {
+		return startTime;
 	}
 
-	public String getEnglish() {
-		return english;
+	public int getEndTime() {
+		return endTime;
+	}
+
+	public String getJapanese() {
+		return japanese;
+	}
+
+	public void setStartTime(int mSeconds) {
+		startTime = mSeconds;
+	}
+
+	public void setEndTime(int mSeconds) {
+		endTime = mSeconds;
+	}
+
+	public void setJapaneseSubText(String content) {
+		japanese = content;
 	}
 }
