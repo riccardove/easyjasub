@@ -30,6 +30,9 @@ public class SubtitleList implements Iterable<SubtitleLine>, Renderable {
 	}
 	
 	public SubtitleLine get(int index) {
+		while (lines.size() <= index) {
+			add();
+		}
 		return lines.get(index);
 	}
 

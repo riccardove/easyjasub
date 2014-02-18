@@ -18,7 +18,7 @@ public class InputNihongoJTalkHtmlFile {
 
 	private static final String TAGSOUP_PARSER = "org.ccil.cowan.tagsoup.Parser";
 
-	public static void parse(File file, SubtitleList s, EasyJaSubObserver observer)
+	public void parse(File file, SubtitleList s, EasyJaSubObserver observer)
 			throws IOException, SAXException
 	{
 	    XMLReader saxParser = XMLReaderFactory.createXMLReader(TAGSOUP_PARSER);

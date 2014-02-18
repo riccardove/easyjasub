@@ -195,7 +195,7 @@ public class EasyJaSub {
 		if (f != null) {
 			observer.onInputNihongoJTalkHtmlFileParseStart(f);
 			try {
-			    InputNihongoJTalkHtmlFile.parse(f, s, observer);
+			    new InputNihongoJTalkHtmlFile().parse(f, s, observer);
 				observer.onInputNihongoJTalkHtmlFileParseEnd(f, RedSubtitleLineItem.PosSet);
 			}
 			catch (IOException ex) {

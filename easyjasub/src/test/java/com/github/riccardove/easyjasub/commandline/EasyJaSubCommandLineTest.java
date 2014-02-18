@@ -1,13 +1,13 @@
 package com.github.riccardove.easyjasub.commandline;
 
-import static org.junit.Assert.*;
-
 import java.io.PrintWriter;
+
+import junit.framework.TestCase;
 
 import org.apache.commons.io.output.NullOutputStream;
 import org.junit.Test;
 
-public class EasyJaSubCommandLineTest {
+public class EasyJaSubCommandLineTest extends TestCase {
 
 	private static final PrintWriter NULL_WRITER =
 			new PrintWriter(NullOutputStream.NULL_OUTPUT_STREAM);

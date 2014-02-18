@@ -37,7 +37,7 @@ class InputNihongoJTalkHtmlHandler extends DefaultHandler {
 		else if (DIV_ELEMENT.equals(qName)) {
 			if ("rollover".equals(attributes.getValue(ID_ATTRIBUTE))) {
 				observer.onInputNihongoJTalkHtmlFileParseHiraganaDivStart();
-				sectionParser = new HiraganaDivHtmlHandler(subtitleList);
+				sectionParser = new HiraganaDivHtmlHandler(subtitleList, observer);
 				sectionParser.startSection(uri, localName, qName, attributes);
 			}
 			if (sectionParser != null) {

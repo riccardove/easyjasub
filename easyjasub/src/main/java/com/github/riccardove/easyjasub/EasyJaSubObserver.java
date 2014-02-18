@@ -81,4 +81,6 @@ public interface EasyJaSubObserver {
 	void onWriteOutputJapaneseTextFileIOError(File txtFile, IOException ex) throws EasyJaSubException ;
 
 	void onTranslatedSubDuplicated(String content, int mSeconds, int startTime);
+
+	void onInputNihongoJTalkHtmlLine(SubtitleLine line);
 }

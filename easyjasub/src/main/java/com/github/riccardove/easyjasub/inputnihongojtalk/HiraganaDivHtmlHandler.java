@@ -7,6 +7,7 @@ import org.xml.sax.SAXException;
 
 import com.github.riccardove.easyjasub.ComplexSubtitleLineItem;
 import com.github.riccardove.easyjasub.DictSubtitleLineItem;
+import com.github.riccardove.easyjasub.EasyJaSubObserver;
 import com.github.riccardove.easyjasub.FuriSubtitleLineItem;
 import com.github.riccardove.easyjasub.JapaneseChar;
 import com.github.riccardove.easyjasub.RedSubtitleLineItem;
@@ -38,8 +39,11 @@ class HiraganaDivHtmlHandler implements SectionHtmlHandler {
 	private int span;
 	private boolean trg;
 	private String triggerStr;
+	private final EasyJaSubObserver observer;
 
-	public HiraganaDivHtmlHandler(SubtitleList subtitleList) {
+	public HiraganaDivHtmlHandler(SubtitleList subtitleList,
+			EasyJaSubObserver observer) {
+		this.observer = observer;
 		iter = subtitleList.iterator();
 		next();
 	}
@@ -154,7 +158,7 @@ class HiraganaDivHtmlHandler implements SectionHtmlHandler {
 			baseText = null;
 			dictreadingText = null;
 			posText = null;
-			englishrubyText = null;;
+			englishrubyText = null;
 		}
 		trg = false;
 		if (span < 6) {
@@ -172,6 +176,7 @@ class HiraganaDivHtmlHandler implements SectionHtmlHandler {
 	private void next() {
 		if (iter.hasNext()) {
 			line = iter.next();
+			lastText = null;
 		}
 		else {
 			line = null;
@@ -191,7 +196,8 @@ class HiraganaDivHtmlHandler implements SectionHtmlHandler {
 		else if (span == 1 && TRG_ELEMENT.equals(qName)) {
 			trg = true;
 		}
-		else if (BR_ELEMENT.equals(qName)) {
+		else if (BR_ELEMENT.equals(qName) && line != null) {
+			observer.onInputNihongoJTalkHtmlLine(line);
 			next();
 		}
 	}

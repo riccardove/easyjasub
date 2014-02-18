@@ -238,4 +238,10 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 		outputStream.println("Duplicated translation caption " + content + " starting at " + mSeconds + " at " + startTime);
 		outputStream.flush();
 	}
+
+	@Override
+	public void onInputNihongoJTalkHtmlLine(SubtitleLine line) {
+		outputStream.println("Line: " + line.toString());
+		outputStream.flush();
+	}
 }
