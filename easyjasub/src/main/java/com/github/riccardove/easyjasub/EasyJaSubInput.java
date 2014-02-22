@@ -43,4 +43,6 @@ public interface EasyJaSubInput {
 	public abstract int getWidth();
 
 	public abstract int getHeight();
+	
+	String getDefaultFileNamePrefix();
 }

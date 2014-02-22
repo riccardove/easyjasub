@@ -10,7 +10,7 @@ public class SubtitleListJapaneseSubFileReaderTest {
 
 	@Test
 	public void test() throws Exception {
-		System.out.println(SystemProperty.getUserDir());
+		//System.out.println(SystemProperty.getUserDir());
 		File file = new File("samples\\sample1.ja.ass");
 		assertTrue(file.exists());
 		SubtitleList s = new SubtitleList("test");
@@ -20,9 +20,9 @@ public class SubtitleListJapaneseSubFileReaderTest {
 		for (SubtitleLine line : s) {
 			assertTrue(line.isJa());
 			assertFalse(line.isTranslation());
-			System.out.println(line.getIndex() + " (" + line.getStartTime() + "->" + line.getEndTime() + ") " + line.getJapaneseText());
+			//System.out.println(line.getIndex() + " (" + line.getStartTime() + "->" + line.getEndTime() + ") " + line.getJapaneseText());
 		}
-		System.out.println(s.size());
+		//System.out.println(s.size());
 	}
 
 	private class Observer extends FakeEasyJaSubObserver {

@@ -70,7 +70,7 @@ class DefaultFileList implements Iterable<File> {
 			File file = new File(fileName);
 			if (file.exists() && file.isFile()) {
 				File directory = file.getParentFile();
-				if (file.isDirectory()) {
+				if (directory != null && directory.isDirectory()) {
 					addIfDistinct(result, directory);
 				}
 			}

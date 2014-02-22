@@ -195,10 +195,10 @@
 		<dependency>
 			<groupId>com.github.JDaren</groupId>
 			<artifactId>subtitleConvert</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
+			<version>1.0.1-SNAPSHOT</version>
+<!-- 			<scope>system</scope>
 			<systemPath>${basedir}/lib/subtitleConvert.jar</systemPath>
-		</dependency>
+ -->		</dependency>
 	</dependencies>
 
 </project>

@@ -6,13 +6,7 @@ import bdsup2sub.BDSup2Sub;
 
 class BDSup2SubWrapper {
 
-	public void toIdx(File folderIn, File fileIn, File folderOut, File fileOut, int width) {
-//		if (folderIn != null) {
-//			fileIn = (new File(folderIn, fileIn)).getAbsolutePath();
-//		}
-//		if (folderOut != null) {
-//			fileOut = (new File(folderOut, fileOut)).getAbsolutePath();
-//		}
+	public void toIdx(File fileIn, File fileOut, int width) {
 		BDSup2Sub.main(new String[] {
 				"-m", "100",
 				"-x", "10",

@@ -8,19 +8,69 @@ import junit.framework.TestCase;
 
 public class EasyJaSubInputFromCommandTest extends TestCase {
 
-	private static final String Sample1 = "samples\\sample1.ja.ass";
+	private static final String Sample1JaSub = "samples\\sample1.ja.ass";
+	private static final String Sample1TrSub = "samples\\sample1.en.srt";
+	private static final String Sample1Html = "samples\\sample1.htm";
 	
 	@Test
-	public void test1() throws Exception {
-		assertTrue(new File(Sample1).exists());
+	public void testGiveOnlyJapaneseSubtitleFile() throws Exception {
+		assertTrue(new File(Sample1JaSub).exists());
 		
 		FakeEasyJaSubInputCommand fakeInput = new FakeEasyJaSubInputCommand();
-		fakeInput.setJapaneseSubFileName(Sample1);
-		
+		fakeInput.setJapaneseSubFileName(Sample1JaSub);
 		EasyJaSubInputFromCommand obj = new EasyJaSubInputFromCommand(fakeInput);
-		assertNotNull(obj.getJapaneseSubFile());
+
 		assertEquals("sample1", obj.getDefaultFileNamePrefix());
+		assertInputFile(obj.getJapaneseSubFile(), "sample1.ja.ass");
+		assertInputFile(obj.getTranslatedSubFile(), "sample1.en.srt");
+		assertInputFile(obj.getNihongoJtalkHtmlFile(), "sample1.htm");
+		assertEquals(SubtitleFileType.ASS, obj.getJapaneseSubFileType());
+		assertEquals(SubtitleFileType.SRT, obj.getTranslatedSubFileType());
+		assertNotNull(obj.getCssFile());
+		assertNotNull(obj.getOutputHtmlDirectory());
+		assertEquals(obj.getOutputHtmlDirectory(), obj.getCssFile().getParentFile());
+		assertNotNull(obj.getBdnXmlFile());
+		assertNotNull(obj.getOutputIdxFile());
+		assertNotNull(obj.getOutputJapaneseTextFile());
 	}
 	
+	private static void assertInputFile(File file, String fileName) {
+		assertNotNull(file);
+		assertTrue(file.exists());
+		assertEquals(fileName, file.getName());
+	}
 	
+	@Test
+	public void testGiveOnlyTranslatedSubtitleFile() throws Exception {
+		assertTrue(new File(Sample1TrSub).exists());
+		
+		FakeEasyJaSubInputCommand fakeInput = new FakeEasyJaSubInputCommand();
+		fakeInput.setTranslatedSubFileName(Sample1TrSub);
+		EasyJaSubInputFromCommand obj = new EasyJaSubInputFromCommand(fakeInput);
+
+		assertEquals("sample1", obj.getDefaultFileNamePrefix());
+		assertInputFile(obj.getTranslatedSubFile(), "sample1.en.srt");
+		assertInputFile(obj.getJapaneseSubFile(), "sample1.ja.ass");
+		assertInputFile(obj.getNihongoJtalkHtmlFile(), "sample1.htm");
+		assertEquals(SubtitleFileType.ASS, obj.getJapaneseSubFileType());
+		assertEquals(SubtitleFileType.SRT, obj.getTranslatedSubFileType());
+	}
+
+	
+	@Test
+	public void testGiveOnlyNihongoJtalkHtmlFile() throws Exception {
+		assertTrue(new File(Sample1Html).exists());
+		
+		FakeEasyJaSubInputCommand fakeInput = new FakeEasyJaSubInputCommand();
+		fakeInput.setNihongoJtalkHtmlFileName(Sample1Html);
+		EasyJaSubInputFromCommand obj = new EasyJaSubInputFromCommand(fakeInput);
+
+		assertEquals("sample1", obj.getDefaultFileNamePrefix());
+		assertInputFile(obj.getNihongoJtalkHtmlFile(), "sample1.htm");
+		assertInputFile(obj.getTranslatedSubFile(), "sample1.en.srt");
+		assertInputFile(obj.getJapaneseSubFile(), "sample1.ja.ass");
+		assertEquals(SubtitleFileType.ASS, obj.getJapaneseSubFileType());
+		assertEquals(SubtitleFileType.SRT, obj.getTranslatedSubFileType());
+	}
+
 }

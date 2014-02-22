@@ -30,7 +30,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			if (file.isDirectory()) {
 				throw new EasyJaSubException("Invalid output file, " + fileName + " is a directory");
 			}
-			throw new EasyJaSubException("Output file " + fileName + " already exists");
+			return;
 		}
 		File directory = file;
 		do {
@@ -64,11 +64,16 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			String extension = getExtension(file);
 			if (isTextContentType(file) &&
 				isSubExtension(extension) &&
-				getSubtitleLanguageFromFileName(file.getName()) == "ja") {
+				isJaLanguageFromFileName(file)) {
 				return file;
 			}
 		}
-		throw new EasyJaSubException("Could not find any japanese sub file");
+		return null;
+	}
+
+	private static boolean isJaLanguageFromFileName(File file) {
+		String language = getSubtitleLanguageFromFileName(file.getName());
+		return "ja".equals(language);
 	}
 	private static File getOutputBdmFile(EasyJaSubInputCommand command,
 			File outputIdxFile,
@@ -105,7 +110,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		}
 		else if (outputBdmFile != null)
 		{
-			directory = outputBdmFile;
+			directory = outputBdmFile.getParentFile();
 		}
 		else {
 			directory = new File(defaultFileList.getDefaultFileNamePrefix() + "_html");
@@ -157,6 +162,9 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 
 	private static SubtitleFileType getSubtitleFileType(File file) {
+		if (file == null) {
+			return SubtitleFileType.Undef;
+		}
 		return SubtitleFileType.valueOf(getExtension(file));
 	}
 
@@ -174,7 +182,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	private static File getTranslatedSubFile(EasyJaSubInputCommand command,
 			Iterable<File> defaultFileList,
 			File japaneseSubFile) throws EasyJaSubException {
-		String fileName = command.getJapaneseSubFileName();
+		String fileName = command.getTranslatedSubFileName();
 		if (fileName != null) {
 			File file = new File(fileName);
 			checkFile(fileName, file);
@@ -194,12 +202,12 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				return file;
 			}
 		}
-		throw new EasyJaSubException("Could not find any japanese sub file");
+		return null;
 	}
 
 	private static String getTranslatedSubLanguage(EasyJaSubInputCommand command, File translatedSubFile) {
 		String result = command.getTranslatedSubLanguage();
-		if (result == null) {
+		if (result == null && translatedSubFile != null) {
 			result = getSubtitleLanguageFromFileName(translatedSubFile.getName());
 		}
 		return result;
@@ -333,7 +341,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		japaneseSubFile = getJapaneseSubFile(command, defaultFileList);
 		japaneseSubFileType = getSubtitleFileType(japaneseSubFile);
 		translatedSubFile = getTranslatedSubFile(command, defaultFileList, japaneseSubFile);
-		translatedSubFileType = getSubtitleFileType(japaneseSubFile);
+		translatedSubFileType = getSubtitleFileType(translatedSubFile);
 		translatedSubLanguage = getTranslatedSubLanguage(command, translatedSubFile);
 		videoFile = getVideoFile(command, defaultFileList);
 		outputIdxFile = getOutputIdxFile(command, videoFile, defaultFileList);
@@ -392,9 +400,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		}
 		for (File file : defaultFileList) {
 			String extension = getExtension(file);
-			if ((extension == "HTML" ||
-				extension == "HTM") &&
-				isTextContentType(file)) {
+			if (("HTML".equals(extension) || "HTM".equals(extension)) &&
+				isHtmlContentType(file)) {
 				return file;
 			}
 		}

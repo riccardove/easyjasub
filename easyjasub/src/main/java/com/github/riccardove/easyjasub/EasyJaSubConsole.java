@@ -12,8 +12,8 @@ import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 class EasyJaSubConsole implements EasyJaSubObserver {
 
-	private PrintWriter outputStream;
-	private PrintWriter errorStream;
+	private final PrintWriter outputStream;
+	private final PrintWriter errorStream;
 
 	public EasyJaSubConsole(PrintWriter outputStream, PrintWriter errorStream) {
 		this.outputStream = outputStream;
@@ -119,7 +119,7 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onWriteIdxFileStart(File file) {
+	public void onWriteIdxFileStart(File file, File bdnFile) {
 		outputStream.println("onWriteIdxFileStart " + file.getAbsolutePath());
 		outputStream.flush();
 	}
@@ -243,5 +243,59 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	public void onInputNihongoJTalkHtmlLine(SubtitleLine line) {
 		outputStream.println("Line: " + line.toString());
 		outputStream.flush();
+	}
+
+	@Override
+	public void onWriteOutputJapaneseTextFileSkipped(File txtFile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onInputNihongoJTalkHtmlFileParseSkipped(File f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onReadTranslatedSubtitlesSkipped(File enF) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteCssSkipped(File cssFile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteHtmlFile(File file) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteHtmlFileSkipped(File file) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteBdnXmlFileSkipped(File f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteImageSkipped(File pngFile, File file) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteIdxFileSkipped(File file, File bdnFile) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -108,12 +108,6 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onWriteIdxFileStart(File file) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void onWriteIdxFileEnd(File file) {
 		// TODO Auto-generated method stub
 		
@@ -242,6 +236,66 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	@Override
 	public void onInputNihongoJTalkHtmlLine(SubtitleLine line) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteOutputJapaneseTextFileSkipped(File txtFile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onInputNihongoJTalkHtmlFileParseSkipped(File f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onReadTranslatedSubtitlesSkipped(File enF) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteCssSkipped(File cssFile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteHtmlFile(File file) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteHtmlFileSkipped(File file) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteBdnXmlFileSkipped(File f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteImageSkipped(File pngFile, File file) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteIdxFileStart(File file, File bdnFile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onWriteIdxFileSkipped(File file, File bdnFile) {
 		// TODO Auto-generated method stub
 		
 	}

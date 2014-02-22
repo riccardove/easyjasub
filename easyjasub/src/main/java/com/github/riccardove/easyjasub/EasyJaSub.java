@@ -15,7 +15,11 @@ public class EasyJaSub {
 	
 	public int run(EasyJaSubInput command, EasyJaSubObserver observer) throws EasyJaSubException {
 		Set<Phases> phases = command.getPhases();
-		SubtitleList s = new SubtitleList(command.getVideoFile().getName());
+		String filePrefix = command.getDefaultFileNamePrefix();
+		if (filePrefix == null) {
+			filePrefix = "easyjasub_";
+		}
+		SubtitleList s = new SubtitleList(filePrefix);
 //		    s.setWidth(1366);
 //		    s.setHeight(768);
 //            return "720p (1280x720)";
@@ -86,25 +90,36 @@ public class EasyJaSub {
 	private void writeIdxFile(EasyJaSubInput command,
 			EasyJaSubObserver observer, SubtitleList s, File bdnFolder) {
 		File file = command.getOutputIdxFile();
-		File folder = createFolder(file.getParentFile());
-		// TODO Core.timestampsStr = s.getIdxTimestamps();
-		observer.onWriteIdxFileStart(file);
-		// TODO output file
-		new BDSup2SubWrapper().toIdx(bdnFolder, command.getBdnXmlFile(), folder, file, command.getWidth());
-		observer.onWriteIdxFileEnd(file);
+		File bdnFile = command.getBdnXmlFile();
+		if (file != null && bdnFile != null && !file.exists()) {
+			// TODO Core.timestampsStr = s.getIdxTimestamps();
+			observer.onWriteIdxFileStart(file, bdnFile);
+			// TODO create folders for output file
+			// TODO output file
+			new BDSup2SubWrapper().toIdx(bdnFile, file, command.getWidth());
+			observer.onWriteIdxFileEnd(file);
+		}
+		else {
+			observer.onWriteIdxFileSkipped(file, bdnFile);
+		}
 	}
 
 	private void writeBdmXmlFile(EasyJaSubInput command,
 			EasyJaSubObserver observer, SubtitleList s)
 			throws EasyJaSubException {
 		File f = command.getBdnXmlFile();
-		observer.onWriteBdnXmlFileStart(f);
-		try {// TODO fps 
-			new SubtitleListBdmXmlFileWriter(command, 23.976, "23.976", "720p").writeBDM(s, f);
-			observer.onWriteBdnXmlFileEnd(f);
+		if (!f.exists()) {
+			observer.onWriteBdnXmlFileStart(f);
+			try {// TODO fps 
+				new SubtitleListBdmXmlFileWriter(command, 23.976, "23.976", "720p").writeBDM(s, f);
+				observer.onWriteBdnXmlFileEnd(f);
+			}
+			catch (IOException ex) {
+				observer.onWriteBdnXmlFileIOError(f, ex);
+			}
 		}
-		catch (IOException ex) {
-			observer.onWriteBdnXmlFileIOError(f, ex);
+		else {
+			observer.onWriteBdnXmlFileSkipped(f);
 		}
 	}
 
@@ -138,7 +153,7 @@ public class EasyJaSub {
 			File htmlFolder, String cssFileUrl) throws EasyJaSubException {
 		observer.onWriteHtmlStart(htmlFolder, cssFileUrl);
 		try {
-			new SubtitleListHtmlFilesWriter(htmlFolder, cssFileUrl).writeHtmls(s);
+			new SubtitleListHtmlFilesWriter(htmlFolder, cssFileUrl, observer).writeHtmls(s);
 			observer.onWriteHtmlEnd(htmlFolder);
 		}
 		catch (IOException ex) {
@@ -158,6 +173,9 @@ public class EasyJaSub {
 		    catch (IOException ex) {
 		    	observer.onWriteCssIOError(cssFile, ex);
 		    }
+		}
+		else {
+			observer.onWriteCssSkipped(cssFile);
 		}
 		String cssFileUrl = cssFile.toURI().toString();
 		return cssFileUrl;
@@ -183,6 +201,9 @@ public class EasyJaSub {
 		    	observer.onReadTranslatedSubtitlesParseError(enF, ex);
 		    }
 		}
+		else {
+		    observer.onReadTranslatedSubtitlesSkipped(enF);
+		}
 	}
 
 	private void parseNihongoJTalkFile(EasyJaSubInput command,
@@ -202,13 +223,19 @@ public class EasyJaSub {
 				observer.onInputNihongoJTalkHtmlFileParseError(f, ex);
 			}
 		}
+		else {
+			observer.onInputNihongoJTalkHtmlFileParseSkipped(f);
+		}
 	}
 
 	private void writeOutputJapaneseTextFile(EasyJaSubInput command,
 			EasyJaSubObserver observer, SubtitleList s)
 			throws EasyJaSubException {
 		File txtFile = command.getOutputJapaneseTextFile();
-		if (txtFile != null) {
+		if (txtFile == null || txtFile.exists()) {
+			observer.onWriteOutputJapaneseTextFileSkipped(txtFile);
+		}
+		else {
 			observer.onWriteOutputJapaneseTextFileStart(txtFile);
 			try {
 				new SubtitleListJapaneseTextFileWriter().write(s, txtFile);

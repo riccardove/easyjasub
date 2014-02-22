@@ -14,19 +14,27 @@ import org.rendersnake.Renderable;
 class SubtitleListHtmlFilesWriter {
 	private final File htmlFolder;
 	private final String cssFile;
+	private EasyJaSubObserver observer;
 
-	public SubtitleListHtmlFilesWriter(File htmlFolder, String cssFileUrl){
+	public SubtitleListHtmlFilesWriter(File htmlFolder, String cssFileUrl, EasyJaSubObserver observer){
 		this.htmlFolder = htmlFolder;
 		this.cssFile = cssFileUrl;
+		this.observer = observer;
 	}
 
 	public void writeHtmls(SubtitleList s) throws IOException{
 		ArrayList<FileWriter> writers = new ArrayList<FileWriter>(s.size());
 		for (SubtitleLine l : s) {
-			String htmlStr = toHtml(l, cssFile);
-			
 			File file = new File(htmlFolder, l.getHtmlFile());
-			writers.add(toFile(htmlStr, file));
+			if (!file.exists()) {
+				observer.onWriteHtmlFile(file);
+				String htmlStr = toHtml(l, cssFile);
+				
+				writers.add(toFile(htmlStr, file));
+			}
+			else {
+				observer.onWriteHtmlFileSkipped(file);
+			}
 		}
 		for (FileWriter writer : writers) {
 			writer.close();

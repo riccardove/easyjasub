@@ -15,10 +15,12 @@ public class EasyJaSubCommandLineApp {
 		if (!commandLine.parse(args)) {
 			errorStream.println("Command invocation error:");
 			errorStream.println(commandLine.getMessage());
+			errorStream.flush();
 			return -1;
 		}
 		if (commandLine.isHelp()) {
 			commandLine.printHelp(outputStream);
+			outputStream.flush();
 			return 0;
 		}
 		EasyJaSubInputFromCommand input = null;
@@ -34,11 +36,21 @@ public class EasyJaSubCommandLineApp {
 			printFile(outputStream, "Japanese text file: ", input.getOutputJapaneseTextFile());
 			printFile(outputStream, "BDN XML file: ", input.getBdnXmlFile());
 			printFile(outputStream, "IDX file: ", input.getOutputIdxFile());
+			outputStream.flush();
 		}
-		catch (Exception ex) {
+		catch (EasyJaSubException ex) {
 			errorStream.println("Command error:");
 			errorStream.println(ex.getMessage());
+			errorStream.flush();
 			return -2;
+		}
+		catch (Exception ex) {
+			errorStream.println("Unexpected command error:");
+			errorStream.println(ex.getMessage());
+			ex.printStackTrace(errorStream);
+			errorStream.println("This error may be a problem in the program, please report it.");
+			errorStream.flush();
+			return -100;
 		}
 		try {
 			return new EasyJaSub().run(input, new EasyJaSubConsole(outputStream, errorStream));
@@ -46,12 +58,15 @@ public class EasyJaSubCommandLineApp {
 		catch (EasyJaSubException ex) {
 			errorStream.println("Execution error:");
 			errorStream.println(ex.getMessage());
+			errorStream.flush();
 			return -3;
 		}
 		catch (Exception ex) {
 			errorStream.println("Unexpected error:");
 			errorStream.println(ex.getMessage());
+			ex.printStackTrace(errorStream);
 			errorStream.println("This error may be a problem in the program, please report it.");
+			errorStream.flush();
 			return -100;
 		}
 	}

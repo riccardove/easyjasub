@@ -42,7 +42,7 @@ public interface EasyJaSubObserver {
 
 	void onWriteBdnXmlFileEnd(File f);
 
-	void onWriteIdxFileStart(File file);
+	void onWriteIdxFileStart(File file, File bdnFile);
 
 	void onWriteIdxFileEnd(File file);
 
@@ -83,4 +83,22 @@ public interface EasyJaSubObserver {
 	void onTranslatedSubDuplicated(String content, int mSeconds, int startTime);
 
 	void onInputNihongoJTalkHtmlLine(SubtitleLine line);
+
+	void onWriteOutputJapaneseTextFileSkipped(File txtFile);
+
+	void onInputNihongoJTalkHtmlFileParseSkipped(File f);
+
+	void onReadTranslatedSubtitlesSkipped(File enF);
+
+	void onWriteCssSkipped(File cssFile);
+
+	void onWriteHtmlFile(File file);
+
+	void onWriteHtmlFileSkipped(File file);
+
+	void onWriteBdnXmlFileSkipped(File f);
+
+	void onWriteImageSkipped(File pngFile, File file);
+
+	void onWriteIdxFileSkipped(File file, File bdnFile);
 }
