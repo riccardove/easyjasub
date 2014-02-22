@@ -13,13 +13,13 @@ public class EasyJaSubCommandLineTest extends TestCase {
 			new PrintWriter(NullOutputStream.NULL_OUTPUT_STREAM);
 	
 	@Test
-	public void printHelp() {
+	public void testPrintHelp() {
 		EasyJaSubCommandLine cm = new EasyJaSubCommandLine();
 		cm.printHelp(NULL_WRITER);
 	}
 
 	@Test
-	public void parseHelp() {
+	public void testParseHelp() {
 		EasyJaSubCommandLine cm = new EasyJaSubCommandLine();
 		cm.parse(new String[] { "-h"});
 		assertTrue(cm.isHelp());
@@ -27,7 +27,7 @@ public class EasyJaSubCommandLineTest extends TestCase {
 	}
 
 	@Test
-	public void getVideoFileName() {
+	public void testGetVideoFileName() {
 		EasyJaSubCommandLine cm = new EasyJaSubCommandLine();
 		cm.parse(new String[] { "-v", "VFFF"});
 		assertNull("VFFF", cm.getVideoFileName());

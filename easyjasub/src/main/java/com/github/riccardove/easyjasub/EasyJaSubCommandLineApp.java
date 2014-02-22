@@ -23,7 +23,17 @@ public class EasyJaSubCommandLineApp {
 		}
 		EasyJaSubInputFromCommand input = null;
 		try {
-			new EasyJaSubInputFromCommand(commandLine);
+			input = new EasyJaSubInputFromCommand(commandLine);
+			outputStream.println("Processing " + input.getDefaultFileNamePrefix());
+			printFile(outputStream, "Video file: ", input.getVideoFile());
+			printFile(outputStream, "Japanese subtitles file: ", input.getJapaneseSubFile());
+			printFile(outputStream, "Translated subtitles file: ", input.getTranslatedSubFile());
+			printFile(outputStream, "nihongo.j/talk.com file: ", input.getNihongoJtalkHtmlFile());
+			printFile(outputStream, "CSS file: ", input.getCssFile());
+			printFile(outputStream, "HTML intermediate directory: ", input.getOutputHtmlDirectory());
+			printFile(outputStream, "Japanese text file: ", input.getOutputJapaneseTextFile());
+			printFile(outputStream, "BDN XML file: ", input.getBdnXmlFile());
+			printFile(outputStream, "IDX file: ", input.getOutputIdxFile());
 		}
 		catch (Exception ex) {
 			errorStream.println("Command error:");
@@ -43,6 +53,18 @@ public class EasyJaSubCommandLineApp {
 			errorStream.println(ex.getMessage());
 			errorStream.println("This error may be a problem in the program, please report it.");
 			return -100;
+		}
+	}
+	
+	private static void printFile(PrintWriter outputStream, String message, File file)
+			throws IOException{
+		if (file != null) {
+			outputStream.print(message);
+			outputStream.print(file.getCanonicalPath());
+			if (!file.exists()) {
+				outputStream.print('*');
+			}
+			outputStream.println();
 		}
 	}
 }

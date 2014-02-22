@@ -12,7 +12,6 @@ public class SubtitleListTranslatedSubFileReaderTest {
 	public void test() throws Exception {
 		SubtitleList s = new SubtitleList("test");
 
-		System.out.println(SystemProperty.getUserDir());
 		File fileJa = new File("samples\\sample1.ja.ass");
 		assertTrue(fileJa.exists());
 		new SubtitleListJapaneseSubFileReader().

@@ -11,6 +11,7 @@ import org.apache.commons.io.FilenameUtils;
  * Checks input commands and determines valid program input using some heuristic
  */
 class EasyJaSubInputFromCommand implements EasyJaSubInput {
+
 	private static void checkFile(String fileName, File file) throws EasyJaSubException {
 		if (!file.exists()) {
 			throw new EasyJaSubException("File " + fileName + " does not exist");
@@ -31,12 +32,12 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			}
 			throw new EasyJaSubException("Output file " + fileName + " already exists");
 		}
-		File directory = null;
+		File directory = file;
 		do {
-			directory = file.getParentFile();
+			directory = directory.getParentFile();
 		}
-		while (!directory.exists());
-		if (!directory.canWrite()) {
+		while (directory != null && !directory.exists());
+		if (directory != null && !directory.canWrite()) {
 			throw new EasyJaSubException("Can not write on " + directory.getAbsolutePath() + " to create " + fileName);
 		}
 	}
@@ -52,7 +53,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			if (!isTextContentType(file)) {
-				throw new EasyJaSubException("File " + fileName + " does not seem to be text");
+				throw new EasyJaSubException("File " + fileName + " does not seem to be text, type is " + probeContentType(file));
 			}
 			if (!isSubExtension(getExtension(file))) {
 				throw new EasyJaSubException("File " + fileName + " does not have a valid subtitle file extension");
@@ -178,7 +179,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			if (!isTextContentType(file)) {
-				throw new EasyJaSubException("File " + fileName + " does not seem to be text");
+				throw new EasyJaSubException("File " + fileName + " does not seem to be text, type is " + probeContentType(file));
 			}
 			if (!isSubExtension(getExtension(file))) {
 				throw new EasyJaSubException("File " + fileName + " does not have a valid subtitle file extension");
@@ -211,7 +212,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			if (!isVideoContentType(file)) {
-				throw new EasyJaSubException("File " + fileName + " does not seem to be video");
+				throw new EasyJaSubException("File " + fileName + " does not seem to be video, type is " + probeContentType(file));
 			}
 			return file;
 		}
@@ -259,12 +260,13 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 	
 	private static boolean isHtmlContentType(File file) {
-		return "text/html".equals(probeContentType(file));
+		String type = probeContentType(file);
+		return type == null || "text/html".equals(type);
 	}
 
 	private static boolean isCssContentType(File file) {
 		String type = probeContentType(file);
-		return "text/css".equals(type) || "text/plain".equals(type);
+		return type == null || "text/css".equals(type) || "text/plain".equals(type);
 	}
 
 	private static boolean isSubExtension(String ext) {
@@ -272,12 +274,13 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static boolean isTextContentType(File file) {
-		return "text/plain".equals(probeContentType(file));
+		String type = probeContentType(file);
+		return type == null || "text/plain".equals(type);
 	}
 
 	private static boolean isVideoContentType(File file) {
 		String type = probeContentType(file);
-		return type != null && type.startsWith("video/");
+		return type == null || type.startsWith("video/");
 	}
 
 	private static boolean isVideoExtension(String ext) {
@@ -342,8 +345,15 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		cssFile = getCssFile(command, outputHtmlDirectory, defaultFileList);
 		exactMatchTimeDiff = getTimeDiff(command.getExactMatchTimeDiff(), 2000);
 		approxMatchTimeDiff = getTimeDiff(command.getApproxMatchTimeDiff(), 500);
+		defaultFileNamePrefix = defaultFileList.getDefaultFileNamePrefix();
 	}
+
+	private final String defaultFileNamePrefix;
 	
+	public String getDefaultFileNamePrefix() {
+		return defaultFileNamePrefix;
+	}
+
 	@Override
 	public File getBdnXmlFile() {
 		return bdmXmlFile;
@@ -376,21 +386,19 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			if (!isHtmlContentType(file)) {
-				throw new EasyJaSubException("File " + fileName + " does not seem to be HTML");
+				throw new EasyJaSubException("File " + fileName + " does not seem to be HTML, type is " + probeContentType(file));
 			}
 			return file;
 		}
 		for (File file : defaultFileList) {
 			String extension = getExtension(file);
-			
-
 			if ((extension == "HTML" ||
 				extension == "HTM") &&
 				isTextContentType(file)) {
 				return file;
 			}
 		}
-		throw new EasyJaSubException("Could not find any HTML file");
+		return null;
 	}
 
 	private static File getCssFile(EasyJaSubInputCommand command,
@@ -402,7 +410,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			if (file.exists()) {
 				checkFile(fileName, file);
 				if (!isCssContentType(file)) {
-					throw new EasyJaSubException("File " + fileName + " does not seem to be CSS");
+					throw new EasyJaSubException("File " + fileName + " does not seem to be CSS, type is " + probeContentType(file));
 				}
 			}
 			return file;
@@ -415,7 +423,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		}
 		return new File(htmlDirectory, defaultFileList.getDefaultFileNamePrefix() + ".css");
 	}
-
+	
 	@Override
 	public File getOutputHtmlDirectory() {
 		return outputHtmlDirectory;
@@ -474,5 +482,15 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	@Override
 	public int getApproxMatchTimeDiff() {
 		return approxMatchTimeDiff;
+	}
+
+	@Override
+	public int getWidth() {
+		return 1280; // TODO
+	}
+
+	@Override
+	public int getHeight() {
+		return 720; // TODO
 	}
 }

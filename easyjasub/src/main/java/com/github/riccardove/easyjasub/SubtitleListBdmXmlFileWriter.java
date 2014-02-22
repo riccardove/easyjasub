@@ -12,8 +12,18 @@ import javax.imageio.stream.FileImageInputStream;
 
 
 class SubtitleListBdmXmlFileWriter {
-	public SubtitleListBdmXmlFileWriter() 
+	private final EasyJaSubInput command;
+	private final double fps;
+	private final String fpsStr;
+	private String videoFormat;
+
+	public SubtitleListBdmXmlFileWriter(EasyJaSubInput command,
+			double fps, String fpsStr, String videoFormat) throws EasyJaSubException
 	{
+		this.command = command;
+		this.fps = fps;
+		this.fpsStr = fpsStr;
+		this.videoFormat = videoFormat;
 		ir = getImageReader();
 	}
 	
@@ -28,18 +38,17 @@ class SubtitleListBdmXmlFileWriter {
 		writeln("<Description>");
 		writeln("  <Name Title=\"" + s.getTitle() + "\" Content=\"\"/>");
 		writeln("  <Language Code=\"jpn\" />");
-		writeln("  <Format VideoFormat=\"720p\" FrameRate=\"23.976\" DropFrame=\"False\" />");
-		String firstTC = s.first().getInTC();
-		String lastTC = s.last().getOutTC();
+		writeln("  <Format VideoFormat=\"" + videoFormat + "\" FrameRate=\"" + fpsStr + "\" DropFrame=\"False\" />");
+		String firstTC = getTimeStamp(s.first().getStartTime());
+		String lastTC = getTimeStamp(s.last().getEndTime());
 		writeln("  <Events Type=\"Graphic\" FirstEventInTC=\"" + firstTC + "\" LastEventOutTC=\"" + lastTC + "\"");
 // ContentInTC=\"" + firstTC + "\" ContentOutTC=\"" + lastTC + "\"
 		writeln("    NumberofEvents=\"" + s.size() + "\" />");
 		writeln("</Description>");
 		writeln("<Events>");
 
-
-		int videoWidth = s.getWidth();
-		int videoHeight = s.getHeight();
+		int videoWidth = command.getWidth();
+		int videoHeight = command.getHeight();
 		for (SubtitleLine l : s) {
 			File imageFile = new File(file.getParentFile(), l.getPngFile());
 			if (!imageFile.canRead()) {
@@ -52,8 +61,8 @@ class SubtitleListBdmXmlFileWriter {
 			ir.setInput(null);
 			is.close();
 
-			String inTC = l.getInTC();
-			String outTC = l.getOutTC();
+			String inTC = getTimeStamp(l.getStartTime());
+			String outTC = getTimeStamp(l.getEndTime());
 
 			int x = (videoWidth - width) / 2;
 			int y = (videoHeight - height - 20);
@@ -68,10 +77,37 @@ class SubtitleListBdmXmlFileWriter {
 		f.close();
 	}
 
-	private ImageReader getImageReader() {
+	private String getTimeStamp(int mseconds) {
+		StringBuffer time = new StringBuffer(20);
+		int h, m, s, f;
+		String aux;
+		//now we concatenate time
+		h =  mseconds/3600000;
+		aux = String.valueOf(h);
+		if (aux.length()==1) time.append('0');
+		time.append(aux);
+		time.append(':');
+		m = (mseconds/60000)%60;
+		aux = String.valueOf(m);
+		if (aux.length()==1) time.append('0');
+		time.append(aux);
+		time.append(':');
+		s = (mseconds/1000)%60;
+		aux = String.valueOf(s);
+		if (aux.length()==1) time.append('0');
+		time.append(aux);
+		time.append(':');
+		f = (mseconds%1000)*(int)fps/1000;
+		aux = String.valueOf(f);
+		if (aux.length()==1) time.append('0');
+		time.append(aux);
+		return time.toString();
+	}
+	
+	private ImageReader getImageReader() throws EasyJaSubException {
 		Iterator<ImageReader> ir = ImageIO.getImageReadersBySuffix("png");
 		if (!ir.hasNext()) {
-			throw new NullPointerException("Can not read png files");
+			throw new EasyJaSubException("Can not read png files");
 		}
 		return ir.next();
 	}

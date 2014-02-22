@@ -6,14 +6,19 @@ import java.util.LinkedList;
 
 class SubtitleListPngFilesWriter {
 	
-	public SubtitleListPngFilesWriter(String command) {
+	private final EasyJaSubObserver observer;
+	private final int width;
+
+	public SubtitleListPngFilesWriter(String command, int width,
+			EasyJaSubObserver observer) {
+		this.width = width;
+		this.observer = observer;
 		wkhtmltoimageexe = new WkHtmlToImageProcessBuilder(command);
 	}
 	
 	private final WkHtmlToImageProcessBuilder wkhtmltoimageexe;
 	
-	public void writeImages(SubtitleList s, File htmlFolder, File pngFolder, int width,
-			EasyJaSubObserver observer) throws IOException, InterruptedException, WkhtmltoimageException 
+	public void writeImages(SubtitleList s, File htmlFolder, File pngFolder) throws IOException, InterruptedException, WkhtmltoimageException 
 	{
 		int result  = 0;
 		LinkedList<Process> processes = new LinkedList<Process>();

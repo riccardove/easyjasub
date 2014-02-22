@@ -58,8 +58,6 @@ public class SubtitleList implements Iterable<SubtitleLine>, Renderable {
 	public Iterator<SubtitleLine> iterator() {
 		return lines.iterator();
 	}
-
-	private int width;
 	
 	public int size() {
 		return lines.size();
@@ -95,24 +93,6 @@ public class SubtitleList implements Iterable<SubtitleLine>, Renderable {
 	
 	public String getTitle() {
 		return title;
-	}
-
-	private int height;
-	
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
 	}
 
 	public void setJapaneseSubWarnings(String warnings) {

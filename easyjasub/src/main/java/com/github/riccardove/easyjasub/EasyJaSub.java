@@ -19,9 +19,6 @@ public class EasyJaSub {
 //		    s.setWidth(1366);
 //		    s.setHeight(768);
 //            return "720p (1280x720)";
-
-		s.setWidth(1280);
-		s.setHeight(720);
 		
 		if (phases == null 
 				|| phases.contains(Phases.Html)
@@ -93,7 +90,7 @@ public class EasyJaSub {
 		// TODO Core.timestampsStr = s.getIdxTimestamps();
 		observer.onWriteIdxFileStart(file);
 		// TODO output file
-		new BDSup2SubWrapper().toIdx(bdnFolder, command.getBdnXmlFile(), folder, file, s.getWidth());
+		new BDSup2SubWrapper().toIdx(bdnFolder, command.getBdnXmlFile(), folder, file, command.getWidth());
 		observer.onWriteIdxFileEnd(file);
 	}
 
@@ -102,8 +99,8 @@ public class EasyJaSub {
 			throws EasyJaSubException {
 		File f = command.getBdnXmlFile();
 		observer.onWriteBdnXmlFileStart(f);
-		try {
-			new SubtitleListBdmXmlFileWriter().writeBDM(s, f);
+		try {// TODO fps 
+			new SubtitleListBdmXmlFileWriter(command, 23.976, "23.976", "720p").writeBDM(s, f);
 			observer.onWriteBdnXmlFileEnd(f);
 		}
 		catch (IOException ex) {
@@ -115,14 +112,14 @@ public class EasyJaSub {
 			EasyJaSubObserver observer, SubtitleList s, File htmlFolder,
 			File bdnFolder) throws EasyJaSubException {
 		String wkhtml = command.getWkhtmltoimageFile();
-		int width = s.getWidth();
+		int width = command.getWidth();
 		observer.onWriteImagesStart(wkhtml, htmlFolder, bdnFolder, width);
 		try {
 			if (wkhtml != null) {
-			    new SubtitleListPngFilesWriter(wkhtml).writeImages(s, htmlFolder, bdnFolder, width, observer);
+			    new SubtitleListPngFilesWriter(wkhtml, width, observer).writeImages(s, htmlFolder, bdnFolder);
 			}
 			else {
-			    new SubtitleListPngFilesJavaWriter().writeImages(s, htmlFolder, bdnFolder, width, observer);
+			    new SubtitleListPngFilesJavaWriter(width, observer).writeImages(s, htmlFolder, bdnFolder);
 			}
 			observer.onWriteImagesEnd(wkhtml, htmlFolder, bdnFolder);
 		}

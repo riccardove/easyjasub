@@ -2,19 +2,25 @@ package com.github.riccardove.easyjasub;
 
 import gui.ava.html.image.generator.HtmlImageGenerator;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 
 class SubtitleListPngFilesJavaWriter {
 	
-	public SubtitleListPngFilesJavaWriter() {
+	private final EasyJaSubObserver observer;
+
+	public SubtitleListPngFilesJavaWriter(int width,
+			EasyJaSubObserver observer) {
+		this.observer = observer;
 		imageGenerator = new HtmlImageGenerator();
+		imageGenerator.setSize(new Dimension(width, MaxHeight));
 	}
 
+	private static final int MaxHeight = 1000;
 	private final HtmlImageGenerator imageGenerator;
 
-	public void writeImages(SubtitleList s, File htmlFolder, File pngFolder, int width,
-			EasyJaSubObserver observer) throws IOException, InterruptedException 
+	public void writeImages(SubtitleList s, File htmlFolder, File pngFolder) throws IOException, InterruptedException 
 	{
 		for (SubtitleLine l : s) {
 			

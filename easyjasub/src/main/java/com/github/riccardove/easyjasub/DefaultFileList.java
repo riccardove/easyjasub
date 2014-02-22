@@ -7,23 +7,18 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.io.FilenameUtils;
-
 class DefaultFileList implements Iterable<File> {
 	private EasyJaSubInputCommand command;
 
 	public DefaultFileList(EasyJaSubInputCommand command) {
 		this.command = command;
-		
+		defaultFileNamePrefix = getDefaultFileNamePrefix(command);
 	}
 	
 	private List<File> list;
-	private String defaultFileNamePrefix;
+	private final String defaultFileNamePrefix;
 	
 	public String getDefaultFileNamePrefix() {
-		if (defaultFileNamePrefix == null) {
-			defaultFileNamePrefix = getDefaultFileNamePrefix(command);
-		}
 		return defaultFileNamePrefix;
 	}
 	
@@ -39,9 +34,16 @@ class DefaultFileList implements Iterable<File> {
 			fileName = command.getNihongoJtalkHtmlFileName();
 		}
 		if (fileName != null) {
-			return FilenameUtils.getBaseName(fileName);
+			int pathSeparatorIndex = fileName.lastIndexOf(File.separatorChar);
+			if (pathSeparatorIndex >= 0) {
+				fileName = fileName.substring(pathSeparatorIndex+1);
+			}
+			int extensionSeparatorIndex = fileName.indexOf('.');
+			if (extensionSeparatorIndex > 0) {
+				fileName = fileName.substring(0, extensionSeparatorIndex);
+			}
 		}
-		return null;
+		return fileName;
 	}
 	
 	private static List<File> getDefaultDirectories(EasyJaSubInputCommand command) {
@@ -118,6 +120,20 @@ class DefaultFileList implements Iterable<File> {
 			}
 		}
 		return list.iterator();
+	}
+
+	@Override
+	public String toString() {
+		return getDefaultFilesStr(list);
+	}
+
+	private static String getDefaultFilesStr(Iterable<File> defaultFileList) {
+		StringBuffer result = new StringBuffer();
+		for (File file : defaultFileList) {
+			result.append(file.getAbsolutePath());
+			result.append(SystemProperty.getLineSeparator());
+		}
+		return result.toString();
 	}
 
 }

@@ -40,4 +40,7 @@ public interface EasyJaSubInput {
 
 	public abstract int getApproxMatchTimeDiff();
 
+	public abstract int getWidth();
+
+	public abstract int getHeight();
 }

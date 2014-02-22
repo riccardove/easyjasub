@@ -38,4 +38,8 @@ public interface EasyJaSubInputCommand {
 
 	public abstract String getApproxMatchTimeDiff();
 
+	int getHeight();
+
+	int getWidth();
+
 }
