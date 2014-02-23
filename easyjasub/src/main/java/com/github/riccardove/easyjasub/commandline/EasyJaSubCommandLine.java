@@ -218,8 +218,8 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 		}
 	}
 
-	public void printHelp(PrintWriter stream) {
-		list.printHelp(stream, null, null);
+	public void printHelp(PrintWriter stream, String usage) {
+		list.printHelp(stream, usage, null, null);
 	}
 
 	@Override

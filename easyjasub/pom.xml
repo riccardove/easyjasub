@@ -12,11 +12,10 @@
 	<description>Tool to add furigana and in-line translation to japanese subtitles, for language learning</description>
 
 	<properties>
-		<jremin>1.7.0</jremin>
-		<jremax>1.7.99</jremax>
-		<jreheap>128</jreheap>
-		<jreheapmax>512</jreheapmax>
-		<icon>src/main/resources/com/github/riccardove/easyjasub/icon.ico</icon>
+		<launch4j.jremin>1.7.0</launch4j.jremin>
+		<launch4j.jreheap>128</launch4j.jreheap>
+		<launch4j.jreheapmax>512</launch4j.jreheapmax>
+		<launch4j.icon>src/main/resources/com/github/riccardove/easyjasub/icon32.ico</launch4j.icon>
 		<main.class>com.github.riccardove.easyjasub.App</main.class>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 		<timestamp>${maven.build.timestamp}</timestamp>
@@ -181,12 +180,11 @@
 							<classPath>
 								<mainClass>${main.class}</mainClass>
 							</classPath>
-							<icon>${icon}</icon>
+							<icon>${launch4j.icon}</icon>
 							<jre>
-								<minVersion>${jremin}</minVersion>
-<!-- 								<maxVersion>${jremax}</maxVersion>
- -->								<initialHeapSize>${jreheap}</initialHeapSize>
-								<maxHeapSize>${jreheapmax}</maxHeapSize>
+								<minVersion>${launch4j.jremin}</minVersion>
+								<initialHeapSize>${launch4j.jreheap}</initialHeapSize>
+								<maxHeapSize>${launch4j.jreheapmax}</maxHeapSize>
 							</jre>
 						</configuration>
 					</execution>

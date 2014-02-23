@@ -12,17 +12,17 @@ public class EasyJaSubCommandLineApp {
 	EasyJaSubCommandLine commandLine;
 	
 	public int run(String[] args, PrintWriter outputStream, PrintWriter errorStream) {
-		outputStream.flush();
 		if (!commandLine.parse(args)) {
 			printVersion(errorStream);
 			errorStream.println("Command invocation error:");
 			errorStream.println(commandLine.getMessage());
+			suggestHelp(errorStream);
 			errorStream.flush();
 			return -1;
 		}
 		if (commandLine.isHelp()) {
 			printVersion(outputStream);
-			commandLine.printHelp(outputStream);
+			commandLine.printHelp(outputStream, getCommandSample() + " [options]");
 			outputStream.print("Issues management: ");
 			outputStream.println(EasyJaSubProperty.getIssuesManagementUrl());
 			outputStream.flush();
@@ -31,6 +31,9 @@ public class EasyJaSubCommandLineApp {
 		EasyJaSubInputFromCommand input = null;
 		try {
 			input = new EasyJaSubInputFromCommand(commandLine);
+			if (input.getDefaultFileNamePrefix() == null) {
+				throw new EasyJaSubException("No input file specified");
+			}
 			outputStream.println("Processing " + input.getDefaultFileNamePrefix());
 			printFile(outputStream, "Video file: ", input.getVideoFile());
 			printFile(outputStream, "Japanese subtitles file: ", input.getJapaneseSubFile());
@@ -44,13 +47,18 @@ public class EasyJaSubCommandLineApp {
 			outputStream.flush();
 		}
 		catch (EasyJaSubException ex) {
+			outputStream.println();
+			outputStream.flush();
 			printVersion(errorStream);
 			errorStream.println("Command error:");
 			errorStream.println(ex.getMessage());
+			suggestHelp(errorStream);
 			errorStream.flush();
 			return -2;
 		}
 		catch (Exception ex) {
+			outputStream.println();
+			outputStream.flush();
 			printVersion(errorStream);
 			errorStream.println("Unexpected command error:");
 			errorStream.println(ex.getMessage());
@@ -65,6 +73,8 @@ public class EasyJaSubCommandLineApp {
 			return new EasyJaSub().run(input, new EasyJaSubConsole(outputStream, errorStream));
 		}
 		catch (EasyJaSubException ex) {
+			outputStream.println();
+			outputStream.flush();
 			printVersion(errorStream);
 			errorStream.println("Execution error:");
 			errorStream.println(ex.getMessage());
@@ -72,6 +82,8 @@ public class EasyJaSubCommandLineApp {
 			return -3;
 		}
 		catch (Exception ex) {
+			outputStream.println();
+			outputStream.flush();
 			printVersion(errorStream);
 			errorStream.println("Unexpected error:");
 			errorStream.println(ex.getMessage());
@@ -82,6 +94,18 @@ public class EasyJaSubCommandLineApp {
 			errorStream.flush();
 			return -100;
 		}
+	}
+
+	private void suggestHelp(PrintWriter errorStream) {
+		errorStream.println("Run " + getCommandSample() + " -h for help");
+	}
+
+	private String getCommandSample() {
+		String usage = 
+				EasyJaSubProgramLocation.isExe() ? 
+				EasyJaSubProgramLocation.getName() :		
+				"java -jar " + EasyJaSubProgramLocation.getLocationStr();
+		return usage;
 	}
 
 	private void printVersion(PrintWriter outputStream) {

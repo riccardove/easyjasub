@@ -15,7 +15,7 @@ public class EasyJaSubCommandLineTest extends TestCase {
 	@Test
 	public void testPrintHelp() {
 		EasyJaSubCommandLine cm = new EasyJaSubCommandLine();
-		cm.printHelp(NULL_WRITER);
+		cm.printHelp(NULL_WRITER, "javajar");
 	}
 
 	@Test

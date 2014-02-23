@@ -39,7 +39,8 @@ class CommandLineOptionList {
     }
     
     public void printHelp(PrintWriter stream,
-            String header, String footer) {
+            String usage,
+    		String header, String footer) {
         HelpFormatter formatter = new HelpFormatter();
         formatter.setOptionComparator(new Comparator<Option>() {
             @Override
@@ -48,7 +49,7 @@ class CommandLineOptionList {
             }
         });
         formatter.printHelp(stream, HelpFormatter.DEFAULT_WIDTH,
-        		"java -jar easyjasub [options]", header, options, HelpFormatter.DEFAULT_LEFT_PAD,
+        		usage, header, options, HelpFormatter.DEFAULT_LEFT_PAD,
         		HelpFormatter.DEFAULT_DESC_PAD, footer);
     }
 
