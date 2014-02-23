@@ -300,4 +300,10 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 		
 	}
 
+	@Override
+	public void onReadJapaneseSubtitlesSkipped(File jaF) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

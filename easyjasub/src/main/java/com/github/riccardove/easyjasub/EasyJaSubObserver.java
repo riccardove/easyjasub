@@ -101,4 +101,6 @@ public interface EasyJaSubObserver {
 	void onWriteImageSkipped(File pngFile, File file);
 
 	void onWriteIdxFileSkipped(File file, File bdnFile);
+
+	void onReadJapaneseSubtitlesSkipped(File jaF);
 }

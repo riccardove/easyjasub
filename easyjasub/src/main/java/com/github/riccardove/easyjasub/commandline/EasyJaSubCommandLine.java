@@ -23,7 +23,7 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private static final String TX = "txt";
 	private static final String CSS = "css";
 	private static final String MATCHTIME = "mt";
-	private static final String APPROXTIME = "At";
+	private static final String APPROXTIME = "at";
 
 	public EasyJaSubCommandLine() {
 		list = new CommandLineOptionList();

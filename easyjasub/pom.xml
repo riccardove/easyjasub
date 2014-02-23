@@ -8,10 +8,15 @@
 	<packaging>jar</packaging>
 
 	<name>easyjasub</name>
-	<url>http://maven.apache.org</url>
+	<url>https://github.com/riccardove/easyjasub</url>
 	<description>Tool to add furigana and in-line translation to japanese subtitles, for language learning</description>
 
 	<properties>
+		<jremin>1.7.0</jremin>
+		<jremax>1.7.99</jremax>
+		<jreheap>128</jreheap>
+		<jreheapmax>512</jreheapmax>
+		<icon>src/main/resources/com/github/riccardove/easyjasub/icon.ico</icon>
 		<main.class>com.github.riccardove.easyjasub.App</main.class>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 		<timestamp>${maven.build.timestamp}</timestamp>
@@ -60,17 +65,13 @@
 	</repositories>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
-			<!-- <plugin> <groupId>com.github.github</groupId> <artifactId>downloads-maven-plugin</artifactId> 
-				<version>0.6</version> <configuration> <description>Official ${project.name} 
-				build of the ${project.version} release</description> <override>true</override> 
-				<includeAttached>true</includeAttached> <server>github</server> </configuration> 
-				<executions> <execution> <goals> <goal>upload</goal> </goals> <phase>install</phase> 
-				</execution> </executions> </plugin> <plugin> <groupId>com.github.github</groupId> 
-				<artifactId>site-maven-plugin</artifactId> <version>0.7</version> <configuration> 
-				<message>Building site for ${project.version}</message> <server>github</server> 
-				</configuration> <executions> <execution> <goals> <goal>site</goal> </goals> 
-				<phase>site</phase> </execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
@@ -116,15 +117,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
-				<version>2.9.1</version> <configuration> <quiet>true</quiet> <nonavbar>true</nonavbar> 
-				<notree>true</notree> <nocomment>true</nocomment> <nohelp>true</nohelp> </configuration> 
-				<executions> <execution> <id>attach-javadocs</id> <goals> <goal>jar</goal> 
-				</goals> </execution> </executions> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
-				<artifactId>maven-source-plugin</artifactId> <version>2.2.1</version> <executions> 
-				<execution> <goals> <goal>jar</goal> </goals> </execution> </executions> 
-				</plugin> -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.3</version>
@@ -148,10 +140,58 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-gpg-plugin</artifactId> 
-				<executions> <execution> <id>sign-artifacts</id> <phase>verify</phase> <goals> 
-				<goal>sign</goal> </goals> </execution> </executions> </plugin> -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>latex-maven-plugin</artifactId>
+				<version>1.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<shadedArtifactAttached>true</shadedArtifactAttached>
+					<shadedClassifierName>shaded</shadedClassifierName>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+				<artifactId>launch4j-plugin</artifactId>
+				<version>1.5.0.0</version>
+				<executions>
+					<execution>
+						<id>l4j-cli</id>
+						<phase>package</phase>
+						<goals>
+							<goal>launch4j</goal>
+						</goals>
+						<configuration>
+							<headerType>console</headerType>
+							<outfile>${project.build.directory}/${project.name}.exe</outfile>
+							<jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
+							<errTitle>${project.name} Error</errTitle>
+							<classPath>
+								<mainClass>${main.class}</mainClass>
+							</classPath>
+							<icon>${icon}</icon>
+							<jre>
+								<minVersion>${jremin}</minVersion>
+<!-- 								<maxVersion>${jremax}</maxVersion>
+ -->								<initialHeapSize>${jreheap}</initialHeapSize>
+								<maxHeapSize>${jreheapmax}</maxHeapSize>
+							</jre>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -196,9 +236,7 @@
 			<groupId>com.github.JDaren</groupId>
 			<artifactId>subtitleConvert</artifactId>
 			<version>1.0.1-SNAPSHOT</version>
-<!-- 			<scope>system</scope>
-			<systemPath>${basedir}/lib/subtitleConvert.jar</systemPath>
- -->		</dependency>
+		</dependency>
 	</dependencies>
 
 </project>

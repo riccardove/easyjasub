@@ -298,4 +298,10 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void onReadJapaneseSubtitlesSkipped(File jaF) {
+		// TODO Auto-generated method stub
+		
+	}
 }

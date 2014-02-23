@@ -24,7 +24,7 @@ public class InputNihongoJTalkHtmlFileTest extends TestCase {
 	private class Observer extends FakeEasyJaSubObserver {
 		@Override
 		public void onInputNihongoJTalkHtmlLine(SubtitleLine line) {
-			System.out.println(line.getIndex() + ": " + line.toString());
+			//System.out.println(line.getIndex() + ": " + line.toString());
 		}
 	}
 

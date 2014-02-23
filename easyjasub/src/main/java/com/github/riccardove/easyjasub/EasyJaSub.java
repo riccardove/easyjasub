@@ -164,7 +164,7 @@ public class EasyJaSub {
 	private String createCssFile(EasyJaSubInput command,
 			EasyJaSubObserver observer) throws EasyJaSubException {
 		File cssFile = command.getCssFile();
-		if (!cssFile.exists()) {
+		if (cssFile != null && !cssFile.exists()) {
 			observer.onWriteCssStart(cssFile);
 			try {
 				new SubtitleListCssFileWriter(cssFile).write();
@@ -177,7 +177,7 @@ public class EasyJaSub {
 		else {
 			observer.onWriteCssSkipped(cssFile);
 		}
-		String cssFileUrl = cssFile.toURI().toString();
+		String cssFileUrl = cssFile != null ? cssFile.toURI().toString() : "default.css";
 		return cssFileUrl;
 	}
 
@@ -251,17 +251,22 @@ public class EasyJaSub {
 			EasyJaSubObserver observer, SubtitleList s)
 			throws EasyJaSubException {
 		File jaF = command.getJapaneseSubFile();
-		observer.onReadJapaneseSubtitlesStart(jaF);
-		try {
-		    new SubtitleListJapaneseSubFileReader().readJapaneseSubtitles(s, jaF, 
-		    		command.getJapaneseSubFileType(), observer);
-		    observer.onReadJapaneseSubtitlesEnd(jaF);
+		if (jaF == null) {
+			observer.onReadJapaneseSubtitlesSkipped(jaF);
 		}
-		catch (IOException ex) {
-			observer.onReadJapaneseSubtitlesIOError(jaF, ex);
-		}
-		catch (InputTextSubException ex) {
-			observer.onReadJapaneseSubtitlesParseError(jaF, ex);
+		else {
+			observer.onReadJapaneseSubtitlesStart(jaF);
+			try {
+			    new SubtitleListJapaneseSubFileReader().readJapaneseSubtitles(s, jaF, 
+			    		command.getJapaneseSubFileType(), observer);
+			    observer.onReadJapaneseSubtitlesEnd(jaF);
+			}
+			catch (IOException ex) {
+				observer.onReadJapaneseSubtitlesIOError(jaF, ex);
+			}
+			catch (InputTextSubException ex) {
+				observer.onReadJapaneseSubtitlesParseError(jaF, ex);
+			}
 		}
 	}
 

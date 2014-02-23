@@ -24,6 +24,18 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		}
 	}
 
+	private static void checkDirectory(String fileName, File file) throws EasyJaSubException {
+		if (!file.isDirectory()) {
+			throw new EasyJaSubException(fileName + " is not a directory");
+		}
+		if (!file.canRead()) {
+			throw new EasyJaSubException("Directory " + fileName + " can not be read");
+		}
+		if (!file.canWrite()) {
+			throw new EasyJaSubException("Directory " + fileName + " can not be written");
+		}
+	}
+
 	private static void checkOutputFile(String fileName, File file)
 			throws EasyJaSubException {
 		if (file.exists()) {
@@ -97,9 +109,10 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			file = new File(directory, fileNameBase + ".xml");
 			fileName = file.getAbsolutePath();
 		}
-		checkOutputFile(fileName, file); // TODO accept this file used as input file
+		checkOutputFile(fileName, file);
 		return file;
 	}
+	
 	private static File getOutputHtmlDirectory(EasyJaSubInputCommand command,
 			File outputBdmFile,
 			DefaultFileList defaultFileList) throws EasyJaSubException {
@@ -115,7 +128,12 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		else {
 			directory = new File(defaultFileList.getDefaultFileNamePrefix() + "_html");
 		}
-		// TODO check and accept this file used as input file
+		if (directoryName == null) {
+			directoryName = directory.getAbsolutePath();
+		}
+		if (directory.exists()) {
+			checkDirectory(directoryName, directory);
+		}
 		return directory;
 	}
 
@@ -151,12 +169,19 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			file = new File(fileName);
 		}
 		else {
-			fileNameBase = defaultFileList.getDefaultFileNamePrefix();
-			File directory = videoFile != null ? videoFile.getParentFile() : japaneseSubFile.getParentFile();
-			file = new File(directory, fileNameBase + ".txt");
+			fileNameBase = defaultFileList.getDefaultFileNamePrefix() + ".txt";
+			if (videoFile != null) {
+				file = new File(videoFile.getParentFile(), fileNameBase);
+			}
+			else if (japaneseSubFile != null) {
+				file = new File(japaneseSubFile.getParentFile(), fileNameBase);
+			}
+			else {
+				file = new File(fileNameBase);
+			}
 			fileName = file.getAbsolutePath();
 		}
-		checkOutputFile(fileName, file); // TODO accept this file used as input file
+		checkOutputFile(fileName, file);
 		return file;
 	}
 
