@@ -21,8 +21,6 @@ package com.github.riccardove.easyjasub;
  */
 
 
-import static org.rendersnake.HtmlAttributesFactory.class_;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;

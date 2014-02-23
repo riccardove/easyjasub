@@ -187,7 +187,7 @@ public class EasyJaSub {
 		if (cssFile != null && !cssFile.exists()) {
 			observer.onWriteCssStart(cssFile);
 			try {
-				new SubtitleListCssFileWriter(cssFile).write();
+				new SubtitleListCssFileWriter(cssFile, command).write();
 				observer.onWriteCssEnd(cssFile);
 			}
 		    catch (IOException ex) {

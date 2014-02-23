@@ -137,7 +137,6 @@ class SubtitleListTranslatedSubFileReader {
 				}
 				else {
 					SubtitleLine translationLine = lines.add(i);
-					translationLine.setCaption(enCaption);
 					translationLine.setStartTime(enCaption.getStart().getMSeconds());
 					translationLine.setEndTime(enCaption.getEnd().getMSeconds());
 					addTranslation(translationLine, enCaption);

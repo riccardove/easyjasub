@@ -27,12 +27,19 @@ import java.io.IOException;
 
 class SubtitleListCssFileWriter {
 	
-	public SubtitleListCssFileWriter(File file) throws IOException {
+	public SubtitleListCssFileWriter(File file,
+			EasyJaSubInput command) throws IOException {
 		writer = new FileWriter(file);
+		hiraganaFont = command.getCssHiraganaFont();
+		kanjiFont = command.getCssKanjiFont();
+		translationFont = command.getCssTranslationFont();
 	}
 	
 	private static final String LineSeparator = SystemProperty.getLineSeparator();
 	private final FileWriter writer;
+	private final String hiraganaFont;
+	private final String kanjiFont;
+	private final String translationFont;
 	
 	private void w(String line) throws IOException {
 		writer.write(line);
@@ -54,7 +61,9 @@ class SubtitleListCssFileWriter {
 		w("p {");
 		w("	margin-left: auto;");
 		w("	margin-right: auto;");
-		w("	font-family: arial;");
+		if (translationFont != null) {
+			w("	font-family: " + translationFont + ";");
+		}
 		w("	font-size: 14pt;");
 		w("}");
 		w();
@@ -66,12 +75,16 @@ class SubtitleListCssFileWriter {
 		w();
 		w("tr.top {");
 		w("	letter-spacing: -2px;");
-		w("	font-family: cinecaption;");
+		if (hiraganaFont != null) {
+			w("	font-family: " + hiraganaFont + ";");
+		}
 		w("	font-size: 18pt;");
 		w("}");
 		w();
 		w("tr.bottom {");
-		w("	font-family: arial;");
+		if (translationFont != null) {
+			w("	font-family: " + translationFont + ";");
+		}
 		w("	font-size: 12pt;");
 		w("	letter-spacing: 3px;");
 		w("}");
@@ -82,7 +95,9 @@ class SubtitleListCssFileWriter {
 		w("}");
 		w();
 		w("tr.translation {");
-		w("	font-family: arial;");
+		if (translationFont != null) {
+			w("	font-family: " + translationFont + ";");
+		}
 		w("	font-size: 12pt;");
 		w("	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;");
 		w("	letter-spacing: 1px;");
@@ -93,13 +108,17 @@ class SubtitleListCssFileWriter {
 		w("}");
 		w();
 		w("tr {");
-		w("	font-family: cinecaption;");
+		if (hiraganaFont != null) {
+			w("	font-family: " + hiraganaFont + ";");
+		}
 		w("	font-size: 25pt;");
 		w("}");
 		w();
 		w("span.kk {");
 		w("	letter-spacing: -6px;");
-		w("	font-family: GT2000-01;");
+		if (kanjiFont != null) {
+			w("	font-family: " + kanjiFont + ";");
+		}
 		w("	font-size: 40pt;");
 		w("	margin-left: 0;");
 		w("	margin-right: 0;");

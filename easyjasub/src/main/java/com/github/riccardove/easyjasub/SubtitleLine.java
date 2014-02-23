@@ -147,21 +147,6 @@ public class SubtitleLine implements Renderable {
 	public String getPngFile() {
 		return pngFile;
 	}
-
-	private InputTextSubCaption caption;
-	
-	public String getInTC() {
-		return caption.getStart().getBDMTime();
-	}
-	
-	public String getOutTC() {
-		return caption.getEnd().getBDMTime();
-	}
-	
-	@Deprecated
-	public void setCaption(InputTextSubCaption next) {
-		caption = next;
-	}
 	
 	// TODO: be a class
 	private static final HashMap<String, String> matches = new HashMap<String, String>();

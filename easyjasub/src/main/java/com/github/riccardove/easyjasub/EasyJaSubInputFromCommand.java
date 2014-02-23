@@ -546,4 +546,22 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	public int getHeight() {
 		return 720; // TODO
 	}
+
+	@Override
+	public String getCssHiraganaFont() {
+		// TODO Auto-generated method stub
+		return "cinecaption,GT2000-01,arial";
+	}
+
+	@Override
+	public String getCssKanjiFont() {
+		// TODO Auto-generated method stub
+		return "GT2000-01,cinecaption,arial";
+	}
+
+	@Override
+	public String getCssTranslationFont() {
+		// TODO Auto-generated method stub
+		return "arial";
+	}
 }

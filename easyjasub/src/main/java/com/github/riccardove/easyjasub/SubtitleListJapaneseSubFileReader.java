@@ -40,7 +40,6 @@ class SubtitleListJapaneseSubFileReader {
 		s.setTitle(subs.getTitle());
 		for (InputTextSubCaption c : subs.getCaptions()) {
 			SubtitleLine line = s.add();
-			line.setCaption(c); // TODO remove
 			line.setStartTime(c.getStart().getMSeconds());
 			line.setEndTime(c.getEnd().getMSeconds());
 			line.setJapaneseSubText(c.getContent());

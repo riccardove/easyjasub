@@ -65,5 +65,11 @@ public interface EasyJaSubInput {
 
 	public abstract int getHeight();
 	
-	String getDefaultFileNamePrefix();
+	public abstract String getDefaultFileNamePrefix();
+
+	public abstract String getCssHiraganaFont();
+
+	public abstract String getCssKanjiFont();
+
+	public abstract String getCssTranslationFont();
 }
