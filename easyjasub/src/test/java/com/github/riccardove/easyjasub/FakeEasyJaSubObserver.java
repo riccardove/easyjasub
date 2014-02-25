@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.xml.sax.SAXException;
 
+import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleLine;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 public class FakeEasyJaSubObserver implements EasyJaSubObserver {
@@ -256,7 +257,7 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlLine(SubtitleLine line) {
+	public void onInputNihongoJTalkHtmlLine(NihongoJTalkSubtitleLine line) {
 		// TODO Auto-generated method stub
 		
 	}

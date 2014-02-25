@@ -1,3 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ~ Copyright (c) 2014 Riccardo Vestrini ~ ~ This program is licensed 
+	to you under the Apache License Version 2.0, ~ and you may not use this file 
+	except in compliance with the Apache License Version 2.0. ~ You may obtain 
+	a copy of the Apache License Version 2.0 at http://www.apache.org/licenses/LICENSE-2.0. 
+	~ ~ Unless required by applicable law or agreed to in writing, ~ software 
+	distributed under the Apache License Version 2.0 is distributed on an ~ "AS 
+	IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
+	implied. ~ See the Apache License Version 2.0 for the specific language governing 
+	permissions and limitations there under. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -14,6 +24,12 @@
 	<name>easyjasub</name>
 	<url>https://github.com/riccardove/easyjasub</url>
 	<description>Tool to add furigana and in-line translation to japanese subtitles, for language learning</description>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 	<properties>
 		<license.licenseName>apache_v2</license.licenseName>
@@ -41,8 +57,8 @@
 	</licenses>
 
 	<scm>
-		<url>https://github.com/riccardove/easyjasub</url>
-		<connection>scm:git:git://github.com/riccardove/easyjasub.git</connection>
+		<url>git@github.com:riccardove/easyjasub.git</url>
+		<connection>scm:git:git@github.com:riccardove/easyjasub.git</connection>
 		<developerConnection>scm:git:git@github.com:riccardove/easyjasub.git</developerConnection>
 	</scm>
 
@@ -213,15 +229,54 @@
 							</goals>
 							<phase>process-sources</phase>
 							<configuration>
-								<licenseName>apache_v2</licenseName>
+								<licenseName>${license.licenseName}</licenseName>
 							</configuration>
 						</execution>
 					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.1</version>
+					<configuration>
+						<mavenExecutorId>forked-path</mavenExecutorId>
+						<useReleaseProfile>false</useReleaseProfile>
+						<arguments>${arguments} -Psonatype-oss-release</arguments>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<dependencies>
 		<dependency>
@@ -233,11 +288,6 @@
 			<groupId>org.rendersnake</groupId>
 			<artifactId>rendersnake</artifactId>
 			<version>1.7.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -258,7 +308,7 @@
 		<dependency>
 			<groupId>bdsup2sub</groupId>
 			<artifactId>bdsup2sub</artifactId>
-			<version>5.2.0-SNAPSHOT</version>
+			<version>5.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.JDaren</groupId>

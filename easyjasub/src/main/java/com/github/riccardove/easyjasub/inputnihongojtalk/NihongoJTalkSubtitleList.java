@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub;
+package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 /*
  * #%L
@@ -29,44 +29,44 @@ import org.apache.commons.lang3.StringUtils;
 import org.rendersnake.HtmlCanvas;
 import org.rendersnake.Renderable;
 
-public class SubtitleList implements Iterable<SubtitleLine>, Renderable {
+public class NihongoJTalkSubtitleList implements Iterable<NihongoJTalkSubtitleLine>, Renderable {
 
-	public SubtitleList(String name) {
-		lines = new ArrayList<SubtitleLine>();
+	public NihongoJTalkSubtitleList(String name) {
+		lines = new ArrayList<NihongoJTalkSubtitleLine>();
 		this.name = name;
 	}
 	private String name;
-	private ArrayList<SubtitleLine> lines;
+	private ArrayList<NihongoJTalkSubtitleLine> lines;
 	
-	public SubtitleLine add() {
-		SubtitleLine line = createSubtitleLine();
+	public NihongoJTalkSubtitleLine add() {
+		NihongoJTalkSubtitleLine line = createSubtitleLine();
 		lines.add(line);
 		return line;
 	}
 	
-	public SubtitleLine add(int index) {
-		SubtitleLine line = createExtraSubtitleLine();
+	public NihongoJTalkSubtitleLine add(int index) {
+		NihongoJTalkSubtitleLine line = createExtraSubtitleLine();
 		lines.add(index, line);
 		return line;
 	}
 	
-	public SubtitleLine get(int index) {
+	public NihongoJTalkSubtitleLine get(int index) {
 		while (lines.size() <= index) {
 			add();
 		}
 		return lines.get(index);
 	}
 
-	private SubtitleLine createSubtitleLine() {
-		SubtitleLine line = new SubtitleLine(++count);
+	private NihongoJTalkSubtitleLine createSubtitleLine() {
+		NihongoJTalkSubtitleLine line = new NihongoJTalkSubtitleLine(++count);
 		String b = name + "_line" +String.format("%04d", line.getIndex());
 		line.setHtmlFile(b + ".html");
 		line.setPngFile(b + ".png");
 		return line;
 	}
 
-	private SubtitleLine createExtraSubtitleLine() {
-		SubtitleLine line = new SubtitleLine(10000 + ++extraCount);
+	private NihongoJTalkSubtitleLine createExtraSubtitleLine() {
+		NihongoJTalkSubtitleLine line = new NihongoJTalkSubtitleLine(10000 + ++extraCount);
 		String b = name + "_eline" +String.format("%05d", line.getIndex());
 		line.setHtmlFile(b + ".html");
 		line.setPngFile(b + ".png");
@@ -76,7 +76,7 @@ public class SubtitleList implements Iterable<SubtitleLine>, Renderable {
 	private int count;
 	private int extraCount;
 
-	public Iterator<SubtitleLine> iterator() {
+	public Iterator<NihongoJTalkSubtitleLine> iterator() {
 		return lines.iterator();
 	}
 	
@@ -84,17 +84,17 @@ public class SubtitleList implements Iterable<SubtitleLine>, Renderable {
 		return lines.size();
 	}
 	
-	public SubtitleLine first() {
+	public NihongoJTalkSubtitleLine first() {
 		return lines.get(0);
 	}
 	
-	public SubtitleLine last() {
+	public NihongoJTalkSubtitleLine last() {
 		return lines.get(lines.size()-1);
 	}
 
 	public void renderOn(HtmlCanvas html) throws IOException {
 		html.div();
-		for (SubtitleLine item : lines) {
+		for (NihongoJTalkSubtitleLine item : lines) {
 			item.renderOn(html);
 		}
 		html._div();

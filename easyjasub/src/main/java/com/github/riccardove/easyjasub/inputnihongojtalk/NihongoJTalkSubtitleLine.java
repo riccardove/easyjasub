@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub;
+package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 /*
  * #%L
@@ -24,25 +24,24 @@ package com.github.riccardove.easyjasub;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Pattern;
+import java.util.List;
 
 import org.rendersnake.HtmlCanvas;
 import org.rendersnake.Renderable;
 
-import com.github.riccardove.easyjasub.inputtextsub.InputTextSubCaption;
+import com.github.riccardove.easyjasub.SubtitleItem;
 
-import subtitleFile.*;
 import static org.rendersnake.HtmlAttributesFactory.class_;
 
-public class SubtitleLine implements Renderable {
+public class NihongoJTalkSubtitleLine implements Renderable {
 
 	private String nihongoJTalkJapaneseText;
-	private ArrayList<SubtitleLineItem> items;
+	private ArrayList<NihongoJTalkSubtitleLineItem> items;
 	private final int index;
 	private String translation;
 	
-	public SubtitleLine(int index) {
-		items = new ArrayList<SubtitleLineItem>();
+	public NihongoJTalkSubtitleLine(int index) {
+		items = new ArrayList<NihongoJTalkSubtitleLineItem>();
 		this.index = index;
 	}
 	
@@ -62,14 +61,24 @@ public class SubtitleLine implements Renderable {
 		return japanese != null;
 	}
 
-	public void addItem(SubtitleLineItem item) {
+	public void addItem(NihongoJTalkSubtitleLineItem item) {
 		item.setIndex(items.size());
 		items.add(item);
 	}
 
-	public SubtitleLineItem getLastItem() 
+	public NihongoJTalkSubtitleLineItem getLastItem() 
 	{
 		return items.get(items.size()-1);
+	}
+	
+	public List<SubtitleItem> toItems() {
+		ArrayList<SubtitleItem> subItems = new ArrayList<SubtitleItem>();
+		for (NihongoJTalkSubtitleLineItem item : items) {
+			SubtitleItem subItem = new SubtitleItem();
+			item.toItem(subItem);
+			subItems.add(subItem);
+		}
+		return subItems;
 	}
 	
 	@Override
@@ -77,7 +86,7 @@ public class SubtitleLine implements Renderable {
 		StringBuilder text = new StringBuilder();
 		text.append(nihongoJTalkJapaneseText);
 		text.append(" - ");
-		for (SubtitleLineItem item : items) {
+		for (NihongoJTalkSubtitleLineItem item : items) {
 			text.append(item.toString());
 		}
 		return text.toString();
@@ -88,25 +97,25 @@ public class SubtitleLine implements Renderable {
 	public void renderOn(HtmlCanvas html) throws IOException {
 		if (isJa()) {
 			html.write(Newline, false).table().write(Newline, false).tr(class_("top")).write(Newline, false);
-			for (SubtitleLineItem item : items) {
+			for (NihongoJTalkSubtitleLineItem item : items) {
 				html.write("  ");
 				item.renderOnTop(html);
 				html.write(Newline, false);
 			}
 			html._tr().write(Newline, false).tr(class_("center")).write(Newline, false);
-			for (SubtitleLineItem item : items) {
+			for (NihongoJTalkSubtitleLineItem item : items) {
 				html.write("  ");
 				item.renderOnCenter(html);
 				html.write(Newline, false);
 			}
 			html._tr().write(Newline, false).tr(class_("bottom")).write(Newline, false);
-			for (SubtitleLineItem item : items) {
+			for (NihongoJTalkSubtitleLineItem item : items) {
 				html.write("  ");
 				item.renderOnBottom(html);
 				html.write(Newline, false);
 			}
 			html._tr().write(Newline, false).tr(class_("translation")).write(Newline, false);
-			for (SubtitleLineItem item : items) {
+			for (NihongoJTalkSubtitleLineItem item : items) {
 				html.write("  ");
 				item.renderOnLast(html);
 				html.write(Newline, false);
@@ -119,7 +128,7 @@ public class SubtitleLine implements Renderable {
 		}
 		if (isJa()) {
 			html.write("<!--" + Newline, false);
-			for (SubtitleLineItem item : items) {
+			for (NihongoJTalkSubtitleLineItem item : items) {
 				String comment = item.getComment();
 				if (comment!=null) {
 					html.write(comment + Newline, false);

@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub;
+package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 /*
  * #%L
@@ -27,12 +27,15 @@ import java.util.regex.Pattern;
 
 import org.rendersnake.HtmlCanvas;
 
+import com.github.riccardove.easyjasub.Grammar;
+import com.github.riccardove.easyjasub.SubtitleItem;
+
 import static org.rendersnake.HtmlAttributesFactory.class_;
 
 
-public class RedSubtitleLineItem  extends TextSubtitleLineItem {
+class RedSubtitleLineItem  extends TextSubtitleLineItem {
 
-	public RedSubtitleLineItem(SubtitleLine subtitleLine, String text, 
+	public RedSubtitleLineItem(NihongoJTalkSubtitleLine subtitleLine, String text, 
 			String pos, String romaji)  
 	{
 		super(subtitleLine, text);
@@ -56,6 +59,13 @@ public class RedSubtitleLineItem  extends TextSubtitleLineItem {
 	protected String romaji;
 	protected String posc;
 
+	@Override
+	public void toItem(SubtitleItem item) {
+		item.setRomaji(romaji);
+		item.setGrammarElement(posc);
+		super.toItem(item);
+	}
+	
 	public void renderOn(HtmlCanvas html) throws IOException {
 		html.span(class_(posc)).write(text)._span();
 	}

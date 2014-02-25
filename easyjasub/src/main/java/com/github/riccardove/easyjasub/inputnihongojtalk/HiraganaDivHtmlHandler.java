@@ -26,16 +26,8 @@ import java.util.Iterator;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import com.github.riccardove.easyjasub.ComplexSubtitleLineItem;
-import com.github.riccardove.easyjasub.DictSubtitleLineItem;
 import com.github.riccardove.easyjasub.EasyJaSubObserver;
-import com.github.riccardove.easyjasub.FuriSubtitleLineItem;
 import com.github.riccardove.easyjasub.JapaneseChar;
-import com.github.riccardove.easyjasub.RedSubtitleLineItem;
-import com.github.riccardove.easyjasub.SubtitleLine;
-import com.github.riccardove.easyjasub.SubtitleLineItem;
-import com.github.riccardove.easyjasub.SubtitleList;
-import com.github.riccardove.easyjasub.TextSubtitleLineItem;
 
 class HiraganaDivHtmlHandler implements SectionHtmlHandler {
 
@@ -49,27 +41,27 @@ class HiraganaDivHtmlHandler implements SectionHtmlHandler {
 	private static final String SPAN_ELEMENT = "span";
 	private static final String SYLN_CLASS = "syln";
 	private static final String TRG_ELEMENT = "trg";
-	private final Iterator<SubtitleLine> iter;
+	private final Iterator<NihongoJTalkSubtitleLine> iter;
 	private String baseText;
 	private String classAttribute;
 	private String dictreadingText;
 	private String englishrubyText;
 	private String lastText;
-	private SubtitleLine line;
+	private NihongoJTalkSubtitleLine line;
 	private String posText;
 	private int span;
 	private boolean trg;
 	private String triggerStr;
 	private final EasyJaSubObserver observer;
 
-	public HiraganaDivHtmlHandler(SubtitleList subtitleList,
+	public HiraganaDivHtmlHandler(NihongoJTalkSubtitleList subtitleList,
 			EasyJaSubObserver observer) {
 		this.observer = observer;
 		iter = subtitleList.iterator();
 		next();
 	}
 
-	private void addNonText(SubtitleLineItem item) {
+	private void addNonText(NihongoJTalkSubtitleLineItem item) {
 		lastText = null;
 		line.addItem(item);
 	}

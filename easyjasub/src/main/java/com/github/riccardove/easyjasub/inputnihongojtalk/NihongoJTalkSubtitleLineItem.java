@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub;
+package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 /*
  * #%L
@@ -26,17 +26,24 @@ import java.io.IOException;
 import org.rendersnake.HtmlCanvas;
 import org.rendersnake.Renderable;
 
-public abstract class SubtitleLineItem  implements Renderable {
+import com.github.riccardove.easyjasub.SubtitleItem;
 
-	protected final SubtitleLine subtitleLine;
+public abstract class NihongoJTalkSubtitleLineItem  implements Renderable {
 
-	protected SubtitleLineItem(SubtitleLine subtitleLine) {
+	protected final NihongoJTalkSubtitleLine subtitleLine;
+
+	protected NihongoJTalkSubtitleLineItem(NihongoJTalkSubtitleLine subtitleLine) {
 		this.subtitleLine = subtitleLine;
 		
 	}
 	
 	protected int index;
 
+	public void toItem(SubtitleItem item) 
+	{
+		
+	}
+	
 	public void renderOnTop(HtmlCanvas html) throws IOException {
 		html.td()._td();
 	}

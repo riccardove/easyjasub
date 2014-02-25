@@ -25,6 +25,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleLine;
+import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleList;
+
 class SubtitleListPngFilesWriter {
 	
 	private final EasyJaSubObserver observer;
@@ -39,12 +42,12 @@ class SubtitleListPngFilesWriter {
 	
 	private final WkHtmlToImageProcessBuilder wkhtmltoimageexe;
 	
-	public void writeImages(SubtitleList s, File htmlFolder, File pngFolder) throws IOException, InterruptedException, WkhtmltoimageException 
+	public void writeImages(NihongoJTalkSubtitleList s, File htmlFolder, File pngFolder) throws IOException, InterruptedException, WkhtmltoimageException 
 	{
 		int result  = 0;
 		LinkedList<Process> processes = new LinkedList<Process>();
 		boolean first = true;
-		for (SubtitleLine l : s) {
+		for (NihongoJTalkSubtitleLine l : s) {
 			
 			File file = new File(htmlFolder, l.getHtmlFile());
 		

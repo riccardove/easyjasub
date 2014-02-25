@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub;
+package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 /*
  * #%L
@@ -24,12 +24,15 @@ package com.github.riccardove.easyjasub;
 import java.io.IOException;
 
 import org.rendersnake.HtmlCanvas;
+
+import com.github.riccardove.easyjasub.SubtitleItem;
+
 import static org.rendersnake.HtmlAttributesFactory.class_;
 
-public class TextSubtitleLineItem extends SubtitleLineItem {
+class TextSubtitleLineItem extends NihongoJTalkSubtitleLineItem {
 	protected String text;
 	
-	public TextSubtitleLineItem(SubtitleLine subtitleLine, String text) {
+	public TextSubtitleLineItem(NihongoJTalkSubtitleLine subtitleLine, String text) {
 		super(subtitleLine);
 		if (text == null) {
 			throw new NullPointerException("Invalid text");
@@ -46,6 +49,15 @@ public class TextSubtitleLineItem extends SubtitleLineItem {
 		return text;
 	}
 
+	@Override
+	public void toItem(SubtitleItem item) {
+		String trimmedText = text.replace('　', ' ').trim();
+		if (trimmedText.length() < text.length()) {
+			trimmedText += "&thinsp;";
+		}
+		super.toItem(item);
+	}
+	
 	public void renderOn(HtmlCanvas html) throws IOException {
 		html.write(text);
 	}

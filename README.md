@@ -36,3 +36,8 @@ http://rendersnake.org is used to produce HTML files
 http://code.google.com/p/wkhtmltopdf/ is used to create the pictures from HTML files
 
 http://sourceforge.jp/projects/chasen-legacy/ ChaSen is used by Kanji Converter
+
+Developer information
+---------------------
+The SonaType OSSRH Maven repository (https://oss.sonatype.org) is used to deploy artifacts
+Snapshots: https://oss.sonatype.org/content/repositories/snapshots/com/github/riccardove/easyjasub/

@@ -26,7 +26,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.github.riccardove.easyjasub.EasyJaSubObserver;
-import com.github.riccardove.easyjasub.SubtitleList;
 
 class InputNihongoJTalkHtmlHandler extends DefaultHandler {
 
@@ -35,13 +34,13 @@ class InputNihongoJTalkHtmlHandler extends DefaultHandler {
 	private static final String TEXTAREA_ELEMENT = "textarea";
 	private final EasyJaSubObserver observer;
 
-	public InputNihongoJTalkHtmlHandler(SubtitleList subtitleList,
+	public InputNihongoJTalkHtmlHandler(NihongoJTalkSubtitleList subtitleList,
 			EasyJaSubObserver observer) {
 		this.subtitleList = subtitleList;
 		this.observer = observer;
 	}
 	
-	private final SubtitleList subtitleList;
+	private final NihongoJTalkSubtitleList subtitleList;
 	private SectionHtmlHandler sectionParser;
 	private int divCount;
 	

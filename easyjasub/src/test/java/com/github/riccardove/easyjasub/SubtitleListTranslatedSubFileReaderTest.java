@@ -27,11 +27,13 @@ import java.io.File;
 
 import org.junit.Test;
 
+import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleList;
+
 public class SubtitleListTranslatedSubFileReaderTest {
 
 	@Test
 	public void test() throws Exception {
-		SubtitleList s = new SubtitleList("test");
+		NihongoJTalkSubtitleList s = new NihongoJTalkSubtitleList("test");
 
 		File fileJa = new File("samples\\sample1.ja.ass");
 		assertTrue(fileJa.exists());

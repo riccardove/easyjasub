@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub;
+package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 /*
  * #%L
@@ -28,9 +28,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.rendersnake.HtmlCanvas;
 
-public class DictSubtitleLineItem extends RedSubtitleLineItem {
+import com.github.riccardove.easyjasub.SubtitleItem;
 
-	public DictSubtitleLineItem(SubtitleLine subtitleLine, String text, String dictionaryInfo,
+class DictSubtitleLineItem extends RedSubtitleLineItem {
+
+	public DictSubtitleLineItem(NihongoJTalkSubtitleLine subtitleLine, String text, String dictionaryInfo,
 			String pos, String romaji)  
 	{
 		super(subtitleLine, text, pos, romaji);
@@ -104,6 +106,19 @@ public class DictSubtitleLineItem extends RedSubtitleLineItem {
 		return super.toString() + "[" + dictionaryInfo + "]";
 	}
 
+	@Override
+	public void toItem(SubtitleItem item) {
+		if (dict != null) {
+			String translation = subtitleLine.getDictionaryMatch(text, dict);
+			if (translation == null) {
+				translation = dict.get(0);
+			}
+			item.setTranslation(translation);
+			item.setComment(text + ": " + StringUtils.join(dict, ';'));
+		}
+		super.toItem(item);
+	}
+	
 	@Override
 	public void renderOnLast(HtmlCanvas html) throws IOException {
 		if (dict != null) {

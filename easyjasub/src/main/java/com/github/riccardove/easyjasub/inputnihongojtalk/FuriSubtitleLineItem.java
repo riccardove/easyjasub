@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub;
+package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 /*
  * #%L
@@ -27,9 +27,11 @@ import java.io.IOException;
 
 import org.rendersnake.HtmlCanvas;
 
-public class FuriSubtitleLineItem extends RedSubtitleLineItem {
+import com.github.riccardove.easyjasub.SubtitleItem;
 
-	public FuriSubtitleLineItem(SubtitleLine subtitleLine, String text, String furigana,
+class FuriSubtitleLineItem extends RedSubtitleLineItem {
+
+	public FuriSubtitleLineItem(NihongoJTalkSubtitleLine subtitleLine, String text, String furigana,
 			String pos, String romaji)  
 	{
 		super(subtitleLine, text, pos, romaji);
@@ -40,6 +42,12 @@ public class FuriSubtitleLineItem extends RedSubtitleLineItem {
 	}
 	
 	private String furigana; 
+	
+	@Override
+	public void toItem(SubtitleItem item) {
+		item.setFurigana(furigana);
+		super.toItem(item);
+	}
 	
 	@Override
 	public String toString() {

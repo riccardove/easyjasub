@@ -29,6 +29,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
+import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleLine;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 class EasyJaSubConsole implements EasyJaSubObserver {
@@ -261,7 +262,7 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlLine(SubtitleLine line) {
+	public void onInputNihongoJTalkHtmlLine(NihongoJTalkSubtitleLine line) {
 		outputStream.println("Line: " + line.toString());
 		outputStream.flush();
 	}

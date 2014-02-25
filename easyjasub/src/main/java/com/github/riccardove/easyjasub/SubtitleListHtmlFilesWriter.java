@@ -32,6 +32,9 @@ import java.util.ArrayList;
 import org.rendersnake.HtmlCanvas;
 import org.rendersnake.Renderable;
 
+import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleLine;
+import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleList;
+
 class SubtitleListHtmlFilesWriter {
 	private final File htmlFolder;
 	private final String cssFile;
@@ -43,9 +46,9 @@ class SubtitleListHtmlFilesWriter {
 		this.observer = observer;
 	}
 
-	public void writeHtmls(SubtitleList s) throws IOException{
+	public void writeHtmls(NihongoJTalkSubtitleList s) throws IOException{
 		ArrayList<FileWriter> writers = new ArrayList<FileWriter>(s.size());
-		for (SubtitleLine l : s) {
+		for (NihongoJTalkSubtitleLine l : s) {
 			File file = new File(htmlFolder, l.getHtmlFile());
 			if (!file.exists()) {
 				observer.onWriteHtmlFile(file);
