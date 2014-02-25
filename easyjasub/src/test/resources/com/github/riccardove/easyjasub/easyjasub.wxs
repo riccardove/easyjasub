@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<Product Name="${project.name} ${project.version}" Id="6D243A84-A108-40D5-AC1F-CF732629A31F"
+		UpgradeCode="6AA42C5E-0BE7-4F8D-879B-AA11D7807DB5" Language="1033"
+		Codepage="1252" Version="${wix.version}" Manufacturer="${organization.name}">
+
+		<Package Id="*" Keywords="Installer"
+			Description="${project.name} ${project.version} Installer" Comments="${project.description}. See ${project.url} for details."
+			Manufacturer="${organization.name}" InstallerVersion="100" Languages="1033"
+			Compressed="yes" SummaryCodepage="1252" />
+
+		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+		<Directory Id='TARGETDIR' Name='SourceDir'>
+			<Directory Id="ProgramFilesFolder" Name="PFiles">
+				<Directory Id="INSTALLDIR" Name="${project.name}">
+					<Component Id="MainExecutable" Guid="F0CF2240-DF1D-4167-A289-655900E5E023">
+						<File Id="MainExecutableEXE" Name="${project.name}.exe"
+							DiskId="1" Source="${project.build.directory}\\${project.name}.exe"
+							KeyPath="yes">
+						</File>
+					</Component>
+					<!-- <Component Id="Manual" Guid="84832A23-6AB3-400E-909D-137556594052"> 
+						<File Id="Manual" Name="Manual.pdf" DiskId="1" Source="Manual.pdf" KeyPath="yes"> 
+						<Shortcut Id="startmenuManual" Directory="ProgramMenuDir" Name="Instruction 
+						Manual" Advertise="yes" /> </File> </Component> -->
+				</Directory>
+			</Directory>
+		</Directory>
+
+		<Feature Id="Complete" Level="1">
+			<ComponentRef Id="MainExecutable" />
+			<!-- <ComponentRef Id="Manual" /> -->
+		</Feature>
+	</Product>
+
+	<!-- 1FF7D3AB-F0E8-48A7-9E74-8C5D154D4948 309BA134-2C06-4021-8B3A-454C36DDDF35 
+		E430974D-BE60-49AD-B89A-8F0A1D1E5C12 66D14B44-5E6A-4EA5-BD8E-7096D71C8D17 
+		0DF1D4C1-4B44-4BE1-BE22-1FC25F92EB67 933CD5D3-32DD-42F8-89CD-D0DC7D9E30BD -->
+</Wix>

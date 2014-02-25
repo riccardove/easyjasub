@@ -32,6 +32,7 @@
 	</parent>
 
 	<properties>
+		<wix.version>0.0.0.1</wix.version>
 		<license.licenseName>apache_v2</license.licenseName>
 		<launch4j.jremin>1.7.0</launch4j.jremin>
 		<launch4j.jreheap>128</launch4j.jreheap>
@@ -91,6 +92,16 @@
 				<filtering>true</filtering>
 			</resource>
 		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.wxs</include>
+					<include>**/*.properties</include>
+				</includes>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

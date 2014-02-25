@@ -1,3 +1,10 @@
 /integration-test
 /.settings
 /.classpath
+/deploy.bat
+/prerelease.bat
+/release.bat
+/TODO.txt
+/easyjasub.msi
+/easyjasub.wixobj
+/easyjasub.wixpdb
