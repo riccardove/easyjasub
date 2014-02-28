@@ -43,6 +43,12 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private static final String HEIGHT = "he";
 	private static final String WIDTH = "wi";
 
+	private static final String ROMAJI = "r";
+	private static final String TRANSLATION = "t";
+	private static final String DICTIONARY = "d";
+	private static final String KANJI = "k";
+	private static final String FURIGANA = "f";
+
 	public EasyJaSubCommandLine() {
 		list = new CommandLineOptionList();
 		list.addOption(VI, "video",
@@ -65,6 +71,18 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 				"Read text analysys produced with http://nihongo.j-talk.com from file. "
 						+ "If not specified HTML files with the same name of video file are searched.",
 				"file");
+
+		list.addOption(TRANSLATION, "translation",
+				"Displays translated subtitles", "enabled|disabled");
+		list.addOption(ROMAJI, "romaji",
+				"Shows romaji text in subtitles", "enabled|disabled");
+		list.addOption(DICTIONARY, "dictionary",
+				"Shows dictionary text in subtitles", "enabled|disabled");
+		list.addOption(FURIGANA, "furigana",
+				"Shows furigana text in subtitles", "enabled|disabled");
+		list.addOption(KANJI, "kanji",
+				"Shows kanji text in subtitles", "enabled|disabled");
+
 		list.addOption(
 				TRL,
 				"tr-sub-lang",
@@ -172,7 +190,12 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private String cssTranslationFont;
 	private String outputIdxDirectory;
 	private String outputBdnFileName;
-	
+	private String showTranslation;
+	private String showFurigana;
+	private String showDictionary;
+	private String showRomaji;
+	private String showKanji;
+
 	@Override
 	public String getOutputIdxDirectory() {
 		return outputIdxDirectory;
@@ -202,6 +225,11 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 			approxMatchTimeDiff = cm.getOptionValue(APPROXTIME);
 			width = cm.getOptionValue(WIDTH);
 			height = cm.getOptionValue(HEIGHT);
+			showDictionary = cm.getOptionValue(DICTIONARY);
+			showFurigana = cm.getOptionValue(FURIGANA);
+			showRomaji = cm.getOptionValue(ROMAJI);
+			showKanji = cm.getOptionValue(KANJI);
+			showTranslation = cm.getOptionValue(TRANSLATION);
 		} catch (Exception ex) {
 			message = ex.getMessage();
 		}
@@ -258,6 +286,31 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	@Override
 	public String getCssTranslationFont() {
 		return cssTranslationFont;
+	}
+
+	@Override
+	public String getShowRomaji() {
+		return showRomaji;
+	}
+
+	@Override
+	public String getShowTranslation() {
+		return showTranslation;
+	}
+
+	@Override
+	public String getShowKanji() {
+		return showKanji;
+	}
+
+	@Override
+	public String getShowFurigana() {
+		return showFurigana;
+	}
+
+	@Override
+	public String getShowDictionary() {
+		return showDictionary;
 	}
 
 }

@@ -54,9 +54,22 @@ public class EasyJaSub {
 
 		parseNihongoJTalkFile(command, observer, s);
 
+		File cssFileUrl = createCssFile(command, observer);
 
-		File htmlFolder = createFolder(command.getOutputHtmlDirectory());
-		File bdnFolder = createFolder(command.getBdnXmlFile().getParentFile());
+		
+		File htmlFolder = command.getOutputHtmlDirectory();
+		if (htmlFolder == null) {
+			return 0;
+		}
+		createFolder(htmlFolder);
+
+		File bdnFile = command.getBdnXmlFile();
+		if (bdnFile == null) {
+			// TODO: render images
+			return 0;
+		}
+				
+		File bdnFolder = createFolder(bdnFile.getParentFile());
 
 	    int index = 0;
 	    for (SubtitleLine line : s) {
@@ -66,17 +79,18 @@ public class EasyJaSub {
 			line.setHtmlFile(new File(htmlFolder, b + ".html"));
 			line.setPngFile(new File(bdnFolder, b + ".png"));
 	    }
-
-
-		String cssFileUrl = createCssFile(command, observer);
 		
-		writeHtmlFiles(observer, s, htmlFolder, cssFileUrl);
+		writeHtmlFiles(command, observer, s, htmlFolder, cssFileUrl);
 
 
 		writePngFiles(command, observer, s, htmlFolder, bdnFolder);
 
 		writeBdmXmlFile(command, observer, s);
 
+		File idxFile = command.getOutputIdxFile();
+		if (idxFile == null) {
+			return 0;
+		}
 		writeIdxFile(command, observer, s, bdnFolder);
 
 /*		    if (phases == null 
@@ -164,11 +178,13 @@ public class EasyJaSub {
 		}
 	}
 
-	private void writeHtmlFiles(EasyJaSubObserver observer, SubtitleList s,
-			File htmlFolder, String cssFileUrl) throws EasyJaSubException {
+	private void writeHtmlFiles(EasyJaSubInput command,EasyJaSubObserver observer, SubtitleList s,
+			File htmlFolder, File cssFile) throws EasyJaSubException {
+		// TODO construct relative url
+		String cssFileUrl = cssFile != null ? cssFile.toURI().toString() : "default.css";
 		observer.onWriteHtmlStart(htmlFolder, cssFileUrl);
 		try {
-			new SubtitleListHtmlFilesWriter(htmlFolder, cssFileUrl, observer).writeHtmls(s);
+			new SubtitleListHtmlFilesWriter(cssFileUrl, observer).writeHtmls(s, command);
 			observer.onWriteHtmlEnd(htmlFolder);
 		}
 		catch (IOException ex) {
@@ -176,7 +192,7 @@ public class EasyJaSub {
 		}
 	}
 
-	private String createCssFile(EasyJaSubInput command,
+	private File createCssFile(EasyJaSubInput command,
 			EasyJaSubObserver observer) throws EasyJaSubException {
 		File cssFile = command.getCssFile();
 		if (cssFile != null && !cssFile.exists()) {
@@ -192,8 +208,7 @@ public class EasyJaSub {
 		else {
 			observer.onWriteCssSkipped(cssFile);
 		}
-		String cssFileUrl = cssFile != null ? cssFile.toURI().toString() : "default.css";
-		return cssFileUrl;
+		return cssFile;
 	}
 
 	private void readTranslatedSubFile(EasyJaSubInput command,

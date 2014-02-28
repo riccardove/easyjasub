@@ -332,6 +332,6 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	}
 	
 	private static String toString(File file) {
-		return file != null ? toString(file) : "<null>";
+		return file != null ? file.getAbsolutePath() : "<null>";
 	}
 }

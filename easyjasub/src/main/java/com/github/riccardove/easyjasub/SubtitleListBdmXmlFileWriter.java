@@ -54,7 +54,7 @@ class SubtitleListBdmXmlFileWriter {
 	public void writeBDM(SubtitleList s, File file) throws IOException, FileNotFoundException {
 		f = new FileWriter(file);
 
-		writeln("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		writeln("<?xml version=\"1.0\" encoding=\"" + EasyJaSubCharset.CHARSETSTR + "\"?>");
         writeln("<BDN Version=\"0.93\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"BD-03-006-0093b BDN File Format.xsd\">");
 		writeln("<Description>");
 		writeln("  <Name Title=\"" + s.getTitle() + "\" Content=\"\"/>");

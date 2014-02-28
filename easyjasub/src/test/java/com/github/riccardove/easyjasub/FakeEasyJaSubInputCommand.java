@@ -188,4 +188,29 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 	public void setWkhtmltoimage(String wkhtmltoimage) {
 		this.wkhtmltoimage = wkhtmltoimage;
 	}
+	@Override
+	public String getShowRomaji() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getShowTranslation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getShowKanji() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getShowFurigana() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getShowDictionary() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

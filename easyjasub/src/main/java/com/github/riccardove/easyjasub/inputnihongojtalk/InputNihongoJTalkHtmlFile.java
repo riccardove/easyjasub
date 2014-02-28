@@ -23,14 +23,16 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import com.github.riccardove.easyjasub.EasyJaSubCharset;
 import com.github.riccardove.easyjasub.EasyJaSubObserver;
 import com.github.riccardove.easyjasub.SubtitleLine;
 import com.github.riccardove.easyjasub.SubtitleList;
@@ -50,7 +52,7 @@ public class InputNihongoJTalkHtmlFile {
 	    saxParser.setContentHandler(handler);
 		saxParser.setEntityResolver(handler);
 		
-		BufferedReader br = new BufferedReader(new FileReader(file));
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), EasyJaSubCharset.CHARSET));
 
 		saxParser.parse(new InputSource(br));
 		

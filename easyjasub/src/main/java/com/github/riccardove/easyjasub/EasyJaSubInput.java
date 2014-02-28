@@ -69,4 +69,14 @@ public interface EasyJaSubInput {
 	public abstract String getCssKanjiFont();
 
 	public abstract String getCssTranslationFont();
+	
+	public abstract boolean showTranslation();
+	
+	public abstract boolean showRomaji();
+
+	public abstract boolean showFurigana();
+
+	public abstract boolean showDictionary();
+
+	public abstract boolean showKanji();
 }

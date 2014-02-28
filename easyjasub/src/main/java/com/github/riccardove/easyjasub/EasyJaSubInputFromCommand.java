@@ -24,7 +24,6 @@ package com.github.riccardove.easyjasub;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -32,18 +31,6 @@ import org.apache.commons.io.FilenameUtils;
  * Checks input commands and determines valid program input using some heuristic
  */
 class EasyJaSubInputFromCommand implements EasyJaSubInput {
-
-	private static void checkFile(String fileName, File file) throws EasyJaSubException {
-		if (!file.exists()) {
-			throw new EasyJaSubException("File " + fileName + " does not exist");
-		}
-		if (!file.isFile()) {
-			throw new EasyJaSubException(fileName + " is not a file");
-		}
-		if (!file.canRead()) {
-			throw new EasyJaSubException("File " + fileName + " can not be read");
-		}
-	}
 
 	private static void checkDirectory(String fileName, File file) throws EasyJaSubException {
 		if (!file.isDirectory()) {
@@ -54,6 +41,18 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		}
 		if (!file.canWrite()) {
 			throw new EasyJaSubException("Directory " + fileName + " can not be written");
+		}
+	}
+
+	private static void checkFile(String fileName, File file) throws EasyJaSubException {
+		if (!file.exists()) {
+			throw new EasyJaSubException("File " + fileName + " does not exist");
+		}
+		if (!file.isFile()) {
+			throw new EasyJaSubException(fileName + " is not a file");
+		}
+		if (!file.canRead()) {
+			throw new EasyJaSubException("File " + fileName + " can not be read");
 		}
 	}
 
@@ -75,14 +74,65 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		}
 	}
 
+	private static File getCssFile(EasyJaSubInputCommand command,
+			File htmlDirectory,
+			DefaultFileList defaultFileList) throws EasyJaSubException {
+		String fileName = command.getCssFileName();
+		if (isDisabled(fileName)) {
+			return null;
+		}
+		if (fileName != null && !isDefault(fileName)) {
+			File file = new File(fileName);
+			if (file.exists()) {
+				checkFile(fileName, file);
+				if (!isCssContentType(file)) {
+					throw new EasyJaSubException("File " + fileName + " does not seem to be CSS, type is " + probeContentType(file));
+				}
+			}
+			return file;
+		}
+		for (File file : defaultFileList) {
+			String extension = getExtension(file);
+			if (extension == "CSS" && isCssContentType(file)) {
+				return file;
+			}
+		}
+		return new File(htmlDirectory, defaultFileList.getDefaultFileNamePrefix() + ".css");
+	}
+	
+	private static int getDimension(String name, String timeStr, int defaultValue) throws EasyJaSubException {
+		return getInteger(name, timeStr, defaultValue, 400, 3000);
+	}
+
 	private static String getExtension(File file) {
 		return FilenameUtils.getExtension(file.getName()).toUpperCase();
+	}
+	
+	private static int getInteger(String name, String timeStr, int defaultValue, int min, int max)
+			throws EasyJaSubException {
+		if (timeStr == null || isDefault(timeStr)) {
+			return defaultValue;
+		}
+		int value = parseInteger("Invalid " + name, timeStr);
+		if (value < 0) {
+			throw new EasyJaSubException("Negative values are not allowed for " + name);
+		}
+		if (value < min) {
+			throw new EasyJaSubException("Minimum value for " + name + " is " + min + ", " + value + " should be increased");
+		}
+		if (value > max) {
+			throw new EasyJaSubException("Maximum value for " + name + " is " + max + ", " + value + " should be decreased");
+		}
+		return value;
 	}
 	
 	private static File getJapaneseSubFile(EasyJaSubInputCommand command,
 			Iterable<File> defaultFileList) throws EasyJaSubException {
 		String fileName = command.getJapaneseSubFileName();
-		if (fileName != null) {
+		if (isDisabled(fileName)) {
+			return null;
+		}
+		if (fileName != null && !isDefault(fileName)) {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			if (!isTextContentType(file)) {
@@ -104,18 +154,41 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return null;
 	}
 
-	private static boolean isJaLanguageFromFileName(File file) {
-		String language = getSubtitleLanguageFromFileName(file.getName());
-		return "ja".equals(language);
+	private static File getNihongoJtalkHtmlFile(EasyJaSubInputCommand command,
+			Iterable<File> defaultFileList) throws EasyJaSubException {
+		String fileName = command.getNihongoJtalkHtmlFileName();
+		if (isDisabled(fileName)) {
+			return null;
+		}
+		if (fileName != null && !isDefault(fileName)) {
+			File file = new File(fileName);
+			checkFile(fileName, file);
+			if (!isHtmlContentType(file)) {
+				throw new EasyJaSubException("File " + fileName + " does not seem to be HTML, type is " + probeContentType(file));
+			}
+			return file;
+		}
+		for (File file : defaultFileList) {
+			String extension = getExtension(file);
+			if (("HTML".equals(extension) || "HTM".equals(extension)) &&
+				isHtmlContentType(file)) {
+				return file;
+			}
+		}
+		return null;
 	}
+	
 	private static File getOutputBdmFile(EasyJaSubInputCommand command,
 			File outputIdxFile,
 			DefaultFileList defaultFileList) throws EasyJaSubException {
 		String fileName = command.getOutputBdnFileName();
+		if (isDisabled(fileName)) {
+			return null;
+		}
 		File file = null;
 		File directory = null;
 		String fileNameBase = null;
-		if (fileName != null) {
+		if (fileName != null && !isDefault(fileName)) {
 			file = new File(fileName);
 		}
 		else {
@@ -133,13 +206,17 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		checkOutputFile(fileName, file);
 		return file;
 	}
-	
+
+
 	private static File getOutputHtmlDirectory(EasyJaSubInputCommand command,
 			File outputBdmFile,
 			DefaultFileList defaultFileList) throws EasyJaSubException {
 		String directoryName = command.getOutputHtmlDirectory();
+		if (isDisabled(directoryName)) {
+			return null;
+		}
 		File directory = null;
-		if (directoryName != null) {
+		if (directoryName != null && !isDefault(directoryName)) {
 			directory = new File(directoryName);
 		}
 		else if (outputBdmFile != null)
@@ -158,12 +235,17 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return directory;
 	}
 
+	
+
 	private static File getOutputIdxFile(EasyJaSubInputCommand command,
 			File videoFile,
 			DefaultFileList defaultFileList) throws EasyJaSubException {
 		String fileName = command.getOutputIdxFileName();
+		if (isDisabled(fileName)) {
+			return null;
+		}
 		File file = null;
-		if (fileName != null) {
+		if (fileName != null && !isDefault(fileName)) {
 			file = new File(fileName);
 		}
 		if (file == null) {
@@ -178,15 +260,18 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		checkOutputFile(fileName, file);
 		return file;
 	}
-	
+
 	private static File getOutputJapaneseTextFile(EasyJaSubInputCommand command,
 			File videoFile,
 			File japaneseSubFile,
 			DefaultFileList defaultFileList) throws EasyJaSubException {
 		String fileName = command.getOutputJapaneseTextFileName();
+		if (isDisabled(fileName)) {
+			return null;
+		}
 		File file = null;
 		String fileNameBase = null;
-		if (fileName != null) {
+		if (fileName != null && !isDefault(fileName)) {
 			file = new File(fileName);
 		}
 		else {
@@ -206,15 +291,12 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return file;
 	}
 
-
 	private static SubtitleFileType getSubtitleFileType(File file) {
 		if (file == null) {
 			return SubtitleFileType.Undef;
 		}
 		return SubtitleFileType.valueOf(getExtension(file));
 	}
-
-	
 
 	private static String getSubtitleLanguageFromFileName(String fileName) {
 		int index = fileName.lastIndexOf('.');
@@ -225,11 +307,18 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return null;
 	}
 
+	private static int getTimeDiff(String name, String timeStr, int defaultValue) throws EasyJaSubException {
+		return getInteger(name, timeStr, defaultValue, 100, 5000);
+	}
+
 	private static File getTranslatedSubFile(EasyJaSubInputCommand command,
 			Iterable<File> defaultFileList,
 			File japaneseSubFile) throws EasyJaSubException {
 		String fileName = command.getTranslatedSubFileName();
-		if (fileName != null) {
+		if (isDisabled(fileName)) {
+			return null;
+		}
+		if (fileName != null && !isDefault(fileName)) {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			if (!isTextContentType(file)) {
@@ -251,6 +340,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return null;
 	}
 
+	
 	private static String getTranslatedSubLanguage(EasyJaSubInputCommand command, File translatedSubFile) {
 		String result = command.getTranslatedSubLanguage();
 		if (result == null && translatedSubFile != null) {
@@ -262,7 +352,10 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	private static File getVideoFile(EasyJaSubInputCommand command,
 			Iterable<File> defaultFileList) throws EasyJaSubException {
 		String fileName = command.getVideoFileName();
-		if (fileName != null) {
+		if (isDisabled(fileName)) {
+			return null;
+		}
+		if (fileName != null && !isDefault(fileName)) {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			if (!isVideoContentType(file)) {
@@ -279,17 +372,13 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return null;
 	}
 
-	private static boolean isDisabled(String name) {
-		return "disabled".equals(name);
-	}
-
 	private static String getWkhtmltoimageFile(EasyJaSubInputCommand command)
 	throws EasyJaSubException {
 		String fileName = command.getWkhtmltoimage();
-		if (fileName != null) {
-			if (isDisabled(fileName)) {
-				return null;
-			}
+		if (isDisabled(fileName)) {
+			return null;
+		}
+		if (fileName != null && !isDefault(fileName)) {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			return fileName;
@@ -321,21 +410,37 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return null;
 	}
 
-	
-	private static boolean isHtmlContentType(File file) {
-		String type = probeContentType(file);
-		return type == null || "text/html".equals(type);
-	}
-
 	private static boolean isCssContentType(File file) {
 		String type = probeContentType(file);
 		return type == null || "text/css".equals(type) || "text/plain".equals(type);
 	}
 
+	private static boolean isDefault(String fontStr) {
+		return "default".equals(fontStr);
+	}
+
+	private static boolean isDisabled(String name) {
+		return "disabled".equals(name);
+	}
+
+	private static boolean isEnabled(String name) {
+		return "enabled".equals(name);
+	}
+
+	private static boolean isHtmlContentType(File file) {
+		String type = probeContentType(file);
+		return type == null || "text/html".equals(type);
+	}
+	
+	private static boolean isJaLanguageFromFileName(File file) {
+		String language = getSubtitleLanguageFromFileName(file.getName());
+		return "ja".equals(language);
+	}
+	
 	private static boolean isSubExtension(String ext) {
 		return SubtitleFileType.isValue(ext);
 	}
-
+	
 	private static boolean isTextContentType(File file) {
 		String type = probeContentType(file);
 		return type == null || "text/plain".equals(type);
@@ -350,6 +455,15 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return VideoFileType.isValue(ext);
 	}
 
+	private static int parseInteger(String message, String timeStr) throws EasyJaSubException {
+		try {
+			return Integer.parseInt(timeStr);
+		}
+		catch (Exception ex) {
+			throw new EasyJaSubException(message + ": " + timeStr + " is not a number or a valid value");
+		}
+	}
+
 	private static String probeContentType(File file) {
 		try {
 			return Files.probeContentType(file.toPath());
@@ -358,39 +472,33 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			return null;
 		}
 	}
-	
-	private final File bdmXmlFile;
-	
-	private final File japaneseSubFile;
-	
-	private final SubtitleFileType japaneseSubFileType;
 
-	private final File nihongoJtalkHtmlFile;
-
-	private final File outputHtmlDirectory;
-
-	private final File outputIdxFile;
-
-	private final File outputJapaneseTextFile;
-
-	private final File translatedSubFile;
-
-	private final File cssFile;
-
-	private final SubtitleFileType translatedSubFileType;
-	
-	private final String translatedSubLanguage;
-
-	private final File videoFile;
-	private final String wkhtmltoimageFile;
-
-	private final int exactMatchTimeDiff;
 	private final int approxMatchTimeDiff;
-	private final int width;
-	private final int height;
+	private final File bdmXmlFile;
+	private final File cssFile;
 	private final String cssHiraganaFont;
 	private final String cssKanjiFont;
 	private final String cssTranslationFont;
+	private final String defaultFileNamePrefix;
+	private final int exactMatchTimeDiff;
+	private final int height;
+	private final File japaneseSubFile;
+	private final SubtitleFileType japaneseSubFileType;
+	private final File nihongoJtalkHtmlFile;
+	private final File outputHtmlDirectory;
+	private final File outputIdxFile;
+	private final File outputJapaneseTextFile;
+	private final File translatedSubFile;
+	private final SubtitleFileType translatedSubFileType;
+	private final String translatedSubLanguage;
+	private final File videoFile;
+	private final int width;
+	private final String wkhtmltoimageFile;
+	private final boolean showTranslation;
+	private final boolean showFurigana;
+	private final boolean showDictionary;
+	private final boolean showRomaji;
+	private final boolean showKanji;
 
 	public EasyJaSubInputFromCommand(EasyJaSubInputCommand command) throws EasyJaSubException {
 		DefaultFileList defaultFileList = new DefaultFileList(command);
@@ -416,178 +524,112 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		cssHiraganaFont = getFont(command.getCssHiraganaFont(), "cinecaption,GT2000-01,arial");
 		cssKanjiFont = getFont(command.getCssKanjiFont(), "GT2000-01,cinecaption,arial");
 		cssTranslationFont = getFont(command.getCssTranslationFont(), "arial");
-	}
-
-	private String getFont(String fontStr, String defaultFontStr) {
-		return fontStr != null && !"default".equals(fontStr) ? fontStr : defaultFontStr;
-	}
-
-	private final String defaultFileNamePrefix;
-	
-	public String getDefaultFileNamePrefix() {
-		return defaultFileNamePrefix;
-	}
-
-	@Override
-	public File getBdnXmlFile() {
-		return bdmXmlFile;
-	}
-	@Override
-	public File getJapaneseSubFile() {
-		return japaneseSubFile;
-	}
-	@Override
-	public SubtitleFileType getJapaneseSubFileType() {
-		return japaneseSubFileType;
-	}
-
-	@Override
-	public File getNihongoJtalkHtmlFile() {
-		return nihongoJtalkHtmlFile;
+		showTranslation = getShowTranslation(command.getShowTranslation(), translatedSubFile);
+		showKanji = getShowKanji(command.getShowKanji(), nihongoJtalkHtmlFile);
+		showFurigana = getShowFurigana(command.getShowFurigana(), nihongoJtalkHtmlFile, showKanji);
+		showDictionary = getShowDictionary(command.getShowDictionary(), nihongoJtalkHtmlFile);
+		showRomaji = getShowRomaji(command.getShowRomaji(), nihongoJtalkHtmlFile, showFurigana);
 	}
 	
-	private int getTimeDiff(String name, String timeStr, int defaultValue) throws EasyJaSubException {
-		return getInteger(name, timeStr, defaultValue, 100, 5000);
-	}
-	
-	private int getDimension(String name, String timeStr, int defaultValue) throws EasyJaSubException {
-		return getInteger(name, timeStr, defaultValue, 400, 3000);
-	}
-
-	private int getInteger(String name, String timeStr, int defaultValue, int min, int max)
-			throws EasyJaSubException {
-		if (timeStr == null) {
-			return defaultValue;
+	private static boolean getShowTranslation(String showTranslation,
+			File translatedSubFile)
+					throws EasyJaSubException {
+		if (showTranslation == null || isDefault(showTranslation)) {
+			return translatedSubFile != null;
 		}
-		int value = parseInteger("Invalid " + name, timeStr);
-		if (value < 0) {
-			throw new EasyJaSubException("Negative values are not allowed for " + name);
+		if (isDisabled(showTranslation)) {
+			return false;
 		}
-		if (value < min) {
-			throw new EasyJaSubException("Minimum value for " + name + " is " + min + ", " + value + " should be increased");
-		}
-		if (value > max) {
-			throw new EasyJaSubException("Maximum value for " + name + " is " + max + ", " + value + " should be decreased");
-		}
-		return value;
-	}
-
-	private int parseInteger(String message, String timeStr) throws EasyJaSubException {
-		try {
-			return Integer.parseInt(timeStr);
-		}
-		catch (Exception ex) {
-			throw new EasyJaSubException(message + ": " + timeStr + " is not a number or a valid value");
-		}
-	}
-
-	private static File getNihongoJtalkHtmlFile(EasyJaSubInputCommand command,
-			Iterable<File> defaultFileList) throws EasyJaSubException {
-		String fileName = command.getNihongoJtalkHtmlFileName();
-		if (fileName != null) {
-			File file = new File(fileName);
-			checkFile(fileName, file);
-			if (!isHtmlContentType(file)) {
-				throw new EasyJaSubException("File " + fileName + " does not seem to be HTML, type is " + probeContentType(file));
+		if (isEnabled(showTranslation)) {
+			if (translatedSubFile == null) {
+				throw new EasyJaSubException("Can not display translation without translated subs");
 			}
-			return file;
+			return true;
 		}
-		for (File file : defaultFileList) {
-			String extension = getExtension(file);
-			if (("HTML".equals(extension) || "HTM".equals(extension)) &&
-				isHtmlContentType(file)) {
-				return file;
+		throw new EasyJaSubException("Invalid setting for translation: " + showTranslation);
+	}
+
+	private static boolean getShowRomaji(String showRomaji, File nihongoJtalkHtmlFile, boolean showFurigana)
+			 throws EasyJaSubException {
+		if (showRomaji == null || isDefault(showRomaji)) {
+			return nihongoJtalkHtmlFile != null && !showFurigana;
+		}
+		if (isDisabled(showRomaji)) {
+			return false;
+		}
+		if (isEnabled(showRomaji)) {
+			if (nihongoJtalkHtmlFile == null) {
+				throw new EasyJaSubException("Can not display romaji without nihingo JTalk file");
 			}
+			return true;
 		}
-		return null;
+		throw new EasyJaSubException("Invalid setting for romaji: " + showRomaji);
 	}
 
-	private static File getCssFile(EasyJaSubInputCommand command,
-			File htmlDirectory,
-			DefaultFileList defaultFileList) throws EasyJaSubException {
-		String fileName = command.getCssFileName();
-		if (fileName != null) {
-			File file = new File(fileName);
-			if (file.exists()) {
-				checkFile(fileName, file);
-				if (!isCssContentType(file)) {
-					throw new EasyJaSubException("File " + fileName + " does not seem to be CSS, type is " + probeContentType(file));
-				}
+	private static boolean getShowKanji(String show, File nihongoJtalkHtmlFile)
+			 throws EasyJaSubException {
+		if (show == null || isDefault(show)) {
+			return nihongoJtalkHtmlFile != null;
+		}
+		if (isDisabled(show)) {
+			return false;
+		}
+		if (isEnabled(show)) {
+			if (nihongoJtalkHtmlFile == null) {
+				throw new EasyJaSubException("Can not display kanji without nihingo JTalk file");
 			}
-			return file;
+			return true;
 		}
-		for (File file : defaultFileList) {
-			String extension = getExtension(file);
-			if (extension == "CSS" && isCssContentType(file)) {
-				return file;
+		throw new EasyJaSubException("Invalid setting for kanji: " + show);
+	}
+
+	private static boolean getShowFurigana(String show, File nihongoJtalkHtmlFile, boolean showKanji)
+			 throws EasyJaSubException {
+		if (show == null || isDefault(show)) {
+			return nihongoJtalkHtmlFile != null && showKanji;
+		}
+		if (isDisabled(show)) {
+			return false;
+		}
+		if (isEnabled(show)) {
+			if (nihongoJtalkHtmlFile == null) {
+				throw new EasyJaSubException("Can not display furigana without nihingo JTalk file");
 			}
+			return true;
 		}
-		return new File(htmlDirectory, defaultFileList.getDefaultFileNamePrefix() + ".css");
-	}
-	
-	@Override
-	public File getOutputHtmlDirectory() {
-		return outputHtmlDirectory;
+		throw new EasyJaSubException("Invalid setting for furigana: " + show);
 	}
 
-	@Override
-	public File getOutputIdxFile() {
-		return outputIdxFile;
-	}
-
-	@Override
-	public File getOutputJapaneseTextFile() {
-		return outputJapaneseTextFile;
-	}
-	
-	@Override
-	public File getTranslatedSubFile() {
-		return translatedSubFile;
-	}
-
-	@Override
-	public SubtitleFileType getTranslatedSubFileType() {
-		return translatedSubFileType;
-	}
-	
-	@Override
-	public String getTranslatedSubLanguage() {
-		return translatedSubLanguage;
-	}
-
-	@Override
-	public File getVideoFile() {
-		return videoFile;
-	}
-	
-	@Override
-	public String getWkhtmltoimageFile() {
-		return wkhtmltoimageFile;
-	}
-
-	@Override
-	public File getCssFile() {
-		return cssFile;
-	}
-	
-	@Override
-	public int getExactMatchTimeDiff() {
-		return exactMatchTimeDiff;
+	private static boolean getShowDictionary(String show, File nihongoJtalkHtmlFile)
+			 throws EasyJaSubException {
+		if (show == null || isDefault(show)) {
+			return nihongoJtalkHtmlFile != null;
+		}
+		if (isDisabled(show)) {
+			return false;
+		}
+		if (isEnabled(show)) {
+			if (nihongoJtalkHtmlFile == null) {
+				throw new EasyJaSubException("Can not display dictionary without nihingo JTalk file");
+			}
+			return true;
+		}
+		throw new EasyJaSubException("Invalid setting for dictionary: " + show);
 	}
 
 	@Override
 	public int getApproxMatchTimeDiff() {
 		return approxMatchTimeDiff;
 	}
-
+	
 	@Override
-	public int getWidth() {
-		return width;
+	public File getBdnXmlFile() {
+		return bdmXmlFile;
 	}
 
 	@Override
-	public int getHeight() {
-		return height;
+	public File getCssFile() {
+		return cssFile;
 	}
 
 	@Override
@@ -603,5 +645,109 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	@Override
 	public String getCssTranslationFont() {
 		return cssTranslationFont;
+	}
+	
+	@Override
+	public String getDefaultFileNamePrefix() {
+		return defaultFileNamePrefix;
+	}
+
+	@Override
+	public int getExactMatchTimeDiff() {
+		return exactMatchTimeDiff;
+	}
+
+	private String getFont(String fontStr, String defaultFontStr) {
+		return fontStr != null && !isDefault(fontStr) ? fontStr : defaultFontStr;
+	}
+	
+	@Override
+	public int getHeight() {
+		return height;
+	}
+
+	@Override
+	public File getJapaneseSubFile() {
+		return japaneseSubFile;
+	}
+	
+	@Override
+	public SubtitleFileType getJapaneseSubFileType() {
+		return japaneseSubFileType;
+	}
+
+	@Override
+	public File getNihongoJtalkHtmlFile() {
+		return nihongoJtalkHtmlFile;
+	}
+	
+	@Override
+	public File getOutputHtmlDirectory() {
+		return outputHtmlDirectory;
+	}
+
+	@Override
+	public File getOutputIdxFile() {
+		return outputIdxFile;
+	}
+	
+	@Override
+	public File getOutputJapaneseTextFile() {
+		return outputJapaneseTextFile;
+	}
+
+	@Override
+	public File getTranslatedSubFile() {
+		return translatedSubFile;
+	}
+
+	@Override
+	public SubtitleFileType getTranslatedSubFileType() {
+		return translatedSubFileType;
+	}
+
+	@Override
+	public String getTranslatedSubLanguage() {
+		return translatedSubLanguage;
+	}
+
+	@Override
+	public File getVideoFile() {
+		return videoFile;
+	}
+
+	@Override
+	public int getWidth() {
+		return width;
+	}
+
+	@Override
+	public String getWkhtmltoimageFile() {
+		return wkhtmltoimageFile;
+	}
+
+	@Override
+	public boolean showTranslation() {
+		return showTranslation;
+	}
+
+	@Override
+	public boolean showRomaji() {
+		return showRomaji;
+	}
+
+	@Override
+	public boolean showFurigana() {
+		return showFurigana;
+	}
+
+	@Override
+	public boolean showDictionary() {
+		return showDictionary;
+	}
+
+	@Override
+	public boolean showKanji() {
+		return showKanji;
 	}
 }

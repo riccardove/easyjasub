@@ -67,4 +67,13 @@ public interface EasyJaSubInputCommand {
 
 	public abstract String getCssTranslationFont();
 
+	public abstract String getShowRomaji();
+
+	public abstract String getShowTranslation();
+
+	public abstract String getShowKanji();
+
+	public abstract String getShowFurigana();
+
+	public abstract String getShowDictionary();
 }
