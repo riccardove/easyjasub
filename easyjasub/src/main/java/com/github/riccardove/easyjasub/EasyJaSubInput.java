@@ -22,14 +22,11 @@ package com.github.riccardove.easyjasub;
 
 
 import java.io.File;
-import java.util.Set;
 
 /**
  * Input arguments for EasyJaSub
  */
 public interface EasyJaSubInput {
-	
-	public abstract Set<Phases> getPhases();
 
 	public abstract File getVideoFile();
 

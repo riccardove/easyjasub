@@ -27,9 +27,6 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleLine;
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleList;
-
 class SubtitleListPngFilesJavaWriter {
 	
 	private final EasyJaSubObserver observer;
@@ -44,11 +41,11 @@ class SubtitleListPngFilesJavaWriter {
 	private static final int MaxHeight = 1000;
 	private final HtmlImageGenerator imageGenerator;
 
-	public void writeImages(NihongoJTalkSubtitleList s, File htmlFolder, File pngFolder) throws IOException, InterruptedException 
+	public void writeImages(SubtitleList s, File htmlFolder, File pngFolder) throws IOException, InterruptedException 
 	{
-		for (NihongoJTalkSubtitleLine l : s) {
-			File file = new File(htmlFolder, l.getHtmlFile());
-			File pngFile = new File(pngFolder, l.getPngFile());
+		for (SubtitleLine l : s) {
+			File file = l.getHtmlFile();
+			File pngFile = l.getPngFile();
 			if (pngFile.exists()) {
 				observer.onWriteImageSkipped(pngFile, file);
 			}

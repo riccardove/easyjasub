@@ -27,7 +27,6 @@ import java.util.Set;
 
 import org.xml.sax.SAXException;
 
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleLine;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 public interface EasyJaSubObserver {
@@ -104,7 +103,7 @@ public interface EasyJaSubObserver {
 
 	void onTranslatedSubDuplicated(String content, int mSeconds, int startTime);
 
-	void onInputNihongoJTalkHtmlLine(NihongoJTalkSubtitleLine line);
+	void onInputNihongoJTalkHtmlLine(String line);
 
 	void onWriteOutputJapaneseTextFileSkipped(File txtFile);
 
@@ -125,4 +124,6 @@ public interface EasyJaSubObserver {
 	void onWriteIdxFileSkipped(File file, File bdnFile);
 
 	void onReadJapaneseSubtitlesSkipped(File jaF);
+
+	void onInputNihongoJTalkHtmlLineParseSkipped(int nIndex);
 }

@@ -23,14 +23,11 @@ package com.github.riccardove.easyjasub;
 
 import java.io.*;
 
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleLine;
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleList;
-
 class SubtitleListJapaneseTextFileWriter {
-	public void write(NihongoJTalkSubtitleList s, File file) throws IOException {
+	public void write(SubtitleList s, File file) throws IOException {
 		PrintWriter stream = new PrintWriter(new FileOutputStream(file));
-		for (NihongoJTalkSubtitleLine line : s) {
-			stream.println(line.getJapaneseText());
+		for (SubtitleLine line : s) {
+			stream.println(line.getJapanese());
 		}
 		stream.close();
 	}

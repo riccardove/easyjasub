@@ -21,32 +21,20 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
  */
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.commons.lang3.StringUtils;
-import org.rendersnake.HtmlCanvas;
-import org.rendersnake.Renderable;
+class NihongoJTalkSubtitleList implements Iterable<NihongoJTalkSubtitleLine> {
 
-public class NihongoJTalkSubtitleList implements Iterable<NihongoJTalkSubtitleLine>, Renderable {
-
-	public NihongoJTalkSubtitleList(String name) {
+	public NihongoJTalkSubtitleList() {
 		lines = new ArrayList<NihongoJTalkSubtitleLine>();
-		this.name = name;
 	}
-	private String name;
+
 	private ArrayList<NihongoJTalkSubtitleLine> lines;
 	
 	public NihongoJTalkSubtitleLine add() {
 		NihongoJTalkSubtitleLine line = createSubtitleLine();
 		lines.add(line);
-		return line;
-	}
-	
-	public NihongoJTalkSubtitleLine add(int index) {
-		NihongoJTalkSubtitleLine line = createExtraSubtitleLine();
-		lines.add(index, line);
 		return line;
 	}
 	
@@ -59,22 +47,10 @@ public class NihongoJTalkSubtitleList implements Iterable<NihongoJTalkSubtitleLi
 
 	private NihongoJTalkSubtitleLine createSubtitleLine() {
 		NihongoJTalkSubtitleLine line = new NihongoJTalkSubtitleLine(++count);
-		String b = name + "_line" +String.format("%04d", line.getIndex());
-		line.setHtmlFile(b + ".html");
-		line.setPngFile(b + ".png");
-		return line;
-	}
-
-	private NihongoJTalkSubtitleLine createExtraSubtitleLine() {
-		NihongoJTalkSubtitleLine line = new NihongoJTalkSubtitleLine(10000 + ++extraCount);
-		String b = name + "_eline" +String.format("%05d", line.getIndex());
-		line.setHtmlFile(b + ".html");
-		line.setPngFile(b + ".png");
 		return line;
 	}
 
 	private int count;
-	private int extraCount;
 
 	public Iterator<NihongoJTalkSubtitleLine> iterator() {
 		return lines.iterator();
@@ -82,67 +58,5 @@ public class NihongoJTalkSubtitleList implements Iterable<NihongoJTalkSubtitleLi
 	
 	public int size() {
 		return lines.size();
-	}
-	
-	public NihongoJTalkSubtitleLine first() {
-		return lines.get(0);
-	}
-	
-	public NihongoJTalkSubtitleLine last() {
-		return lines.get(lines.size()-1);
-	}
-
-	public void renderOn(HtmlCanvas html) throws IOException {
-		html.div();
-		for (NihongoJTalkSubtitleLine item : lines) {
-			item.renderOn(html);
-		}
-		html._div();
-	}
-
-	private String title;
-	
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public void setTranslationTitle(String title2) {
-		if (StringUtils.isEmpty(title)) {
-			title = title2;
-		}
-	}
-	
-	public String getTitle() {
-		return title;
-	}
-
-	public void setJapaneseSubWarnings(String warnings) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setJapaneseSubDescription(String description) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setJapaneseSubLanguage(String language) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setTranslatedSubDescription(String description) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setTranslatedSubLanguage(String language) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setTranslatedSubWarnings(String warnings) {
-		// TODO Auto-generated method stub
-		
 	}
 }

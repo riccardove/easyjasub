@@ -27,9 +27,6 @@ import java.io.File;
 
 import org.junit.Test;
 
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleLine;
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleList;
-
 public class SubtitleListJapaneseSubFileReaderTest {
 
 	@Test
@@ -37,13 +34,13 @@ public class SubtitleListJapaneseSubFileReaderTest {
 		//System.out.println(SystemProperty.getUserDir());
 		File file = new File("samples\\sample1.ja.ass");
 		assertTrue(file.exists());
-		NihongoJTalkSubtitleList s = new NihongoJTalkSubtitleList("test");
+		SubtitleList s = new SubtitleList();
 		new SubtitleListJapaneseSubFileReader().
 			readJapaneseSubtitles(s, file, SubtitleFileType.ASS, new Observer());
 		assertTrue(s.size() > 0);
-		for (NihongoJTalkSubtitleLine line : s) {
-			assertTrue(line.isJa());
-			assertFalse(line.isTranslation());
+		for (SubtitleLine line : s) {
+			assertNotNull(line.getJapanese());
+			assertNull(line.getTranslation());
 			//System.out.println(line.getIndex() + " (" + line.getStartTime() + "->" + line.getEndTime() + ") " + line.getJapaneseText());
 		}
 		//System.out.println(s.size());

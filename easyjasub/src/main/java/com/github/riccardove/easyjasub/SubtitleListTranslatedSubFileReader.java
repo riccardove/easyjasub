@@ -26,8 +26,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleLine;
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleList;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubCaption;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubFile;
@@ -42,7 +40,7 @@ class SubtitleListTranslatedSubFileReader {
 		this.msecondsApproxMatch = msecondsApproxMatch;
 	}
 	
-	public void readTranslationSubtitles(NihongoJTalkSubtitleList s, File file, SubtitleFileType type,
+	public void readTranslationSubtitles(SubtitleList s, File file, SubtitleFileType type,
 			EasyJaSubObserver observer) throws IOException, InputTextSubException {
 		FileInputStream stream = new FileInputStream(file);
 		InputTextSubFile subs = new InputTextSubFile(type, file.getName(), stream);
@@ -53,8 +51,8 @@ class SubtitleListTranslatedSubFileReader {
 		s.setTranslatedSubWarnings(subs.getWarnings());
 		for (InputTextSubCaption enCaption : subs.getCaptions()) {
 			boolean added = false;
-			for (NihongoJTalkSubtitleLine jaLine : s) {
-				if (jaLine.isJa() &&
+			for (SubtitleLine jaLine : s) {
+				if (isJa(jaLine) &&
 					compatibleWith(jaLine, enCaption)) {
 					addTranslation(jaLine, enCaption);
 					added = true;
@@ -64,8 +62,8 @@ class SubtitleListTranslatedSubFileReader {
 				}
 			}
 			if (!added) {
-				for (NihongoJTalkSubtitleLine jaLine : s) {
-					if (jaLine.isJa() &&
+				for (SubtitleLine jaLine : s) {
+					if (isJa(jaLine) &&
 						approxCompatibleWith(jaLine, enCaption)) {
 						addTranslation(jaLine, enCaption);
 						if (!added) {
@@ -85,10 +83,10 @@ class SubtitleListTranslatedSubFileReader {
 			}
 		}
 		String lastTranslation = null;
-		for (NihongoJTalkSubtitleLine jaLine : s) {
-			if (jaLine.isJa())
+		for (SubtitleLine jaLine : s) {
+			if (isJa(jaLine))
 			{
-				if (!jaLine.isTranslation()) {
+				if (!isTranslation(jaLine)) {
 					if (lastTranslation != null) {
 						addTranslation(jaLine, lastTranslation);
 					}
@@ -103,11 +101,11 @@ class SubtitleListTranslatedSubFileReader {
 		}
 	}
 
-	private void addTranslation(NihongoJTalkSubtitleLine jaLine, InputTextSubCaption enCaption) {
+	private void addTranslation(SubtitleLine jaLine, InputTextSubCaption enCaption) {
 		addTranslation(jaLine, enCaption.getContent());
 	}
 
-	private static void addTranslation(NihongoJTalkSubtitleLine jaLine, String translatedLineText) {
+	private static void addTranslation(SubtitleLine jaLine, String translatedLineText) {
 		String translation = jaLine.getTranslation();
 		String text = TranslationReplace.matcher(translatedLineText).replaceAll(" ");
 		if (translation == null) {
@@ -122,23 +120,23 @@ class SubtitleListTranslatedSubFileReader {
 	private static final Pattern TranslationReplace = Pattern.compile("<br ?/>");
 	private static final String BreakStr = "&nbsp;&nbsp;&nbsp;";
 
-	private boolean startsAfter(NihongoJTalkSubtitleLine line, InputTextSubCaption enCaption) {
+	private boolean startsAfter(SubtitleLine line, InputTextSubCaption enCaption) {
 		return line.getStartTime() >= enCaption.getEnd().getMSeconds();
 	}
 
-	private boolean endsBefore(NihongoJTalkSubtitleLine line, InputTextSubCaption enCaption) {
+	private boolean endsBefore(SubtitleLine line, InputTextSubCaption enCaption) {
 		return line.getEndTime() <= enCaption.getStart().getMSeconds();
 	}
 
-	private void insertTranslation(NihongoJTalkSubtitleList lines, InputTextSubCaption enCaption) {
+	private void insertTranslation(SubtitleList lines, InputTextSubCaption enCaption) {
 		for (int i = 0; i<lines.size(); ++i) {
-			NihongoJTalkSubtitleLine line = lines.get(i);
-			if (line.isJa() && startsAfter(line, enCaption)) {
+			SubtitleLine line = lines.get(i);
+			if (isJa(line) && startsAfter(line, enCaption)) {
 				if (i>0 && !endsBefore(lines.get(i-1), enCaption)) {
 					addTranslation(lines.get(i-1), enCaption);
 				}
 				else {
-					NihongoJTalkSubtitleLine translationLine = lines.add(i);
+					SubtitleLine translationLine = lines.add(i);
 					translationLine.setStartTime(enCaption.getStart().getMSeconds());
 					translationLine.setEndTime(enCaption.getEnd().getMSeconds());
 					addTranslation(translationLine, enCaption);
@@ -149,8 +147,15 @@ class SubtitleListTranslatedSubFileReader {
 		
 	}
 
+	private static boolean isJa(SubtitleLine line) {
+		return line.getJapanese() != null;
+	}
 
-	private boolean compatibleWith(NihongoJTalkSubtitleLine line, InputTextSubCaption enCaption) {
+	private static boolean isTranslation(SubtitleLine line) {
+		return line.getTranslation() != null;
+	}
+
+	private boolean compatibleWith(SubtitleLine line, InputTextSubCaption enCaption) {
 		int startDiff = line.getStartTime() - enCaption.getStart().getMSeconds();
 		int endDiff = line.getEndTime() - enCaption.getEnd().getMSeconds();
 		// both start and end of the line are nearby
@@ -158,7 +163,7 @@ class SubtitleListTranslatedSubFileReader {
 				(Math.abs(startDiff) < msecondsMatch || Math.abs(endDiff) < msecondsMatch);
 	}
 
-	private boolean approxCompatibleWith(NihongoJTalkSubtitleLine line, InputTextSubCaption enCaption) {
+	private boolean approxCompatibleWith(SubtitleLine line, InputTextSubCaption enCaption) {
 		int startDiff = line.getStartTime() - enCaption.getStart().getMSeconds();
 		int endDiff = line.getEndTime() - enCaption.getEnd().getMSeconds();
 		// ja: ------------***************--------------

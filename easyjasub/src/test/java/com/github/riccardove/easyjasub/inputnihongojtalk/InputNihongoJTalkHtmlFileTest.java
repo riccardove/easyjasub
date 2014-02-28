@@ -28,21 +28,31 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import com.github.riccardove.easyjasub.FakeEasyJaSubObserver;
+import com.github.riccardove.easyjasub.SubtitleList;
 
 public class InputNihongoJTalkHtmlFileTest extends TestCase {
 
+	
 	@Test
 	public void testParse() throws Exception {
 		File file = new File("samples\\sample1.htm");
 		assertTrue(file.exists());
-		NihongoJTalkSubtitleList s = new NihongoJTalkSubtitleList("test");
-		new InputNihongoJTalkHtmlFile().parse(file, s, new Observer());
-		assertTrue(s.size() > 0);
+		SubtitleList s = new SubtitleList();
+		Observer observer = new Observer();
+		new InputNihongoJTalkHtmlFile().parse(file, s, observer);
+		assertEquals(0, s.size());
+		assertEquals(44, observer.count);
+		// assertEquals("私の色気は　たった1,000ジュエルか！？", observer.last);
 	}
 
 	private class Observer extends FakeEasyJaSubObserver {
+		public int count;
+		public String last;
+		
 		@Override
-		public void onInputNihongoJTalkHtmlLine(NihongoJTalkSubtitleLine line) {
+		public void onInputNihongoJTalkHtmlLine(String line) {
+			count++;
+			last = line;
 			//System.out.println(line.getIndex() + ": " + line.toString());
 		}
 	}

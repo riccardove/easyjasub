@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?define ProductVersion = "${wix.version}"?>
+<?define ProductUpgradeCode = "6AA42C5E-0BE7-4F8D-879B-AA11D7807DB5"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
 	<Product Name="${project.name} ${project.version}" Id="6D243A84-A108-40D5-AC1F-CF732629A31F"
-		UpgradeCode="6AA42C5E-0BE7-4F8D-879B-AA11D7807DB5" Language="1033"
-		Codepage="1252" Version="${wix.version}" Manufacturer="${organization.name}">
+		UpgradeCode="$(var.ProductUpgradeCode)" Language="1033" Codepage="1252"
+		Version="$(var.ProductVersion)" Manufacturer="${organization.name}">
 
 		<Package Id="*" Keywords="Installer"
 			Description="${project.name} ${project.version} Installer" Comments="${project.description}. See ${project.url} for details."
@@ -11,6 +13,14 @@
 			Compressed="yes" SummaryCodepage="1252" />
 
 		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+		<Upgrade Id="$(var.ProductUpgradeCode)">
+			<UpgradeVersion Minimum="$(var.ProductVersion)"
+				OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
+			<UpgradeVersion Minimum="0.0.0" Maximum="$(var.ProductVersion)"
+				IncludeMinimum="yes" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED" />
+		</Upgrade>
+		<Condition Message="A newer version of this software is already installed.">NOT NEWERVERSIONDETECTED</Condition>
 
 		<Directory Id='TARGETDIR' Name='SourceDir'>
 			<Directory Id="ProgramFilesFolder" Name="PFiles">
@@ -21,17 +31,22 @@
 							KeyPath="yes">
 						</File>
 					</Component>
-					<!-- <Component Id="Manual" Guid="84832A23-6AB3-400E-909D-137556594052"> 
-						<File Id="Manual" Name="Manual.pdf" DiskId="1" Source="Manual.pdf" KeyPath="yes"> 
-						<Shortcut Id="startmenuManual" Directory="ProgramMenuDir" Name="Instruction 
-						Manual" Advertise="yes" /> </File> </Component> -->
+					<Component Id="License" Guid="84832A23-6AB3-400E-909D-137556594052">
+						<File Id="LicenseTxt" Name="LICENSE.txt" DiskId="1" Source="LICENSE.txt"
+							KeyPath="yes">
+						</File>
+					</Component>
 				</Directory>
 			</Directory>
 		</Directory>
 
+		<InstallExecuteSequence>
+			<RemoveExistingProducts After="InstallValidate" />
+		</InstallExecuteSequence>
+
 		<Feature Id="Complete" Level="1">
 			<ComponentRef Id="MainExecutable" />
-			<!-- <ComponentRef Id="Manual" /> -->
+			<ComponentRef Id="License" />
 		</Feature>
 	</Product>
 

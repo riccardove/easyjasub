@@ -210,7 +210,7 @@ class HiraganaDivHtmlHandler implements SectionHtmlHandler {
 			trg = true;
 		}
 		else if (BR_ELEMENT.equals(qName) && line != null) {
-			observer.onInputNihongoJTalkHtmlLine(line);
+			observer.onInputNihongoJTalkHtmlLine(line.getJapaneseText());
 			next();
 		}
 	}

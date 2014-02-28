@@ -66,19 +66,6 @@ class RedSubtitleLineItem  extends TextSubtitleLineItem {
 		super.toItem(item);
 	}
 	
-	public void renderOn(HtmlCanvas html) throws IOException {
-		html.span(class_(posc)).write(text)._span();
-	}
-	
-	public void renderOnBottom(HtmlCanvas html) throws IOException {
-		html.td(class_(posc)).content(romaji);
-	}
-	
-	@Override
-	public void renderOnCenter(HtmlCanvas html) throws IOException {
-		renderText(posc, html);
-	}	
-	
 	@Override
 	public String toString() {
 		return super.toString() + "{" + pos + "}(" + romaji + ")";

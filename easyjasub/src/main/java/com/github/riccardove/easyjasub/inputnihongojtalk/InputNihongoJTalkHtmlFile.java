@@ -32,14 +32,17 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.github.riccardove.easyjasub.EasyJaSubObserver;
+import com.github.riccardove.easyjasub.SubtitleLine;
+import com.github.riccardove.easyjasub.SubtitleList;
 
 public class InputNihongoJTalkHtmlFile {
 
 	private static final String TAGSOUP_PARSER = "org.ccil.cowan.tagsoup.Parser";
 
-	public void parse(File file, NihongoJTalkSubtitleList s, EasyJaSubObserver observer)
+	public void parse(File file, SubtitleList subs, EasyJaSubObserver observer)
 			throws IOException, SAXException
 	{
+		NihongoJTalkSubtitleList s = new NihongoJTalkSubtitleList();
 	    XMLReader saxParser = XMLReaderFactory.createXMLReader(TAGSOUP_PARSER);
 
 	    InputNihongoJTalkHtmlHandler handler = new InputNihongoJTalkHtmlHandler(s, observer);
@@ -52,5 +55,32 @@ public class InputNihongoJTalkHtmlFile {
 		saxParser.parse(new InputSource(br));
 		
 		br.close();
+		
+		
+	    int index = 0;
+	    int nIndex = 0;
+	    for (NihongoJTalkSubtitleLine nline : s) {
+	    	++nIndex;
+	    	SubtitleLine line;
+	    	do {
+	    		if (index < subs.size()) {
+			    	line = subs.get(index);
+	    		}
+	    		else {
+	    			line = null;
+	    		}
+		    	++index;
+	    	}
+	    	while (line != null && line.getJapanese() == null);
+	    	
+	    	if (line == null) {
+	    		observer.onInputNihongoJTalkHtmlLineParseSkipped(nIndex);
+	    		break;
+	    	}
+	    	nline.setTranslatedText(line.getTranslation());
+
+	    	line.setItems(nline.toItems());
+	    }
+
 	}
 }

@@ -27,7 +27,6 @@ import java.util.*;
 import org.xml.sax.SAXException;
 
 import com.github.riccardove.easyjasub.inputnihongojtalk.InputNihongoJTalkHtmlFile;
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleList;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 public class EasyJaSub {
@@ -37,54 +36,48 @@ public class EasyJaSub {
 	
 	
 	public int run(EasyJaSubInput command, EasyJaSubObserver observer) throws EasyJaSubException {
-		Set<Phases> phases = command.getPhases();
 		String filePrefix = command.getDefaultFileNamePrefix();
 		if (filePrefix == null) {
 			filePrefix = "easyjasub_";
 		}
-		NihongoJTalkSubtitleList s = new NihongoJTalkSubtitleList(filePrefix);
 //		    s.setWidth(1366);
 //		    s.setHeight(768);
 //            return "720p (1280x720)";
-		
-		if (phases == null 
-				|| phases.contains(Phases.Html)
-				|| phases.contains(Phases.Idx)
-				|| phases.contains(Phases.Bdm)
-				|| phases.contains(Phases.Png)) {
-			readJapaneseSubtitles(command, observer, s);
-		    
-		    writeOutputJapaneseTextFile(command, observer, s);
 
-			parseNihongoJTalkFile(command, observer, s);
+	    SubtitleList s = new SubtitleList();
 
-		    readTranslatedSubFile(command, observer, s);
-		}
+		readJapaneseSubtitles(command, observer, s);
+	    
+	    writeOutputJapaneseTextFile(command, observer, s);
+
+	    readTranslatedSubFile(command, observer, s);
+
+		parseNihongoJTalkFile(command, observer, s);
+
 
 		File htmlFolder = createFolder(command.getOutputHtmlDirectory());
-
-		if (phases == null 
-				|| phases.contains(Phases.Htmls)) {
-			String cssFileUrl = createCssFile(command, observer);
-			
-			writeHtmlFiles(observer, s, htmlFolder, cssFileUrl);
-		}
-
 		File bdnFolder = createFolder(command.getBdnXmlFile().getParentFile());
 
-		if (phases == null 
-				|| phases.contains(Phases.Png)) {
-			writePngFiles(command, observer, s, htmlFolder, bdnFolder);
-		}
+	    int index = 0;
+	    for (SubtitleLine line : s) {
+	    	line.setIndex(++index);
+	    	
+			String b = filePrefix + "_line" +String.format("%04d", line.getIndex());
+			line.setHtmlFile(new File(htmlFolder, b + ".html"));
+			line.setPngFile(new File(bdnFolder, b + ".png"));
+	    }
 
-		if (phases == null || phases.contains(Phases.Bdm)) {
-			writeBdmXmlFile(command, observer, s);
-		}
 
-		if (phases == null 
-				|| phases.contains(Phases.Idx)) {
-			writeIdxFile(command, observer, s, bdnFolder);
-		}
+		String cssFileUrl = createCssFile(command, observer);
+		
+		writeHtmlFiles(observer, s, htmlFolder, cssFileUrl);
+
+
+		writePngFiles(command, observer, s, htmlFolder, bdnFolder);
+
+		writeBdmXmlFile(command, observer, s);
+
+		writeIdxFile(command, observer, s, bdnFolder);
 
 /*		    if (phases == null 
 				|| phases.contains(Phases.Ifo)) {
@@ -111,11 +104,10 @@ public class EasyJaSub {
 	}
 
 	private void writeIdxFile(EasyJaSubInput command,
-			EasyJaSubObserver observer, NihongoJTalkSubtitleList s, File bdnFolder) {
+			EasyJaSubObserver observer, SubtitleList s, File bdnFolder) {
 		File file = command.getOutputIdxFile();
 		File bdnFile = command.getBdnXmlFile();
 		if (file != null && bdnFile != null && !file.exists()) {
-			// TODO Core.timestampsStr = s.getIdxTimestamps();
 			observer.onWriteIdxFileStart(file, bdnFile);
 			// TODO create folders for output file
 			// TODO output file
@@ -128,7 +120,7 @@ public class EasyJaSub {
 	}
 
 	private void writeBdmXmlFile(EasyJaSubInput command,
-			EasyJaSubObserver observer, NihongoJTalkSubtitleList s)
+			EasyJaSubObserver observer, SubtitleList s)
 			throws EasyJaSubException {
 		File f = command.getBdnXmlFile();
 		if (!f.exists()) {
@@ -147,7 +139,7 @@ public class EasyJaSub {
 	}
 
 	private void writePngFiles(EasyJaSubInput command,
-			EasyJaSubObserver observer, NihongoJTalkSubtitleList s, File htmlFolder,
+			EasyJaSubObserver observer, SubtitleList s, File htmlFolder,
 			File bdnFolder) throws EasyJaSubException {
 		String wkhtml = command.getWkhtmltoimageFile();
 		int width = command.getWidth();
@@ -172,7 +164,7 @@ public class EasyJaSub {
 		}
 	}
 
-	private void writeHtmlFiles(EasyJaSubObserver observer, NihongoJTalkSubtitleList s,
+	private void writeHtmlFiles(EasyJaSubObserver observer, SubtitleList s,
 			File htmlFolder, String cssFileUrl) throws EasyJaSubException {
 		observer.onWriteHtmlStart(htmlFolder, cssFileUrl);
 		try {
@@ -205,7 +197,7 @@ public class EasyJaSub {
 	}
 
 	private void readTranslatedSubFile(EasyJaSubInput command,
-			EasyJaSubObserver observer, NihongoJTalkSubtitleList s)
+			EasyJaSubObserver observer, SubtitleList s)
 			throws EasyJaSubException {
 		File enF = command.getTranslatedSubFile();
 		if (enF != null) {
@@ -230,7 +222,7 @@ public class EasyJaSub {
 	}
 
 	private void parseNihongoJTalkFile(EasyJaSubInput command,
-			EasyJaSubObserver observer, NihongoJTalkSubtitleList s)
+			EasyJaSubObserver observer, SubtitleList s)
 			throws EasyJaSubException {
 		File f = command.getNihongoJtalkHtmlFile();
 		if (f != null) {
@@ -252,7 +244,7 @@ public class EasyJaSub {
 	}
 
 	private void writeOutputJapaneseTextFile(EasyJaSubInput command,
-			EasyJaSubObserver observer, NihongoJTalkSubtitleList s)
+			EasyJaSubObserver observer, SubtitleList s)
 			throws EasyJaSubException {
 		File txtFile = command.getOutputJapaneseTextFile();
 		if (txtFile == null || txtFile.exists()) {
@@ -271,7 +263,7 @@ public class EasyJaSub {
 	}
 
 	private void readJapaneseSubtitles(EasyJaSubInput command,
-			EasyJaSubObserver observer, NihongoJTalkSubtitleList s)
+			EasyJaSubObserver observer, SubtitleList s)
 			throws EasyJaSubException {
 		File jaF = command.getJapaneseSubFile();
 		if (jaF == null) {

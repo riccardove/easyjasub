@@ -21,19 +21,13 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
  */
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.rendersnake.HtmlCanvas;
-import org.rendersnake.Renderable;
-
 import com.github.riccardove.easyjasub.SubtitleItem;
 
-import static org.rendersnake.HtmlAttributesFactory.class_;
-
-public class NihongoJTalkSubtitleLine implements Renderable {
+class NihongoJTalkSubtitleLine {
 
 	private String nihongoJTalkJapaneseText;
 	private ArrayList<NihongoJTalkSubtitleLineItem> items;
@@ -50,7 +44,7 @@ public class NihongoJTalkSubtitleLine implements Renderable {
 	}
 	
 	public String getJapaneseText() {
-		return japanese;
+		return nihongoJTalkJapaneseText;
 	}
 	
 	public int getIndex() {
@@ -58,7 +52,7 @@ public class NihongoJTalkSubtitleLine implements Renderable {
 	}
 	
 	public boolean isJa() {
-		return japanese != null;
+		return nihongoJTalkJapaneseText != null;
 	}
 
 	public void addItem(NihongoJTalkSubtitleLineItem item) {
@@ -90,71 +84,6 @@ public class NihongoJTalkSubtitleLine implements Renderable {
 			text.append(item.toString());
 		}
 		return text.toString();
-	}
-
-	public static final String Newline = "\r\n";
-	
-	public void renderOn(HtmlCanvas html) throws IOException {
-		if (isJa()) {
-			html.write(Newline, false).table().write(Newline, false).tr(class_("top")).write(Newline, false);
-			for (NihongoJTalkSubtitleLineItem item : items) {
-				html.write("  ");
-				item.renderOnTop(html);
-				html.write(Newline, false);
-			}
-			html._tr().write(Newline, false).tr(class_("center")).write(Newline, false);
-			for (NihongoJTalkSubtitleLineItem item : items) {
-				html.write("  ");
-				item.renderOnCenter(html);
-				html.write(Newline, false);
-			}
-			html._tr().write(Newline, false).tr(class_("bottom")).write(Newline, false);
-			for (NihongoJTalkSubtitleLineItem item : items) {
-				html.write("  ");
-				item.renderOnBottom(html);
-				html.write(Newline, false);
-			}
-			html._tr().write(Newline, false).tr(class_("translation")).write(Newline, false);
-			for (NihongoJTalkSubtitleLineItem item : items) {
-				html.write("  ");
-				item.renderOnLast(html);
-				html.write(Newline, false);
-			}
-			html._tr().write(Newline, false)._table();
-		}
-		if (translation != null) {
-			html.write(Newline, false)
-			.p().write(translation, false)._p();
-		}
-		if (isJa()) {
-			html.write("<!--" + Newline, false);
-			for (NihongoJTalkSubtitleLineItem item : items) {
-				String comment = item.getComment();
-				if (comment!=null) {
-					html.write(comment + Newline, false);
-				}
-			}
-			html.write("-->" + Newline, false);
-		}
-	}
-
-	private String htmlFile;
-	
-	public void setHtmlFile(String file) {
-		htmlFile = file;
-	}
-	
-	public String getHtmlFile() {
-		return htmlFile;
-	}
-
-	private String pngFile;
-	public void setPngFile(String string) {
-		pngFile = string;
-	}
-	
-	public String getPngFile() {
-		return pngFile;
 	}
 	
 	// TODO: be a class
@@ -217,33 +146,5 @@ public class NihongoJTalkSubtitleLine implements Renderable {
 
 	public void setTranslatedText(String text) {
 		translation = text;
-	}
-	
-	private int startTime;
-	private int endTime;
-	private String japanese;
-	
-	public int getStartTime() {
-		return startTime;
-	}
-
-	public int getEndTime() {
-		return endTime;
-	}
-
-	public String getJapanese() {
-		return japanese;
-	}
-
-	public void setStartTime(int mSeconds) {
-		startTime = mSeconds;
-	}
-
-	public void setEndTime(int mSeconds) {
-		endTime = mSeconds;
-	}
-
-	public void setJapaneseSubText(String content) {
-		japanese = content;
 	}
 }

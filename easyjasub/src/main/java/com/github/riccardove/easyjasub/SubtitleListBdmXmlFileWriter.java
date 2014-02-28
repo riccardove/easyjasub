@@ -31,9 +31,6 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.FileImageInputStream;
 
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleLine;
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleList;
-
 
 class SubtitleListBdmXmlFileWriter {
 	private final EasyJaSubInput command;
@@ -54,7 +51,7 @@ class SubtitleListBdmXmlFileWriter {
 	private static final String LineSeparator = SystemProperty.getLineSeparator();
 	private final ImageReader ir;
 	
-	public void writeBDM(NihongoJTalkSubtitleList s, File file) throws IOException, FileNotFoundException {
+	public void writeBDM(SubtitleList s, File file) throws IOException, FileNotFoundException {
 		f = new FileWriter(file);
 
 		writeln("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
@@ -73,8 +70,8 @@ class SubtitleListBdmXmlFileWriter {
 
 		int videoWidth = command.getWidth();
 		int videoHeight = command.getHeight();
-		for (NihongoJTalkSubtitleLine l : s) {
-			File imageFile = new File(file.getParentFile(), l.getPngFile());
+		for (SubtitleLine l : s) {
+			File imageFile = l.getPngFile();
 			if (!imageFile.canRead()) {
 				throw new IOException("Can not read file " + imageFile.getAbsolutePath());
 			}
@@ -90,10 +87,11 @@ class SubtitleListBdmXmlFileWriter {
 
 			int x = (videoWidth - width) / 2;
 			int y = (videoHeight - height - 20);
+			String pngFileName = l.getPngFile().getName();
 			
 			writeln("  <Event InTC=\""+ inTC + "\" OutTC=\""+ outTC + "\" Forced=\"False\">");
 			writeln("    <Graphic Width=\"" + width + "\" Height=\""+ height 
-					+ "\" X=\"" + x + "\" Y=\"" + y + "\">" + l.getPngFile() + "</Graphic>");
+					+ "\" X=\"" + x + "\" Y=\"" + y + "\">" + pngFileName + "</Graphic>");
 			writeln("  </Event>");
 		}
 		writeln("</Events>");

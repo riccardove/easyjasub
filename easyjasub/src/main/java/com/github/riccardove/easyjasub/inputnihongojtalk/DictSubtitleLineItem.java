@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.rendersnake.HtmlCanvas;
 
+import com.github.riccardove.easyjasub.CommonsLangStringUtils;
 import com.github.riccardove.easyjasub.SubtitleItem;
 
 class DictSubtitleLineItem extends RedSubtitleLineItem {
@@ -83,7 +84,7 @@ class DictSubtitleLineItem extends RedSubtitleLineItem {
 				dictElem = dictElem.substring(3);
 			}
 			// discard elements of more than 4 words
-			if (StringUtils.countMatches(" ", dictElem) > 4) {
+			if (CommonsLangStringUtils.countMatches(dictElem, " ") >= 4) {
 				continue;
 			}
 			// single letters are not considered, nor excessively long items
@@ -114,29 +115,15 @@ class DictSubtitleLineItem extends RedSubtitleLineItem {
 				translation = dict.get(0);
 			}
 			item.setTranslation(translation);
-			item.setComment(text + ": " + StringUtils.join(dict, ';'));
+			item.setComment(text + ": " + CommonsLangStringUtils.join(dict, ";"));
 		}
 		super.toItem(item);
 	}
 	
 	@Override
-	public void renderOnLast(HtmlCanvas html) throws IOException {
-		if (dict != null) {
-			String translationTranslation = subtitleLine.getDictionaryMatch(text, dict);
-			if (translationTranslation == null) {
-				translationTranslation = dict.get(0);
-			}
-			html.td().content(translationTranslation);
-		}
-		else {
-			super.renderOnLast(html);
-		}
-	}
-	
-	@Override
 	public String getComment() {
 		if (dict != null) {
-			return text + ": " + StringUtils.join(dict, ';');
+			return text + ": " + CommonsLangStringUtils.join(dict, ";");
 		}
 		return null;
 	}

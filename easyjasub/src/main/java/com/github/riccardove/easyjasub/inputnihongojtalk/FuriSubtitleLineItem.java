@@ -53,9 +53,5 @@ class FuriSubtitleLineItem extends RedSubtitleLineItem {
 	public String toString() {
 		return super.toString() + "(" + furigana + ")";
 	}
-	
-	public void renderOnTop(HtmlCanvas html) throws IOException {
-		html.td(class_(pos)).content(furigana);
-	}
 
 }

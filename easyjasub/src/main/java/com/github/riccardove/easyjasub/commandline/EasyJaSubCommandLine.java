@@ -22,12 +22,8 @@ package com.github.riccardove.easyjasub.commandline;
 
 
 import java.io.PrintWriter;
-import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.github.riccardove.easyjasub.EasyJaSubInputCommand;
-import com.github.riccardove.easyjasub.Phases;
 
 public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private static final String HELP = "h";
@@ -39,20 +35,16 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private static final String IDX = "oidx";
 	private static final String HTML = "ohtml";
 	private static final String BDN = "obdn";
-	private static final String PH = "p";
 	private static final String WK = "wk";
 	private static final String TX = "txt";
 	private static final String CSS = "css";
 	private static final String MATCHTIME = "mt";
 	private static final String APPROXTIME = "at";
+	private static final String HEIGHT = "he";
+	private static final String WIDTH = "wi";
 
 	public EasyJaSubCommandLine() {
 		list = new CommandLineOptionList();
-		String phases = StringUtils.join(",", Phases.values());
-		list.addOption(PH, "phases",
-				"List of steps to execute, to partially execute them; "
-						+ "comma separated. Possible values are: " + phases,
-				"comma-separated-list");
 		list.addOption(VI, "video",
 				"Sets file as reference for video and audio", "file");
 		list.addOption(
@@ -75,7 +67,7 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 				"file");
 		list.addOption(
 				TRL,
-				"translated-sub-language",
+				"tr-sub-lang",
 				"Sets language (two letter ISO code) as language used for translation. "
 						+ "By default reads it from the translated subtitle file.",
 				"language");
@@ -91,9 +83,13 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 				"Writes BDN/XML intermediate files in directory", "directory");
 		list.addOption(WK, "wkhtmltoimage",
 				"Command to execute wkhtmltoimage program", "command");
-		list.addOption(MATCHTIME, "match-diff-milliseconds",
+		list.addOption(HEIGHT, "height",
+				"Height of the generated subtitles pictures", "pixels");
+		list.addOption(WIDTH, "width",
+				"Width of the generated subtitles pictures", "pixels");
+		list.addOption(MATCHTIME, "match-diff",
 				"Amount of milliseconds of difference in time to consider two subtitle lines the same", "milliseconds");
-		list.addOption(APPROXTIME, "approx-match-diff-milliseconds",
+		list.addOption(APPROXTIME, "approx-diff",
 				"Amount of milliseconds of difference in time to consider two subtitle lines approximately the same", "milliseconds");
 		list.addOption(HELP, "help", "Displays help");
 	}
@@ -156,11 +152,6 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 		return wkhtmltoimage;
 	}
 
-	@Override
-	public Set<Phases> getPhases() {
-		return phases;
-	}
-
 	private String videoFileName;
 	private String japaneseSubFileName;
 	private String translatedSubFileName;
@@ -172,20 +163,24 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private String wkhtmltoimage;
 	private String outputJapaneseTextFileName;
 	private String cssFileName;
-	private HashSet<Phases> phases;
 	private String exactMatchTimeDiff;
 	private String approxMatchTimeDiff;
-
+	private String height;
+	private String width;
+	private String cssHiraganaFont;
+	private String cssKanjiFont;
+	private String cssTranslationFont;
+	private String outputIdxDirectory;
+	private String outputBdnFileName;
+	
 	@Override
 	public String getOutputIdxDirectory() {
-		// TODO Auto-generated method stub
-		return null;
+		return outputIdxDirectory;
 	}
 
 	@Override
 	public String getOutputBdnFileName() {
-		// TODO Auto-generated method stub
-		return null;
+		return outputBdnFileName;
 	}
 	
 	public boolean parse(String[] args) {
@@ -205,23 +200,8 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 			cssFileName = cm.getOptionValue(CSS);
 			exactMatchTimeDiff = cm.getOptionValue(MATCHTIME);
 			approxMatchTimeDiff = cm.getOptionValue(APPROXTIME);
-			String phasesStr = cm.getOptionValue(PH);
-			for (Object invalidArg : cm.getArgList()) {
-				addErrorMessage(invalidArg);
-			}
-			if (phasesStr != null) {
-				for (String phaseStr : StringUtils.split(",", phasesStr)) {
-					try {
-						Phases phase = Phases.valueOf(phaseStr.trim());
-						if (phases == null) {
-							phases = new HashSet<Phases>();
-						}
-						phases.add(phase);
-					} catch (Exception ex) {
-						addErrorMessage(phaseStr);
-					}
-				}
-			}
+			width = cm.getOptionValue(WIDTH);
+			height = cm.getOptionValue(HEIGHT);
 		} catch (Exception ex) {
 			message = ex.getMessage();
 		}
@@ -229,14 +209,6 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 			return false;
 		}
 		return true;
-	}
-
-	private void addErrorMessage(Object invalidArg) {
-		if (message == null) {
-			message = "Unrecognized arguments: " + invalidArg.toString();
-		} else {
-			message += " " + invalidArg.toString();
-		}
 	}
 
 	public void printHelp(PrintWriter stream, String usage) {
@@ -262,17 +234,30 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	public String getApproxMatchTimeDiff() {
 		return approxMatchTimeDiff;
 	}
-
+	
 	@Override
-	public int getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+	public String getHeight() {
+		return height;
 	}
 
 	@Override
-	public int getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+	public String getWidth() {
+		return width;
+	}
+
+	@Override
+	public String getCssHiraganaFont() {
+		return cssHiraganaFont;
+	}
+
+	@Override
+	public String getCssKanjiFont() {
+		return cssKanjiFont;
+	}
+
+	@Override
+	public String getCssTranslationFont() {
+		return cssTranslationFont;
 	}
 
 }

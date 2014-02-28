@@ -279,16 +279,23 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return null;
 	}
 
+	private static boolean isDisabled(String name) {
+		return "disabled".equals(name);
+	}
+
 	private static String getWkhtmltoimageFile(EasyJaSubInputCommand command)
 	throws EasyJaSubException {
-		// TODO: this is very system dependent
 		String fileName = command.getWkhtmltoimage();
 		if (fileName != null) {
+			if (isDisabled(fileName)) {
+				return null;
+			}
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			return fileName;
 		}
 		if (CommonsLangSystemUtils.isWindows()) {
+			// gets the file from default installation folder in Windows
 			String programFiles = SystemEnv.getWindowsProgramFiles32();
 			if (programFiles == null) {
 				programFiles = SystemEnv.getWindowsProgramFiles();
@@ -304,6 +311,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			}
 		}
 		else {
+			// guesses the installation folder on Unix
+			// TODO: this is very system dependent
 			File file = new File("/usr/bin/wkhtmltoimage");
 			if (file.exists()) {
 				return file.getAbsolutePath();
@@ -364,8 +373,6 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 	private final File outputJapaneseTextFile;
 
-	private final Set<Phases> phases;
-
 	private final File translatedSubFile;
 
 	private final File cssFile;
@@ -377,13 +384,17 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	private final File videoFile;
 	private final String wkhtmltoimageFile;
 
-	private int exactMatchTimeDiff;
-	private int approxMatchTimeDiff;
+	private final int exactMatchTimeDiff;
+	private final int approxMatchTimeDiff;
+	private final int width;
+	private final int height;
+	private final String cssHiraganaFont;
+	private final String cssKanjiFont;
+	private final String cssTranslationFont;
 
 	public EasyJaSubInputFromCommand(EasyJaSubInputCommand command) throws EasyJaSubException {
 		DefaultFileList defaultFileList = new DefaultFileList(command);
 		nihongoJtalkHtmlFile = getNihongoJtalkHtmlFile(command, defaultFileList);
-		phases = command.getPhases();
 		japaneseSubFile = getJapaneseSubFile(command, defaultFileList);
 		japaneseSubFileType = getSubtitleFileType(japaneseSubFile);
 		translatedSubFile = getTranslatedSubFile(command, defaultFileList, japaneseSubFile);
@@ -397,9 +408,18 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		outputJapaneseTextFile = getOutputJapaneseTextFile(command, videoFile,
 				japaneseSubFile, defaultFileList);
 		cssFile = getCssFile(command, outputHtmlDirectory, defaultFileList);
-		exactMatchTimeDiff = getTimeDiff(command.getExactMatchTimeDiff(), 2000);
-		approxMatchTimeDiff = getTimeDiff(command.getApproxMatchTimeDiff(), 500);
+		exactMatchTimeDiff = getTimeDiff("exact match time", command.getExactMatchTimeDiff(), 2000);
+		approxMatchTimeDiff = getTimeDiff("approximate match time", command.getApproxMatchTimeDiff(), 500);
+		height = getDimension("height", command.getHeight(), 720);
+		width = getDimension("width", command.getWidth(), 1280);
 		defaultFileNamePrefix = defaultFileList.getDefaultFileNamePrefix();
+		cssHiraganaFont = getFont(command.getCssHiraganaFont(), "cinecaption,GT2000-01,arial");
+		cssKanjiFont = getFont(command.getCssKanjiFont(), "GT2000-01,cinecaption,arial");
+		cssTranslationFont = getFont(command.getCssTranslationFont(), "arial");
+	}
+
+	private String getFont(String fontStr, String defaultFontStr) {
+		return fontStr != null && !"default".equals(fontStr) ? fontStr : defaultFontStr;
 	}
 
 	private final String defaultFileNamePrefix;
@@ -426,11 +446,39 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return nihongoJtalkHtmlFile;
 	}
 	
-	private int getTimeDiff(String timeStr, int defaultValue) {
+	private int getTimeDiff(String name, String timeStr, int defaultValue) throws EasyJaSubException {
+		return getInteger(name, timeStr, defaultValue, 100, 5000);
+	}
+	
+	private int getDimension(String name, String timeStr, int defaultValue) throws EasyJaSubException {
+		return getInteger(name, timeStr, defaultValue, 400, 3000);
+	}
+
+	private int getInteger(String name, String timeStr, int defaultValue, int min, int max)
+			throws EasyJaSubException {
 		if (timeStr == null) {
 			return defaultValue;
 		}
-		return Integer.parseInt(timeStr);
+		int value = parseInteger("Invalid " + name, timeStr);
+		if (value < 0) {
+			throw new EasyJaSubException("Negative values are not allowed for " + name);
+		}
+		if (value < min) {
+			throw new EasyJaSubException("Minimum value for " + name + " is " + min + ", " + value + " should be increased");
+		}
+		if (value > max) {
+			throw new EasyJaSubException("Maximum value for " + name + " is " + max + ", " + value + " should be decreased");
+		}
+		return value;
+	}
+
+	private int parseInteger(String message, String timeStr) throws EasyJaSubException {
+		try {
+			return Integer.parseInt(timeStr);
+		}
+		catch (Exception ex) {
+			throw new EasyJaSubException(message + ": " + timeStr + " is not a number or a valid value");
+		}
 	}
 
 	private static File getNihongoJtalkHtmlFile(EasyJaSubInputCommand command,
@@ -491,11 +539,6 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	public File getOutputJapaneseTextFile() {
 		return outputJapaneseTextFile;
 	}
-
-	@Override
-	public Set<Phases> getPhases() {
-		return phases;
-	}
 	
 	@Override
 	public File getTranslatedSubFile() {
@@ -539,29 +582,26 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 	@Override
 	public int getWidth() {
-		return 1280; // TODO
+		return width;
 	}
 
 	@Override
 	public int getHeight() {
-		return 720; // TODO
+		return height;
 	}
 
 	@Override
 	public String getCssHiraganaFont() {
-		// TODO Auto-generated method stub
-		return "cinecaption,GT2000-01,arial";
+		return cssHiraganaFont;
 	}
 
 	@Override
 	public String getCssKanjiFont() {
-		// TODO Auto-generated method stub
-		return "GT2000-01,cinecaption,arial";
+		return cssKanjiFont;
 	}
 
 	@Override
 	public String getCssTranslationFont() {
-		// TODO Auto-generated method stub
-		return "arial";
+		return cssTranslationFont;
 	}
 }

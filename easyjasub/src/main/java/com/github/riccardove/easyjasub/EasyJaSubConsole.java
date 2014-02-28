@@ -26,10 +26,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleLine;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 class EasyJaSubConsole implements EasyJaSubObserver {
@@ -44,26 +42,26 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseStart(File file) {
-		outputStream.println("onInputNihongoJTalkHtmlFileParseStart " + file.getAbsolutePath());
+		outputStream.println("onInputNihongoJTalkHtmlFileParseStart " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseEnd(File file, Set<String> posset) {
-		outputStream.println("onInputNihongoJTalkHtmlFileParseEnd " + file.getAbsolutePath() + " " 
-				+ StringUtils.join(posset, ","));
+		outputStream.println("onInputNihongoJTalkHtmlFileParseEnd " + toString(file) + " " 
+				+ CommonsLangStringUtils.join(posset, ","));
 		outputStream.flush();
 	}
 
 	@Override
 	public void onReadJapaneseSubtitlesStart(File file) {
-		outputStream.println("onReadJapaneseSubtitlesStart " + file.getAbsolutePath());
+		outputStream.println("onReadJapaneseSubtitlesStart " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
 	public void onReadJapaneseSubtitlesEnd(File file) {
-		outputStream.println("onReadJapaneseSubtitlesEnd " + file.getAbsolutePath());
+		outputStream.println("onReadJapaneseSubtitlesEnd " + toString(file));
 		outputStream.flush();
 	}
 
@@ -93,165 +91,165 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 
 	@Override
 	public void onReadTranslatedSubtitlesStart(File file) {
-		outputStream.println("onReadTranslatedSubtitlesStart " + file.getAbsolutePath());
+		outputStream.println("onReadTranslatedSubtitlesStart " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
 	public void onReadTranslatedSubtitlesEnd(File file) {
-		outputStream.println("onReadTranslatedSubtitlesEnd " + file.getAbsolutePath());
+		outputStream.println("onReadTranslatedSubtitlesEnd " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteHtmlStart(File directory, String cssFileUrl) {
-		outputStream.println("onWriteHtmlStart " + directory.getAbsolutePath() + " " + cssFileUrl);
+		outputStream.println("onWriteHtmlStart " + toString(directory) + " " + cssFileUrl);
 		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteHtmlEnd(File directory) {
-		outputStream.println("onWriteHtmlEnd " + directory.getAbsolutePath());
+		outputStream.println("onWriteHtmlEnd " + toString(directory));
 		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteImagesStart(String wkhtml, File htmlFolder,
 			File bdnFolder, int width) {
-		outputStream.println("onWriteImagesStart " + bdnFolder.getAbsolutePath() + " " + wkhtml + " " + width);
+		outputStream.println("onWriteImagesStart " + toString(bdnFolder) + " " + wkhtml + " " + width);
 		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteImagesEnd(String wkhtml, File htmlFolder, File bdnFolder) {
-		outputStream.println("onWriteImagesEnd " + bdnFolder.getAbsolutePath());
+		outputStream.println("onWriteImagesEnd " + toString(bdnFolder));
 		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteBdnXmlFileStart(File file) {
-		outputStream.println("onWriteBdnXmlFileStart " + file.getAbsolutePath());
+		outputStream.println("onWriteBdnXmlFileStart " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteBdnXmlFileEnd(File file) {
-		outputStream.println("onWriteBdnXmlFileEnd " + file.getAbsolutePath());
+		outputStream.println("onWriteBdnXmlFileEnd " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteIdxFileStart(File file, File bdnFile) {
-		outputStream.println("onWriteIdxFileStart " + file.getAbsolutePath());
+		outputStream.println("onWriteIdxFileStart " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteIdxFileEnd(File file) {
-		outputStream.println("onWriteIdxFileEnd " + file.getAbsolutePath());
+		outputStream.println("onWriteIdxFileEnd " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
-	public void onWriteOutputJapaneseTextFileStart(File txtFile) {
-		outputStream.println("onWriteOutputJapaneseTextFileStart " + txtFile.getAbsolutePath());
+	public void onWriteOutputJapaneseTextFileStart(File file) {
+		outputStream.println("onWriteOutputJapaneseTextFileStart " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
-	public void onWriteOutputJapaneseTextFileEnd(File txtFile) {
-		outputStream.println("onWriteOutputJapaneseTextFileEnd " + txtFile.getAbsolutePath());
+	public void onWriteOutputJapaneseTextFileEnd(File file) {
+		outputStream.println("onWriteOutputJapaneseTextFileEnd " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
-	public void onWriteCssStart(File cssFile) {
-		outputStream.println("onWriteCssStart " + cssFile.getAbsolutePath());
+	public void onWriteCssStart(File file) {
+		outputStream.println("onWriteCssStart " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
-	public void onWriteCssEnd(File cssFile) {
-		outputStream.println("onWriteCssStart " + cssFile.getAbsolutePath());
+	public void onWriteCssEnd(File file) {
+		outputStream.println("onWriteCssEnd " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteImage(File pngFile, File file) {
-		outputStream.println("writing image " + pngFile.getAbsolutePath());
+		outputStream.println("writing image " + toString(pngFile) + " " + toString(file));
 		outputStream.flush();
 	}
 
 	@Override
-	public void onReadJapaneseSubtitlesIOError(File jaF, IOException ex)
+	public void onReadJapaneseSubtitlesIOError(File file, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error reading japanese subtitles file " + jaF.getAbsolutePath() + ": " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error reading japanese subtitles file " + toString(file) + ": " + ex.getLocalizedMessage());
 	}
 
 	@Override
-	public void onReadJapaneseSubtitlesParseError(File jaF,
+	public void onReadJapaneseSubtitlesParseError(File file,
 			InputTextSubException ex) throws EasyJaSubException {
-		throw new EasyJaSubException("Error parsing japanese subtitles file " + jaF.getAbsolutePath() + " content: " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error parsing japanese subtitles file " + toString(file) + " content: " + ex.getLocalizedMessage());
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlFileIOError(File f, IOException ex)
+	public void onInputNihongoJTalkHtmlFileIOError(File file, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error reading nihongo.j-talk file " + f.getAbsolutePath() + ": " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error reading nihongo.j-talk file " + toString(file) + ": " + ex.getLocalizedMessage());
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlFileParseError(File f, SAXException ex)
+	public void onInputNihongoJTalkHtmlFileParseError(File file, SAXException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error parsing nihongo.j-talk file " + f.getAbsolutePath() + "content: " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error parsing nihongo.j-talk file " + toString(file) + "content: " + ex.getLocalizedMessage());
 	}
 
 	@Override
-	public void onReadTranslatedSubtitlesIOError(File jaF, IOException ex)
+	public void onReadTranslatedSubtitlesIOError(File file, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error reading translated subtitles file " + jaF.getAbsolutePath() + ": " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error reading translated subtitles file " + toString(file) + ": " + ex.getLocalizedMessage());
 	}
 
 	@Override
-	public void onReadTranslatedSubtitlesParseError(File jaF,
+	public void onReadTranslatedSubtitlesParseError(File file,
 			InputTextSubException ex) throws EasyJaSubException {
-		throw new EasyJaSubException("Error parsing translated subtitles file " + jaF.getAbsolutePath() + " content: " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error parsing translated subtitles file " + toString(file) + " content: " + ex.getLocalizedMessage());
 	}
 
 	@Override
-	public void onWriteCssIOError(File cssFile, IOException ex)
+	public void onWriteCssIOError(File file, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error writing css file " + cssFile.getAbsolutePath() + " : " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error writing css file " + toString(file) + " : " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onWriteHtmlError(File htmlFolder, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error writing html file on folder " + htmlFolder.getAbsolutePath() + " : " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error writing html file on folder " + toString(htmlFolder) + " : " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onWriteImagesWkhtmlError(File bdnFolder, Exception ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error invoking wkhtmltoimage to write files on folder " + bdnFolder.getAbsolutePath() + " : " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error invoking wkhtmltoimage to write files on folder " + toString(bdnFolder) + " : " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onWriteImagesIOError(File bdnFolder, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error writing image files on folder " + bdnFolder.getAbsolutePath() + " : " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error writing image files on folder " + toString(bdnFolder) + " : " + ex.getLocalizedMessage());
 	}
 
 	@Override
-	public void onWriteBdnXmlFileIOError(File f, IOException ex)
+	public void onWriteBdnXmlFileIOError(File file, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error writing BDMXML file " + f.getAbsolutePath() + " : " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error writing BDMXML file " + toString(file) + " : " + ex.getLocalizedMessage());
 	}
 
 	@Override
-	public void onWriteOutputJapaneseTextFileIOError(File txtFile,
+	public void onWriteOutputJapaneseTextFileIOError(File file,
 			IOException ex) throws EasyJaSubException {
-		throw new EasyJaSubException("Error writing japanese text file " + txtFile.getAbsolutePath() + " : " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error writing japanese text file " + toString(file) + " : " + ex.getLocalizedMessage());
 	}
 
 	@Override
@@ -262,68 +260,78 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlLine(NihongoJTalkSubtitleLine line) {
+	public void onInputNihongoJTalkHtmlLine(String line) {
 		outputStream.println("Line: " + line.toString());
 		outputStream.flush();
 	}
 
 	@Override
-	public void onWriteOutputJapaneseTextFileSkipped(File txtFile) {
-		// TODO Auto-generated method stub
-		
+	public void onWriteOutputJapaneseTextFileSkipped(File file) {
+		outputStream.println("onWriteOutputJapaneseTextFileSkipped " + toString(file));
+		outputStream.flush();
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlFileParseSkipped(File f) {
-		// TODO Auto-generated method stub
-		
+	public void onInputNihongoJTalkHtmlFileParseSkipped(File file) {
+		outputStream.println("onInputNihongoJTalkHtmlFileParseSkipped " + toString(file));
+		outputStream.flush();
 	}
 
 	@Override
-	public void onReadTranslatedSubtitlesSkipped(File enF) {
-		// TODO Auto-generated method stub
-		
+	public void onReadTranslatedSubtitlesSkipped(File file) {
+		outputStream.println("onReadTranslatedSubtitlesSkipped " + toString(file));
+		outputStream.flush();
 	}
 
 	@Override
-	public void onWriteCssSkipped(File cssFile) {
-		// TODO Auto-generated method stub
-		
+	public void onWriteCssSkipped(File file) {
+		outputStream.println("onWriteCssSkipped " + toString(file));
+		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteHtmlFile(File file) {
-		// TODO Auto-generated method stub
-		
+		outputStream.println("onWriteHtmlFile " + toString(file));
+		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteHtmlFileSkipped(File file) {
-		// TODO Auto-generated method stub
-		
+		outputStream.println("onWriteHtmlFileSkipped " + toString(file));
+		outputStream.flush();
 	}
 
 	@Override
-	public void onWriteBdnXmlFileSkipped(File f) {
-		// TODO Auto-generated method stub
-		
+	public void onWriteBdnXmlFileSkipped(File file) {
+		outputStream.println("onWriteBdnXmlFileSkipped " + toString(file));
+		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteImageSkipped(File pngFile, File file) {
-		// TODO Auto-generated method stub
-		
+		outputStream.println("onWriteImageSkipped " + toString(pngFile) + " " + toString(file));
+		outputStream.flush();
 	}
 
 	@Override
 	public void onWriteIdxFileSkipped(File file, File bdnFile) {
-		// TODO Auto-generated method stub
-		
+		outputStream.println("onWriteIdxFileSkipped " + toString(file)+ " " + toString(bdnFile));
+		outputStream.flush();
 	}
 
 	@Override
-	public void onReadJapaneseSubtitlesSkipped(File jaF) {
-		// TODO Auto-generated method stub
-		
+	public void onReadJapaneseSubtitlesSkipped(File file) {
+		outputStream.println("onReadJapaneseSubtitlesSkipped " + toString(file));
+		outputStream.flush();
+	}
+
+	@Override
+	public void onInputNihongoJTalkHtmlLineParseSkipped(int index) {
+		outputStream.println("onReadJapaneseSubtitlesSkipped " + index);
+		outputStream.flush();
+	}
+	
+	private static String toString(File file) {
+		return file != null ? toString(file) : "<null>";
 	}
 }

@@ -49,8 +49,6 @@ public interface EasyJaSubInputCommand {
 
 	public abstract String getWkhtmltoimage();
 
-	public abstract Set<Phases> getPhases();
-
 	public abstract String getOutputJapaneseTextFileName();
 
 	public abstract String getCssFileName();
@@ -59,8 +57,14 @@ public interface EasyJaSubInputCommand {
 
 	public abstract String getApproxMatchTimeDiff();
 
-	int getHeight();
+	public abstract String getHeight();
 
-	int getWidth();
+	public abstract String getWidth();
+
+	public abstract String getCssHiraganaFont();
+
+	public abstract String getCssKanjiFont();
+
+	public abstract String getCssTranslationFont();
 
 }

@@ -21,13 +21,7 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
  */
 
 
-import java.io.IOException;
-
-import org.rendersnake.HtmlCanvas;
-
 import com.github.riccardove.easyjasub.SubtitleItem;
-
-import static org.rendersnake.HtmlAttributesFactory.class_;
 
 class TextSubtitleLineItem extends NihongoJTalkSubtitleLineItem {
 	protected String text;
@@ -55,29 +49,7 @@ class TextSubtitleLineItem extends NihongoJTalkSubtitleLineItem {
 		if (trimmedText.length() < text.length()) {
 			trimmedText += "&thinsp;";
 		}
+		item.setText(trimmedText);
 		super.toItem(item);
-	}
-	
-	public void renderOn(HtmlCanvas html) throws IOException {
-		html.write(text);
-	}
-
-	public void renderOnCenter(HtmlCanvas html) throws IOException {
-		renderText(null, html);
-	}
-	
-	protected void renderText(String styleClass, HtmlCanvas html) throws IOException {
-		String trimmedText = text.replace('　', ' ').trim();
-		if (styleClass == null) {
-			html.td();
-		}
-		else {
-			html.td(class_(styleClass));
-		}
-		html.write(trimmedText, false);
-		if (trimmedText.length() < text.length()) {
-			html.write("&thinsp;", false);
-		}
-		html._td();
 	}
 }

@@ -21,14 +21,9 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
  */
 
 
-import java.io.IOException;
-
-import org.rendersnake.HtmlCanvas;
-import org.rendersnake.Renderable;
-
 import com.github.riccardove.easyjasub.SubtitleItem;
 
-public abstract class NihongoJTalkSubtitleLineItem  implements Renderable {
+abstract class NihongoJTalkSubtitleLineItem {
 
 	protected final NihongoJTalkSubtitleLine subtitleLine;
 
@@ -42,20 +37,6 @@ public abstract class NihongoJTalkSubtitleLineItem  implements Renderable {
 	public void toItem(SubtitleItem item) 
 	{
 		
-	}
-	
-	public void renderOnTop(HtmlCanvas html) throws IOException {
-		html.td()._td();
-	}
-	public void renderOnCenter(HtmlCanvas html) throws IOException {
-		html.td()._td();
-	}
-	public void renderOnBottom(HtmlCanvas html) throws IOException {
-		html.td()._td();
-	}
-
-	public void renderOnLast(HtmlCanvas html) throws IOException {
-		html.td()._td();
 	}
 
 	public void setIndex(int index) {

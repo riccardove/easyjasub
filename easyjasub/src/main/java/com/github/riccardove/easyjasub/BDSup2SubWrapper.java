@@ -28,7 +28,7 @@ import bdsup2sub.BDSup2Sub;
 class BDSup2SubWrapper {
 
 	public void toIdx(File fileIn, File fileOut, int width) {
-		BDSup2Sub.main(new String[] {
+		String[] args = new String[] {
 				"-m", "100",
 				"-x", "10",
 				"-p", "keep",
@@ -36,7 +36,14 @@ class BDSup2SubWrapper {
 				"-v",
 //				"-r", Integer.toString(width),
 				"-o", fileOut.getAbsolutePath(), 
-				fileIn.getAbsolutePath() });
+				fileIn.getAbsolutePath() };
+		try {
+			BDSup2Sub.main(args);
+		}
+		catch (Throwable ex) {
+			throw new RuntimeException("There was an error running the embedded BDSup2Sub with arguments " +
+					CommonsLangStringUtils.join(args, " "));
+		}
 	}
 
 }

@@ -27,19 +27,12 @@ import java.util.Set;
 
 import org.xml.sax.SAXException;
 
-import com.github.riccardove.easyjasub.inputnihongojtalk.NihongoJTalkSubtitleLine;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseStart(File f) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseEnd(File f, Set<String> posset) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -257,7 +250,7 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlLine(NihongoJTalkSubtitleLine line) {
+	public void onInputNihongoJTalkHtmlLine(String line) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -324,6 +317,18 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	@Override
 	public void onReadJapaneseSubtitlesSkipped(File jaF) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onInputNihongoJTalkHtmlLineParseSkipped(int nIndex) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onInputNihongoJTalkHtmlFileParseEnd(File f, Set<String> posset) {
 		// TODO Auto-generated method stub
 		
 	}

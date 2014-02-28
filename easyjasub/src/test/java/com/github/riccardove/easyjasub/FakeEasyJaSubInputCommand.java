@@ -21,14 +21,12 @@ package com.github.riccardove.easyjasub;
  */
 
 
-import java.util.HashSet;
-
 public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 
 	private String approxMatchTimeDiff;
 	private String cssFileName;
 	private String exactMatchTimeDiff;
-	private int height;
+	private String height;
 	private boolean help;
 	private String japaneseSubFileName;
 	private String nihongoJtalkHtmlFileName;
@@ -36,12 +34,36 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 	private String outputHtmlDirectory;
 	private String outputIdxFileName;
 	private String outputJapaneseTextFileName;
-	private HashSet<Phases> phases;
 	private String translatedSubFileName;
 	private String translatedSubLanguage;
 	private String videoFileName;
-	private int width;
+	private String width;
 	private String wkhtmltoimage;
+	private String cssHiraganaFont;
+	public String getCssHiraganaFont() {
+		return cssHiraganaFont;
+	}
+	public void setCssHiraganaFont(String cssHiraganaFont) {
+		this.cssHiraganaFont = cssHiraganaFont;
+	}
+	public String getCssKanjiFont() {
+		return cssKanjiFont;
+	}
+	public void setCssKanjiFont(String cssKanjiFont) {
+		this.cssKanjiFont = cssKanjiFont;
+	}
+	public String getCssTranslationFont() {
+		return cssTranslationFont;
+	}
+	public void setCssTranslationFont(String cssTranslationFont) {
+		this.cssTranslationFont = cssTranslationFont;
+	}
+	public void setHelp(boolean help) {
+		this.help = help;
+	}
+
+	private String cssKanjiFont;
+	private String cssTranslationFont;
 	@Override
 	public String getApproxMatchTimeDiff() {
 		return approxMatchTimeDiff;
@@ -55,7 +77,7 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 		return exactMatchTimeDiff;
 	}
 	@Override
-	public int getHeight() {
+	public String getHeight() {
 		return height;
 	}
 	@Override
@@ -93,10 +115,6 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 		return outputJapaneseTextFileName;
 	}
 	@Override
-	public HashSet<Phases> getPhases() {
-		return phases;
-	}
-	@Override
 	public String getTranslatedSubFileName() {
 		return translatedSubFileName;
 	}
@@ -111,7 +129,7 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 	}
 
 	@Override
-	public int getWidth() {
+	public String getWidth() {
 		return width;
 	}
 	@Override
@@ -131,7 +149,7 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 	public void setExactMatchTimeDiff(String exactMatchTimeDiff) {
 		this.exactMatchTimeDiff = exactMatchTimeDiff;
 	}
-	public void setHeight(int height) {
+	public void setHeight(String height) {
 		this.height = height;
 	}
 	public void setJapaneseSubFileName(String japaneseSubFileName) {
@@ -152,9 +170,6 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 	public void setOutputJapaneseTextFileName(String outputJapaneseTextFileName) {
 		this.outputJapaneseTextFileName = outputJapaneseTextFileName;
 	}
-	public void setPhases(HashSet<Phases> phases) {
-		this.phases = phases;
-	}
 	public void setTranslatedSubFileName(String translatedSubFileName) {
 		this.translatedSubFileName = translatedSubFileName;
 	}
@@ -166,7 +181,7 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 		this.videoFileName = videoFileName;
 	}
 	
-	public void setWidth(int width) {
+	public void setWidth(String width) {
 		this.width = width;
 	}
 	

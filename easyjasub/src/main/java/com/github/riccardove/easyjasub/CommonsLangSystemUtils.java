@@ -23,7 +23,7 @@ package com.github.riccardove.easyjasub;
 
 import org.apache.commons.lang3.SystemUtils;
 
-class CommonsLangSystemUtils {
+abstract class CommonsLangSystemUtils {
 	public static boolean isWindows() {
 		return SystemUtils.IS_OS_WINDOWS;
 	}
