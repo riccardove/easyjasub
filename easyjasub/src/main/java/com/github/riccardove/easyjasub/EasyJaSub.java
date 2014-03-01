@@ -39,6 +39,13 @@ public class EasyJaSub {
 		if (filePrefix == null) {
 			filePrefix = "easyjasub_";
 		}
+
+		String systemEncoding = SystemProperty.getEncoding();
+		if (!EasyJaSubCharset.CHARSETSTR.equals(systemEncoding)) {
+			observer.onEncodingWarning(systemEncoding,
+					EasyJaSubCharset.CHARSETSTR);
+		}
+
 //		    s.setWidth(1366);
 //		    s.setHeight(768);
 //            return "720p (1280x720)";
@@ -76,7 +83,7 @@ public class EasyJaSub {
 			return 0;
 		}
 				
-		File bdnFolder = bdnFile.getParentFile();
+		File bdnFolder = bdnFile.getAbsoluteFile().getParentFile();
 
 	    int index = 0;
 	    for (SubtitleLine line : s) {
@@ -191,12 +198,12 @@ public class EasyJaSub {
 
 	private void writeHtmlFiles(EasyJaSubInput command,EasyJaSubObserver observer, SubtitleList s,
 			File htmlFolder, File cssFile) throws EasyJaSubException {
-		// TODO construct relative url
-		String cssFileUrl = cssFile != null ? cssFile.toURI().toString() : "default.css";
-		observer.onWriteHtmlStart(htmlFolder, cssFileUrl);
+		observer.onWriteHtmlStart(htmlFolder, cssFile);
 		mkDirs(htmlFolder);
 		try {
-			new SubtitleListHtmlFilesWriter(cssFileUrl, observer).writeHtmls(s, command);
+			new SubtitleListHtmlFilesWriter(htmlFolder, cssFile, observer)
+					.writeHtmls(s,
+					command);
 			observer.onWriteHtmlEnd(htmlFolder);
 		}
 		catch (IOException ex) {
@@ -300,8 +307,8 @@ public class EasyJaSub {
 	}
 
 	private void mkParentDirs(File file) throws EasyJaSubException {
-		File parent = file.getParentFile();
-		if (!parent.exists() && !parent.mkdirs()) {
+		File parent = file.getAbsoluteFile().getParentFile();
+		if (parent == null || (!parent.exists() && !parent.mkdirs())) {
 			throw new EasyJaSubException(
 					"Could not create parent directories for "
 							+ file.getAbsolutePath());

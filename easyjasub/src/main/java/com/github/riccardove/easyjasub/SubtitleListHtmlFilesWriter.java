@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import static org.rendersnake.HtmlAttributesFactory.charset;
 import static org.rendersnake.HtmlAttributesFactory.class_;
 import static org.rendersnake.HtmlAttributesFactory.lang;
@@ -35,160 +34,203 @@ import java.util.List;
 import org.rendersnake.HtmlCanvas;
 
 class SubtitleListHtmlFilesWriter {
-	private final String cssFile;
+	private final File cssFile;
 	private final EasyJaSubObserver observer;
+	private final File htmlDirectory;
 
-	public SubtitleListHtmlFilesWriter(String cssFileUrl, EasyJaSubObserver observer){
-		this.cssFile = cssFileUrl;
+	public SubtitleListHtmlFilesWriter(File htmlDirectory, File cssFile,
+			EasyJaSubObserver observer) {
+		this.htmlDirectory = htmlDirectory;
+		this.cssFile = cssFile;
 		this.observer = observer;
 	}
 
-	public void writeHtmls(SubtitleList s, EasyJaSubInput command) throws IOException{
-		ArrayList<OutputStreamWriter> writers = new ArrayList<OutputStreamWriter>(s.size());
+	public void writeHtmls(SubtitleList s, EasyJaSubInput command)
+			throws IOException {
+		// TODO construct relative url
+		String cssFileUrl = cssFile != null ? cssFile.toURI().toString()
+				: "default.css";
+
+		ArrayList<OutputStreamWriter> writers = new ArrayList<OutputStreamWriter>(
+				s.size());
 		for (SubtitleLine l : s) {
 			File file = l.getHtmlFile();
 			if (!file.exists()) {
 				observer.onWriteHtmlFile(file);
-				String htmlStr = toHtml(l, cssFile, command);
-				
+
+				String htmlStr = toHtml(l, cssFileUrl, command);
+
 				writers.add(toFile(htmlStr, file));
-			}
-			else {
+			} else {
 				observer.onWriteHtmlFileSkipped(file);
 			}
+			if (writers.size() > 30) {
+				closeWriters(writers);
+			}
 		}
+		closeWriters(writers);
+	}
+
+	private void closeWriters(ArrayList<OutputStreamWriter> writers)
+			throws IOException {
 		for (OutputStreamWriter writer : writers) {
 			writer.close();
 		}
+		writers.clear();
 	}
-	
-	private String toHtml(SubtitleLine s, String cssFileRef, EasyJaSubInput command) throws IOException 
-	{
+
+	private String toHtml(SubtitleLine s, String cssFileRef,
+			EasyJaSubInput command) throws IOException {
 		HtmlCanvas html = new HtmlCanvas();
 		html.write("<!DOCTYPE html>", false)
-		.html(lang("ja"))
-		.head()
-		.meta(charset(EasyJaSubCharset.CHARSETSTR))
-		.write("<link href=\"" + cssFileRef + "\" rel=\"stylesheet\" type=\"text/css\" />", false)
-		._head().body();
+				.html(lang("ja"))
+				.head()
+				.meta(charset(EasyJaSubCharset.CHARSETSTR))
+				.write("<link href=\"" + cssFileRef
+						+ "\" rel=\"stylesheet\" type=\"text/css\" />", false)
+				._head().body();
 		renderOn(html, s, command);
 		html._body()._html();
 
 		return html.toHtml();
 	}
-	
-	private static OutputStreamWriter toFile(String text, File fileName) throws IOException
-	{
-		OutputStreamWriter fw = new OutputStreamWriter(new FileOutputStream(fileName), EasyJaSubCharset.CHARSET);
+
+	private static OutputStreamWriter toFile(String text, File fileName)
+			throws IOException {
+		OutputStreamWriter fw = new OutputStreamWriter(new FileOutputStream(
+				fileName), EasyJaSubCharset.CHARSET);
 		fw.write(text);
 		return fw;
 	}
 
+	public static final String Newline = SystemProperty.getLineSeparator();
 
-	public static final String Newline = "\r\n";
-	
-	private void renderOn(HtmlCanvas html, SubtitleLine line, EasyJaSubInput command) throws IOException {
-		boolean showTranslation = command.showTranslation();
-		boolean showFurigana = command.showFurigana();
-		boolean showDictionary = command.showDictionary();
-		boolean showRomaji = command.showRomaji();
-		boolean showKanji = command.showKanji();
-		
+	private void renderOn(HtmlCanvas html, SubtitleLine line,
+			EasyJaSubInput command) throws IOException {
 		List<SubtitleItem> items = line.getItems();
 		if (items != null) {
-			appendln(html);
-			html.table();
-			appendln(html);
-			if (showFurigana && showKanji) {
-				html.tr(class_("top")).write(Newline, false);
-				for (SubtitleItem item : items) {
-					html.write("  ");
-					renderFurigana(html, item);
-					appendln(html);
-				}
-				html._tr();
+			appendItems(html, command.showFurigana(), command.showDictionary(),
+					command.showRomaji(), command.showKanji(), items);
+		} else {
+			if (line.getSubText() != null) {
+				appendSubText(html, line);
+			}
+		}
+		if (command.showTranslation()) {
+			appendTranslation(html, line);
+		}
+		if (items != null) {
+			appendComment(html, items);
+		}
+	}
+
+	private void appendComment(HtmlCanvas html, List<SubtitleItem> items)
+			throws IOException {
+		html.write("<!--", false);
+		appendln(html);
+		for (SubtitleItem item : items) {
+			String comment = item.getComment();
+			if (comment != null) {
+				html.write(comment, false);
 				appendln(html);
 			}
-			html.tr(class_("center")).write(Newline, false);
+		}
+		html.write("-->", false);
+		appendln(html);
+	}
+
+	private void appendTranslation(HtmlCanvas html, SubtitleLine line)
+			throws IOException {
+		String translation = line.getTranslation();
+		if (translation != null) {
+			appendln(html);
+			html.p().write(translation, false)._p();
+		}
+	}
+
+	private void appendSubText(HtmlCanvas html, SubtitleLine line)
+			throws IOException {
+		html.table().tr(class_("center")).td()
+				.content(line.getSubText(), false)._tr()
+				._table();
+		appendln(html);
+	}
+
+	private void appendItems(HtmlCanvas html, boolean showFurigana,
+			boolean showDictionary, boolean showRomaji, boolean showKanji,
+			List<SubtitleItem> items) throws IOException {
+		appendln(html);
+		html.table();
+		appendln(html);
+		if (showFurigana && showKanji) {
+			html.tr(class_("top")).write(Newline, false);
 			for (SubtitleItem item : items) {
 				html.write("  ");
-				renderOnCenter(html, item, showKanji);
+				renderFurigana(html, item);
 				appendln(html);
 			}
 			html._tr();
 			appendln(html);
-			if (showRomaji) {
-				html.tr(class_("bottom"));
-				appendln(html);
-				for (SubtitleItem item : items) {
-					html.write("  ");
-					renderRomaji(html, item);
-					appendln(html);
-				}
-				html._tr();
-				appendln(html);
-			}
-			if (showDictionary) {
-				html.tr(class_("translation")).write(Newline, false);
-				for (SubtitleItem item : items) {
-					html.write("  ");
-					renderDictionary(html, item);
-					appendln(html);
-				}
-				html._tr();
-				appendln(html);
-			}
-			html._table();
 		}
-		if (showTranslation) {
-			String translation = line.getTranslation();
-			if (translation != null) {
-				appendln(html);
-				html.p().write(translation, false)._p();
-			}
+		html.tr(class_("center")).write(Newline, false);
+		for (SubtitleItem item : items) {
+			html.write("  ");
+			renderOnCenter(html, item, showKanji);
+			appendln(html);
 		}
-		if (items != null) {
-			html.write("<!--", false);
+		html._tr();
+		appendln(html);
+		if (showRomaji) {
+			html.tr(class_("bottom"));
 			appendln(html);
 			for (SubtitleItem item : items) {
-				String comment = item.getComment();
-				if (comment!=null) {
-					html.write(comment, false);
-					appendln(html);
-				}
+				html.write("  ");
+				renderRomaji(html, item);
+				appendln(html);
 			}
-			html.write("-->", false);
+			html._tr();
 			appendln(html);
 		}
+		if (showDictionary) {
+			html.tr(class_("translation")).write(Newline, false);
+			for (SubtitleItem item : items) {
+				html.write("  ");
+				renderDictionary(html, item);
+				appendln(html);
+			}
+			html._tr();
+			appendln(html);
+		}
+		html._table();
 	}
 
 	private void appendln(HtmlCanvas html) throws IOException {
 		html.write(Newline, false);
 	}
-	
-	private void renderFurigana(HtmlCanvas html, SubtitleItem item) throws IOException {
+
+	private void renderFurigana(HtmlCanvas html, SubtitleItem item)
+			throws IOException {
 		String furigana = item.getFurigana();
 		if (furigana == null) {
 			html.td()._td();
-		}
-		else {
+		} else {
 			html.td(class_(item.getGrammarElement())).content(furigana, false);
 		}
 
 	}
-	private void renderOnCenter(HtmlCanvas html, SubtitleItem item, boolean showKanji) throws IOException {
+
+	private void renderOnCenter(HtmlCanvas html, SubtitleItem item,
+			boolean showKanji) throws IOException {
 		List<SubtitleItem.Inner> elements = item.getElements();
 		String text = item.getText();
 		if (text == null) {
 			html.td()._td();
-		}
-		else if (elements == null){
+		} else if (elements == null) {
 			String trimmedText = text.replace('　', ' ').trim();
 			String styleClass = item.getGrammarElement();
 			if (styleClass == null) {
 				html.td();
-			}
-			else {
+			} else {
 				html.td(class_(styleClass));
 			}
 			html.write(trimmedText, false);
@@ -196,42 +238,40 @@ class SubtitleListHtmlFilesWriter {
 				html.write("&thinsp;", false);
 			}
 			html._td();
-		}
-		else if (showKanji) {
+		} else if (showKanji) {
 			html.td(class_(item.getGrammarElement()));
 			for (SubtitleItem.Inner element : elements) {
 				String kanji = element.getKanji();
 				if (kanji != null) {
-		    		html.span(class_("kk")).content(kanji, false);
-				}
-				else {
+					html.span(class_("kk")).content(kanji, false);
+				} else {
 					html.write(element.getText());
 				}
 			}
 			html._td();
-		}
-		else {
-			html.td(class_(item.getGrammarElement())).content(item.getFurigana());
+		} else {
+			html.td(class_(item.getGrammarElement())).content(
+					item.getFurigana());
 		}
 	}
-	
-	private void renderRomaji(HtmlCanvas html, SubtitleItem item) throws IOException {
+
+	private void renderRomaji(HtmlCanvas html, SubtitleItem item)
+			throws IOException {
 		String romaji = item.getRomaji();
 		if (romaji == null) {
 			html.td()._td();
-		}
-		else {
+		} else {
 			html.td(class_(item.getGrammarElement())).content(romaji, false);
 		}
 
 	}
 
-	private void renderDictionary(HtmlCanvas html, SubtitleItem item) throws IOException {
+	private void renderDictionary(HtmlCanvas html, SubtitleItem item)
+			throws IOException {
 		String dict = item.getTranslation();
 		if (dict != null) {
 			html.td().content(dict);
-		}
-		else {
+		} else {
 			html.td()._td();
 		}
 	}

@@ -52,7 +52,7 @@ public interface EasyJaSubObserver {
 
 	void onReadTranslatedSubtitlesEnd(File file);
 
-	void onWriteHtmlStart(File htmlFolder, String cssFileUrl);
+	void onWriteHtmlStart(File htmlFolder, File cssFile);
 
 	void onWriteHtmlEnd(File htmlFolder);
 
@@ -127,4 +127,6 @@ public interface EasyJaSubObserver {
 	void onReadJapaneseSubtitlesSkipped(File jaF);
 
 	void onInputNihongoJTalkHtmlLineParseSkipped(List<Integer> nLines, List<Integer> subLines);
+
+	void onEncodingWarning(String systemEncoding, String charsetstr);
 }

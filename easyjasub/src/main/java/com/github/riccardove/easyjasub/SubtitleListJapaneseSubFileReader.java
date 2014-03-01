@@ -52,10 +52,10 @@ class SubtitleListJapaneseSubFileReader {
 			}
 			int endIndex = selection.getEndLine();
 			int size = subsList.size();
-			if (endIndex == 0 || endIndex >= size) {
-				endIndex = size-1;
+			if (endIndex == 0 || endIndex > size) {
+				endIndex = size;
 			}
-			for (int i = startIndex; i<= endIndex; ++i) {
+			for (int i = startIndex; i < endIndex; ++i) {
 				addLine(s, subsList.get(i));
 			}
 			selection.setStartLine(s.first().getStartTime());

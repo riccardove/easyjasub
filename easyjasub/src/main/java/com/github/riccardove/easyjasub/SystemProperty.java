@@ -26,10 +26,12 @@ class SystemProperty {
 	static {
 		UserDir = System.getProperty("user.dir");
 		LineSeparator = System.getProperty("line.separator");
+		Encoding = System.getProperty("file.encoding");
 	}
 	
 	private static final String UserDir;
 	private static final String LineSeparator;
+	private static final String Encoding;
 	
 	public static String getUserDir() {
 		return UserDir;
@@ -37,5 +39,9 @@ class SystemProperty {
 	
 	public static String getLineSeparator() {
 		return LineSeparator;
+	}
+
+	public static String getEncoding() {
+		return Encoding;
 	}
 }

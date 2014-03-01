@@ -217,6 +217,9 @@
 								<minVersion>${launch4j.jremin}</minVersion>
 								<initialHeapSize>${launch4j.jreheap}</initialHeapSize>
 								<maxHeapSize>${launch4j.jreheapmax}</maxHeapSize>
+								<opts>
+									<opt>-Dfile.encoding=UTF-8</opt>
+								</opts>
 							</jre>
 						</configuration>
 					</execution>

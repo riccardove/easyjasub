@@ -111,8 +111,9 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onWriteHtmlStart(File directory, String cssFileUrl) {
-		println("onWriteHtmlStart " + toString(directory) + " " + cssFileUrl);
+	public void onWriteHtmlStart(File directory, File cssFile) {
+		println("onWriteHtmlStart " + toString(directory) + " "
+				+ toString(cssFile));
 		flushOutput();
 	}
 
@@ -352,6 +353,12 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 		println("onInputNihongoJTalkHtmlLineParseSkipped "
 				+ CommonsLangStringUtils.join(nLines, ",") + " -- "
 				+ CommonsLangStringUtils.join(subLines, ","));
+		flushOutput();
+	}
+
+	@Override
+	public void onEncodingWarning(String systemEncoding, String charsetstr) {
+		println("onEncodingWarning " + systemEncoding);
 		flushOutput();
 	}
 }

@@ -108,6 +108,16 @@ public class InputNihongoJTalkHtmlFile {
 		    	}
 	    	}
 	    }
+		if (index < size) {
+			for (int j = index; j < size; ++j) {
+				subsSkipped.add(j);
+			}
+		}
+		if (nIndex < nsize) {
+			for (int j = nIndex; j < nsize; ++j) {
+				nSkipped.add(j);
+			}
+		}
 	    if (nSkipped.size() > 0 ||
 	    	subsSkipped.size() > 0) {
 	    	observer.onInputNihongoJTalkHtmlLineParseSkipped(nSkipped, subsSkipped);

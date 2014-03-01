@@ -64,7 +64,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			}
 			return;
 		}
-		File directory = file;
+		File directory = file.getAbsoluteFile();
 		do {
 			directory = directory.getParentFile();
 		}
@@ -198,7 +198,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				directory = new File(directoryName);
 			}
 			else {
-			    directory = new File(outputIdxFile.getParentFile(), fileNameBase + "_bdmxml");
+				directory = new File(outputIdxFile.getAbsoluteFile()
+						.getParentFile(), fileNameBase + "_bdmxml");
 			}
 			file = new File(directory, fileNameBase + ".xml");
 			fileName = file.getAbsolutePath();
@@ -221,7 +222,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		}
 		else if (outputBdmFile != null)
 		{
-			directory = outputBdmFile.getParentFile();
+			directory = outputBdmFile.getAbsoluteFile().getParentFile();
 		}
 		else {
 			directory = new File(defaultFileList.getDefaultFileNamePrefix() + "_html");
@@ -253,7 +254,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				file = new File(defaultFileList.getDefaultFileNamePrefix() + ".idx");
 			}
 			else {
-			    file = new File(videoFile.getParentFile(), FilenameUtils.getBaseName(videoFile.getName()) + ".idx");
+				file = new File(videoFile.getAbsoluteFile().getParentFile(),
+						FilenameUtils.getBaseName(videoFile.getName()) + ".idx");
 			}
 			fileName = file.getAbsolutePath();
 		}
@@ -277,10 +279,12 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		else {
 			fileNameBase = defaultFileList.getDefaultFileNamePrefix() + ".txt";
 			if (videoFile != null) {
-				file = new File(videoFile.getParentFile(), fileNameBase);
+				file = new File(videoFile.getAbsoluteFile().getParentFile(),
+						fileNameBase);
 			}
 			else if (japaneseSubFile != null) {
-				file = new File(japaneseSubFile.getParentFile(), fileNameBase);
+				file = new File(japaneseSubFile.getAbsoluteFile()
+						.getParentFile(), fileNameBase);
 			}
 			else {
 				file = new File(fileNameBase);

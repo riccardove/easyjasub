@@ -87,7 +87,7 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onWriteHtmlStart(File htmlFolder, String cssFileUrl) {
+	public void onWriteHtmlStart(File htmlFolder, File cssFileUrl) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -333,6 +333,12 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 			List<Integer> subLines) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void onEncodingWarning(String systemEncoding, String charsetstr) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
@@ -29,20 +28,20 @@ import java.util.Iterator;
 import java.util.List;
 
 class DefaultFileList implements Iterable<File> {
-	private EasyJaSubInputCommand command;
+	private final EasyJaSubInputCommand command;
 
 	public DefaultFileList(EasyJaSubInputCommand command) {
 		this.command = command;
 		defaultFileNamePrefix = getDefaultFileNamePrefix(command);
 	}
-	
+
 	private List<File> list;
 	private final String defaultFileNamePrefix;
-	
+
 	public String getDefaultFileNamePrefix() {
 		return defaultFileNamePrefix;
 	}
-	
+
 	private static String getDefaultFileNamePrefix(EasyJaSubInputCommand command) {
 		String fileName = command.getVideoFileName();
 		if (fileName == null) {
@@ -50,6 +49,10 @@ class DefaultFileList implements Iterable<File> {
 		}
 		if (fileName == null) {
 			fileName = command.getTranslatedSubFileName();
+		} else {
+			if (fileName.contains(".ja.")) {
+				fileName.replace(".ja.", ".");
+			}
 		}
 		if (fileName == null) {
 			fileName = command.getNihongoJtalkHtmlFileName();
@@ -57,7 +60,7 @@ class DefaultFileList implements Iterable<File> {
 		if (fileName != null) {
 			int pathSeparatorIndex = fileName.lastIndexOf(File.separatorChar);
 			if (pathSeparatorIndex >= 0) {
-				fileName = fileName.substring(pathSeparatorIndex+1);
+				fileName = fileName.substring(pathSeparatorIndex + 1);
 			}
 			int extensionSeparatorIndex = fileName.indexOf('.');
 			if (extensionSeparatorIndex > 0) {
@@ -66,16 +69,15 @@ class DefaultFileList implements Iterable<File> {
 		}
 		return fileName;
 	}
-	
-	private static List<File> getDefaultDirectories(EasyJaSubInputCommand command) {
+
+	private static List<File> getDefaultDirectories(
+			EasyJaSubInputCommand command) {
 		ArrayList<File> result = new ArrayList<File>();
 		result.add(getUserDir());
-		for (String fileName : new String[] {
-			command.getVideoFileName(),
-			command.getJapaneseSubFileName(),
-			command.getTranslatedSubFileName(),
-			command.getNihongoJtalkHtmlFileName()
-		}) {
+		for (String fileName : new String[] { command.getVideoFileName(),
+				command.getJapaneseSubFileName(),
+				command.getTranslatedSubFileName(),
+				command.getNihongoJtalkHtmlFileName() }) {
 			addParentDirectoryIfDistinct(result, fileName);
 		}
 		return result;
@@ -90,7 +92,7 @@ class DefaultFileList implements Iterable<File> {
 		if (fileName != null) {
 			File file = new File(fileName);
 			if (file.exists() && file.isFile()) {
-				File directory = file.getParentFile();
+				File directory = file.getAbsoluteFile().getParentFile();
 				if (directory != null && directory.isDirectory()) {
 					addIfDistinct(result, directory);
 				}
@@ -107,23 +109,24 @@ class DefaultFileList implements Iterable<File> {
 		result.add(directory);
 	}
 
-	private static List<File> getDefaultFiles(List<File> directories, final String fileBaseName) {
+	private static List<File> getDefaultFiles(List<File> directories,
+			final String fileBaseName) {
 		ArrayList<File> result = new ArrayList<File>();
 		final int fileBaseNameLength = fileBaseName.length();
 		for (File directory : directories) {
 			for (File file : directory.listFiles(new FilenameFilter() {
 				@Override
 				public boolean accept(File dir, String name) {
-					return name.length() >= fileBaseNameLength + 3 &&
-							name.startsWith(fileBaseName) &&
-							name.charAt(fileBaseNameLength) == '.';
+					return name.length() >= fileBaseNameLength + 3
+							&& name.startsWith(fileBaseName)
+							&& name.charAt(fileBaseNameLength) == '.';
 				}
-				
+
 			})) {
 				if (file.isFile() && file.canRead()) {
 					result.add(file);
 				}
-			};
+			}
 		}
 		return result;
 	}
@@ -134,10 +137,10 @@ class DefaultFileList implements Iterable<File> {
 			String defaultFileNamePrefix = getDefaultFileNamePrefix();
 			if (defaultFileNamePrefix == null) {
 				list = Arrays.asList(getUserDir());
-			}
-			else {
+			} else {
 				List<File> defaultDirectories = getDefaultDirectories(command);
-				list = getDefaultFiles(defaultDirectories, defaultFileNamePrefix);
+				list = getDefaultFiles(defaultDirectories,
+						defaultFileNamePrefix);
 			}
 		}
 		return list.iterator();
