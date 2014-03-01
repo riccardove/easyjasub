@@ -21,28 +21,24 @@ package com.github.riccardove.easyjasub;
  */
 
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 
 import org.junit.Test;
 
-public class SubtitleListTranslatedSubFileReaderTest {
+public class SubtitleListTranslatedSubFileReaderTest extends EasyJaSubTestCase {
 
 	@Test
 	public void test() throws Exception {
+		File fileJa = getSampleFile("sample1.ja.ass");
+		File file = getSampleFile("sample1.en.srt");
+
 		SubtitleList s = new SubtitleList();
 
-		File fileJa = new File("samples\\sample1.ja.ass");
-		assertTrue(fileJa.exists());
 		new SubtitleListJapaneseSubFileReader().
-			readJapaneseSubtitles(s, fileJa, SubtitleFileType.ASS, new Observer());
+			readJapaneseSubtitles(s, fileJa, SubtitleFileType.ASS, new Observer(), null);
 
-		File file = new File("samples\\sample1.en.srt");
-		assertTrue(file.exists());
-		new SubtitleListJapaneseSubFileReader().
-			readJapaneseSubtitles(s, file, SubtitleFileType.SRT, new Observer());
-
+		new SubtitleListTranslatedSubFileReader(1000, 400).
+			readTranslationSubtitles(s, file, SubtitleFileType.SRT, new Observer(), null, true);
 	}
 
 	private class Observer extends FakeEasyJaSubObserver {

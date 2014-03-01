@@ -33,7 +33,7 @@ class NihongoJTalkSubtitleList implements Iterable<NihongoJTalkSubtitleLine> {
 	private ArrayList<NihongoJTalkSubtitleLine> lines;
 	
 	public NihongoJTalkSubtitleLine add() {
-		NihongoJTalkSubtitleLine line = createSubtitleLine();
+		NihongoJTalkSubtitleLine line = new NihongoJTalkSubtitleLine();
 		lines.add(line);
 		return line;
 	}
@@ -44,13 +44,6 @@ class NihongoJTalkSubtitleList implements Iterable<NihongoJTalkSubtitleLine> {
 		}
 		return lines.get(index);
 	}
-
-	private NihongoJTalkSubtitleLine createSubtitleLine() {
-		NihongoJTalkSubtitleLine line = new NihongoJTalkSubtitleLine(++count);
-		return line;
-	}
-
-	private int count;
 
 	public Iterator<NihongoJTalkSubtitleLine> iterator() {
 		return lines.iterator();

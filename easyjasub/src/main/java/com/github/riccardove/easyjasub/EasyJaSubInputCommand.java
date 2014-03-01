@@ -21,8 +21,6 @@ package com.github.riccardove.easyjasub;
  */
 
 
-import java.util.Set;
-
 public interface EasyJaSubInputCommand {
 
 	public abstract boolean isHelp();
@@ -76,4 +74,6 @@ public interface EasyJaSubInputCommand {
 	public abstract String getShowFurigana();
 
 	public abstract String getShowDictionary();
+	
+	public abstract String getSelectLines();
 }

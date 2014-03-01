@@ -23,6 +23,7 @@ package com.github.riccardove.easyjasub;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import org.xml.sax.SAXException;
@@ -47,9 +48,9 @@ public interface EasyJaSubObserver {
 
 	void onInputNihongoJTalkHtmlFileParseHiraganaDivStart();
 
-	void onReadTranslatedSubtitlesStart(File jaF);
+	void onReadTranslatedSubtitlesStart(File file);
 
-	void onReadTranslatedSubtitlesEnd(File jaF);
+	void onReadTranslatedSubtitlesEnd(File file);
 
 	void onWriteHtmlStart(File htmlFolder, String cssFileUrl);
 
@@ -125,5 +126,5 @@ public interface EasyJaSubObserver {
 
 	void onReadJapaneseSubtitlesSkipped(File jaF);
 
-	void onInputNihongoJTalkHtmlLineParseSkipped(int nIndex);
+	void onInputNihongoJTalkHtmlLineParseSkipped(List<Integer> nLines, List<Integer> subLines);
 }

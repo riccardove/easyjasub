@@ -1,5 +1,8 @@
 package com.github.riccardove.easyjasub;
 
+import java.lang.Character.UnicodeBlock;
+import java.util.ArrayList;
+
 /*
  * #%L
  * easyjasub
@@ -22,24 +25,56 @@ package com.github.riccardove.easyjasub;
 
 
 
-public class JapaneseChar {
+public final class JapaneseChar {
 
-	public static boolean isJapaneseChar(char c)
-	{
-		return isLittle(c) || Character.isIdeographic(c);
+	private JapaneseChar() {
+		
 	}
 	
-	public static boolean isLittle(char c) {
-		return
-				Character.UnicodeBlock.of(c) == Character.UnicodeBlock.HIRAGANA ||
-				Character.UnicodeBlock.of(c) == Character.UnicodeBlock.KATAKANA ||
-				Character.UnicodeBlock.of(c) == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION;
+	public static boolean isNonJapaneseChar(char c)
+	{
+		return !isSmallSizeJapaneseChar(c) && !isIdeogram(c);
+	}
+
+	private static boolean isIdeogram(char c) {
+		return Character.isIdeographic(c);
+	}
+	
+	public static boolean isSmallSizeJapaneseChar(char c) {
+		Character.UnicodeBlock block = getUnicodeBlock(c);
+		return isHiraganaOrKatakana(block) || block == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION;
 		
 	}
 
-	public static boolean is(char c) {
-		return Character.UnicodeBlock.of(c) == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS ||
-				Character.UnicodeBlock.of(c) == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS ||
-				Character.UnicodeBlock.of(c) == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
+	private static UnicodeBlock getUnicodeBlock(char c) {
+		return Character.UnicodeBlock.of(c);
 	}
+
+	private static boolean isHiraganaOrKatakana(Character.UnicodeBlock block) {
+		return block == Character.UnicodeBlock.HIRAGANA ||
+				block == Character.UnicodeBlock.KATAKANA;
+	}
+
+	private static boolean isJapaneseIdeograph(char c) {
+		return isIdeogram(c) || isHiraganaOrKatakana(getUnicodeBlock(c));
+	}
+	
+	public static String getJapaneseKey(String content) {
+		ArrayList<Character> japaneseChars = new ArrayList<Character>();
+		for (char c : content.toCharArray()) {
+			if (JapaneseChar.isJapaneseIdeograph(c)) {
+				japaneseChars.add(c);
+			}
+		}
+		if (japaneseChars.size() == 0) {
+			return null;
+		}
+		return CommonsLangStringUtils.charListToString(japaneseChars);
+	}
+
+//	private static boolean is(char c) {
+//		return Character.UnicodeBlock.of(c) == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS ||
+//				Character.UnicodeBlock.of(c) == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS ||
+//				Character.UnicodeBlock.of(c) == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
+//	}
 }

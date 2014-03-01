@@ -23,6 +23,7 @@ package com.github.riccardove.easyjasub;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import org.xml.sax.SAXException;
@@ -322,13 +323,14 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlLineParseSkipped(int nIndex) {
+	public void onInputNihongoJTalkHtmlFileParseEnd(File f, Set<String> posset) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlFileParseEnd(File f, Set<String> posset) {
+	public void onInputNihongoJTalkHtmlLineParseSkipped(List<Integer> nLines,
+			List<Integer> subLines) {
 		// TODO Auto-generated method stub
 		
 	}

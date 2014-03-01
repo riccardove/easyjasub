@@ -23,9 +23,7 @@ package com.github.riccardove.easyjasub;
 
 import org.junit.Test;
 
-import junit.framework.TestCase;
-
-public class EasyJaSubPropertyTest extends TestCase {
+public class EasyJaSubPropertyTest extends EasyJaSubTestCase {
 
 	@Test
 	public void testProperties() {

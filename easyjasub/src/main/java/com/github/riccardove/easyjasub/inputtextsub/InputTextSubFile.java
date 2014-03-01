@@ -23,11 +23,20 @@ package com.github.riccardove.easyjasub.inputtextsub;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import subtitleFile.Caption;
+import subtitleFile.FatalParsingException;
+import subtitleFile.FormatASS;
+import subtitleFile.FormatSCC;
+import subtitleFile.FormatSRT;
+import subtitleFile.FormatSTL;
+import subtitleFile.FormatTTML;
+import subtitleFile.TimedTextFileFormat;
+import subtitleFile.TimedTextObject;
 
 import com.github.riccardove.easyjasub.SubtitleFileType;
-
-import subtitleFile.*;
 
 public class InputTextSubFile {
 
@@ -44,6 +53,8 @@ public class InputTextSubFile {
 			return new FormatTTML();
 		case ASS: 
 			return new FormatASS();
+		default:
+			break;
 		}
 		throw new IllegalArgumentException("Unrecognized input format: "+inputFormat+" only [SRT,STL,SCC,XML,ASS] are possible");
 	}

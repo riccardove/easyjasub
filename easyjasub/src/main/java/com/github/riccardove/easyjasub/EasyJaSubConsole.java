@@ -24,6 +24,7 @@ package com.github.riccardove.easyjasub;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Set;
 
 import org.xml.sax.SAXException;
@@ -40,144 +41,153 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 		this.errorStream = errorStream;
 	}
 
+	private void println(String text) {
+		outputStream.println(text);
+	}
+
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseStart(File file) {
-		outputStream.println("onInputNihongoJTalkHtmlFileParseStart " + toString(file));
+		println("onInputNihongoJTalkHtmlFileParseStart " + toString(file));
+		flushOutput();
+	}
+
+	private void flushOutput() {
 		outputStream.flush();
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseEnd(File file, Set<String> posset) {
-		outputStream.println("onInputNihongoJTalkHtmlFileParseEnd " + toString(file) + " " 
+		println("onInputNihongoJTalkHtmlFileParseEnd " + toString(file) + " "
 				+ CommonsLangStringUtils.join(posset, ","));
-		outputStream.flush();
+		flushOutput();
 	}
 
 	@Override
 	public void onReadJapaneseSubtitlesStart(File file) {
-		outputStream.println("onReadJapaneseSubtitlesStart " + toString(file));
-		outputStream.flush();
+		println("onReadJapaneseSubtitlesStart " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onReadJapaneseSubtitlesEnd(File file) {
-		outputStream.println("onReadJapaneseSubtitlesEnd " + toString(file));
-		outputStream.flush();
+		println("onReadJapaneseSubtitlesEnd " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseHiraganaDivEnd() {
-		outputStream.println("onInputNihongoJTalkHtmlFileParseHiraganaDivEnd");
-		outputStream.flush();
+		println("onInputNihongoJTalkHtmlFileParseHiraganaDivEnd");
+		flushOutput();
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseTextareaEnd() {
-		outputStream.println("onInputNihongoJTalkHtmlFileParseTextareaEnd");
-		outputStream.flush();
+		println("onInputNihongoJTalkHtmlFileParseTextareaEnd");
+		flushOutput();
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseTextareaStart() {
-		outputStream.println("onInputNihongoJTalkHtmlFileParseTextareaStart");
-		outputStream.flush();
+		println("onInputNihongoJTalkHtmlFileParseTextareaStart");
+		flushOutput();
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseHiraganaDivStart() {
-		outputStream.println("onInputNihongoJTalkHtmlFileParseHiraganaDivStart");
-		outputStream.flush();
+		println("onInputNihongoJTalkHtmlFileParseHiraganaDivStart");
+		flushOutput();
 	}
 
 	@Override
 	public void onReadTranslatedSubtitlesStart(File file) {
-		outputStream.println("onReadTranslatedSubtitlesStart " + toString(file));
-		outputStream.flush();
+		println("onReadTranslatedSubtitlesStart " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onReadTranslatedSubtitlesEnd(File file) {
-		outputStream.println("onReadTranslatedSubtitlesEnd " + toString(file));
-		outputStream.flush();
+		println("onReadTranslatedSubtitlesEnd " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteHtmlStart(File directory, String cssFileUrl) {
-		outputStream.println("onWriteHtmlStart " + toString(directory) + " " + cssFileUrl);
-		outputStream.flush();
+		println("onWriteHtmlStart " + toString(directory) + " " + cssFileUrl);
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteHtmlEnd(File directory) {
-		outputStream.println("onWriteHtmlEnd " + toString(directory));
-		outputStream.flush();
+		println("onWriteHtmlEnd " + toString(directory));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteImagesStart(String wkhtml, File htmlFolder,
 			File bdnFolder, int width) {
-		outputStream.println("onWriteImagesStart " + toString(bdnFolder) + " " + wkhtml + " " + width);
-		outputStream.flush();
+		println("onWriteImagesStart " + toString(bdnFolder) + " " + wkhtml
+				+ " " + width);
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteImagesEnd(String wkhtml, File htmlFolder, File bdnFolder) {
-		outputStream.println("onWriteImagesEnd " + toString(bdnFolder));
-		outputStream.flush();
+		println("onWriteImagesEnd " + toString(bdnFolder));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteBdnXmlFileStart(File file) {
-		outputStream.println("onWriteBdnXmlFileStart " + toString(file));
-		outputStream.flush();
+		println("onWriteBdnXmlFileStart " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteBdnXmlFileEnd(File file) {
-		outputStream.println("onWriteBdnXmlFileEnd " + toString(file));
-		outputStream.flush();
+		println("onWriteBdnXmlFileEnd " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteIdxFileStart(File file, File bdnFile) {
-		outputStream.println("onWriteIdxFileStart " + toString(file));
-		outputStream.flush();
+		println("onWriteIdxFileStart " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteIdxFileEnd(File file) {
-		outputStream.println("onWriteIdxFileEnd " + toString(file));
-		outputStream.flush();
+		println("onWriteIdxFileEnd " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteOutputJapaneseTextFileStart(File file) {
-		outputStream.println("onWriteOutputJapaneseTextFileStart " + toString(file));
-		outputStream.flush();
+		println("onWriteOutputJapaneseTextFileStart " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteOutputJapaneseTextFileEnd(File file) {
-		outputStream.println("onWriteOutputJapaneseTextFileEnd " + toString(file));
-		outputStream.flush();
+		println("onWriteOutputJapaneseTextFileEnd " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteCssStart(File file) {
-		outputStream.println("onWriteCssStart " + toString(file));
-		outputStream.flush();
+		println("onWriteCssStart " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteCssEnd(File file) {
-		outputStream.println("onWriteCssEnd " + toString(file));
-		outputStream.flush();
+		println("onWriteCssEnd " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteImage(File pngFile, File file) {
-		outputStream.println("writing image " + toString(pngFile) + " " + toString(file));
-		outputStream.flush();
+		println("writing image " + toString(pngFile) + " " + toString(file));
+		flushOutput();
 	}
 
 	@Override
@@ -255,83 +265,93 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	@Override
 	public void onTranslatedSubDuplicated(String content, int mSeconds,
 			int startTime) {
-		outputStream.println("Duplicated translation caption " + content + " starting at " + mSeconds + " at " + startTime);
-		outputStream.flush();
+		println("Duplicated translation caption " + content + " starting at "
+				+ mSeconds + " at " + startTime);
+		flushOutput();
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlLine(String line) {
-		outputStream.println("Line: " + line.toString());
-		outputStream.flush();
+		println("Line: " + toString(line));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteOutputJapaneseTextFileSkipped(File file) {
-		outputStream.println("onWriteOutputJapaneseTextFileSkipped " + toString(file));
-		outputStream.flush();
+		println("onWriteOutputJapaneseTextFileSkipped " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseSkipped(File file) {
-		outputStream.println("onInputNihongoJTalkHtmlFileParseSkipped " + toString(file));
-		outputStream.flush();
+		println("onInputNihongoJTalkHtmlFileParseSkipped " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onReadTranslatedSubtitlesSkipped(File file) {
-		outputStream.println("onReadTranslatedSubtitlesSkipped " + toString(file));
-		outputStream.flush();
+		println("onReadTranslatedSubtitlesSkipped " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteCssSkipped(File file) {
-		outputStream.println("onWriteCssSkipped " + toString(file));
-		outputStream.flush();
+		println("onWriteCssSkipped " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteHtmlFile(File file) {
-		outputStream.println("onWriteHtmlFile " + toString(file));
-		outputStream.flush();
+		println("onWriteHtmlFile " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteHtmlFileSkipped(File file) {
-		outputStream.println("onWriteHtmlFileSkipped " + toString(file));
-		outputStream.flush();
+		println("onWriteHtmlFileSkipped " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteBdnXmlFileSkipped(File file) {
-		outputStream.println("onWriteBdnXmlFileSkipped " + toString(file));
-		outputStream.flush();
+		println("onWriteBdnXmlFileSkipped " + toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteImageSkipped(File pngFile, File file) {
-		outputStream.println("onWriteImageSkipped " + toString(pngFile) + " " + toString(file));
-		outputStream.flush();
+		println("onWriteImageSkipped " + toString(pngFile) + " "
+				+ toString(file));
+		flushOutput();
 	}
 
 	@Override
 	public void onWriteIdxFileSkipped(File file, File bdnFile) {
-		outputStream.println("onWriteIdxFileSkipped " + toString(file)+ " " + toString(bdnFile));
-		outputStream.flush();
+		println("onWriteIdxFileSkipped " + toString(file) + " "
+				+ toString(bdnFile));
+		flushOutput();
 	}
 
 	@Override
 	public void onReadJapaneseSubtitlesSkipped(File file) {
-		outputStream.println("onReadJapaneseSubtitlesSkipped " + toString(file));
-		outputStream.flush();
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlLineParseSkipped(int index) {
-		outputStream.println("onReadJapaneseSubtitlesSkipped " + index);
-		outputStream.flush();
+		println("onReadJapaneseSubtitlesSkipped " + toString(file));
+		flushOutput();
 	}
 	
 	private static String toString(File file) {
 		return file != null ? file.getAbsolutePath() : "<null>";
+	}
+	
+	private static String toString(String text) {
+		return text != null ? text : "<null>";
+	}
+
+	@Override
+	public void onInputNihongoJTalkHtmlLineParseSkipped(List<Integer> nLines,
+			List<Integer> subLines) {
+		println("onInputNihongoJTalkHtmlLineParseSkipped "
+				+ CommonsLangStringUtils.join(nLines, ",") + " -- "
+				+ CommonsLangStringUtils.join(subLines, ","));
+		flushOutput();
 	}
 }

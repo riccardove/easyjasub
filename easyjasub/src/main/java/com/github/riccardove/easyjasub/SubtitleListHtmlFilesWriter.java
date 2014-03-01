@@ -27,10 +27,8 @@ import static org.rendersnake.HtmlAttributesFactory.lang;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +36,7 @@ import org.rendersnake.HtmlCanvas;
 
 class SubtitleListHtmlFilesWriter {
 	private final String cssFile;
-	private EasyJaSubObserver observer;
+	private final EasyJaSubObserver observer;
 
 	public SubtitleListHtmlFilesWriter(String cssFileUrl, EasyJaSubObserver observer){
 		this.cssFile = cssFileUrl;

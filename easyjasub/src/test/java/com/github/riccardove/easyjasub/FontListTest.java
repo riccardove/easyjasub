@@ -1,8 +1,6 @@
 package com.github.riccardove.easyjasub;
 
-import junit.framework.TestCase;
-
-public class FontListTest extends TestCase {
+public class FontListTest extends EasyJaSubTestCase {
 
 	public void testListAvailable() {
 		FontList list = new FontList();

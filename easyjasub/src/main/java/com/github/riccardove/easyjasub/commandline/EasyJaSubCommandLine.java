@@ -48,6 +48,7 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private static final String DICTIONARY = "d";
 	private static final String KANJI = "k";
 	private static final String FURIGANA = "f";
+	private static final String SELECT = "s";
 
 	public EasyJaSubCommandLine() {
 		list = new CommandLineOptionList();
@@ -109,6 +110,8 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 				"Amount of milliseconds of difference in time to consider two subtitle lines the same", "milliseconds");
 		list.addOption(APPROXTIME, "approx-diff",
 				"Amount of milliseconds of difference in time to consider two subtitle lines approximately the same", "milliseconds");
+		list.addOption(SELECT, "select-lines",
+				"Select a subset of subtitle lines from japanese subtitles, useful for sampling", "n-m");
 		list.addOption(HELP, "help", "Displays help");
 	}
 
@@ -195,6 +198,7 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private String showDictionary;
 	private String showRomaji;
 	private String showKanji;
+	private String selectLines;
 
 	@Override
 	public String getOutputIdxDirectory() {
@@ -230,6 +234,7 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 			showRomaji = cm.getOptionValue(ROMAJI);
 			showKanji = cm.getOptionValue(KANJI);
 			showTranslation = cm.getOptionValue(TRANSLATION);
+			selectLines = cm.getOptionValue(SELECT);
 		} catch (Exception ex) {
 			message = ex.getMessage();
 		}
@@ -241,6 +246,11 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 
 	public void printHelp(PrintWriter stream, String usage) {
 		list.printHelp(stream, usage, null, null);
+	}
+	
+	@Override
+	public String getSelectLines() {
+		return selectLines;
 	}
 
 	@Override

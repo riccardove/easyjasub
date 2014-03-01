@@ -21,31 +21,36 @@ package com.github.riccardove.easyjasub;
  */
 
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 
 import org.junit.Test;
 
-public class SubtitleListJapaneseSubFileReaderTest {
+public class SubtitleListJapaneseSubFileReaderTest extends EasyJaSubTestCase {
 
 	@Test
 	public void test() throws Exception {
-		//System.out.println(SystemProperty.getUserDir());
-		File file = new File("samples\\sample1.ja.ass");
-		assertTrue(file.exists());
+		File file = getSampleFile("sample1.ja.ass");
+		
 		SubtitleList s = new SubtitleList();
 		new SubtitleListJapaneseSubFileReader().
-			readJapaneseSubtitles(s, file, SubtitleFileType.ASS, new Observer());
+			readJapaneseSubtitles(s, file, SubtitleFileType.ASS, new Observer(), null);
 		assertTrue(s.size() > 0);
 		for (SubtitleLine line : s) {
-			assertNotNull(line.getJapanese());
-			assertNull(line.getTranslation());
-			//System.out.println(line.getIndex() + " (" + line.getStartTime() + "->" + line.getEndTime() + ") " + line.getJapaneseText());
+			if (line.getJapanese() == null) {
+				assertNotNull(toString(line), line.getSubText());
+				assertNull(toString(line), line.getJapaneseSubKey());
+			}
+			else {
+				assertNotNull(toString(line), line.getJapaneseSubKey());
+			}
+			assertNull(toString(line), line.getTranslation());
 		}
-		//System.out.println(s.size());
 	}
 
+	private static String toString(SubtitleLine line) {
+		return line.getIndex() + " (" + line.getStartTime() + "->" + line.getEndTime() + ") " + line.getJapanese();
+	}
+	
 	private class Observer extends FakeEasyJaSubObserver {
 		
 	}

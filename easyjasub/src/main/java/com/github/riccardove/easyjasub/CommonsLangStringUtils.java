@@ -2,6 +2,9 @@ package com.github.riccardove.easyjasub;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Usages of org.apache.commons.lang3.StringUtils are wrapped by this class
+ */
 public abstract class CommonsLangStringUtils {
 	public static String join(Iterable<?> list, String separator) {
 		return StringUtils.join(list, separator);
@@ -17,5 +20,9 @@ public abstract class CommonsLangStringUtils {
 
 	public static boolean isEmpty(String title) {
 		return StringUtils.isEmpty(title);
+	}
+
+	public static String charListToString(Iterable<Character> japaneseChars) {
+		return StringUtils.join(japaneseChars, "");
 	}
 }

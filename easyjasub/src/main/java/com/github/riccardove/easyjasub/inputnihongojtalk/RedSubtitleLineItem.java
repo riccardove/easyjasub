@@ -21,17 +21,11 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
  */
 
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.regex.Pattern;
 
-import org.rendersnake.HtmlCanvas;
-
 import com.github.riccardove.easyjasub.Grammar;
 import com.github.riccardove.easyjasub.SubtitleItem;
-
-import static org.rendersnake.HtmlAttributesFactory.class_;
-
 
 class RedSubtitleLineItem  extends TextSubtitleLineItem {
 

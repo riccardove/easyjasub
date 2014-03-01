@@ -23,9 +23,7 @@ package com.github.riccardove.easyjasub;
 
 import org.junit.Test;
 
-import junit.framework.TestCase;
-
-public class EasyJaSubProgramLocationTest extends TestCase {
+public class EasyJaSubProgramLocationTest extends EasyJaSubTestCase {
 
 	@Test
 	public void testLocationStr() {

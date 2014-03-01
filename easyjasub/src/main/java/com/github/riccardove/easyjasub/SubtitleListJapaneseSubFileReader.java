@@ -24,6 +24,7 @@ package com.github.riccardove.easyjasub;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubCaption;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
@@ -32,20 +33,51 @@ import com.github.riccardove.easyjasub.inputtextsub.InputTextSubFile;
 class SubtitleListJapaneseSubFileReader {
 
 	public void readJapaneseSubtitles(SubtitleList s, File file, SubtitleFileType type,
-			EasyJaSubObserver observer) 
+			EasyJaSubObserver observer, EasyJaSubLinesSelection selection) 
 			throws IOException, InputTextSubException {
 		FileInputStream stream = new FileInputStream(file);
 		InputTextSubFile subs = new InputTextSubFile(type, file.getName(), stream);
 		stream.close();
 		s.setTitle(subs.getTitle());
-		for (InputTextSubCaption c : subs.getCaptions()) {
-			SubtitleLine line = s.add();
-			line.setStartTime(c.getStart().getMSeconds());
-			line.setEndTime(c.getEnd().getMSeconds());
-			line.setJapaneseSubText(c.getContent());
+		List<InputTextSubCaption> subsList = subs.getCaptions();
+		if (selection == null) {
+			for (InputTextSubCaption c : subsList) {
+				addLine(s, c);
+			}
+		}
+		else {
+			int startIndex = selection.getStartLine();
+			if (startIndex > 0) {
+				startIndex--;
+			}
+			int endIndex = selection.getEndLine();
+			int size = subsList.size();
+			if (endIndex == 0 || endIndex >= size) {
+				endIndex = size-1;
+			}
+			for (int i = startIndex; i<= endIndex; ++i) {
+				addLine(s, subsList.get(i));
+			}
+			selection.setStartLine(s.first().getStartTime());
+			selection.setEndTime(s.last().getEndTime());
 		}
 		s.setJapaneseSubWarnings(subs.getWarnings());
 		s.setJapaneseSubDescription(subs.getDescription());
 		s.setJapaneseSubLanguage(subs.getLanguage());
+	}
+
+	private void addLine(SubtitleList s, InputTextSubCaption caption) {
+		SubtitleLine line = s.add();
+		line.setStartTime(caption.getStart().getMSeconds());
+		line.setEndTime(caption.getEnd().getMSeconds());
+		String content = caption.getContent();
+		String key = JapaneseChar.getJapaneseKey(content);
+		if (key != null) {
+			line.setJapaneseSubText(content);
+			line.setJapaneseSubKey(key);
+		}
+		else {
+			line.setSubText(content);
+		}
 	}
 }

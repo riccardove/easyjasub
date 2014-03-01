@@ -21,12 +21,7 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
  */
 
 
-import static org.rendersnake.HtmlAttributesFactory.class_;
-
-import java.io.IOException;
 import java.util.ArrayList;
-
-import org.rendersnake.HtmlCanvas;
 
 import com.github.riccardove.easyjasub.JapaneseChar;
 import com.github.riccardove.easyjasub.SubtitleItem;
@@ -44,7 +39,7 @@ class ComplexSubtitleLineItem extends DictSubtitleLineItem {
 		this.furigana = furigana;
 	}
 	
-	private String furigana; 
+	private final String furigana; 
 	
 	@Override
 	public String toString() {
@@ -60,7 +55,7 @@ class ComplexSubtitleLineItem extends DictSubtitleLineItem {
 		String chars = null;
 		for (int i = 0; i < text.length(); i++){
 		    char c = text.charAt(i);        
-		    if (!JapaneseChar.isLittle(c)) {
+		    if (!JapaneseChar.isSmallSizeJapaneseChar(c)) {
 		    	if (chars != null) {
 		    		addText(list, chars);
 			    	chars = null;

@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -44,10 +45,10 @@ public class InputNihongoJTalkHtmlFile {
 	public void parse(File file, SubtitleList subs, EasyJaSubObserver observer)
 			throws IOException, SAXException
 	{
-		NihongoJTalkSubtitleList s = new NihongoJTalkSubtitleList();
+		NihongoJTalkSubtitleList nlist = new NihongoJTalkSubtitleList();
 	    XMLReader saxParser = XMLReaderFactory.createXMLReader(TAGSOUP_PARSER);
 
-	    InputNihongoJTalkHtmlHandler handler = new InputNihongoJTalkHtmlHandler(s, observer);
+	    InputNihongoJTalkHtmlHandler handler = new InputNihongoJTalkHtmlHandler(nlist, observer);
 
 	    saxParser.setContentHandler(handler);
 		saxParser.setEntityResolver(handler);
@@ -61,28 +62,89 @@ public class InputNihongoJTalkHtmlFile {
 		
 	    int index = 0;
 	    int nIndex = 0;
-	    for (NihongoJTalkSubtitleLine nline : s) {
-	    	++nIndex;
-	    	SubtitleLine line;
-	    	do {
-	    		if (index < subs.size()) {
-			    	line = subs.get(index);
-	    		}
-	    		else {
-	    			line = null;
-	    		}
-		    	++index;
+	    int size = subs.size();
+	    int nsize = nlist.size();
+	    ArrayList<Integer> subsSkipped = new ArrayList<Integer>();
+	    ArrayList<Integer> nSkipped = new ArrayList<Integer>();
+	    while (index < size && nIndex < nsize) {
+	    	SubtitleLine line = subs.get(index);
+	    	if (line.getJapaneseSubKey() == null) {
+	    		index++;
 	    	}
-	    	while (line != null && line.getJapanese() == null);
-	    	
-	    	if (line == null) {
-	    		observer.onInputNihongoJTalkHtmlLineParseSkipped(nIndex);
-	    		break;
+	    	else {
+		    	NihongoJTalkSubtitleLine nline = nlist.get(nIndex);
+		    	if (nline.getJapaneseKey() == null) {
+		    		nIndex++;
+		    	}
+		    	else {
+		    		if (areCompatible(line, nline)) {
+		    	    	joinLines(nline, line);
+		    	    	nIndex++;
+		    	    	index++;
+		    		}
+		    		else {
+		    			int subsequentNIndex = 
+		    					findInSubsequentNihongoJTalkSubtitleLines(line, nIndex, nlist);
+		    			if (subsequentNIndex > 0) {
+			    	    	joinLines(nlist.get(subsequentNIndex), line);
+			    	    	index++;
+			    	    	for (int j = nIndex; j<subsequentNIndex; ++j) {
+				    	    	nSkipped.add(j);
+			    	    	}
+			    	    	nIndex = subsequentNIndex+1;
+		    			}
+		    			else {
+		    				int subsequentIndex = findInSubsequentSubtitleLines(nline, index, subs);
+			    			if (subsequentIndex > 0) {
+				    	    	joinLines(nline, subs.get(subsequentIndex));
+				    	    	nIndex++;
+				    	    	for (int j = index; j<subsequentIndex; ++j) {
+				    	    		subsSkipped.add(j);
+				    	    	}
+				    	    	index = subsequentIndex+1;
+			    			}
+		    			}
+		    		}
+		    	}
 	    	}
-	    	nline.setTranslatedText(line.getTranslation());
-
-	    	line.setItems(nline.toItems());
 	    }
+	    if (nSkipped.size() > 0 ||
+	    	subsSkipped.size() > 0) {
+	    	observer.onInputNihongoJTalkHtmlLineParseSkipped(nSkipped, subsSkipped);
+	    }
+	}
 
+	private int findInSubsequentNihongoJTalkSubtitleLines(SubtitleLine line, int startIndex, NihongoJTalkSubtitleList nlist) {
+		int size = nlist.size();
+		for (int i=startIndex+1; i<size; ++i) {
+			NihongoJTalkSubtitleLine nLine = nlist.get(i);
+			if (nLine.getJapaneseKey() != null &&
+				areCompatible(line, nLine)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	private int findInSubsequentSubtitleLines(NihongoJTalkSubtitleLine line, int startIndex, SubtitleList nlist) {
+		int size = nlist.size();
+		for (int i=startIndex+1; i<size; ++i) {
+			SubtitleLine nLine = nlist.get(i);
+			if (nLine.getJapaneseSubKey() != null &&
+				areCompatible(nLine, line)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	private boolean areCompatible(SubtitleLine line,
+			NihongoJTalkSubtitleLine nline) {
+		return nline.getJapaneseKey().equals(line.getJapaneseSubKey());
+	}
+
+	private void joinLines(NihongoJTalkSubtitleLine nline, SubtitleLine line) {
+		nline.setTranslatedText(line.getTranslation());
+		line.setItems(nline.toItems());
 	}
 }

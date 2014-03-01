@@ -499,6 +499,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	private final boolean showDictionary;
 	private final boolean showRomaji;
 	private final boolean showKanji;
+	private int startLine;
+	private int endLine;
 
 	public EasyJaSubInputFromCommand(EasyJaSubInputCommand command) throws EasyJaSubException {
 		DefaultFileList defaultFileList = new DefaultFileList(command);
@@ -529,6 +531,62 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		showFurigana = getShowFurigana(command.getShowFurigana(), nihongoJtalkHtmlFile, showKanji);
 		showDictionary = getShowDictionary(command.getShowDictionary(), nihongoJtalkHtmlFile);
 		showRomaji = getShowRomaji(command.getShowRomaji(), nihongoJtalkHtmlFile, showFurigana);
+		getSelectLines(command.getSelectLines());
+	}
+	
+	private void getSelectLines(String selectLines)
+			 throws EasyJaSubException {
+		startLine = 0;
+		endLine = 0;
+		if (selectLines == null || isDefault(selectLines) || isDisabled(selectLines)) {
+			return;
+		}
+		selectLines = selectLines.trim();
+		int separator = selectLines.indexOf('-');
+		if (separator < 0) {
+			try {
+				endLine = Integer.parseInt(selectLines);
+			}
+			catch (Exception ex) {
+				throw new EasyJaSubException("Invalid lines selection: " + selectLines);
+			}
+		}
+		else if (separator == 0) {
+			try {
+				endLine = Integer.parseInt(selectLines.substring(1));
+			}
+			catch (Exception ex) {
+				throw new EasyJaSubException("Invalid lines selection: " + selectLines);
+			}
+		}
+		else if (separator == selectLines.length()-1){
+			try {
+				startLine = Integer.parseInt(selectLines.substring(0, selectLines.length()-1));
+			}
+			catch (Exception ex) {
+				throw new EasyJaSubException("Invalid lines selection: " + selectLines);
+			}
+		}
+		else {
+			try {
+				startLine = Integer.parseInt(selectLines.substring(0, separator));
+			}
+			catch (Exception ex) {
+				throw new EasyJaSubException("Invalid lines selection: " + selectLines);
+			}
+			try {
+				endLine = Integer.parseInt(selectLines.substring(separator+1, selectLines.length()-separator-1));
+			}
+			catch (Exception ex) {
+				throw new EasyJaSubException("Invalid lines selection: " + selectLines);
+			}
+		}
+		if (endLine < 0) {
+			throw new EasyJaSubException("Invalid end line in lines selection: " + selectLines);
+		}
+		if (startLine < 0 || startLine > endLine) {
+			throw new EasyJaSubException("Invalid start line in lines selection: " + selectLines);
+		}
 	}
 	
 	private static boolean getShowTranslation(String showTranslation,
@@ -749,5 +807,15 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	@Override
 	public boolean showKanji() {
 		return showKanji;
+	}
+
+	@Override
+	public int getStartLine() {
+		return startLine;
+	}
+
+	@Override
+	public int getEndLine() {
+		return endLine;
 	}
 }

@@ -25,9 +25,7 @@ import java.io.File;
 
 import org.junit.Test;
 
-import junit.framework.TestCase;
-
-public class EasyJaSubInputFromCommandTest extends TestCase {
+public class EasyJaSubInputFromCommandTest extends EasyJaSubTestCase {
 
 	private static final String Sample1JaSub = "samples\\sample1.ja.ass";
 	private static final String Sample1TrSub = "samples\\sample1.en.srt";

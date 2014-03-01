@@ -23,26 +23,25 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 import java.io.File;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 
+import com.github.riccardove.easyjasub.EasyJaSubTestCase;
 import com.github.riccardove.easyjasub.FakeEasyJaSubObserver;
 import com.github.riccardove.easyjasub.SubtitleList;
 
-public class InputNihongoJTalkHtmlFileTest extends TestCase {
+public class InputNihongoJTalkHtmlFileTest extends EasyJaSubTestCase {
 
 	
 	@Test
 	public void testParse() throws Exception {
-		File file = new File("samples\\sample1.htm");
-		assertTrue(file.exists());
+		File file = getSampleFile("sample1.htm");
+
 		SubtitleList s = new SubtitleList();
 		Observer observer = new Observer();
 		new InputNihongoJTalkHtmlFile().parse(file, s, observer);
 		assertEquals(0, s.size());
 		assertEquals(44, observer.count);
-		// assertEquals("私の色気は　たった1,000ジュエルか！？", observer.last);
+		assertEquals("私の色気は　たった1,000ジュエルか！？", observer.last);
 	}
 
 	private class Observer extends FakeEasyJaSubObserver {

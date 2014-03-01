@@ -41,7 +41,7 @@ class SubtitleListTranslatedSubFileReader {
 	}
 	
 	public void readTranslationSubtitles(SubtitleList s, File file, SubtitleFileType type,
-			EasyJaSubObserver observer) throws IOException, InputTextSubException {
+			EasyJaSubObserver observer, EasyJaSubLinesSelection selection, boolean showTranslation) throws IOException, InputTextSubException {
 		FileInputStream stream = new FileInputStream(file);
 		InputTextSubFile subs = new InputTextSubFile(type, file.getName(), stream);
 		stream.close();
@@ -49,12 +49,12 @@ class SubtitleListTranslatedSubFileReader {
 		s.setTranslatedSubDescription(subs.getDescription());
 		s.setTranslatedSubLanguage(subs.getLanguage());
 		s.setTranslatedSubWarnings(subs.getWarnings());
-		for (InputTextSubCaption enCaption : subs.getCaptions()) {
+		for (InputTextSubCaption translatedCaption : subs.getCaptions()) {
 			boolean added = false;
 			for (SubtitleLine jaLine : s) {
 				if (isJa(jaLine) &&
-					compatibleWith(jaLine, enCaption)) {
-					addTranslation(jaLine, enCaption);
+					compatibleWith(jaLine, translatedCaption)) {
+					addTranslation(jaLine, translatedCaption);
 					added = true;
 				}
 				else if (added) {
@@ -64,13 +64,13 @@ class SubtitleListTranslatedSubFileReader {
 			if (!added) {
 				for (SubtitleLine jaLine : s) {
 					if (isJa(jaLine) &&
-						approxCompatibleWith(jaLine, enCaption)) {
-						addTranslation(jaLine, enCaption);
+						approxCompatibleWith(jaLine, translatedCaption)) {
+						addTranslation(jaLine, translatedCaption);
 						if (!added) {
 							added = true;
 						}
 						else {
-							observer.onTranslatedSubDuplicated(enCaption.getContent(), enCaption.getStart().getMSeconds(), jaLine.getStartTime());
+							observer.onTranslatedSubDuplicated(translatedCaption.getContent(), translatedCaption.getStart().getMSeconds(), jaLine.getStartTime());
 						}
 					}
 					else if (added) {
@@ -78,8 +78,8 @@ class SubtitleListTranslatedSubFileReader {
 					}
 				}
 			}
-			if (!added) {
-				insertTranslation(s, enCaption);
+			if (!added && showTranslation) {
+				insertTranslation(s, translatedCaption, selection);
 			}
 		}
 		String lastTranslation = null;
@@ -120,31 +120,46 @@ class SubtitleListTranslatedSubFileReader {
 	private static final Pattern TranslationReplace = Pattern.compile("<br ?/>");
 	private static final String BreakStr = "&nbsp;&nbsp;&nbsp;";
 
-	private boolean startsAfter(SubtitleLine line, InputTextSubCaption enCaption) {
-		return line.getStartTime() >= enCaption.getEnd().getMSeconds();
+	private boolean startsAfter(SubtitleLine line, InputTextSubCaption translatedCaption) {
+		return line.getStartTime() >= translatedCaption.getEnd().getMSeconds();
 	}
 
-	private boolean endsBefore(SubtitleLine line, InputTextSubCaption enCaption) {
-		return line.getEndTime() <= enCaption.getStart().getMSeconds();
+	private boolean endsBefore(SubtitleLine line, InputTextSubCaption translatedCaption) {
+		return line.getEndTime() <= translatedCaption.getStart().getMSeconds();
 	}
 
-	private void insertTranslation(SubtitleList lines, InputTextSubCaption enCaption) {
+	private void insertTranslation(SubtitleList lines, InputTextSubCaption translatedCaption,
+			EasyJaSubLinesSelection selection) {
+		// TODO: avoid inserting lines that match a non-japanese line with just getSubText()
 		for (int i = 0; i<lines.size(); ++i) {
 			SubtitleLine line = lines.get(i);
-			if (isJa(line) && startsAfter(line, enCaption)) {
-				if (i>0 && !endsBefore(lines.get(i-1), enCaption)) {
-					addTranslation(lines.get(i-1), enCaption);
+			if (isJa(line) && startsAfter(line, translatedCaption)) {
+				if (i>0 && !endsBefore(lines.get(i-1), translatedCaption)) {
+					addTranslation(lines.get(i-1), translatedCaption);
 				}
 				else {
-					SubtitleLine translationLine = lines.add(i);
-					translationLine.setStartTime(enCaption.getStart().getMSeconds());
-					translationLine.setEndTime(enCaption.getEnd().getMSeconds());
-					addTranslation(translationLine, enCaption);
+					if (selection == null || isTimeCompatibleWithSelection(translatedCaption, selection)) {
+						SubtitleLine translationLine = lines.add(i);
+						translationLine.setStartTime(translatedCaption.getStart().getMSeconds());
+						translationLine.setEndTime(translatedCaption.getEnd().getMSeconds());
+						addTranslation(translationLine, translatedCaption);
+					}
 				}
 				break;
 			}
 		}
 		
+	}
+
+	private boolean isTimeCompatibleWithSelection(
+			InputTextSubCaption translatedCaption, EasyJaSubLinesSelection selection) {
+		if (selection.getEndTime() > 0 && translatedCaption.getStart().getMSeconds() > selection.getEndTime()) {
+			return false;
+		}
+		if (selection.getStartTime() > 0 && translatedCaption.getEnd().getMSeconds() < selection.getStartTime()) {
+			return false;
+		}
+		return true;
 	}
 
 	private static boolean isJa(SubtitleLine line) {
@@ -155,17 +170,18 @@ class SubtitleListTranslatedSubFileReader {
 		return line.getTranslation() != null;
 	}
 
-	private boolean compatibleWith(SubtitleLine line, InputTextSubCaption enCaption) {
-		int startDiff = line.getStartTime() - enCaption.getStart().getMSeconds();
-		int endDiff = line.getEndTime() - enCaption.getEnd().getMSeconds();
+	private boolean compatibleWith(SubtitleLine line, InputTextSubCaption translatedCaption) {
+		int startDiff = line.getStartTime() - translatedCaption.getStart().getMSeconds();
+		int endDiff = line.getEndTime() - translatedCaption.getEnd().getMSeconds();
 		// both start and end of the line are nearby
 		return 
 				(Math.abs(startDiff) < msecondsMatch || Math.abs(endDiff) < msecondsMatch);
 	}
 
-	private boolean approxCompatibleWith(SubtitleLine line, InputTextSubCaption enCaption) {
-		int startDiff = line.getStartTime() - enCaption.getStart().getMSeconds();
-		int endDiff = line.getEndTime() - enCaption.getEnd().getMSeconds();
+	private boolean approxCompatibleWith(SubtitleLine line, InputTextSubCaption translatedCaption) {
+		// TODO: avoid that captions that have end time near the start of the subsequent caption are evaluated for match at the end
+		int startDiff = line.getStartTime() - translatedCaption.getStart().getMSeconds();
+		int endDiff = line.getEndTime() - translatedCaption.getEnd().getMSeconds();
 		// ja: ------------***************--------------
 		// en: -------**************************--------
 		if (startDiff > -msecondsApproxMatch && endDiff < msecondsApproxMatch) {
@@ -179,8 +195,8 @@ class SubtitleListTranslatedSubFileReader {
 			return true;
 		}
 		
-		int interStartDiff = enCaption.getEnd().getMSeconds() - line.getStartTime();
-		int interEndDiff = line.getEndTime() - enCaption.getStart().getMSeconds();
+		int interStartDiff = translatedCaption.getEnd().getMSeconds() - line.getStartTime();
+		int interEndDiff = line.getEndTime() - translatedCaption.getStart().getMSeconds();
 		// ja: -------************----------------------
 		// en: ------------***************--------------
 		if (startDiff < 0 && endDiff < 0 && interEndDiff > msecondsApproxMatch) {

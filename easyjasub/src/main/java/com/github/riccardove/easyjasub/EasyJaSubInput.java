@@ -79,4 +79,8 @@ public interface EasyJaSubInput {
 	public abstract boolean showDictionary();
 
 	public abstract boolean showKanji();
+	
+	public abstract int getStartLine();
+
+	public abstract int getEndLine();
 }

@@ -21,12 +21,6 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
  */
 
 
-import static org.rendersnake.HtmlAttributesFactory.class_;
-
-import java.io.IOException;
-
-import org.rendersnake.HtmlCanvas;
-
 import com.github.riccardove.easyjasub.SubtitleItem;
 
 class FuriSubtitleLineItem extends RedSubtitleLineItem {
@@ -41,7 +35,7 @@ class FuriSubtitleLineItem extends RedSubtitleLineItem {
 		this.furigana = furigana;
 	}
 	
-	private String furigana; 
+	private final String furigana; 
 	
 	@Override
 	public void toItem(SubtitleItem item) {

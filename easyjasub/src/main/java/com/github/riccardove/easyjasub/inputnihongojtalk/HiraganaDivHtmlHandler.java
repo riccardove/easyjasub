@@ -70,14 +70,14 @@ class HiraganaDivHtmlHandler implements SectionHtmlHandler {
 		if (triggerStr == null) {
 			throw new NullPointerException("Invalid trigger");
 		}
-		if (triggerStr.length() == 1 && !JapaneseChar.isJapaneseChar(triggerStr.charAt(0))) {
+		if (triggerStr.length() == 1 && JapaneseChar.isNonJapaneseChar(triggerStr.charAt(0))) {
 			addText(triggerStr);
 			return;
 		}
 		if (baseText != null) {
 			if (baseText.length() == 1) {
 				char c = baseText.charAt(0);
-				if (!JapaneseChar.isJapaneseChar(c)) {
+				if (JapaneseChar.isNonJapaneseChar(c)) {
 					addText(baseText);
 					return;
 				}

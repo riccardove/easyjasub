@@ -23,6 +23,8 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
 
 import org.xml.sax.*;
 
+import com.github.riccardove.easyjasub.JapaneseChar;
+
 class TextareaHtmlHandler implements SectionHtmlHandler {
 
 	private final NihongoJTalkSubtitleList subtitleList;
@@ -85,7 +87,12 @@ class TextareaHtmlHandler implements SectionHtmlHandler {
 
 	private void addText() {
 		NihongoJTalkSubtitleLine line = subtitleList.get(index++);
-		line.setNihongoJTalkJapaneseText(text.toString());
+		String content = text.toString();
+		String key = JapaneseChar.getJapaneseKey(content);
+		if (key != null) {
+			line.setNihongoJTalkOriginalText(content);
+			line.setJapaneseKey(key);
+		}
 	}
 
 	public void startSection(String uri, String localName, String qName,

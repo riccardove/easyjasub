@@ -31,24 +31,18 @@ class NihongoJTalkSubtitleLine {
 
 	private String nihongoJTalkJapaneseText;
 	private ArrayList<NihongoJTalkSubtitleLineItem> items;
-	private final int index;
 	private String translation;
 	
-	public NihongoJTalkSubtitleLine(int index) {
+	public NihongoJTalkSubtitleLine() {
 		items = new ArrayList<NihongoJTalkSubtitleLineItem>();
-		this.index = index;
 	}
 	
-	public void setNihongoJTalkJapaneseText(String text) {
+	public void setNihongoJTalkOriginalText(String text) {
 		nihongoJTalkJapaneseText = text;
 	}
 	
 	public String getJapaneseText() {
 		return nihongoJTalkJapaneseText;
-	}
-	
-	public int getIndex() {
-		return index;
 	}
 	
 	public boolean isJa() {
@@ -146,5 +140,15 @@ class NihongoJTalkSubtitleLine {
 
 	public void setTranslatedText(String text) {
 		translation = text;
+	}
+
+	private String japaneseKey;
+	
+	public void setJapaneseKey(String japaneseKey) {
+		this.japaneseKey= japaneseKey;
+	}
+	
+	public String getJapaneseKey() {
+		return japaneseKey;
 	}
 }

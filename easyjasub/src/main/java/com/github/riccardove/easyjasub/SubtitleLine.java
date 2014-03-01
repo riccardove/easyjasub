@@ -80,4 +80,30 @@ public class SubtitleLine {
 	public void setIndex(int index) {
 		this.index = index;
 	}
+
+	private String japaneseSubKey;
+	
+	public void setJapaneseSubKey(String japaneseSubKey) {
+		this.japaneseSubKey = japaneseSubKey;
+	}
+
+	/**
+	 * Key string containing only japanese chars in the caption, used for comparisons
+	 */
+	public String getJapaneseSubKey() {
+		return japaneseSubKey;
+	}
+	
+	private String subText;
+	
+	public void setSubText(String subText) {
+		this.subText = subText;
+	}
+
+	/**
+	 * Text of the caption, for captions without any japanese char that do not need translation
+	 */
+	public String getSubText() {
+		return subText;
+	}
 }

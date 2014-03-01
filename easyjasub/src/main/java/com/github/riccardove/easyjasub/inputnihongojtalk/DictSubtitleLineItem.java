@@ -21,12 +21,8 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
  */
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
-import org.rendersnake.HtmlCanvas;
 
 import com.github.riccardove.easyjasub.CommonsLangStringUtils;
 import com.github.riccardove.easyjasub.SubtitleItem;
