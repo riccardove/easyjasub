@@ -14,7 +14,7 @@
 
 	<groupId>com.github.riccardove</groupId>
 	<artifactId>easyjasub</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<inceptionYear>2014</inceptionYear>
 	<organization>
@@ -225,6 +225,74 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>downloads-maven-plugin</artifactId>
+				<version>0.6</version>
+				<configuration>
+					<description>Official ${project.name} build of the ${project.version} release</description>
+					<override>true</override>
+					<includeAttached>true</includeAttached>
+					<server>github</server>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>upload</goal>
+						</goals>
+						<phase>install</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.7</version>
+				<configuration>
+					<message>Building site for ${project.version}</message>
+					<server>github</server>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>site</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<quiet>true</quiet>
+					<nonavbar>true</nonavbar>
+					<notree>true</notree>
+					<nocomment>true</nocomment>
+					<nohelp>true</nohelp>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -255,7 +323,7 @@
 					<configuration>
 						<mavenExecutorId>forked-path</mavenExecutorId>
 						<useReleaseProfile>false</useReleaseProfile>
-						<arguments>${arguments} -Psonatype-oss-release</arguments>
+						<arguments>-Psonatype-oss-release</arguments>
 					</configuration>
 				</plugin>
 			</plugins>
@@ -328,6 +396,12 @@
 			<groupId>com.github.JDaren</groupId>
 			<artifactId>subtitleConvert</artifactId>
 			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.chasen.mecab</groupId>
+			<artifactId>mecab-java</artifactId>
+			<version>0.993</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

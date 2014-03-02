@@ -24,11 +24,11 @@ package com.github.riccardove.easyjasub;
 import java.io.File;
 import java.io.IOException;
 
-class SubtitleListJapaneseTextFileWriter {
+class SubtitleListParserInputTextFileWriter {
 	public void write(SubtitleList s, File file) throws IOException {
 		EasyJaSubWriter stream = new EasyJaSubWriter(file);
 		for (SubtitleLine line : s) {
-			stream.println(line.getSubText());
+			stream.println(line.getJapaneseSubKey());
 		}
 		stream.close();
 	}

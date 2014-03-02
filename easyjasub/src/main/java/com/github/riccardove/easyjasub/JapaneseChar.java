@@ -23,27 +23,25 @@ import java.util.ArrayList;
  * #L%
  */
 
-
-
 public final class JapaneseChar {
 
 	private JapaneseChar() {
-		
+
 	}
-	
-	public static boolean isNonJapaneseChar(char c)
-	{
+
+	public static boolean isNonJapaneseChar(char c) {
 		return !isSmallSizeJapaneseChar(c) && !isIdeogram(c);
 	}
 
 	private static boolean isIdeogram(char c) {
 		return Character.isIdeographic(c);
 	}
-	
+
 	public static boolean isSmallSizeJapaneseChar(char c) {
 		Character.UnicodeBlock block = getUnicodeBlock(c);
-		return isHiraganaOrKatakana(block) || block == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION;
-		
+		return isHiraganaOrKatakana(block)
+				|| block == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION;
+
 	}
 
 	private static UnicodeBlock getUnicodeBlock(char c) {
@@ -51,30 +49,45 @@ public final class JapaneseChar {
 	}
 
 	private static boolean isHiraganaOrKatakana(Character.UnicodeBlock block) {
-		return block == Character.UnicodeBlock.HIRAGANA ||
-				block == Character.UnicodeBlock.KATAKANA;
+		return block == Character.UnicodeBlock.HIRAGANA
+				|| block == Character.UnicodeBlock.KATAKANA;
 	}
 
 	private static boolean isJapaneseIdeograph(char c) {
 		return isIdeogram(c) || isHiraganaOrKatakana(getUnicodeBlock(c));
 	}
-	
+
+	private static final Character Space = ' ';
+
 	public static String getJapaneseKey(String content) {
 		ArrayList<Character> japaneseChars = new ArrayList<Character>();
+		boolean addSpace = false;
 		for (char c : content.toCharArray()) {
 			if (JapaneseChar.isJapaneseIdeograph(c)) {
+				addSpace = false;
 				japaneseChars.add(c);
+			} else if (!addSpace) {
+				addSpace = true;
+				japaneseChars.add(Space);
 			}
 		}
 		if (japaneseChars.size() == 0) {
 			return null;
 		}
+
 		return CommonsLangStringUtils.charListToString(japaneseChars);
 	}
 
-//	private static boolean is(char c) {
-//		return Character.UnicodeBlock.of(c) == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS ||
-//				Character.UnicodeBlock.of(c) == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS ||
-//				Character.UnicodeBlock.of(c) == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
-//	}
+	public static char katakanaToHiragana(char ch) {
+		return (char) (Character.getNumericValue(ch) - 0x60);
+	}
+
+	// private static boolean is(char c) {
+	// return Character.UnicodeBlock.of(c) ==
+	// Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS ||
+	// Character.UnicodeBlock.of(c) ==
+	// Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS ||
+	// Character.UnicodeBlock.of(c) ==
+	// Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
+	// }
 }

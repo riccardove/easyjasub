@@ -23,7 +23,6 @@ package com.github.riccardove.easyjasub;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -36,7 +35,7 @@ class SubtitleListBdmXmlFileWriter {
 	private final EasyJaSubInput command;
 	private final double fps;
 	private final String fpsStr;
-	private String videoFormat;
+	private final String videoFormat;
 
 	public SubtitleListBdmXmlFileWriter(EasyJaSubInput command,
 			double fps, String fpsStr, String videoFormat) throws EasyJaSubException
@@ -48,11 +47,10 @@ class SubtitleListBdmXmlFileWriter {
 		ir = getImageReader();
 	}
 	
-	private static final String LineSeparator = SystemProperty.getLineSeparator();
 	private final ImageReader ir;
 	
 	public void writeBDM(SubtitleList s, File file) throws IOException, FileNotFoundException {
-		f = new FileWriter(file);
+		f = new EasyJaSubWriter(file);
 
 		writeln("<?xml version=\"1.0\" encoding=\"" + EasyJaSubCharset.CHARSETSTR + "\"?>");
         writeln("<BDN Version=\"0.93\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"BD-03-006-0093b BDN File Format.xsd\">");
@@ -134,11 +132,10 @@ class SubtitleListBdmXmlFileWriter {
 		return ir.next();
 	}
 
-	private FileWriter f;
+	private EasyJaSubWriter f;
 	
 	private void writeln(String line) throws IOException
 	{
-		f.write(line);
-		f.write(LineSeparator);
+		f.println(line);
 	}
 }

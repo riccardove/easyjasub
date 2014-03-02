@@ -22,32 +22,29 @@ package com.github.riccardove.easyjasub;
 
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 class SubtitleListCssFileWriter {
 	
 	public SubtitleListCssFileWriter(File file,
 			EasyJaSubInput command) throws IOException {
-		writer = new FileWriter(file);
+		writer = new EasyJaSubWriter(file);
 		hiraganaFont = command.getCssHiraganaFont();
 		kanjiFont = command.getCssKanjiFont();
 		translationFont = command.getCssTranslationFont();
 	}
 	
-	private static final String LineSeparator = SystemProperty.getLineSeparator();
-	private final FileWriter writer;
+	private final EasyJaSubWriter writer;
 	private final String hiraganaFont;
 	private final String kanjiFont;
 	private final String translationFont;
 	
 	private void w(String line) throws IOException {
-		writer.write(line);
-		w();
+		writer.println(line);
 	}
 	
 	private void w() throws IOException {
-		writer.write(LineSeparator);
+		writer.println();
 	}
 	
 	public void write() throws IOException {

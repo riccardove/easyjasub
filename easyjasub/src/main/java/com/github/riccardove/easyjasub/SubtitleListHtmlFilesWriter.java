@@ -25,9 +25,7 @@ import static org.rendersnake.HtmlAttributesFactory.class_;
 import static org.rendersnake.HtmlAttributesFactory.lang;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +49,7 @@ class SubtitleListHtmlFilesWriter {
 		String cssFileUrl = cssFile != null ? cssFile.toURI().toString()
 				: "default.css";
 
-		ArrayList<OutputStreamWriter> writers = new ArrayList<OutputStreamWriter>(
+		ArrayList<EasyJaSubWriter> writers = new ArrayList<EasyJaSubWriter>(
 				s.size());
 		for (SubtitleLine l : s) {
 			File file = l.getHtmlFile();
@@ -71,9 +69,9 @@ class SubtitleListHtmlFilesWriter {
 		closeWriters(writers);
 	}
 
-	private void closeWriters(ArrayList<OutputStreamWriter> writers)
+	private void closeWriters(ArrayList<EasyJaSubWriter> writers)
 			throws IOException {
-		for (OutputStreamWriter writer : writers) {
+		for (EasyJaSubWriter writer : writers) {
 			writer.close();
 		}
 		writers.clear();
@@ -95,15 +93,13 @@ class SubtitleListHtmlFilesWriter {
 		return html.toHtml();
 	}
 
-	private static OutputStreamWriter toFile(String text, File fileName)
+	private static EasyJaSubWriter toFile(String text, File file)
 			throws IOException {
-		OutputStreamWriter fw = new OutputStreamWriter(new FileOutputStream(
-				fileName), EasyJaSubCharset.CHARSET);
-		fw.write(text);
+		EasyJaSubWriter fw = new EasyJaSubWriter(file);
+		fw.println(text);
 		return fw;
 	}
 
-	public static final String Newline = SystemProperty.getLineSeparator();
 
 	private void renderOn(HtmlCanvas html, SubtitleLine line,
 			EasyJaSubInput command) throws IOException {
@@ -155,6 +151,8 @@ class SubtitleListHtmlFilesWriter {
 				._table();
 		appendln(html);
 	}
+
+	private static final String Newline = EasyJaSubWriter.Newline;
 
 	private void appendItems(HtmlCanvas html, boolean showFurigana,
 			boolean showDictionary, boolean showRomaji, boolean showKanji,
