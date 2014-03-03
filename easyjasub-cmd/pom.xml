@@ -11,11 +11,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github.riccardove</groupId>
-	<artifactId>easyjasub</artifactId>
-	<version>0.0.7-SNAPSHOT</version>
+	<artifactId>easyjasub-cmd</artifactId>
 	<packaging>jar</packaging>
-	<name>easyjasub</name>
+	<name>easyjasub-cmd</name>
 
 	<parent>
 		<groupId>com.github.riccardove</groupId>
@@ -222,40 +220,6 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>license-maven-plugin</artifactId>
-					<version>1.6</version>
-					<configuration>
-						<verbose>false</verbose>
-					</configuration>
-					<executions>
-						<execution>
-							<id>first</id>
-							<goals>
-								<goal>update-file-header</goal>
-							</goals>
-							<phase>process-sources</phase>
-							<configuration>
-								<licenseName>${license.licenseName}</licenseName>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>2.1</version>
-					<configuration>
-						<mavenExecutorId>forked-path</mavenExecutorId>
-						<useReleaseProfile>false</useReleaseProfile>
-						<arguments>-Psonatype-oss-release</arguments>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 
 	<profiles>
@@ -290,40 +254,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.ccil.cowan.tagsoup</groupId>
-			<artifactId>tagsoup</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.rendersnake</groupId>
-			<artifactId>rendersnake</artifactId>
-			<version>1.7.1</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>gui.ava</groupId>
-			<artifactId>html2image</artifactId>
-			<version>0.9</version>
-		</dependency>
-		<dependency>
-			<groupId>bdsup2sub</groupId>
-			<artifactId>bdsup2sub</artifactId>
-			<version>5.1.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.JDaren</groupId>
-			<artifactId>subtitleConvert</artifactId>
-			<version>1.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.chasen.mecab</groupId>
-			<artifactId>mecab-java</artifactId>
-			<version>0.993</version>
-			<scope>test</scope>
+			<groupId>com.github.riccardove</groupId>
+			<artifactId>easyjasub-lib</artifactId>
+			<version>0.0.7-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
