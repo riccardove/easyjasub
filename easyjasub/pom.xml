@@ -13,7 +13,7 @@
 
 	<groupId>com.github.riccardove</groupId>
 	<artifactId>easyjasub</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>0.0.5</version>
 	<packaging>jar</packaging>
 	<inceptionYear>2014</inceptionYear>
 	<organization>
