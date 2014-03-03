@@ -13,77 +13,24 @@
 
 	<groupId>com.github.riccardove</groupId>
 	<artifactId>easyjasub</artifactId>
-	<version>0.0.6-SNAPSHOT</version>
+	<version>0.0.7-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<inceptionYear>2014</inceptionYear>
-	<organization>
-		<name>Riccardo Vestrini</name>
-		<url>https://github.com/riccardove</url>
-	</organization>
 	<name>easyjasub</name>
-	<url>https://github.com/riccardove/easyjasub</url>
-	<description>Tool to add furigana and in-line translation to japanese subtitles, for language learning</description>
 
 	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
+		<groupId>com.github.riccardove</groupId>
+		<artifactId>easyjasub-parent</artifactId>
+		<version>0.0.7-SNAPSHOT</version>
 	</parent>
 
 	<properties>
 		<wix.version>0.0.0.1</wix.version>
-		<license.licenseName>apache_v2</license.licenseName>
 		<launch4j.jremin>1.7.0</launch4j.jremin>
 		<launch4j.jreheap>128</launch4j.jreheap>
 		<launch4j.jreheapmax>512</launch4j.jreheapmax>
 		<launch4j.icon>src/main/resources/com/github/riccardove/easyjasub/icon32.ico</launch4j.icon>
 		<main.class>com.github.riccardove.easyjasub.App</main.class>
-		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
-		<timestamp>${maven.build.timestamp}</timestamp>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<github.global.server>github</github.global.server>
 	</properties>
-
-	<issueManagement>
-		<url>https://github.com/riccardove/easyjasub/issues</url>
-		<system>GitHub Issues</system>
-	</issueManagement>
-
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
-	<scm>
-		<url>git@github.com:riccardove/easyjasub.git</url>
-		<connection>scm:git:git@github.com:riccardove/easyjasub.git</connection>
-		<developerConnection>scm:git:git@github.com:riccardove/easyjasub.git</developerConnection>
-	</scm>
-
-	<developers>
-		<developer>
-			<email>riccardo.vestrini@gmail.com</email>
-			<name>Riccardo Vestrini</name>
-			<url>https://github.com/riccardove</url>
-			<id>riccardove</id>
-		</developer>
-	</developers>
-
-	<repositories>
-		<repository>
-			<id>rendersnake-repo</id>
-			<name>Repository for rendersnake</name>
-			<url>http://rendersnake.googlecode.com/svn/repo</url>
-		</repository>
-		<repository>
-			<id>yoava</id>
-			<name>AOL yoava</name>
-			<url>http://yoava.artifactoryonline.com/yoava/repo</url>
-		</repository>
-	</repositories>
 
 	<build>
 		<resources>
@@ -216,7 +163,7 @@
 							<jre>
 								<minVersion>${launch4j.jremin}</minVersion>
 								<initialHeapSize>${launch4j.jreheap}</initialHeapSize>
-								<maxHeapSize>${launch4j.jreheapmax}</maxHeapSize>
+					-			<maxHeapSize>${launch4j.jreheapmax}</maxHeapSize>
 								<opts>
 									<opt>-Dfile.encoding=UTF-8</opt>
 								</opts>
@@ -356,12 +303,6 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>gui.ava</groupId>

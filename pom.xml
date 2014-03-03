@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.github.riccardove</groupId>
+	<artifactId>easyjasub-parent</artifactId>
+	<version>0.0.7-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+	<inceptionYear>2014</inceptionYear>
+	<organization>
+		<name>Riccardo Vestrini</name>
+		<url>https://github.com/riccardove</url>
+	</organization>
+	<name>easyjasub-parent</name>
+	<url>https://github.com/riccardove/easyjasub</url>
+	<description>Tool to add furigana and in-line translation to japanese subtitles, for language learning</description>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
+	<properties>
+		<license.licenseName>apache_v2</license.licenseName>
+		<main.class>com.github.riccardove.easyjasub.App</main.class>
+		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<github.global.server>github</github.global.server>
+	</properties>
+
+	<issueManagement>
+		<url>https://github.com/riccardove/easyjasub/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>git@github.com:riccardove/easyjasub.git</url>
+		<connection>scm:git:git@github.com:riccardove/easyjasub.git</connection>
+		<developerConnection>scm:git:git@github.com:riccardove/easyjasub.git</developerConnection>
+	</scm>
+
+    <modules>
+        <module>easyjasub</module>
+    </modules>
+
+	<developers>
+		<developer>
+			<email>riccardo.vestrini@gmail.com</email>
+			<name>Riccardo Vestrini</name>
+			<url>https://github.com/riccardove</url>
+			<id>riccardove</id>
+		</developer>
+	</developers>
+
+	<repositories>
+		<repository>
+			<id>rendersnake-repo</id>
+			<name>Repository for rendersnake</name>
+			<url>http://rendersnake.googlecode.com/svn/repo</url>
+		</repository>
+		<repository>
+			<id>yoava</id>
+			<name>AOL yoava</name>
+			<url>http://yoava.artifactoryonline.com/yoava/repo</url>
+		</repository>
+	</repositories>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
