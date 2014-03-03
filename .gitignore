@@ -2,3 +2,5 @@ target/
 /.project
 /.settings
 /easyjasub.7z
+/pom.xml.releaseBackup
+/release.properties
