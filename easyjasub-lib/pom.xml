@@ -18,12 +18,12 @@
 	<parent>
 		<groupId>com.github.riccardove.easyjasub</groupId>
 		<artifactId>easyjasub-parent</artifactId>
-		<version>0.0.12-SNAPSHOT</version>
+		<version>0.0.13-SNAPSHOT</version>
 	</parent>
 
 	<build>
 		<plugins>
-			<plugin>
+		<!-- 	<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.0</version>
@@ -62,7 +62,7 @@
 						<phase>site</phase>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 		</plugins>
 	</build>
 
