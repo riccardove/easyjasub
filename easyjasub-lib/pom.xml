@@ -16,9 +16,9 @@
 	<name>easyjasub-lib</name>
 
 	<parent>
-		<groupId>com.github.riccardove</groupId>
-		<artifactId>easyjasub</artifactId>
-		<version>0.0.10-SNAPSHOT</version>
+		<groupId>com.github.riccardove.easyjasub</groupId>
+		<artifactId>easyjasub-parent</artifactId>
+		<version>0.0.12-SNAPSHOT</version>
 	</parent>
 
 	<build>

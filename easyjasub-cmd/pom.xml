@@ -16,9 +16,9 @@
 	<name>easyjasub-cmd</name>
 
 	<parent>
-		<groupId>com.github.riccardove</groupId>
-		<artifactId>easyjasub</artifactId>
-		<version>0.0.10-SNAPSHOT</version>
+		<groupId>com.github.riccardove.easyjasub</groupId>
+		<artifactId>easyjasub-parent</artifactId>
+		<version>0.0.12-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -135,7 +135,6 @@
 							<jre>
 								<minVersion>${launch4j.jremin}</minVersion>
 								<initialHeapSize>${launch4j.jreheap}</initialHeapSize>
-								-
 								<maxHeapSize>${launch4j.jreheapmax}</maxHeapSize>
 								<opts>
 									<opt>-Dfile.encoding=UTF-8</opt>
@@ -167,9 +166,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.github.riccardove</groupId>
+			<groupId>com.github.riccardove.easyjasub</groupId>
 			<artifactId>easyjasub-lib</artifactId>
-			<version>0.0.10-SNAPSHOT</version>
+			<version>0.0.12-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

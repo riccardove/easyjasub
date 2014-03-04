@@ -1,9 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                              http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github.riccardove</groupId>
-	<artifactId>easyjasub</artifactId>
-	<version>0.0.10-SNAPSHOT</version>
+	<groupId>com.github.riccardove.easyjasub</groupId>
+	<artifactId>easyjasub-parent</artifactId>
+	<version>0.0.12-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<inceptionYear>2014</inceptionYear>
@@ -11,7 +11,7 @@
 		<name>Riccardo Vestrini</name>
 		<url>https://github.com/riccardove</url>
 	</organization>
-	<name>easyjasub-parent</name>
+	<name>easyjasub</name>
 	<url>https://github.com/riccardove/easyjasub</url>
 	<description>Tool to add furigana and in-line translation to japanese subtitles, for language learning</description>
 
@@ -47,7 +47,8 @@
 		<url>git@github.com:riccardove/easyjasub.git</url>
 		<connection>scm:git:git@github.com:riccardove/easyjasub.git</connection>
 		<developerConnection>scm:git:git@github.com:riccardove/easyjasub.git</developerConnection>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<modules>
 		<module>easyjasub-lib</module>
