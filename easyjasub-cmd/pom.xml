@@ -8,8 +8,7 @@
 	IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
 	implied. ~ See the Apache License Version 2.0 for the specific language governing 
 	permissions and limitations there under. -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>easyjasub-cmd</artifactId>
@@ -18,12 +17,13 @@
 
 	<parent>
 		<groupId>com.github.riccardove</groupId>
-		<artifactId>easyjasub-parent</artifactId>
-		<version>0.0.8-SNAPSHOT</version>
+		<artifactId>easyjasub</artifactId>
+		<version>0.0.9-SNAPSHOT</version>
 	</parent>
 
 	<properties>
 		<wix.version>0.0.0.1</wix.version>
+		<launch4j.name>easyjasub</launch4j.name>
 		<launch4j.jremin>1.7.0</launch4j.jremin>
 		<launch4j.jreheap>128</launch4j.jreheap>
 		<launch4j.jreheapmax>512</launch4j.jreheapmax>
@@ -125,9 +125,9 @@
 						</goals>
 						<configuration>
 							<headerType>console</headerType>
-							<outfile>${project.build.directory}/${project.name}.exe</outfile>
+							<outfile>${project.build.directory}/${launch4j.name}.exe</outfile>
 							<jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
-							<errTitle>${project.name} Error</errTitle>
+							<errTitle>${launch4j.name} Error</errTitle>
 							<classPath>
 								<mainClass>${main.class}</mainClass>
 							</classPath>
@@ -169,7 +169,7 @@
 		<dependency>
 			<groupId>com.github.riccardove</groupId>
 			<artifactId>easyjasub-lib</artifactId>
-			<version>0.0.8-SNAPSHOT</version>
+			<version>0.0.9-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

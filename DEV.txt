@@ -1,0 +1,7 @@
+Notes for developers
+
+mvn package
+    jar:jar create a jar file for your project sources.
+    jar:test-jar create a jar file for your project test classes.
+    
+    mvn license:update-file-header
