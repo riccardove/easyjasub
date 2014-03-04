@@ -11,7 +11,7 @@
 		<name>Riccardo Vestrini</name>
 		<url>https://github.com/riccardove</url>
 	</organization>
-	<name>easyjasub-parent</name>
+	<name>easyjasub</name>
 	<url>https://github.com/riccardove/easyjasub</url>
 	<description>Tool to add furigana and in-line translation to japanese subtitles, for language learning</description>
 
