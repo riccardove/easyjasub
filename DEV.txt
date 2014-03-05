@@ -5,3 +5,5 @@ mvn package
     jar:test-jar create a jar file for your project test classes.
     
     mvn license:update-file-header
+    
+oss parent pom is in http://repo1.maven.org/maven2/org/sonatype/oss/oss-parent/

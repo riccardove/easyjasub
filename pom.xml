@@ -2,8 +2,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.riccardove.easyjasub</groupId>
-	<artifactId>easyjasub-parent</artifactId>
-	<version>0.0.13-SNAPSHOT</version>
+	<artifactId>easyjasub</artifactId>
+	<version>0.0.15-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<inceptionYear>2014</inceptionYear>
@@ -18,7 +18,7 @@
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
-		<version>7</version>
+		<version>9</version>
 	</parent>
 
 	<properties>
@@ -156,17 +156,17 @@
 						</execution>
 					</executions>
 				</plugin>
-	<!-- 			<plugin>
+	 			<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.4.2</version>
-					<configuration>
+<!-- 					<configuration>
 						<mavenExecutorId>forked-path</mavenExecutorId>
 						<useReleaseProfile>false</useReleaseProfile>
 						<arguments>-Psonatype-oss-release</arguments>
 					</configuration>
-				</plugin>
- -->			</plugins>
+ -->				</plugin>
+			</plugins>
 		</pluginManagement>
 	</build>
 

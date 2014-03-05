@@ -17,8 +17,8 @@
 
 	<parent>
 		<groupId>com.github.riccardove.easyjasub</groupId>
-		<artifactId>easyjasub-parent</artifactId>
-		<version>0.0.13-SNAPSHOT</version>
+		<artifactId>easyjasub</artifactId>
+		<version>0.0.15-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -168,7 +168,7 @@
 		<dependency>
 			<groupId>com.github.riccardove.easyjasub</groupId>
 			<artifactId>easyjasub-lib</artifactId>
-			<version>0.0.13-SNAPSHOT</version>
+			<version>0.0.15-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
