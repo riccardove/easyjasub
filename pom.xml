@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.riccardove.easyjasub</groupId>
 	<artifactId>easyjasub</artifactId>
-	<version>0.0.16-SNAPSHOT</version>
+	<version>0.0.17-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<inceptionYear>2014</inceptionYear>
@@ -79,7 +80,7 @@
 
 	<build>
 		<plugins>
- 			<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
@@ -133,7 +134,8 @@
 					</execution>
 				</executions>
 			</plugin>
- -->		</plugins>
+ -->
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -156,16 +158,15 @@
 						</execution>
 					</executions>
 				</plugin>
-	 			<plugin>
+				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.4.2</version>
-<!-- 					<configuration>
-						<mavenExecutorId>forked-path</mavenExecutorId>
-						<useReleaseProfile>false</useReleaseProfile>
-						<arguments>-Psonatype-oss-release</arguments>
+					<configuration>
+						<goals>deploy</goals>
+						<autoversionsubmodules>true</autoversionsubmodules>
 					</configuration>
- -->				</plugin>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
