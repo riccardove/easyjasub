@@ -7,3 +7,14 @@ mvn package
     mvn license:update-file-header
     
 oss parent pom is in http://repo1.maven.org/maven2/org/sonatype/oss/oss-parent/
+
+mvn release:rollback - rolls back the changes done in the pom and commits it to the scm
+mvn release:clean - cleans the workspace
+git tag - lists the tags, pick the one Maven made,
+git tag -d <tag> - removes the tag from the local index
+git push <remote> :<tag> - removes the tag from the remote, typically origin
+git reset --hard HEAD^ - rolls back the repository, one commit at the time. Roll back to before Maven committed anything, typically two.
+git push -f - push the rollback to the remote
+
+staging url:
+https://oss.sonatype.org/service/local/staging/deploy/maven2/com/github/riccardove/easyjasub/
