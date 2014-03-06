@@ -35,4 +35,8 @@ public abstract class EasyJaSubTestCase extends TestCase {
 		return file;
 	}
 
+	protected String getMeCabExePath() {
+		return "C:/Program Files (x86)/MeCab/bin/mecab.exe";
+	}
 }
+

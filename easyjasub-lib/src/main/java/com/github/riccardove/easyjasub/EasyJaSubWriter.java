@@ -24,6 +24,7 @@ package com.github.riccardove.easyjasub;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 class EasyJaSubWriter {
@@ -32,7 +33,11 @@ class EasyJaSubWriter {
 	public static final String Newline = SystemProperty.getLineSeparator();
 
 	public EasyJaSubWriter(File file) throws IOException {
-		this.writer = new OutputStreamWriter(new FileOutputStream(file),
+		this(new FileOutputStream(file));
+	}
+
+	public EasyJaSubWriter(OutputStream outputStream) throws IOException {
+		this.writer = new OutputStreamWriter(outputStream,
 				EasyJaSubCharset.CHARSET);
 	}
 

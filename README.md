@@ -40,4 +40,5 @@ http://sourceforge.jp/projects/chasen-legacy/ ChaSen is used by Kanji Converter
 Developer information
 ---------------------
 The SonaType OSSRH Maven repository (https://oss.sonatype.org) is used to deploy artifacts
+Releases: https://oss.sonatype.org/content/groups/public/com/github/riccardove/easyjasub/
 Snapshots: https://oss.sonatype.org/content/repositories/snapshots/com/github/riccardove/easyjasub/

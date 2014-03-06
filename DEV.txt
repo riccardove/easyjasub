@@ -17,4 +17,8 @@ git reset --hard HEAD^ - rolls back the repository, one commit at the time. Roll
 git push -f - push the rollback to the remote
 
 staging url:
+https://oss.sonatype.org/content/groups/staging/com/github/riccardove/easyjasub/
+deploy url:
 https://oss.sonatype.org/service/local/staging/deploy/maven2/com/github/riccardove/easyjasub/
+
+mvn deploy -DperformRelease=true

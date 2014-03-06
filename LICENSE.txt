@@ -204,14 +204,18 @@
 
 This product bundles the following libraries which are available under a
 "Apache Software License, Version 2.0" license:
-BDSup2Sub 5.1.2 - https://github.com/mjuhasz/BDSup2Sub/
+BDSup2Sub 5.1.2 - https://github.com/mjuhasz/BDSup2Sub/ http://bdsup2sub.javaforge.com/help.htm
 Commons CLI 1.2 - http://commons.apache.org/cli/
 Commons IO 2.4 - http://commons.apache.org/io/
 Apache Commons Lang 3.2.1 - http://commons.apache.org/proper/commons-lang/
 TagSoup 1.2 - http://home.ccil.org/~cowan/XML/tagsoup/
 rendersnake 1.7.1 - http://rendersnake.org/
 
-Some parts of the BDSup2Sub code are licensed under the GNU Lesser General Public License Version 3.
+Some parts of the BDSup2Sub code are licensed differently:
+    PNG Encoder by J. David Eisenberg (modified to support transparency for palette mode via the tRNS tag). Licensed under the LGPL.
+    Octree Quantize Filter by Jerry Huxtable (modified to support alpha component and better palette reduction). Licensed under the Apache License 2.0.
+    Scaling/filter routine based on Morten Nobel-Joergensen's ResampleOp from his Java image scaling library. Licensed under the LGPL.
+    JFileFilter based on ExampleFileFilter from the FileChooserDemo included in the JDK. Licensed under proprietary Sun license (similar to Apache).
 
 This product bundles subtitleConvert retrieved on 2014/02/20, which is available under a
 "MIT" license.  For details, see https://github.com/JDaren/subtitleConverter
