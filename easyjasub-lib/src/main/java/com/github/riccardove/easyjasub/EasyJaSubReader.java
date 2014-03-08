@@ -2,7 +2,7 @@ package com.github.riccardove.easyjasub;
 
 /*
  * #%L
- * easyjasub
+ * easyjasub-lib
  * %%
  * Copyright (C) 2014 Riccardo Vestrini
  * %%
@@ -20,16 +20,31 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-public enum Grammar {
-	adj, naadj, prenadj,
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
-	verb, pronoun, noun, conj,
+public class EasyJaSubReader {
 
-	nsuru, interj, particle, aux, fill,
+	private final BufferedReader reader;
 
-	givenname, persname, surname, propern,
+	public EasyJaSubReader(File file) throws IOException {
+		this(new FileInputStream(file));
+	}
 
-	vpotential, prefix,
+	public EasyJaSubReader(InputStream outputStream) throws IOException {
+		this.reader = new BufferedReader(new InputStreamReader(outputStream,
+				EasyJaSubCharset.CHARSET));
+	}
 
-	adv, punctuation, region, symbol, auxiliaryverb, undef,
+	public String readLine() throws IOException {
+		return reader.readLine();
+	}
+
+	public void close() throws IOException {
+		reader.close();
+	}
 }

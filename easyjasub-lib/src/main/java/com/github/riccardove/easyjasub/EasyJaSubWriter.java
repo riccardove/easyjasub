@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
-class EasyJaSubWriter {
+public class EasyJaSubWriter {
 
 	private final OutputStreamWriter writer;
 	public static final String Newline = SystemProperty.getLineSeparator();

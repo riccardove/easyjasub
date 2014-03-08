@@ -1,8 +1,9 @@
 package com.github.riccardove.easyjasub.mecab;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class MeCabSubtitleLine {
+class MeCabSubtitleLine implements Iterable<MeCabSubtitleLineItem> {
 
 	private final ArrayList<MeCabSubtitleLineItem> items;
 
@@ -10,8 +11,12 @@ public class MeCabSubtitleLine {
 		items = new ArrayList<MeCabSubtitleLineItem>();
 	}
 
-	public void addLine(String line) {
-		// TODO parse line
+	public void addItem(MeCabSubtitleLineItem item) {
+		items.add(item);
+	}
 
+	@Override
+	public Iterator<MeCabSubtitleLineItem> iterator() {
+		return items.iterator();
 	}
 }
