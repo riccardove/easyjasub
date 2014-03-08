@@ -40,18 +40,21 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 	private String width;
 	private String wkhtmltoimage;
 	private String cssHiraganaFont;
+	@Override
 	public String getCssHiraganaFont() {
 		return cssHiraganaFont;
 	}
 	public void setCssHiraganaFont(String cssHiraganaFont) {
 		this.cssHiraganaFont = cssHiraganaFont;
 	}
+	@Override
 	public String getCssKanjiFont() {
 		return cssKanjiFont;
 	}
 	public void setCssKanjiFont(String cssKanjiFont) {
 		this.cssKanjiFont = cssKanjiFont;
 	}
+	@Override
 	public String getCssTranslationFont() {
 		return cssTranslationFont;
 	}
@@ -133,7 +136,7 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 		return width;
 	}
 	@Override
-	public String getWkhtmltoimage() {
+	public String getWkHtmlToImageCommand() {
 		return wkhtmltoimage;
 	}
 	@Override
@@ -217,5 +220,17 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 	public String getSelectLines() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getMeCabCommand() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getVerbose() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

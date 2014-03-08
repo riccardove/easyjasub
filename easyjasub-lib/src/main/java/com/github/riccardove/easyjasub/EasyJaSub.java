@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 
 import com.github.riccardove.easyjasub.inputnihongojtalk.InputNihongoJTalkHtmlFile;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
+import com.github.riccardove.easyjasub.mecab.InputMeCab;
 
 public class EasyJaSub {
 	
@@ -66,7 +67,11 @@ public class EasyJaSub {
 
 	    readTranslatedSubFile(command, observer, s, selection);
 
-		parseNihongoJTalkFile(command, observer, s);
+		if (command.getNihongoJtalkHtmlFile() != null) {
+			parseNihongoJTalkFile(command, observer, s);
+		} else {
+			runMeCab(command, observer, s);
+		}
 
 		// TODO: check that actions skipped do not impact other actions
 		
@@ -171,7 +176,7 @@ public class EasyJaSub {
 	private void writePngFiles(EasyJaSubInput command,
 			EasyJaSubObserver observer, SubtitleList s, File htmlFolder,
 			File bdnFolder) throws EasyJaSubException {
-		String wkhtml = command.getWkhtmltoimageFile();
+		String wkhtml = command.getWkHtmlToImageCommand();
 		int width = command.getWidth();
 		mkDirs(htmlFolder);
 		mkDirs(bdnFolder);
@@ -261,6 +266,18 @@ public class EasyJaSub {
 		}
 		else {
 		    observer.onReadTranslatedSubtitlesSkipped(file);
+		}
+	}
+
+	private void runMeCab(EasyJaSubInput command, EasyJaSubObserver observer,
+			SubtitleList s) throws EasyJaSubException {
+		String meCabCommand = command.getMeCabCommand();
+		if (meCabCommand != null) {
+			observer.onMeCabRunStart(meCabCommand);
+			new InputMeCab(observer, meCabCommand).run(s);
+			observer.onMeCabRunEnd(meCabCommand);
+		} else {
+			observer.onMeCabRunSkipped(meCabCommand);
 		}
 	}
 

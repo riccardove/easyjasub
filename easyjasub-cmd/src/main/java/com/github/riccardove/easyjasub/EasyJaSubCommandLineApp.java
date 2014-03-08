@@ -21,7 +21,9 @@ package com.github.riccardove.easyjasub;
  */
 
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import com.github.riccardove.easyjasub.commandline.EasyJaSubCommandLine;
 
@@ -91,7 +93,8 @@ public class EasyJaSubCommandLineApp {
 			return -100;
 		}
 		try {
-			return new EasyJaSub().run(input, new EasyJaSubConsole(outputStream, errorStream));
+			return new EasyJaSub().run(input, new EasyJaSubConsole(
+					outputStream, errorStream, commandLine.getVerbose()));
 		}
 		catch (EasyJaSubException ex) {
 			outputStream.println();

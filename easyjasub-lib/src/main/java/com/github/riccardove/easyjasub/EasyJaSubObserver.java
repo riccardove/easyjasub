@@ -129,4 +129,10 @@ public interface EasyJaSubObserver {
 	void onInputNihongoJTalkHtmlLineParseSkipped(List<Integer> nLines, List<Integer> subLines);
 
 	void onEncodingWarning(String systemEncoding, String charsetstr);
+
+	void onMeCabRunStart(String command);
+
+	void onMeCabRunSkipped(String command);
+
+	void onMeCabRunEnd(String command);
 }

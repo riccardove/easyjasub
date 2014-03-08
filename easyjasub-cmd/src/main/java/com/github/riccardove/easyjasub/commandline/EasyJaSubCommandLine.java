@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub.commandline;
  * #L%
  */
 
-
 import java.io.PrintWriter;
 
 import com.github.riccardove.easyjasub.EasyJaSubInputCommand;
@@ -50,6 +49,10 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private static final String FURIGANA = "f";
 	private static final String SELECT = "s";
 
+	private static final String VERBOSE = "v";
+	private static final String QUIET = "q";
+	private static final String MECAB = "mc";
+
 	public EasyJaSubCommandLine() {
 		list = new CommandLineOptionList();
 		list.addOption(VI, "video",
@@ -75,14 +78,14 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 
 		list.addOption(TRANSLATION, "translation",
 				"Displays translated subtitles", "enabled|disabled");
-		list.addOption(ROMAJI, "romaji",
-				"Shows romaji text in subtitles", "enabled|disabled");
+		list.addOption(ROMAJI, "romaji", "Shows romaji text in subtitles",
+				"enabled|disabled");
 		list.addOption(DICTIONARY, "dictionary",
 				"Shows dictionary text in subtitles", "enabled|disabled");
 		list.addOption(FURIGANA, "furigana",
 				"Shows furigana text in subtitles", "enabled|disabled");
-		list.addOption(KANJI, "kanji",
-				"Shows kanji text in subtitles", "enabled|disabled");
+		list.addOption(KANJI, "kanji", "Shows kanji text in subtitles",
+				"enabled|disabled");
 
 		list.addOption(
 				TRL,
@@ -100,18 +103,31 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 				"Writes HTML intermediate files in directory", "directory");
 		list.addOption(BDN, "output-bdmxml",
 				"Writes BDN/XML intermediate files in directory", "directory");
+		list.addOption(MECAB, "mecab", "Command to execute MeCab program",
+				"command");
 		list.addOption(WK, "wkhtmltoimage",
 				"Command to execute wkhtmltoimage program", "command");
 		list.addOption(HEIGHT, "height",
 				"Height of the generated subtitles pictures", "pixels");
 		list.addOption(WIDTH, "width",
 				"Width of the generated subtitles pictures", "pixels");
-		list.addOption(MATCHTIME, "match-diff",
-				"Amount of milliseconds of difference in time to consider two subtitle lines the same", "milliseconds");
-		list.addOption(APPROXTIME, "approx-diff",
-				"Amount of milliseconds of difference in time to consider two subtitle lines approximately the same", "milliseconds");
-		list.addOption(SELECT, "select-lines",
-				"Select a subset of subtitle lines from japanese subtitles, useful for sampling", "n-m");
+		list.addOption(
+				MATCHTIME,
+				"match-diff",
+				"Amount of milliseconds of difference in time to consider two subtitle lines the same",
+				"milliseconds");
+		list.addOption(
+				APPROXTIME,
+				"approx-diff",
+				"Amount of milliseconds of difference in time to consider two subtitle lines approximately the same",
+				"milliseconds");
+		list.addOption(
+				SELECT,
+				"select-lines",
+				"Select a subset of subtitle lines from japanese subtitles, useful for sampling",
+				"n-m");
+		list.addOption(QUIET, "quiet", "Suppresses output messages");
+		list.addOption(VERBOSE, "verbose", "More verbose output messages");
 		list.addOption(HELP, "help", "Displays help");
 	}
 
@@ -169,7 +185,7 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	}
 
 	@Override
-	public String getWkhtmltoimage() {
+	public String getWkHtmlToImageCommand() {
 		return wkhtmltoimage;
 	}
 
@@ -199,6 +215,8 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private String showRomaji;
 	private String showKanji;
 	private String selectLines;
+	private String mecab;
+	private int verbose;
 
 	@Override
 	public String getOutputIdxDirectory() {
@@ -209,7 +227,7 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	public String getOutputBdnFileName() {
 		return outputBdnFileName;
 	}
-	
+
 	public boolean parse(String[] args) {
 		try {
 			CommandLineContent cm = list.parse(args);
@@ -235,6 +253,12 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 			showKanji = cm.getOptionValue(KANJI);
 			showTranslation = cm.getOptionValue(TRANSLATION);
 			selectLines = cm.getOptionValue(SELECT);
+			mecab = cm.getOptionValue(MECAB);
+			if (cm.hasOption(VERBOSE)) {
+				verbose = 1;
+			} else if (cm.hasOption(QUIET)) {
+				verbose = -1;
+			}
 		} catch (Exception ex) {
 			message = ex.getMessage();
 		}
@@ -247,7 +271,7 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	public void printHelp(PrintWriter stream, String usage) {
 		list.printHelp(stream, usage, null, null);
 	}
-	
+
 	@Override
 	public String getSelectLines() {
 		return selectLines;
@@ -272,7 +296,7 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	public String getApproxMatchTimeDiff() {
 		return approxMatchTimeDiff;
 	}
-	
+
 	@Override
 	public String getHeight() {
 		return height;
@@ -321,6 +345,16 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	@Override
 	public String getShowDictionary() {
 		return showDictionary;
+	}
+
+	@Override
+	public String getMeCabCommand() {
+		return mecab;
+	}
+
+	@Override
+	public int getVerbose() {
+		return verbose;
 	}
 
 }

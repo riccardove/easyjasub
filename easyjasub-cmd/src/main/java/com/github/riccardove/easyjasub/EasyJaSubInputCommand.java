@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 public interface EasyJaSubInputCommand {
 
 	public abstract boolean isHelp();
@@ -45,7 +44,7 @@ public interface EasyJaSubInputCommand {
 
 	public abstract String getOutputBdnFileName();
 
-	public abstract String getWkhtmltoimage();
+	public abstract String getWkHtmlToImageCommand();
 
 	public abstract String getOutputJapaneseTextFileName();
 
@@ -74,6 +73,10 @@ public interface EasyJaSubInputCommand {
 	public abstract String getShowFurigana();
 
 	public abstract String getShowDictionary();
-	
+
 	public abstract String getSelectLines();
+
+	public abstract String getMeCabCommand();
+
+	public abstract int getVerbose();
 }

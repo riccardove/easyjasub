@@ -35,10 +35,13 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 
 	private final PrintWriter outputStream;
 	private final PrintWriter errorStream;
+	private final int verbose;
 
-	public EasyJaSubConsole(PrintWriter outputStream, PrintWriter errorStream) {
+	public EasyJaSubConsole(PrintWriter outputStream, PrintWriter errorStream,
+			int verbose) {
 		this.outputStream = outputStream;
 		this.errorStream = errorStream;
+		this.verbose = verbose;
 	}
 
 	private void println(String text) {
@@ -51,144 +54,141 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 		flushOutput();
 	}
 
+	private void lowVerboseMessage(String message) {
+		verboseMessage(0, message);
+	}
+
+	private void mediumVerboseMessage(String message) {
+		verboseMessage(1, message);
+	}
+
+	private void verboseMessage(int level, String message) {
+		if (verbose >= level) {
+			println(message);
+			flushOutput();
+		}
+	}
+
 	private void flushOutput() {
 		outputStream.flush();
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseEnd(File file, Set<String> posset) {
-		println("onInputNihongoJTalkHtmlFileParseEnd " + toString(file) + " "
+		lowVerboseMessage("onInputNihongoJTalkHtmlFileParseEnd "
+				+ toString(file) + " "
 				+ CommonsLangStringUtils.join(posset, ","));
-		flushOutput();
 	}
 
 	@Override
 	public void onReadJapaneseSubtitlesStart(File file) {
-		println("onReadJapaneseSubtitlesStart " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onReadJapaneseSubtitlesStart " + toString(file));
 	}
 
 	@Override
 	public void onReadJapaneseSubtitlesEnd(File file) {
-		println("onReadJapaneseSubtitlesEnd " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onReadJapaneseSubtitlesEnd " + toString(file));
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseHiraganaDivEnd() {
-		println("onInputNihongoJTalkHtmlFileParseHiraganaDivEnd");
-		flushOutput();
+		mediumVerboseMessage("onInputNihongoJTalkHtmlFileParseHiraganaDivEnd");
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseTextareaEnd() {
-		println("onInputNihongoJTalkHtmlFileParseTextareaEnd");
-		flushOutput();
+		mediumVerboseMessage("onInputNihongoJTalkHtmlFileParseTextareaEnd");
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseTextareaStart() {
-		println("onInputNihongoJTalkHtmlFileParseTextareaStart");
-		flushOutput();
+		mediumVerboseMessage("onInputNihongoJTalkHtmlFileParseTextareaStart");
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseHiraganaDivStart() {
-		println("onInputNihongoJTalkHtmlFileParseHiraganaDivStart");
-		flushOutput();
+		mediumVerboseMessage("onInputNihongoJTalkHtmlFileParseHiraganaDivStart");
 	}
 
 	@Override
 	public void onReadTranslatedSubtitlesStart(File file) {
-		println("onReadTranslatedSubtitlesStart " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onReadTranslatedSubtitlesStart " + toString(file));
 	}
 
 	@Override
 	public void onReadTranslatedSubtitlesEnd(File file) {
-		println("onReadTranslatedSubtitlesEnd " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onReadTranslatedSubtitlesEnd " + toString(file));
 	}
 
 	@Override
 	public void onWriteHtmlStart(File directory, File cssFile) {
-		println("onWriteHtmlStart " + toString(directory) + " "
+		lowVerboseMessage("onWriteHtmlStart " + toString(directory) + " "
 				+ toString(cssFile));
-		flushOutput();
 	}
 
 	@Override
 	public void onWriteHtmlEnd(File directory) {
-		println("onWriteHtmlEnd " + toString(directory));
-		flushOutput();
+		lowVerboseMessage("onWriteHtmlEnd " + toString(directory));
 	}
 
 	@Override
 	public void onWriteImagesStart(String wkhtml, File htmlFolder,
 			File bdnFolder, int width) {
-		println("onWriteImagesStart " + toString(bdnFolder) + " " + wkhtml
+		lowVerboseMessage("onWriteImagesStart " + toString(bdnFolder) + " "
+				+ wkhtml
 				+ " " + width);
-		flushOutput();
 	}
 
 	@Override
 	public void onWriteImagesEnd(String wkhtml, File htmlFolder, File bdnFolder) {
-		println("onWriteImagesEnd " + toString(bdnFolder));
-		flushOutput();
+		lowVerboseMessage("onWriteImagesEnd " + toString(bdnFolder));
 	}
 
 	@Override
 	public void onWriteBdnXmlFileStart(File file) {
-		println("onWriteBdnXmlFileStart " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onWriteBdnXmlFileStart " + toString(file));
 	}
 
 	@Override
 	public void onWriteBdnXmlFileEnd(File file) {
-		println("onWriteBdnXmlFileEnd " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onWriteBdnXmlFileEnd " + toString(file));
 	}
 
 	@Override
 	public void onWriteIdxFileStart(File file, File bdnFile) {
-		println("onWriteIdxFileStart " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onWriteIdxFileStart " + toString(file));
 	}
 
 	@Override
 	public void onWriteIdxFileEnd(File file) {
-		println("onWriteIdxFileEnd " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onWriteIdxFileEnd " + toString(file));
 	}
 
 	@Override
 	public void onWriteOutputJapaneseTextFileStart(File file) {
-		println("onWriteOutputJapaneseTextFileStart " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onWriteOutputJapaneseTextFileStart "
+				+ toString(file));
 	}
 
 	@Override
 	public void onWriteOutputJapaneseTextFileEnd(File file) {
-		println("onWriteOutputJapaneseTextFileEnd " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onWriteOutputJapaneseTextFileEnd " + toString(file));
 	}
 
 	@Override
 	public void onWriteCssStart(File file) {
-		println("onWriteCssStart " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onWriteCssStart " + toString(file));
 	}
 
 	@Override
 	public void onWriteCssEnd(File file) {
-		println("onWriteCssEnd " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onWriteCssEnd " + toString(file));
 	}
 
 	@Override
 	public void onWriteImage(File pngFile, File file) {
-		println("writing image " + toString(pngFile) + " " + toString(file));
-		flushOutput();
+		mediumVerboseMessage("writing image " + toString(pngFile) + " "
+				+ toString(file));
 	}
 
 	@Override
@@ -266,77 +266,68 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	@Override
 	public void onTranslatedSubDuplicated(String content, int mSeconds,
 			int startTime) {
-		println("Duplicated translation caption " + content + " starting at "
+		lowVerboseMessage("Duplicated translation caption " + content
+				+ " starting at "
 				+ mSeconds + " at " + startTime);
-		flushOutput();
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlLine(String line) {
-		println("Line: " + toString(line));
-		flushOutput();
+		mediumVerboseMessage("Line: " + toString(line));
 	}
 
 	@Override
 	public void onWriteOutputJapaneseTextFileSkipped(File file) {
-		println("onWriteOutputJapaneseTextFileSkipped " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onWriteOutputJapaneseTextFileSkipped "
+				+ toString(file));
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseSkipped(File file) {
-		println("onInputNihongoJTalkHtmlFileParseSkipped " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onInputNihongoJTalkHtmlFileParseSkipped "
+				+ toString(file));
 	}
 
 	@Override
 	public void onReadTranslatedSubtitlesSkipped(File file) {
-		println("onReadTranslatedSubtitlesSkipped " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onReadTranslatedSubtitlesSkipped " + toString(file));
 	}
 
 	@Override
 	public void onWriteCssSkipped(File file) {
-		println("onWriteCssSkipped " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onWriteCssSkipped " + toString(file));
 	}
 
 	@Override
 	public void onWriteHtmlFile(File file) {
-		println("onWriteHtmlFile " + toString(file));
-		flushOutput();
+		mediumVerboseMessage("onWriteHtmlFile " + toString(file));
 	}
 
 	@Override
 	public void onWriteHtmlFileSkipped(File file) {
-		println("onWriteHtmlFileSkipped " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onWriteHtmlFileSkipped " + toString(file));
 	}
 
 	@Override
 	public void onWriteBdnXmlFileSkipped(File file) {
-		println("onWriteBdnXmlFileSkipped " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onWriteBdnXmlFileSkipped " + toString(file));
 	}
 
 	@Override
 	public void onWriteImageSkipped(File pngFile, File file) {
-		println("onWriteImageSkipped " + toString(pngFile) + " "
+		lowVerboseMessage("onWriteImageSkipped " + toString(pngFile) + " "
 				+ toString(file));
-		flushOutput();
 	}
 
 	@Override
 	public void onWriteIdxFileSkipped(File file, File bdnFile) {
-		println("onWriteIdxFileSkipped " + toString(file) + " "
+		lowVerboseMessage("onWriteIdxFileSkipped " + toString(file) + " "
 				+ toString(bdnFile));
-		flushOutput();
 	}
 
 	@Override
 	public void onReadJapaneseSubtitlesSkipped(File file) {
-		println("onReadJapaneseSubtitlesSkipped " + toString(file));
-		flushOutput();
+		lowVerboseMessage("onReadJapaneseSubtitlesSkipped " + toString(file));
 	}
 	
 	private static String toString(File file) {
@@ -350,15 +341,28 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	@Override
 	public void onInputNihongoJTalkHtmlLineParseSkipped(List<Integer> nLines,
 			List<Integer> subLines) {
-		println("onInputNihongoJTalkHtmlLineParseSkipped "
+		lowVerboseMessage("onInputNihongoJTalkHtmlLineParseSkipped "
 				+ CommonsLangStringUtils.join(nLines, ",") + " -- "
 				+ CommonsLangStringUtils.join(subLines, ","));
-		flushOutput();
 	}
 
 	@Override
 	public void onEncodingWarning(String systemEncoding, String charsetstr) {
-		println("onEncodingWarning " + systemEncoding);
-		flushOutput();
+		lowVerboseMessage("onEncodingWarning " + systemEncoding);
+	}
+
+	@Override
+	public void onMeCabRunStart(String file) {
+		lowVerboseMessage("onMeCabRunStart " + toString(file));
+	}
+
+	@Override
+	public void onMeCabRunSkipped(String file) {
+		lowVerboseMessage("onMeCabRunSkipped " + toString(file));
+	}
+
+	@Override
+	public void onMeCabRunEnd(String file) {
+		lowVerboseMessage("onMeCabRunEnd " + toString(file));
 	}
 }

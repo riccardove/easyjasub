@@ -52,7 +52,7 @@ public interface EasyJaSubInput {
 
 	public abstract File getBdnXmlFile();
 
-	public abstract String getWkhtmltoimageFile();
+	public abstract String getWkHtmlToImageCommand();
 
 	public abstract int getExactMatchTimeDiff();
 
@@ -83,4 +83,6 @@ public interface EasyJaSubInput {
 	public abstract int getStartLine();
 
 	public abstract int getEndLine();
+
+	public abstract String getMeCabCommand();
 }

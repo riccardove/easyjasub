@@ -341,4 +341,22 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	}
 
+	@Override
+	public void onMeCabRunStart(String f) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onMeCabRunSkipped(String f) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onMeCabRunEnd(String f) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
