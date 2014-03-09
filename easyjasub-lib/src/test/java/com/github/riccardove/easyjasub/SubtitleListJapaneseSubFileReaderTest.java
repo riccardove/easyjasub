@@ -22,18 +22,18 @@ package com.github.riccardove.easyjasub;
 
 
 import java.io.File;
+import java.io.IOException;
 
 import org.junit.Test;
+
+import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 public class SubtitleListJapaneseSubFileReaderTest extends EasyJaSubTestCase {
 
 	@Test
 	public void test() throws Exception {
 		File file = getSampleFile("sample1.ja.ass");
-		
-		SubtitleList s = new SubtitleList();
-		new SubtitleListJapaneseSubFileReader().
-			readJapaneseSubtitles(s, file, SubtitleFileType.ASS, new Observer(), null);
+		SubtitleList s = getSubtitleList(new Observer(), file);
 		assertTrue(s.size() > 0);
 		for (SubtitleLine line : s) {
 			if (line.getJapanese() == null) {
@@ -45,6 +45,15 @@ public class SubtitleListJapaneseSubFileReaderTest extends EasyJaSubTestCase {
 			}
 			assertNull(toString(line), line.getTranslation());
 		}
+	}
+
+	public static SubtitleList getSubtitleList(EasyJaSubObserver observer, File file) throws IOException,
+			InputTextSubException {
+		
+		SubtitleList s = new SubtitleList();
+		new SubtitleListJapaneseSubFileReader().
+			readJapaneseSubtitles(s, file, SubtitleFileType.ASS, observer, null);
+		return s;
 	}
 
 	private static String toString(SubtitleLine line) {

@@ -53,6 +53,10 @@ public final class JapaneseChar {
 				|| block == Character.UnicodeBlock.KATAKANA;
 	}
 
+	public static boolean isKatakana(char c) {
+		return getUnicodeBlock(c) == Character.UnicodeBlock.KATAKANA;
+	}
+
 	private static boolean isJapaneseIdeograph(char c) {
 		return isIdeogram(c) || isHiraganaOrKatakana(getUnicodeBlock(c));
 	}

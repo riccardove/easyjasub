@@ -127,4 +127,16 @@ public class SubtitleLine {
 	public String getSubText() {
 		return subText;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		if (items != null) {
+			for (SubtitleItem item : items) {
+				result.append(" ");
+				result.append(item.toString());
+			}
+		}
+		return result.toString();
+	}
 }

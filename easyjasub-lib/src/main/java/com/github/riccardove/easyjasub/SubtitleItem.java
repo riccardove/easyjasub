@@ -20,8 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class SubtitleItem {
@@ -33,112 +31,97 @@ public class SubtitleItem {
 	private String comment;
 	private String grammarElement;
 	private List<Inner> elements;
-	
+
 	public String getGrammarElement() {
 		return grammarElement;
 	}
+
 	public void setGrammarElement(String grammarElement) {
 		this.grammarElement = grammarElement;
 	}
+
 	public String getComment() {
 		return comment;
 	}
+
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
 	public String getFurigana() {
 		return furigana;
 	}
+
 	public void setFurigana(String furigana) {
 		this.furigana = furigana;
 	}
+
 	public String getTranslation() {
 		return translation;
 	}
+
 	public void setTranslation(String translation) {
 		this.translation = translation;
 	}
+
 	public String getText() {
 		return text;
 	}
+
 	public void setText(String text) {
 		this.text = text;
 	}
+
 	public String getRomaji() {
 		return romaji;
 	}
+
 	public void setRomaji(String romaji) {
 		this.romaji = romaji;
 	}
-	
+
 	public List<Inner> getElements() {
 		return elements;
 	}
 
-	public void setElements(String text) {
-		ArrayList<SubtitleItem.Inner> list = new ArrayList<SubtitleItem.Inner>();
-		String kanjiChars = null;
-		String chars = null;
-		for (int i = 0; i < text.length(); i++) {
-			char c = text.charAt(i);
-			if (!JapaneseChar.isSmallSizeJapaneseChar(c)) {
-				if (chars != null) {
-					addText(list, chars);
-					chars = null;
-				}
-				if (kanjiChars == null) {
-					kanjiChars = Character.toString(c);
-				} else {
-					kanjiChars += c;
-				}
-			} else {
-				if (kanjiChars != null) {
-					addKanji(list, kanjiChars);
-					kanjiChars = null;
-				}
-				if (chars == null) {
-					chars = Character.toString(c);
-				} else {
-					chars += c;
-				}
-			}
-		}
-		if (kanjiChars != null) {
-			addKanji(list, kanjiChars);
-		}
-		if (chars != null) {
-			addText(list, chars);
-		}
-		elements = list;
+	public void setElements(List<Inner> elements) {
+		this.elements = elements;
 	}
 
-	private void addText(ArrayList<SubtitleItem.Inner> list, String chars) {
-		SubtitleItem.Inner inner = new SubtitleItem.Inner();
-		inner.setText(chars);
-		list.add(inner);
-	}
-
-	private void addKanji(ArrayList<SubtitleItem.Inner> list, String chars) {
-		SubtitleItem.Inner inner = new SubtitleItem.Inner();
-		inner.setKanji(chars);
-		list.add(inner);
-	}
-
-	public static class Inner 
-	{
+	public static class Inner {
 		private String kanji;
+
 		public String getKanji() {
 			return kanji;
 		}
+
 		public void setKanji(String kanji) {
 			this.kanji = kanji;
 		}
+
 		private String text;
+
 		public String getText() {
 			return text;
 		}
+
 		public void setText(String text) {
 			this.text = text;
 		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		if (elements != null) {
+			for (Inner item : elements) {
+				if (item.getKanji() != null) {
+					result.append(item.getKanji());
+				} else {
+					result.append(item.getText());
+				}
+			}
+		}
+		return result.toString();
 	}
 }

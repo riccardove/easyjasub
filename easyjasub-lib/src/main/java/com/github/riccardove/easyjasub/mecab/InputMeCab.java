@@ -16,6 +16,7 @@ import com.github.riccardove.easyjasub.JapaneseChar;
 import com.github.riccardove.easyjasub.SubtitleItem;
 import com.github.riccardove.easyjasub.SubtitleLine;
 import com.github.riccardove.easyjasub.SubtitleList;
+import com.github.riccardove.easyjasub.kurikosu.Kurikosu;
 
 public class InputMeCab {
 
@@ -99,6 +100,10 @@ public class InputMeCab {
 				subsIndex++;
 			} while (line != null && line.getJapaneseSubKey() == null
 					&& subsIndex < subsSize);
+			if (line == null || line.getJapaneseSubKey() == null
+					|| subsIndex > subsSize) {
+				break;
+			}
 
 			MeCabSubtitleLine meCabLine = meCabList.get(meCabIndex);
 			ArrayList<SubtitleItem> items = new ArrayList<SubtitleItem>();
@@ -112,11 +117,12 @@ public class InputMeCab {
 				}
 				String text = meCabItem.getText();
 				String reading = meCabItem.getReading();
-				if (reading != null) {
-					String furigana = katakanaToHiragana(reading);
-					if (canHaveFurigana(grammar) && !furigana.equals(text)) {
-						subsItem.setFurigana(furigana);
-						subsItem.setElements(text);
+				if (reading != null && canHaveFurigana(grammar)) {
+					String furigana = Kurikosu
+							.convertKatakanaToHiragana(reading);
+					if (furigana != null && !furigana.equals(text)) {
+
+						trySetFurigana(text, furigana, subsItem);
 					}
 				}
 
@@ -146,9 +152,67 @@ public class InputMeCab {
 		int length = text.length();
 		StringBuilder result = new StringBuilder(length);
 		for (int i = 0; i < length; ++i) {
-			result.append(JapaneseChar.katakanaToHiragana(text.charAt(i)));
+			char c = text.charAt(i);
+			if (JapaneseChar.isKatakana(c)) {
+				c = JapaneseChar.katakanaToHiragana(c);
+			}
+			result.append(c);
 		}
 		return result.toString();
 	}
 
+	private void trySetFurigana(String text, String furigana, SubtitleItem item) {
+
+		ArrayList<SubtitleItem.Inner> list = new ArrayList<SubtitleItem.Inner>();
+		String kanjiChars = null;
+		String chars = null;
+		boolean hasKanji = false;
+		for (int i = 0; i < text.length(); i++) {
+			char c = text.charAt(i);
+			if (!JapaneseChar.isSmallSizeJapaneseChar(c)) {
+				hasKanji = true;
+				if (chars != null) {
+					addText(list, chars);
+					chars = null;
+				}
+				if (kanjiChars == null) {
+					kanjiChars = Character.toString(c);
+				} else {
+					kanjiChars += c;
+				}
+			} else {
+				if (kanjiChars != null) {
+					addKanji(list, kanjiChars);
+					kanjiChars = null;
+				}
+				if (chars == null) {
+					chars = Character.toString(c);
+				} else {
+					chars += c;
+				}
+			}
+		}
+		if (kanjiChars != null) {
+			addKanji(list, kanjiChars);
+		}
+		if (chars != null) {
+			addText(list, chars);
+		}
+		if (hasKanji) {
+			item.setElements(list);
+			item.setFurigana(furigana);
+		}
+	}
+
+	private void addText(ArrayList<SubtitleItem.Inner> list, String chars) {
+		SubtitleItem.Inner inner = new SubtitleItem.Inner();
+		inner.setText(chars);
+		list.add(inner);
+	}
+
+	private void addKanji(ArrayList<SubtitleItem.Inner> list, String chars) {
+		SubtitleItem.Inner inner = new SubtitleItem.Inner();
+		inner.setKanji(chars);
+		list.add(inner);
+	}
 }
