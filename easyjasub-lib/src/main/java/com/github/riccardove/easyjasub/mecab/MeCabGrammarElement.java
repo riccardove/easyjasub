@@ -13,6 +13,15 @@ class MeCabGrammarElement {
 		map.put("記号", Grammar.symbol);
 		map.put("動詞", Grammar.verb);
 		map.put("助動詞", Grammar.auxiliaryverb);
+
+		map.put("フィラー", Grammar.fill);
+		map.put("副詞", Grammar.adv);
+		map.put("名詞", Grammar.propern);
+		map.put("形容詞", Grammar.adj);
+		map.put("感動詞", Grammar.interj);
+		map.put("接続詞", Grammar.conj);
+		map.put("接頭詞", Grammar.prefix);
+		map.put("連体詞", Grammar.attributive);
 	}
 
 	private final HashMap<String, Grammar> map;

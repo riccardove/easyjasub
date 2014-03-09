@@ -28,18 +28,28 @@ import java.util.Iterator;
 import java.util.List;
 
 class DefaultFileList implements Iterable<File> {
-	private final EasyJaSubInputCommand command;
 
 	public DefaultFileList(EasyJaSubInputCommand command) {
-		this.command = command;
 		defaultFileNamePrefix = getDefaultFileNamePrefix(command);
+		defaultDirectories = getDefaultDirectories(command);
+		if (defaultDirectories.size() > 1) {
+			defaultDirectory = defaultDirectories.get(1);
+		} else {
+			defaultDirectory = defaultDirectories.get(0);
+		}
 	}
 
+	private final List<File> defaultDirectories;
 	private List<File> list;
 	private final String defaultFileNamePrefix;
+	private final File defaultDirectory;
 
 	public String getDefaultFileNamePrefix() {
 		return defaultFileNamePrefix;
+	}
+
+	public File getDefaultDirectory() {
+		return defaultDirectory;
 	}
 
 	private static String getDefaultFileNamePrefix(EasyJaSubInputCommand command) {
@@ -51,18 +61,22 @@ class DefaultFileList implements Iterable<File> {
 			fileName = command.getTranslatedSubFileName();
 		} else {
 			if (fileName.contains(".ja.")) {
-				fileName.replace(".ja.", ".");
+				fileName = fileName.replace(".ja.", ".");
 			}
 		}
 		if (fileName == null) {
 			fileName = command.getNihongoJtalkHtmlFileName();
+		} else {
+			if (fileName.contains(".en.")) {
+				fileName = fileName.replace(".en.", ".");
+			}
 		}
 		if (fileName != null) {
 			int pathSeparatorIndex = fileName.lastIndexOf(File.separatorChar);
 			if (pathSeparatorIndex >= 0) {
 				fileName = fileName.substring(pathSeparatorIndex + 1);
 			}
-			int extensionSeparatorIndex = fileName.indexOf('.');
+			int extensionSeparatorIndex = fileName.lastIndexOf('.');
 			if (extensionSeparatorIndex > 0) {
 				fileName = fileName.substring(0, extensionSeparatorIndex);
 			}
@@ -74,8 +88,9 @@ class DefaultFileList implements Iterable<File> {
 			EasyJaSubInputCommand command) {
 		ArrayList<File> result = new ArrayList<File>();
 		result.add(getUserDir());
-		for (String fileName : new String[] { command.getVideoFileName(),
-				command.getJapaneseSubFileName(),
+		addDirectoryIfDistinct(result, command.getOutputIdxDirectory());
+		for (String fileName : new String[] { command.getOutputIdxFileName(),
+				command.getVideoFileName(), command.getJapaneseSubFileName(),
 				command.getTranslatedSubFileName(),
 				command.getNihongoJtalkHtmlFileName() }) {
 			addParentDirectoryIfDistinct(result, fileName);
@@ -96,6 +111,16 @@ class DefaultFileList implements Iterable<File> {
 				if (directory != null && directory.isDirectory()) {
 					addIfDistinct(result, directory);
 				}
+			}
+		}
+	}
+
+	private static void addDirectoryIfDistinct(ArrayList<File> result,
+			String dirName) {
+		if (dirName != null) {
+			File directory = new File(dirName);
+			if (directory != null && directory.isDirectory()) {
+				addIfDistinct(result, directory.getAbsoluteFile());
 			}
 		}
 	}
@@ -134,11 +159,9 @@ class DefaultFileList implements Iterable<File> {
 	@Override
 	public Iterator<File> iterator() {
 		if (list == null) {
-			String defaultFileNamePrefix = getDefaultFileNamePrefix();
 			if (defaultFileNamePrefix == null) {
 				list = Arrays.asList(getUserDir());
 			} else {
-				List<File> defaultDirectories = getDefaultDirectories(command);
 				list = getDefaultFiles(defaultDirectories,
 						defaultFileNamePrefix);
 			}

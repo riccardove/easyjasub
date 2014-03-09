@@ -7,15 +7,26 @@ class MeCabLineMatcher {
 
 	public MeCabLineMatcher(String line) {
 		matcher = Regex.matcher(line);
+		if (!matcher.matches()) {
+			matcher = Regex2.matcher(line);
+			second = true;
+		}
 	}
 
 	/**
 	 * Parses a line of MeCab output, e.g.:<br/>
-	 * 魔法 名詞,一般,*,*,*,*,魔法,マホウ,マホー
+	 * 魔法 名詞,一般,*,*,*,*,魔法,マホウ,マホー<br/>
 	 */
-	private static final String RegexStr = "(^[^\t]+)\t([^,]+),[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,(.+)$";
+	private static final String RegexStr = "^([^\t]+)\t([^,]+),[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,(.+)$";
+	/**
+	 * lines for proper nouns seems to be different:<br/>
+	 * フィオーレ 名詞,固有名詞,一般,*,*,*,* <br/>
+	 */
+	private static final String RegexStr2 = "^([^ ]+) ([^,]+),[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+$";
 	private static final Pattern Regex = Pattern.compile(RegexStr);
-	private final Matcher matcher;
+	private static final Pattern Regex2 = Pattern.compile(RegexStr2);
+	private Matcher matcher;
+	private boolean second;
 
 	public boolean matches() {
 		return matcher.matches();
@@ -40,6 +51,9 @@ class MeCabLineMatcher {
 	}
 
 	public String katakana() {
+		if (second) {
+			return null;
+		}
 		return matcher.group(3);
 	}
 }

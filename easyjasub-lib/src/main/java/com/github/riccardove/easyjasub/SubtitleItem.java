@@ -21,6 +21,7 @@ package com.github.riccardove.easyjasub;
  */
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SubtitleItem {
@@ -73,8 +74,54 @@ public class SubtitleItem {
 	public List<Inner> getElements() {
 		return elements;
 	}
-	public void setElements(List<Inner> elements) {
-		this.elements = elements;
+
+	public void setElements(String text) {
+		ArrayList<SubtitleItem.Inner> list = new ArrayList<SubtitleItem.Inner>();
+		String kanjiChars = null;
+		String chars = null;
+		for (int i = 0; i < text.length(); i++) {
+			char c = text.charAt(i);
+			if (!JapaneseChar.isSmallSizeJapaneseChar(c)) {
+				if (chars != null) {
+					addText(list, chars);
+					chars = null;
+				}
+				if (kanjiChars == null) {
+					kanjiChars = Character.toString(c);
+				} else {
+					kanjiChars += c;
+				}
+			} else {
+				if (kanjiChars != null) {
+					addKanji(list, kanjiChars);
+					kanjiChars = null;
+				}
+				if (chars == null) {
+					chars = Character.toString(c);
+				} else {
+					chars += c;
+				}
+			}
+		}
+		if (kanjiChars != null) {
+			addKanji(list, kanjiChars);
+		}
+		if (chars != null) {
+			addText(list, chars);
+		}
+		elements = list;
+	}
+
+	private void addText(ArrayList<SubtitleItem.Inner> list, String chars) {
+		SubtitleItem.Inner inner = new SubtitleItem.Inner();
+		inner.setText(chars);
+		list.add(inner);
+	}
+
+	private void addKanji(ArrayList<SubtitleItem.Inner> list, String chars) {
+		SubtitleItem.Inner inner = new SubtitleItem.Inner();
+		inner.setKanji(chars);
+		list.add(inner);
 	}
 
 	public static class Inner 

@@ -32,4 +32,15 @@ public enum Grammar {
 	vpotential, prefix,
 
 	adv, punctuation, region, symbol, auxiliaryverb, undef,
+	/**
+	 * These may only occur before nouns, not in a predicative position. <br/>
+	 * They are various in derivation and word class, and are generally analyzed
+	 * as variants of more basic classes, where this specific form (possibly a
+	 * fossil) can only be used in restricted settings. <br/>
+	 * For example, ōkina (大きな) "big" (variant of 大きい): 大きな事(Ōkina koto)
+	 * ("a big thing")<br/>
+	 * from Wikipedia
+	 * http://en.wikipedia.org/wiki/Japanese_equivalents_of_adjectives
+	 */
+	attributive,
 }

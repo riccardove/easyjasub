@@ -21,9 +21,6 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
  */
 
 
-import java.util.ArrayList;
-
-import com.github.riccardove.easyjasub.JapaneseChar;
 import com.github.riccardove.easyjasub.SubtitleItem;
 
 class ComplexSubtitleLineItem extends DictSubtitleLineItem {
@@ -49,56 +46,7 @@ class ComplexSubtitleLineItem extends DictSubtitleLineItem {
 	@Override
 	public void toItem(SubtitleItem item) {
 		item.setFurigana(furigana);
-
-		ArrayList<SubtitleItem.Inner> list = new ArrayList<SubtitleItem.Inner>();
-		String kanjiChars = null;
-		String chars = null;
-		for (int i = 0; i < text.length(); i++){
-		    char c = text.charAt(i);        
-		    if (!JapaneseChar.isSmallSizeJapaneseChar(c)) {
-		    	if (chars != null) {
-		    		addText(list, chars);
-			    	chars = null;
-		    	}
-		    	if (kanjiChars == null) {
-		    		kanjiChars = Character.toString(c);
-		    	}
-		    	else {
-		    		kanjiChars +=  c;
-		    	}
-		    }
-		    else {
-		    	if (kanjiChars != null) {
-		    		addKanji(list, kanjiChars);
-		    		kanjiChars = null;
-		    	}
-		    	if (chars == null) {
-		    		chars = Character.toString(c);
-		    	}
-		    	else {
-		    		chars +=  c;
-		    	}
-		    }
-		}		
-    	if (kanjiChars != null) {
-    		addKanji(list, kanjiChars);
-    	}
-    	if (chars != null) {
-    		addText(list, chars);
-    	}
-    	item.setElements(list);
+		item.setElements(text);
 		super.toItem(item);
-	}
-
-	private void addText(ArrayList<SubtitleItem.Inner> list, String chars) {
-		SubtitleItem.Inner inner = new SubtitleItem.Inner();
-		inner.setText(chars);
-		list.add(inner);
-	}
-
-	private void addKanji(ArrayList<SubtitleItem.Inner> list, String chars) {
-		SubtitleItem.Inner inner = new SubtitleItem.Inner();
-		inner.setKanji(chars);
-		list.add(inner);
 	}
 }

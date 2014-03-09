@@ -19,4 +19,14 @@ class MeCabSubtitleLine implements Iterable<MeCabSubtitleLineItem> {
 	public Iterator<MeCabSubtitleLineItem> iterator() {
 		return items.iterator();
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder text = new StringBuilder();
+		for (MeCabSubtitleLineItem item : items) {
+			text.append(item.toString());
+			text.append(" ");
+		}
+		return text.toString();
+	}
 }

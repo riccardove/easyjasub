@@ -5,6 +5,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 class MeCabProcess {
+
+	public static boolean isLineSeparator(String line) {
+		return "EOS".equals(line);
+	}
+
 	public MeCabProcess(String command) throws IOException {
 		process = new ProcessBuilder(command).start();
 	}

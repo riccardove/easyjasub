@@ -274,7 +274,8 @@ public class EasyJaSub {
 		String meCabCommand = command.getMeCabCommand();
 		if (meCabCommand != null) {
 			observer.onMeCabRunStart(meCabCommand);
-			new InputMeCab(observer, meCabCommand).run(s);
+			new InputMeCab(observer, meCabCommand).run(s,
+					command.getMeCabFile());
 			observer.onMeCabRunEnd(meCabCommand);
 		} else {
 			observer.onMeCabRunSkipped(meCabCommand);

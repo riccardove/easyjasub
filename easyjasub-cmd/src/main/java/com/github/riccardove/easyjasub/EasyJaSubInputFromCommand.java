@@ -104,8 +104,12 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				return file;
 			}
 		}
-		return new File(htmlDirectory,
-				defaultFileList.getDefaultFileNamePrefix() + ".css");
+		File directory = htmlDirectory;
+		if (directory == null) {
+			directory = defaultFileList.getDefaultDirectory();
+		}
+		return new File(directory, defaultFileList.getDefaultFileNamePrefix()
+				+ ".css");
 	}
 
 	private static int getDimension(String name, String timeStr,
@@ -207,13 +211,15 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		if (fileName != null && !isDefault(fileName)) {
 			file = new File(fileName);
 		} else {
-			fileNameBase = FilenameUtils.getBaseName(outputIdxFile.getName());
+			fileNameBase = defaultFileList.getDefaultFileNamePrefix();
 			String directoryName = command.getOutputBdnDirectory();
 			if (directoryName != null) {
 				directory = new File(directoryName);
-			} else {
+			} else if (outputIdxFile != null) {
 				directory = new File(outputIdxFile.getAbsoluteFile()
 						.getParentFile(), fileNameBase + "_bdmxml");
+			} else {
+				directory = defaultFileList.getDefaultDirectory();
 			}
 			file = new File(directory, fileNameBase + ".xml");
 			fileName = file.getAbsolutePath();
@@ -235,8 +241,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		} else if (outputBdmFile != null) {
 			directory = outputBdmFile.getAbsoluteFile().getParentFile();
 		} else {
-			directory = new File(defaultFileList.getDefaultFileNamePrefix()
-					+ "_html");
+			directory = new File(defaultFileList.getDefaultDirectory(),
+					defaultFileList.getDefaultFileNamePrefix() + "_html");
 		}
 		if (directoryName == null) {
 			directoryName = directory.getAbsolutePath();
@@ -260,8 +266,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		}
 		if (file == null) {
 			if (videoFile == null) {
-				file = new File(defaultFileList.getDefaultFileNamePrefix()
-						+ ".idx");
+				file = new File(defaultFileList.getDefaultDirectory(),
+						defaultFileList.getDefaultFileNamePrefix() + ".idx");
 			} else {
 				file = new File(videoFile.getAbsoluteFile().getParentFile(),
 						FilenameUtils.getBaseName(videoFile.getName()) + ".idx");
@@ -293,7 +299,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				file = new File(japaneseSubFile.getAbsoluteFile()
 						.getParentFile(), fileNameBase);
 			} else {
-				file = new File(fileNameBase);
+				file = new File(defaultFileList.getDefaultDirectory(),
+						fileNameBase);
 			}
 			fileName = file.getAbsolutePath();
 		}
@@ -552,6 +559,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	private final boolean showDictionary;
 	private final boolean showRomaji;
 	private final boolean showKanji;
+	private final File meCabFile;
 	private int startLine;
 	private int endLine;
 
@@ -601,7 +609,15 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		} else {
 			meCabCommand = null;
 		}
+		meCabFile = getMeCabFile(defaultFileList, outputJapaneseTextFile);
 		getSelectLines(command.getSelectLines());
+	}
+
+	private File getMeCabFile(DefaultFileList defaultFileList,
+			File outputJapaneseTextFile) {
+		// TODO select a file
+		return new File(defaultFileList.getDefaultDirectory(),
+				defaultFileList.getDefaultFileNamePrefix() + "_mecab.txt");
 	}
 
 	private void getSelectLines(String selectLines) throws EasyJaSubException {
@@ -903,5 +919,10 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	@Override
 	public String getMeCabCommand() {
 		return meCabCommand;
+	}
+
+	@Override
+	public File getMeCabFile() {
+		return meCabFile;
 	}
 }

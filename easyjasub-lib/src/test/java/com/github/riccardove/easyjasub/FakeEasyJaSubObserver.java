@@ -359,4 +359,40 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	}
 
+	@Override
+	public void onMeCabInputLine() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onMeCabExecuted(File meCabOutputFile, List<String> meCabOutput) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onMeCabParsed(int size) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onMeCabParseInvalidLine(int count, String textLine) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onMeCabFileRed(File meCabOutputFile, List<String> meCabOutput) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onMeCabUnknownGrammar(Set<String> elements) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

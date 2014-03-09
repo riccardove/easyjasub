@@ -365,4 +365,41 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	public void onMeCabRunEnd(String file) {
 		lowVerboseMessage("onMeCabRunEnd " + toString(file));
 	}
+
+	@Override
+	public void onMeCabInputLine() {
+		mediumVerboseMessage("onMeCabInputLine");
+	}
+
+	@Override
+	public void onMeCabExecuted(File meCabOutputFile, List<String> meCabOutput) {
+		mediumVerboseMessage("onMeCabExecuted " + meCabOutput.size() + " "
+				+ toString(meCabOutputFile));
+	}
+
+	@Override
+	public void onMeCabParsed(int size) {
+		mediumVerboseMessage("onMeCabParsed " + size);
+	}
+
+	@Override
+	public void onMeCabParseInvalidLine(int count, String textLine) {
+		lowVerboseMessage("onMeCabParseInvalidLine " + count + " "
+				+ toString(textLine));
+	}
+
+	@Override
+	public void onMeCabFileRed(File meCabOutputFile, List<String> meCabOutput) {
+		mediumVerboseMessage("onMeCabFileRed " + meCabOutput.size() + " "
+				+ toString(meCabOutputFile));
+	}
+
+	@Override
+	public void onMeCabUnknownGrammar(Set<String> elements) {
+		lowVerboseMessage("onMeCabUnknownGrammar "
+				+ elements.size()
+				+ SystemProperty.getLineSeparator()
+				+ CommonsLangStringUtils.join(elements,
+						SystemProperty.getLineSeparator()));
+	}
 }

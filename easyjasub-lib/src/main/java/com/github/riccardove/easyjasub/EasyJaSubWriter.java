@@ -53,4 +53,8 @@ public class EasyJaSubWriter {
 	public void println() throws IOException {
 		writer.append(Newline);
 	}
+
+	public void flush() throws IOException {
+		writer.flush();
+	}
 }

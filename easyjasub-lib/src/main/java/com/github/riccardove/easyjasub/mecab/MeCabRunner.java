@@ -1,5 +1,6 @@
 package com.github.riccardove.easyjasub.mecab;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,13 @@ class MeCabRunner {
 		private final EasyJaSubReader reader;
 		private final List<String> lines;
 		private IOException exception;
+		private final EasyJaSubWriter outputWriter;
 
-		public ReaderRunnable(EasyJaSubReader reader,
-				List<String> lines) {
+		public ReaderRunnable(EasyJaSubReader reader, List<String> lines,
+				EasyJaSubWriter outputWriter) {
 			this.reader = reader;
 			this.lines = lines;
+			this.outputWriter = outputWriter;
 		}
 
 		@Override
@@ -33,6 +36,12 @@ class MeCabRunner {
 					line = reader.readLine();
 					if (line != null) {
 						lines.add(line);
+						if (outputWriter != null) {
+							outputWriter.println(line);
+							if (MeCabProcess.isLineSeparator(line)) {
+								outputWriter.flush();
+							}
+						}
 					}
 				} while (line != null);
 			} catch (IOException e) {
@@ -48,8 +57,8 @@ class MeCabRunner {
 
 	private static final int OUTPUT_LINES_MULTIPLIER = 15;
 
-	public MeCabRunner(String command, int expectedLinesCount)
-			throws IOException {
+	public MeCabRunner(String command, int expectedLinesCount,
+			File meCabOutputFile) throws IOException {
 		process = new MeCabProcess(command);
 		lines = new ArrayList<String>(expectedLinesCount
 				* OUTPUT_LINES_MULTIPLIER);
@@ -59,12 +68,20 @@ class MeCabRunner {
 		errorReader = new EasyJaSubReader(process.getErrorStream());
 		textWriter = new EasyJaSubWriter(process.getOutputStream());
 
-		textReaderRunnable = new ReaderRunnable(textReader, lines);
-		errorReaderRunnable = new ReaderRunnable(errorReader, lines);
+		if (meCabOutputFile != null) {
+			outputWriter = new EasyJaSubWriter(meCabOutputFile);
+		} else {
+			outputWriter = null;
+		}
+
+		textReaderRunnable = new ReaderRunnable(textReader, lines, outputWriter);
+		errorReaderRunnable = new ReaderRunnable(errorReader, lines,
+				outputWriter);
 		textReaderThread = new Thread(textReaderRunnable);
 		errorReaderThread = new Thread(errorReaderRunnable);
 	}
 
+	private final EasyJaSubWriter outputWriter;
 	private final EasyJaSubReader textReader;
 	private final EasyJaSubReader errorReader;
 	private final Thread textReaderThread;
@@ -99,6 +116,9 @@ class MeCabRunner {
 		errorReaderThread.join();
 		textReader.close();
 		errorReader.close();
+		if (outputWriter != null) {
+			outputWriter.close();
+		}
 		IOException errorException = errorReaderRunnable.getException();
 		if (errorException != null) {
 			throw new EasyJaSubException(

@@ -29,14 +29,37 @@ public abstract class EasyJaSubTestCase extends TestCase {
 
 	private static final File samplesFile = new File("samples");
 	
-	protected File getSampleFile(String name) {
+	private static final boolean IS_ECLIPSE;
+	static {
+		boolean isEclipse = false;
+		try {
+			StackTraceElement[] stackTrace = Thread.currentThread()
+					.getStackTrace();
+			String runner = stackTrace[stackTrace.length - 1].toString();
+			isEclipse = runner.startsWith("org.eclipse");
+			if (!isEclipse) {
+				System.out.println("Running tests from: " + runner);
+			}
+		} catch (Throwable e) {
+			isEclipse = false;
+		}
+		IS_ECLIPSE = isEclipse;
+	}
+
+	protected static File getSampleFile(String name) {
 		File file = new File(samplesFile, name);
 		assertTrue("Could not find file " + file.getAbsolutePath() + " from " + SystemProperty.getUserDir(), file.exists());
 		return file;
 	}
 
-	protected String getMeCabExePath() {
+	protected static String getMeCabExePath() {
 		return "C:/Program Files (x86)/MeCab/bin/mecab.exe";
+	}
+
+	protected static void println(String text) {
+		if (IS_ECLIPSE) {
+			System.out.println(text);
+		}
 	}
 }
 

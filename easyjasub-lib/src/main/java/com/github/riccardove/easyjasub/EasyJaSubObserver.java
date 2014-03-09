@@ -135,4 +135,16 @@ public interface EasyJaSubObserver {
 	void onMeCabRunSkipped(String command);
 
 	void onMeCabRunEnd(String command);
+
+	void onMeCabInputLine();
+
+	void onMeCabExecuted(File meCabOutputFile, List<String> meCabOutput);
+
+	void onMeCabParsed(int size);
+
+	void onMeCabParseInvalidLine(int count, String textLine);
+
+	void onMeCabFileRed(File meCabOutputFile, List<String> meCabOutput);
+
+	void onMeCabUnknownGrammar(Set<String> elements);
 }

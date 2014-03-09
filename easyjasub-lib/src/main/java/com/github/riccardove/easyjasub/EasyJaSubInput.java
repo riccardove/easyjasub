@@ -85,4 +85,6 @@ public interface EasyJaSubInput {
 	public abstract int getEndLine();
 
 	public abstract String getMeCabCommand();
+
+	public abstract File getMeCabFile();
 }

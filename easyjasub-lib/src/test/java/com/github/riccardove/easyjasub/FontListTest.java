@@ -1,5 +1,7 @@
 package com.github.riccardove.easyjasub;
 
+import org.junit.Ignore;
+
 /*
  * #%L
  * easyjasub-lib
@@ -20,7 +22,7 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
+@Ignore
 public class FontListTest extends EasyJaSubTestCase {
 
 	public void testListAvailable() {

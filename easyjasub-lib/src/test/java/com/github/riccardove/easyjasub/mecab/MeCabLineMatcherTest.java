@@ -28,4 +28,12 @@ public class MeCabLineMatcherTest extends EasyJaSubTestCase {
 		assertEquals("名詞", r.grammar());
 		assertEquals("ナリワイ", r.katakana());
 	}
+
+	public void test4() {
+		MeCabLineMatcher r = new MeCabLineMatcher("フィオーレ 名詞,固有名詞,一般,*,*,*,*");
+		assertTrue(r.matches());
+		assertEquals("フィオーレ", r.originalWord());
+		assertEquals("名詞", r.grammar());
+		assertNull(r.katakana());
+	}
 }
