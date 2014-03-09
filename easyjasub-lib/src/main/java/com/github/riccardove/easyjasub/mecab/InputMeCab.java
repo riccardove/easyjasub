@@ -17,6 +17,7 @@ import com.github.riccardove.easyjasub.SubtitleItem;
 import com.github.riccardove.easyjasub.SubtitleLine;
 import com.github.riccardove.easyjasub.SubtitleList;
 import com.github.riccardove.easyjasub.kurikosu.Kurikosu;
+import com.github.riccardove.easyjasub.kurikosu.KurikosuWord;
 
 public class InputMeCab {
 
@@ -93,6 +94,7 @@ public class InputMeCab {
 		int subsSize = subs.size();
 		observer.onMeCabParsed(size);
 		HashSet<String> unknownGrammar = new HashSet<String>();
+		List<String> pronunciationErrors = new ArrayList<String>();
 		for (int meCabIndex = 0; meCabIndex < size && subsIndex < subsSize; ++meCabIndex) {
 			SubtitleLine line;
 			do {
@@ -118,11 +120,17 @@ public class InputMeCab {
 				String text = meCabItem.getText();
 				String reading = meCabItem.getReading();
 				if (reading != null && canHaveFurigana(grammar)) {
-					String furigana = Kurikosu
-							.convertKatakanaToHiragana(reading);
-					if (furigana != null && !furigana.equals(text)) {
-
-						trySetFurigana(text, furigana, subsItem);
+					KurikosuWord word = null;
+					try {
+						word = Kurikosu.convertKatakanaToHiragana(reading);
+					} catch (EasyJaSubException e) {
+						pronunciationErrors.add(e.getMessage());
+					}
+					if (word != null) {
+						if (!word.getHiragana().equals(text)) {
+							trySetFurigana(text, word.getHiragana(), subsItem);
+						}
+						subsItem.setRomaji(word.getRomaji());
 					}
 				}
 
@@ -133,8 +141,9 @@ public class InputMeCab {
 				line.setItems(items);
 			}
 		}
-		if (unknownGrammar.size() > 0) {
-			observer.onMeCabUnknownGrammar(new TreeSet<String>(unknownGrammar));
+		if (unknownGrammar.size() > 0 || pronunciationErrors.size() > 0) {
+			observer.onMeCabUnknownGrammar(new TreeSet<String>(unknownGrammar),
+					pronunciationErrors);
 		}
 	}
 

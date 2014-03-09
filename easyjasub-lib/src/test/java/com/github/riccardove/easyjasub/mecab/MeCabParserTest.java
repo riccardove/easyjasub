@@ -2,6 +2,7 @@ package com.github.riccardove.easyjasub.mecab;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Assert;
@@ -37,7 +38,8 @@ public class MeCabParserTest extends EasyJaSubTestCase {
 
 	private class Observer extends FakeEasyJaSubObserver {
 		@Override
-		public void onMeCabUnknownGrammar(Set<String> elements) {
+		public void onMeCabUnknownGrammar(Set<String> elements,
+				List<String> pronunciationErrors) {
 			Assert.assertArrayEquals(new String[] {}, elements.toArray());
 		}
 	}

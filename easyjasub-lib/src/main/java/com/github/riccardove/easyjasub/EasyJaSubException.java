@@ -23,7 +23,7 @@ package com.github.riccardove.easyjasub;
 
 public class EasyJaSubException extends Exception {
 
-	public EasyJaSubException(String message, Exception ex) {
+	public EasyJaSubException(String message, Throwable ex) {
 		super(message, ex);
 	}
 

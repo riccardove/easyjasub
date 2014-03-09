@@ -431,7 +431,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return null;
 	}
 
-	private static String getMeCabCommand(EasyJaSubInputCommand command)
+	private static String getMeCabCommand(EasyJaSubInputCommand command,
+			File nihongoJtalkHtmlFile)
 			throws EasyJaSubException {
 		String fileName = command.getMeCabCommand();
 		if (isDisabled(fileName)) {
@@ -441,6 +442,9 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			File file = new File(fileName);
 			checkFile(fileName, file);
 			return fileName;
+		}
+		if (nihongoJtalkHtmlFile != null) {
+			return null;
 		}
 		if (CommonsLangSystemUtils.isWindows()) {
 			// gets the file from default installation folder in Windows
@@ -597,18 +601,15 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		cssTranslationFont = getFont(command.getCssTranslationFont(), "arial");
 		showTranslation = getShowTranslation(command.getShowTranslation(),
 				translatedSubFile);
-		showKanji = getShowKanji(command.getShowKanji(), nihongoJtalkHtmlFile);
+		meCabCommand = getMeCabCommand(command, nihongoJtalkHtmlFile);
+		showKanji = getShowKanji(command.getShowKanji(), nihongoJtalkHtmlFile,
+				meCabCommand);
 		showFurigana = getShowFurigana(command.getShowFurigana(),
-				nihongoJtalkHtmlFile, showKanji);
+				nihongoJtalkHtmlFile, meCabCommand, showKanji);
 		showDictionary = getShowDictionary(command.getShowDictionary(),
 				nihongoJtalkHtmlFile);
 		showRomaji = getShowRomaji(command.getShowRomaji(),
-				nihongoJtalkHtmlFile, showFurigana);
-		if (nihongoJtalkHtmlFile == null) {
-			meCabCommand = getMeCabCommand(command);
-		} else {
-			meCabCommand = null;
-		}
+				nihongoJtalkHtmlFile, meCabCommand, showFurigana);
 		meCabFile = getMeCabFile(defaultFileList, outputJapaneseTextFile);
 		getSelectLines(command.getSelectLines());
 	}
@@ -697,10 +698,11 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static boolean getShowRomaji(String showRomaji,
-			File nihongoJtalkHtmlFile, boolean showFurigana)
+			File nihongoJtalkHtmlFile, String meCabCommand, boolean showFurigana)
 			throws EasyJaSubException {
 		if (showRomaji == null || isDefault(showRomaji)) {
-			return nihongoJtalkHtmlFile != null && !showFurigana;
+			return (nihongoJtalkHtmlFile != null || meCabCommand != null)
+					&& !showFurigana;
 		}
 		if (isDisabled(showRomaji)) {
 			return false;
@@ -708,7 +710,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		if (isEnabled(showRomaji)) {
 			if (nihongoJtalkHtmlFile == null) {
 				throw new EasyJaSubException(
-						"Can not display romaji without nihingo JTalk file");
+						"Can not display romaji without MeCab or nihongo JTalk file");
 			}
 			return true;
 		}
@@ -716,18 +718,19 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				+ showRomaji);
 	}
 
-	private static boolean getShowKanji(String show, File nihongoJtalkHtmlFile)
+	private static boolean getShowKanji(String show, File nihongoJtalkHtmlFile,
+			String meCabCommand)
 			throws EasyJaSubException {
 		if (show == null || isDefault(show)) {
-			return nihongoJtalkHtmlFile != null;
+			return nihongoJtalkHtmlFile != null || meCabCommand != null;
 		}
 		if (isDisabled(show)) {
 			return false;
 		}
 		if (isEnabled(show)) {
-			if (nihongoJtalkHtmlFile == null) {
+			if (nihongoJtalkHtmlFile == null && meCabCommand == null) {
 				throw new EasyJaSubException(
-						"Can not display kanji without nihingo JTalk file");
+						"Can not display kanji without MeCab or nihongo JTalk file");
 			}
 			return true;
 		}
@@ -735,18 +738,19 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static boolean getShowFurigana(String show,
-			File nihongoJtalkHtmlFile, boolean showKanji)
+			File nihongoJtalkHtmlFile, String meCabCommand, boolean showKanji)
 			throws EasyJaSubException {
 		if (show == null || isDefault(show)) {
-			return nihongoJtalkHtmlFile != null && showKanji;
+			return (nihongoJtalkHtmlFile != null || meCabCommand != null)
+					&& showKanji;
 		}
 		if (isDisabled(show)) {
 			return false;
 		}
 		if (isEnabled(show)) {
-			if (nihongoJtalkHtmlFile == null) {
+			if (nihongoJtalkHtmlFile == null && meCabCommand == null) {
 				throw new EasyJaSubException(
-						"Can not display furigana without nihingo JTalk file");
+						"Can not display furigana without MeCab or nihongo JTalk file");
 			}
 			return true;
 		}
@@ -764,7 +768,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		if (isEnabled(show)) {
 			if (nihongoJtalkHtmlFile == null) {
 				throw new EasyJaSubException(
-						"Can not display dictionary without nihingo JTalk file");
+						"Can not display dictionary without nihongo JTalk file");
 			}
 			return true;
 		}

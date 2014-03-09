@@ -146,5 +146,6 @@ public interface EasyJaSubObserver {
 
 	void onMeCabFileRed(File meCabOutputFile, List<String> meCabOutput);
 
-	void onMeCabUnknownGrammar(Set<String> elements);
+	void onMeCabUnknownGrammar(Set<String> elements,
+			List<String> pronunciationErrors);
 }

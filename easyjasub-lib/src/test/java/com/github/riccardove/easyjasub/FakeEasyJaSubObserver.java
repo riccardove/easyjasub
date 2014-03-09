@@ -390,7 +390,8 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onMeCabUnknownGrammar(Set<String> elements) {
+	public void onMeCabUnknownGrammar(Set<String> elements,
+			List<String> pronunciationErrors) {
 		// TODO Auto-generated method stub
 
 	}

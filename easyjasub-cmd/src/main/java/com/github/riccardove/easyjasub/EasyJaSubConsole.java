@@ -395,11 +395,21 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onMeCabUnknownGrammar(Set<String> elements) {
-		lowVerboseMessage("onMeCabUnknownGrammar "
-				+ elements.size()
-				+ SystemProperty.getLineSeparator()
-				+ CommonsLangStringUtils.join(elements,
-						SystemProperty.getLineSeparator()));
+	public void onMeCabUnknownGrammar(Set<String> elements,
+			List<String> pronunciationErrors) {
+		if (elements.size() > 0) {
+			lowVerboseMessage("onMeCabUnknownGrammar "
+					+ elements.size()
+					+ SystemProperty.getLineSeparator()
+					+ CommonsLangStringUtils.join(elements,
+							SystemProperty.getLineSeparator()));
+		}
+		if (pronunciationErrors.size() > 0) {
+			lowVerboseMessage("pronunciationErrors "
+					+ pronunciationErrors.size()
+					+ SystemProperty.getLineSeparator()
+					+ CommonsLangStringUtils.join(pronunciationErrors,
+							SystemProperty.getLineSeparator()));
+		}
 	}
 }
