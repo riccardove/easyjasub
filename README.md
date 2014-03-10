@@ -4,7 +4,9 @@ EasyJaSub
 EasyJaSub is a tool to add furigana and in-line translation to japanese subtitles, for language learning. 
 It takes Japanese and an other language (say English) text subtitles and combines them in picture-basted subtitles. 
 
-With the help of Kanji Converter (http://nihongo.j-talk.com/) it adds furigana, split words, put romaji and a raw word translation where possible. 
+MeCab https://code.google.com/p/mecab/downloads/list is used to parse Japanese, you need to install it separately
+
+Alternatively to MeCab, with the help of Kanji Converter (http://nihongo.j-talk.com/) it adds furigana, split words, put romaji and a raw word translation where possible. 
 Actually you need to manually use the Kanji Converter website and save the resulting HTML locally; 
 of course the result of the automatic converter is not always accurate.
 
@@ -42,3 +44,5 @@ Developer information
 The SonaType OSSRH Maven repository (https://oss.sonatype.org) is used to deploy artifacts
 Releases: https://oss.sonatype.org/content/groups/public/com/github/riccardove/easyjasub/
 Snapshots: https://oss.sonatype.org/content/repositories/snapshots/com/github/riccardove/easyjasub/
+
+
