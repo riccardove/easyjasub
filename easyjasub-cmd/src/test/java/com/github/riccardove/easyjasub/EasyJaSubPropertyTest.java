@@ -35,6 +35,7 @@ public class EasyJaSubPropertyTest extends EasyJaSubCmdTestCase {
 		assertEquals("easyjasub-cmd", EasyJaSubProperty.getName());
 		assertFalse("unknownversion".equals(EasyJaSubProperty.getVersion()));
 		assertFalse("unknowndate".equals(EasyJaSubProperty.getDate()));
-		assertEquals("https://github.com/riccardove/easyjasub/issues", EasyJaSubProperty.getIssuesManagementUrl());
+		assertEquals("https://sourceforge.net/p/easyjasub/tickets/",
+				EasyJaSubProperty.getIssuesManagementUrl());
 	}
 }

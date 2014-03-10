@@ -4,7 +4,7 @@
 
 	<groupId>com.github.riccardove.easyjasub</groupId>
 	<artifactId>easyjasub</artifactId>
-	<version>0.0.18-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<packaging>pom</packaging>
 
 	<inceptionYear>2014</inceptionYear>
@@ -13,7 +13,7 @@
 		<url>https://github.com/riccardove</url>
 	</organization>
 	<name>easyjasub</name>
-	<url>https://github.com/riccardove/easyjasub</url>
+	<url>http://easyjasub.sourceforge.net</url>
 	<description>Tool to add furigana and in-line translation to Japanese subtitles, for language learning</description>
 
 	<parent>
@@ -32,8 +32,8 @@
 	</properties>
 
 	<issueManagement>
-		<url>https://github.com/riccardove/easyjasub/issues</url>
-		<system>GitHub Issues</system>
+		<url>https://sourceforge.net/p/easyjasub/tickets/</url>
+		<system>Sourceforge tickets</system>
 	</issueManagement>
 
 	<licenses>

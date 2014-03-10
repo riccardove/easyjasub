@@ -18,11 +18,11 @@
 	<parent>
 		<groupId>com.github.riccardove.easyjasub</groupId>
 		<artifactId>easyjasub</artifactId>
-		<version>0.0.18-SNAPSHOT</version>
+		<version>0.1.0</version>
 	</parent>
 
 	<properties>
-		<wix.version>0.0.18.1</wix.version>
+		<wix.version>0.1.0.1</wix.version>
 		<launch4j.name>easyjasub</launch4j.name>
 		<launch4j.jremin>1.7.0</launch4j.jremin>
 		<launch4j.jreheap>128</launch4j.jreheap>
