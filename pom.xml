@@ -14,7 +14,7 @@
 	</organization>
 	<name>easyjasub</name>
 	<url>https://github.com/riccardove/easyjasub</url>
-	<description>Tool to add furigana and in-line translation to japanese subtitles, for language learning</description>
+	<description>Tool to add furigana and in-line translation to Japanese subtitles, for language learning</description>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>

@@ -21,7 +21,6 @@ package com.github.riccardove.easyjasub.inputtextsub;
  */
 
 
-import bdsup2sub.core.Framerate;
 import subtitleFile.SubtitleFileTimeWrapper;
 import subtitleFile.Time;
 
@@ -34,18 +33,13 @@ public class InputTextSubTime  implements Comparable<InputTextSubTime> {
 	{
 		SubtitleFileTimeWrapper wrapper = new SubtitleFileTimeWrapper(time);
 		this.mseconds = wrapper.getMSeconds();
-		bdmTimeStr = wrapper.getTime("hh:mm:ss:ff/" + Framerate.FPS_23_976.getValue());
 		str = wrapper.getTime("hh:mm:ss,ms");
 	}
 	
 	private final int mseconds;
-	private final String bdmTimeStr;
 	private final String str;
 	
-	public String getBDMTime() {
-		return bdmTimeStr;
-	}
-	
+	@Override
 	public int compareTo(InputTextSubTime o) {
 		return Integer.compare(mseconds, o.mseconds);
 	}

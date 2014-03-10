@@ -178,19 +178,6 @@ public class InputMeCab {
 		}
 	}
 
-	private static String katakanaToHiragana(String text) {
-		int length = text.length();
-		StringBuilder result = new StringBuilder(length);
-		for (int i = 0; i < length; ++i) {
-			char c = text.charAt(i);
-			if (JapaneseChar.isKatakana(c)) {
-				c = JapaneseChar.katakanaToHiragana(c);
-			}
-			result.append(c);
-		}
-		return result.toString();
-	}
-
 	private void trySetFurigana(String text, String furigana, SubtitleItem item) {
 
 		ArrayList<SubtitleItem.Inner> list = new ArrayList<SubtitleItem.Inner>();

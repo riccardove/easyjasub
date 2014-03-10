@@ -109,48 +109,8 @@ public class EasyJaSub {
 		if (idxFile == null) {
 			return 0;
 		}
-		writeIdxFile(command, observer, s, bdnFolder);
-
-/*		    if (phases == null 
-				|| phases.contains(Phases.Ifo)) {
-			File folder = createFolder(FileName + "_ifo");
-			toIdx(bdnFolder, FileName + ".xml", folder, FileName + ".ifo", s.getWidth());
-			System.out.println("Ifo");
-		}
-
-		File supFolder = createFolder(FileName + "_sup");
-		if (phases == null 
-				|| phases.contains(Phases.Sup)) {
-			toIdx(bdnFolder, FileName + ".xml", supFolder, FileName + ".sup", s.getWidth());
-			System.out.println("Sup");
-		}
-
-		if (phases == null 
-				|| phases.contains(Phases.SupXml)) {
-			File bisFolder = createFolder(FileName + "_bis");
-			toIdx(supFolder, FileName + ".sup", bisFolder, FileName + ".xml", s.getWidth());
-			System.out.println("SupXml");
-		}
-*/
+		observer.onWriteIdxFileStart(idxFile, bdnFile);
 		return 0;
-	}
-
-	private void writeIdxFile(EasyJaSubInput command,
-			EasyJaSubObserver observer, SubtitleList s, File bdnFolder)
-			throws EasyJaSubException {
-		File file = command.getOutputIdxFile();
-		File bdnFile = command.getBdnXmlFile();
-		if (file != null && bdnFile != null && !file.exists()) {
-			mkParentDirs(bdnFile);
-			observer.onWriteIdxFileStart(file, bdnFile);
-			// TODO create folders for output file
-			// TODO output file
-			new BDSup2SubWrapper().toIdx(bdnFile, file, command.getWidth());
-			observer.onWriteIdxFileEnd(file);
-		}
-		else {
-			observer.onWriteIdxFileSkipped(file, bdnFile);
-		}
 	}
 
 	private void writeBdmXmlFile(EasyJaSubInput command,

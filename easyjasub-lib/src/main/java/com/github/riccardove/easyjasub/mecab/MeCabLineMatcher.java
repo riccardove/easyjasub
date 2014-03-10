@@ -43,7 +43,7 @@ class MeCabLineMatcher {
 	 * lines for proper nouns seems to be different:<br/>
 	 * フィオーレ 名詞,固有名詞,一般,*,*,*,* <br/>
 	 */
-	private static final String RegexStr2 = "^([^\t]+)\t([^,]+),[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+$";
+	private static final String RegexStr2 = "^([^\\s]+)\\s([^,]+),[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+$";
 	private static final Pattern Regex = Pattern.compile(RegexStr);
 	private static final Pattern Regex2 = Pattern.compile(RegexStr2);
 	private Matcher matcher;

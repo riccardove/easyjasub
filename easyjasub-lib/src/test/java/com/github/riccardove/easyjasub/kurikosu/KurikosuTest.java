@@ -31,6 +31,7 @@ public class KurikosuTest extends EasyJaSubTestCase {
 
 	private void assertKatakanaToHiragana(String katakana, String hiragana)
 			throws Exception {
-		assertEquals(hiragana, Kurikosu.convertKatakanaToHiragana(katakana));
+		assertEquals(hiragana, Kurikosu.convertKatakanaToHiragana(katakana)
+				.getHiragana());
 	}
 }

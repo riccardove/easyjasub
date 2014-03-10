@@ -1,3 +1,6 @@
 target/
 /.project
 /.settings
+/easyjasub.wixobj
+/easyjasub.msi
+/easyjasub.wixpdb

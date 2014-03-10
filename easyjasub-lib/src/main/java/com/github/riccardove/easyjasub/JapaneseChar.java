@@ -81,17 +81,4 @@ public final class JapaneseChar {
 
 		return CommonsLangStringUtils.charListToString(japaneseChars);
 	}
-
-	public static char katakanaToHiragana(char ch) {
-		return (char) (Character.getNumericValue(ch) - 0x60);
-	}
-
-	// private static boolean is(char c) {
-	// return Character.UnicodeBlock.of(c) ==
-	// Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS ||
-	// Character.UnicodeBlock.of(c) ==
-	// Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS ||
-	// Character.UnicodeBlock.of(c) ==
-	// Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
-	// }
 }

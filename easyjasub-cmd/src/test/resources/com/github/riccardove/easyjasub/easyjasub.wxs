@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?define ProductExe = "easyjasub"?>
 <?define ProductVersion = "${wix.version}"?>
 <?define ProductUpgradeCode = "6AA42C5E-0BE7-4F8D-879B-AA11D7807DB5"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
-	<Product Name="${project.name} ${project.version}" Id="6D243A84-A108-40D5-AC1F-CF732629A31F"
+	<Product Name="$(var.ProductExe) ${project.version}" Id="6D243A84-A108-40D5-AC1F-CF732629A31F"
 		UpgradeCode="$(var.ProductUpgradeCode)" Language="1033" Codepage="1252"
 		Version="$(var.ProductVersion)" Manufacturer="${organization.name}">
 
 		<Package Id="*" Keywords="Installer"
-			Description="${project.name} ${project.version} Installer" Comments="${project.description}. See ${project.url} for details."
+			Description="$(var.ProductExe) ${project.version} Installer" Comments="${project.description}. See ${project.url} for details."
 			Manufacturer="${organization.name}" InstallerVersion="100" Languages="1033"
 			Compressed="yes" SummaryCodepage="1252" />
 
@@ -17,7 +18,7 @@
 		<Upgrade Id="$(var.ProductUpgradeCode)">
 			<UpgradeVersion Minimum="$(var.ProductVersion)"
 				OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
-			<UpgradeVersion Minimum="0.0.0" Maximum="$(var.ProductVersion)"
+			<UpgradeVersion Minimum="0.0.0.1" Maximum="$(var.ProductVersion)"
 				IncludeMinimum="yes" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED" />
 		</Upgrade>
 		<Condition Message="A newer version of this software is already installed.">NOT NEWERVERSIONDETECTED</Condition>
@@ -26,8 +27,8 @@
 			<Directory Id="ProgramFilesFolder" Name="PFiles">
 				<Directory Id="INSTALLDIR" Name="${project.name}">
 					<Component Id="MainExecutable" Guid="F0CF2240-DF1D-4167-A289-655900E5E023">
-						<File Id="MainExecutableEXE" Name="${project.name}.exe"
-							DiskId="1" Source="${project.build.directory}\\${project.name}.exe"
+						<File Id="MainExecutableEXE" Name="$(var.ProductExe).exe"
+							DiskId="1" Source="${project.build.directory}\\$(var.ProductExe).exe"
 							KeyPath="yes">
 						</File>
 					</Component>
