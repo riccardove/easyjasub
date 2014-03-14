@@ -31,13 +31,13 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.FileImageInputStream;
 
 
-class SubtitleListBdmXmlFileWriter {
+class SubtitleListBdnXmlFileWriter {
 	private final EasyJaSubInput command;
 	private final double fps;
 	private final String fpsStr;
 	private final String videoFormat;
 
-	public SubtitleListBdmXmlFileWriter(EasyJaSubInput command,
+	public SubtitleListBdnXmlFileWriter(EasyJaSubInput command,
 			double fps, String fpsStr, String videoFormat) throws EasyJaSubException
 	{
 		this.command = command;
@@ -49,7 +49,7 @@ class SubtitleListBdmXmlFileWriter {
 	
 	private final ImageReader ir;
 	
-	public void writeBDM(SubtitleList s, File file) throws IOException, FileNotFoundException {
+	public void write(SubtitleList s, File file) throws IOException, FileNotFoundException {
 		f = new EasyJaSubWriter(file);
 
 		writeln("<?xml version=\"1.0\" encoding=\"" + EasyJaSubCharset.CHARSETSTR + "\"?>");

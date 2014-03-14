@@ -200,26 +200,3 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 
-
-
-This product bundles the following libraries which are available under a
-"Apache Software License, Version 2.0" license:
-BDSup2Sub 5.1.2 - https://github.com/mjuhasz/BDSup2Sub/
-Commons CLI 1.2 - http://commons.apache.org/cli/
-Commons IO 2.4 - http://commons.apache.org/io/
-Apache Commons Lang 3.2.1 - http://commons.apache.org/proper/commons-lang/
-TagSoup 1.2 - http://home.ccil.org/~cowan/XML/tagsoup/
-rendersnake 1.7.1 - http://rendersnake.org/
-
-Some parts of the BDSup2Sub code are licensed under the GNU Lesser General Public License Version 3.
-
-This product bundles subtitleConvert retrieved on 2014/02/20, which is available under a
-"MIT" license.  For details, see https://github.com/JDaren/subtitleConverter
-   
-This product bundles java-image-scaling 0.8.5, which is available under a
-"GNU LESSER GENERAL PUBLIC LICENSE  Version 3" license.  For details, see http://code.google.com/p/java-image-scaling
-   
-This product bundles html2image ${project.dependency.gui.ava.html2image.version} 0.9, which is available under a
-"GNU LESSER GENERAL PUBLIC LICENSE" license.  For details, see http://code.google.com/p/java-html2image/
-   
-This product bundles macify 1.4.  For details, see http://simplericity.org/macify/

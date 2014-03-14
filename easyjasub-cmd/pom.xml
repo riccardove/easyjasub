@@ -22,7 +22,7 @@
 	</parent>
 
 	<properties>
-		<wix.version>0.1.0.1</wix.version>
+		<wix.version>${project.version}.1</wix.version>
 		<launch4j.name>easyjasub</launch4j.name>
 		<launch4j.jremin>1.7.0</launch4j.jremin>
 		<launch4j.jreheap>128</launch4j.jreheap>

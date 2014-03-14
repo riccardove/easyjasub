@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="description"
+	content="SourceForge presents the easyjasub project. easyjasub is an open source application. SourceForge provides the world's largest selection of Open Source Software. EasyJaSub is a tool to add furigana and in-line translation to japanese subtitles, for language learning.   It takes Japanese and an other language (say English) text subtitles and combines them in picture-basted subtitles.     Timing for the Japanese subtitles is used, the secondary subtitles may be repeated into multiple lines.   The synchronization of input text subtitles is very important to properly associate them.    The program is now in early development stage, you may need to read the the inline help (run the command with -h option) or browse the code in https://github.com/riccardove/easyjasub    A JRE is required, even by the Windows .exe version. You also need to install:  - MeCab   - BDSup2Sub    As input, you need to provide Japanese and translated subtitles in text format, synced with your video    Sample basic usage:  easyjasub.exe -ja subtitle.ja.srt -tr subtitle.en.srt   java -jar easyjasub-cmd.jar -ja subtitle.ja.srt -tr subtitle.en.srt " />
+<meta name="keywords"
+	content="Open Source, Software, Development, Developers, Projects, Downloads, OSTG, VA Software, SF.net, SourceForge, Command-line, Languages, Video, Java, OS Portable (Source code to work with many OS platforms), Apache License V2.0, Advanced End Users, 2 - Pre-Alpha, easyjasub,easyjasub" />
+<title>SourceForge.net: easyjasub</title>
+<style type="text/css">
+body {
+	background: url("prweb-sidebar.png") top left fixed no-repeat;
+}
+
+a img {
+	border-style: none;
+	text-decoration: none;
+	vertical-align: middle;
+}
+
+h1 {
+	margin: 0 0 1em 5%;
+	width: 80%;
+	font-size: 160%;
+	line-height: normal;
+}
+
+small {
+	margin: .5em 0 0 5%;
+	font-size: 80%;
+	position: relative;
+	display: block;
+}
+
+h3 {
+	margin-top: 2em;
+	font-size: 100%;
+}
+
+h2 {
+	margin-top: 1em;
+	font-size: 120%;
+}
+
+.host {
+	position: absolute;
+	right: 1em;
+	top: 2em;
+	width: 25em;
+	text-align: center;
+	font-size: 80%;
+	font-weight: bold;
+}
+
+.host a {
+	text-decoration: none;
+}
+
+div {
+	margin: 20pt;
+}
+
+/* footer */
+#ft {
+	clear: both;
+	display: block;
+	padding: 1em;
+	margin-left: -5%;
+	font-size: 80%;
+	text-align: center;
+}
+
+#fad {
+	height: 250px;
+	overflow: hidden;
+	line-height: 120%;
+	font-size: 80%;
+}
+
+table.sample {
+	letter-spacing: -4px;
+	margin-left: auto;
+	margin-right: auto;
+	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+	color: white;
+	text-align: center;
+}
+
+tr.top {
+	letter-spacing: -2px;
+	font-family: cinecaption, GT2000-01, arial;
+	font-size: 18pt;
+}
+
+tr.bottom {
+	font-family: arial;
+	font-size: 12pt;
+	letter-spacing: 3px;
+}
+
+tr.center {
+	font-family: cinecaption, GT2000-01, arial;
+	font-size: 25pt;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+tr.translation {
+	font-family: arial;
+	font-size: 12pt;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	letter-spacing: 1px;
+}
+
+td.sample {
+	text-align: center;
+}
+
+span.kk {
+	letter-spacing: -6px;
+	font-family: GT2000-01, cinecaption, arial;
+	font-size: 40pt;
+	margin-left: 0;
+	margin-right: 0;
+	padding: 0;
+}
+</style>
+</head>
+<body>
+	<div>
+		<h1>easyjasub</h1>
+		<p>
+			<strong>easyjasub</strong> is a tool to add furigana and in-line
+			translation to Japanese subtitles, for language learning. It takes
+			Japanese and an other language (say English) text subtitles and
+			combines them in picture-basted subtitles.
+
+		</p>
+		<p>It is designed to work as a command-line utility or as a Java
+			library to be integrated in other applications, or maybe a custom UI.
+		</p>
+		<p>
+			easyjasub is still in alpha development stage, you may find defects
+			and its usage may be difficult, do not hesitate to <a
+				href="http://sourceforge.net/p/easyjasub/tickets/">ask for help
+				opening a new ticket</a>
+		</p>
+
+		<p>The result of the automatic parsing of Japanese is not always
+			accurate and you may see incorrect words in subtitles, this is
+			unfortunately unavoidable.</p>
+
+		<h2>Links</h2>
+
+		<p>
+			Release packages and support pages are available on <a
+				href="http://sourceforge.net/">SourceForge.net</a>:
+		</p>
+		<ul>
+			<li><a href="http://sourceforge.net/projects/easyjasub/">Project
+					summary</a></li>
+			<li><a href="http://sourceforge.net/p/easyjasub/tickets/">Defects
+					notifications and support tickets</a></li>
+			<li><a href="http://easyjasub.sourceforge.net">Documentation</a>
+				(this page)</li>
+		</ul>
+		<p>
+			Source code is available on <a href="https://github.com">GitHub</a>:
+		</p>
+		<ul>
+			<li><a href="https://github.com/riccardove/easyjasub">Project
+					page</a></li>
+			<li><a href="https://github.com/riccardove">author home page</a></li>
+		</ul>
+		<p>
+			If you are a developer and want to use easyjasub as part of your
+			application, it is deployed on <a href="https://oss.sonatype.org">oss.sonatype.org</a>,
+			where you can also find <a
+				href="https://oss.sonatype.org/content/groups/public/com/github/riccardove/easyjasub/">all
+				releases and development snapshots</a>
+		</p>
+
+		<h2>Setup</h2>
+
+		<p>This application requires third party software to execute,
+			please make sure you install:</p>
+		<ul>
+			<li>A JRE is required, even by the Windows .exe version. Get it
+				from <a href="http://java.com">Java.com</a> if your OS does not
+				provide a standard installation
+			</li>
+			<li><a href="https://code.google.com/p/mecab">MeCab</a> is used
+				to parse Japanese and is rather fundamental, you can download it
+				from <a href=" https://code.google.com/p/mecab/downloads/list">MeCab
+					on Google Code download page</a>. Be sure you select UTF-8 usage.</li>
+			<li><a href="https://github.com/mjuhasz/BDSup2Sub">BDSup2Sub</a>
+				is useful to convert easyjasub output (Sony BDN XML) to a format
+				usable by your video player: it can convert subtitles in Blu-Ray
+				SUP, VobSub (SUB/IDX) and DVD-SUP (SUP/IFO) format. The application
+				does not use this directly but you probably need it, most of video
+				players available can only visualize SUB/IDX subtitles</li>
+			<li><a href="http://wkhtmltopdf.org/">wkhtmltoimage</a> is used
+				to create the pictures from HTML files, if it is not available the
+				quality of rendering of subtitles may decrease</li>
+			<li><a href="http://chiphead.jp/font/htm/cinecaption.htm">Cinecaption
+					font</a> from <a href="http://chiphead.jp">Chiphead</a> is used to
+				render Hiragana</li>
+			<li><a href="http://www.l.u-tokyo.ac.jp/GT/downloads.html">GT200001
+					font</a> from <a href="http://www.l.u-tokyo.ac.jp">University of
+					Tokio Faculty of Letters</a> is used to render Kanjii</li>
+		</ul>
+		<p>Not everything in the above list is mandatory but please try to
+			install all in their respective default installation directory, you
+			may face issues with the tool otherwise.</p>
+
+		<p>Subtitles are rendered as HTML pages, below you can see an
+			example text that you can use to verify that you have Cinecaption and
+			GT200001 fonts available</p>
+
+		<table class="sample">
+			<tr class="top">
+				<td></td>
+				<td></td>
+				<td></td>
+				<td class="sample">まほー</td>
+				<td></td>
+				<td class="sample">せかい</td>
+				<td></td>
+			</tr>
+			<tr class="center">
+				<td class="sample">そこ</td>
+				<td class="sample">は</td>
+				<td class="sample">&thinsp;</td>
+				<td class="sample"><span class="kk">魔法</span></td>
+				<td class="sample">の</td>
+				<td class="sample"><span class="kk">世界</span></td>
+				<td class="sample">。</td>
+			</tr>
+		</table>
+
+		<p>
+			The <a href="http://rendersnake.org">rendersnake</a> Java library is
+			used to write HTML files, and <a
+				href="http://code.google.com/p/kurikosu/">Kurikosu</a> library is
+			used for Japanese text conversion
+		</p>
+
+		<p>Additional software may be required, you may need to edit or
+			produce text based subtitles, and visualize your video with external
+			subtitles file.</p>
+
+
+		<h2>Basic usage</h2>
+
+		<ol>
+			<li>As input, you need to provide Japanese and translated
+				subtitles in text format, both of them must be in sync with your
+				video. Supported formats for input text subtitles are: EBU's STL,
+				.SCC, .ASS/.SSA, .SRT, TTML (<a
+				href="https://github.com/JDaren/subtitleConverter">subtitleConverter</a>
+				library is used to read the text subtitles). Make sure subtitle file
+				names have an extension matching one of supported ones above and
+				copy them into a new empty directory.
+			</li>
+			<li>The timing of generated subtitles will be the same timing of
+				the Japanese subtitles, the secondary subtitles may be repeated into
+				multiple lines if their timings does not match perfectly (this is ok
+				since normally you split or join sentences when you translate). The
+				synchronization of input text subtitles is very important to
+				properly associate them, be sure that both subtitles are in sync
+				with the video, if they are not, you need to edit subtitles (try <a
+				href="http://www.aegisub.org/">Aegisub</a>). easyjasub has been
+				tested using only UTF-8 encoding, you may face issues if the
+				subtitle files are not in UTF-8, in this case edit subtitles and
+				save them using UTF-8 encoding.
+			</li>
+			<li>Download the easyjasub release package (choose .tar by
+				default, or use .zip if you have a Windows OS), unpack it in the
+				same directory</li>
+			<li>Run a terminal or a command line (on Windows, execute "cmd")
+				and run: <pre>java -jar easyjasub-cmd.jar -ja subtitle.ja.srt -tr subtitle.en.srt</pre>
+				Where subtitle.ja.srt is the filename for Japanese subtitles and
+				subtitle.en.srt is the filename for translated subtitles On Windows
+				you can use the executable file: <pre>easyjasub.exe -ja subtitle.ja.srt -tr subtitle.en.srt</pre>
+			</li>
+		</ol>
+		<p>A new folder will be produced to store output and intermediate
+			files, and if the process is successfull a command to run BDSup2Sub
+			and convert subtitles is suggested</p>
+		<p>
+			Subtitles look like this: <img src="sample.png"
+				alt="Sample easyjasub subtitle picture" />
+		</p>
+		<p>If something fails or you want to do an other try with
+			different options, be sure to delete all files that easyjasub
+			produced. The tool does not overwrite files already existing but uses
+			them.</p>
+
+		<p>MeCab and wkhtmltoimage are searched in their default
+			installation folders, if they are not found you can use options -mc
+			and -wk to specify the full path to the executable.</p>
+		<pre>java -jar easyjasub-cmd.jar -ja subtitle.ja.srt -tr subtitle.en.srt -wk /usr/local/bin/wkhtmltoimage -mc /opt/mecab/mecab</pre>
+		<pre>easyjasub.exe -ja subtitle.ja.srt -tr subtitle.en.srt -mc D:\MeCab\bin\mecab.exe</pre>
+		<p>You can customize the elements displayed in subtitles, for
+			example you can show romaji, hide the translation, and even show just
+			the Hiragana rewriting hiding Kanji; to do so use the following
+			options:</p>
+		<ul>
+			<li>-t disabled: Hides translated subtitles</li>
+			<li>-r enabled: Shows Romaji text in subtitles</li>
+			<li>-f disabled: Hides Furigana text in subtitles</li>
+			<li>-k disabled: Converts Kanji text in subtitles to Hiragana</li>
+		</ul>
+
+		<p>
+			Here is a sample without translation and Furigana but with Romaji <img
+				src="sample6.png" alt="Sample easyjasub subtitle picture" />
+		</p>
+		<p>
+			And here a sample without Kanji <img src="sample11.png"
+				alt="Sample easyjasub subtitle picture" />
+		</p>
+
+		<h2>Using online converter</h2>
+		<p>
+			Alternatively to MeCab, you can use the online Kanji Converter
+			available at <a href="http://nihongo.j-talk.com/">nihongo.j-talk.com</a>.
+			You need to manually use the Kanji Converter website:
+		</p>
+		<ul>
+			<li>Run easyjasub once, it will produce a text file (.txt) with
+				the content of Japanese subtitles, open it and copy the content to
+				the clipboard</li>
+			<li>Point your browser to the Kanji Converter, paste the content
+				of the text file and select conversion to Hiragana</li>
+			<li>Run the conversion and save the web page you obtain as an
+				HTML file</li>
+			<li>Run again easyjasub with -nj option followed by the HTML
+				file name path</li>
+		</ul>
+		<p>
+			With the online converter you get an automatic translation for some
+			of the words <img src="sample0.png"
+				alt="Sample easyjasub subtitle picture" />
+		</p>
+		<p>
+			Kanji Converter internally uses <a
+				href="http://sourceforge.jp/projects/chasen-legacy/">ChaSen</a>, the
+			accuracy of Japanese parsing may be different than the one you obtain
+			using MeCab.
+		</p>
+		<h2>Advanced usage</h2>
+		<p>easyjasub has many options to tune subtitles generation, run it
+			with -h option to view them. Many options, if left unspecified, gets
+			a default value depending on the other options you have set.</p>
+
+		<p>Set width and height of subtitles with --width and --height
+			option to best fit your screen, or to adapt to the video:
+		<p>
+		<pre>easyjasub &lt;opts&gt; --width 1024 --height 768</pre>
+
+		<p>Sample subtitle generation on a subset of the subtitle lines
+			with --select-lines, for example to process lines until line 10:
+		<p>
+		<pre>easyjasub &lt;opts&gt; --select-lines -10</pre>
+		<p>Or you can select an interval</p>
+		<pre>easyjasub &lt;opts&gt; --select-lines 5-20</pre>
+
+		<p>Nearly all options accepts the special tag
+			&quot;disabled&quot;, with that you can suppress usage of that
+			feature; for example to not produce the text file with transcribed
+			subtitles:</p>
+		<pre>easyjasub &lt;opts&gt; --output-text disabled</pre>
+		<p>Or you can disable the usage of wkhtmltoimage even if it is
+			found in your system:</p>
+		<pre>easyjasub &lt;opts&gt; --wkhtmltoimage disabled</pre>
+
+		<p>You can fine-tune the matching of subtitle lines reducing or
+			increasing the difference in milliseconds you accept between Japanese
+			and translated timestamps:</p>
+		<pre>easyjasub &lt;opts&gt; --match-diff 500 --approx-diff 400</pre>
+		<p>
+			<em>... the matching algorithm is currently not that
+				sophisticated... </em>
+		</p>
+
+		<p>easyjasub performs the following actions:</p>
+		<ol>
+			<li>Reads Japanese subtitles file</li>
+			<li>Converts Japanese subtitles in plain text format and write
+				it in a text .txt file</li>
+			<li>Read translated subtitles file</li>
+			<li>If the online translator HTML file is available, parses it,
+				otherwise runs MeCab</li>
+			<li>Create the output folder to store files</li>
+			<li>Writes a CSS file to style subtitles</li>
+			<li>Writes one HTML file for each subtitle line</li>
+			<li>Renders HTML files in PNG pictures</li>
+			<li>Writes the BDN XML file</li>
+		</ol>
+		<p>easyjasub never overwrites an existing file, so make sure you
+			manually delete them if you need to run the tool again. You can
+			exploit this functionality to manually change some of the files: run
+			the tool, edit the files you want to customize and delete all others,
+			run the tool again. This is useful for example to edit the CSS file
+			and change the style of the text of generated subtitles.</p>
+		<h2>Contributing</h2>
+		<p>
+			This software is in early alpha stage, if you find problems or you
+			need help do not hesitate to <a
+				href="http://sourceforge.net/p/easyjasub/tickets/">ask for help
+				opening a new ticket</a>. If some particular subtitle line is inaccurate
+			attach the .html file produced.
+		</p>
+		<p>
+			If you find the tool interesting and would like to extend it go to <a
+				href="https://github.com/riccardove/easyjasub">GitHub easyjasub
+				project page</a> and join!
+		</p>
+	</div>
+
+
+
+	<div id="ft">
+		<p>
+			<a href="http://sourceforge.net/"> Project Web Hosted by <img
+				src="http://sflogo.sourceforge.net/sflogo.php?group_id=2133705&type=3"
+				alt="SourceForge.net"></a>
+		</p>
+		<p>
+			©Copyright 1999-2009 - <a href="http://geek.net/"
+				title="Network which provides and promotes Open Source software downloads, development, discussion and news.">
+				Geeknet</a>, Inc., All Rights Reserved
+		</p>
+		<p>
+			<a href="http://sourceforge.net/about"> About </a> - <a
+				href="http://sourceforge.net/tos/tos.php"> Legal </a> - <a
+				href="http://p.sf.net/sourceforge/getsupport"> Help </a>
+		</p>
+	</div>
+
+
+</body>
+</html>
