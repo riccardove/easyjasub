@@ -28,6 +28,8 @@ import org.apache.commons.io.FilenameUtils;
 
 /**
  * Checks input commands and determines valid program input using some heuristic
+ * 
+ * TODO: split into multiple classes
  */
 class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
@@ -328,6 +330,17 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return getInteger(name, timeStr, defaultValue, 100, 5000);
 	}
 
+	/**
+	 * TODO: use list of language codes for (LanguageCode code :
+	 * LanguageCode.values()) { System.out.format("[%s] %s\n", code,
+	 * code.getName()); }
+	 * 
+	 * @param command
+	 * @param defaultFileList
+	 * @param japaneseSubFile
+	 * @return
+	 * @throws EasyJaSubException
+	 */
 	private static File getTranslatedSubFile(EasyJaSubInputCommand command,
 			Iterable<File> defaultFileList, File japaneseSubFile)
 			throws EasyJaSubException {

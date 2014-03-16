@@ -23,6 +23,12 @@
 	</parent>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 		</plugins>
 	</build>
@@ -49,14 +55,14 @@
 			<version>0.9</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.JDaren</groupId>
+			<groupId>com.github.riccardove.easyjasub</groupId>
 			<artifactId>subtitleConvert</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.kurikosu</groupId>
+			<groupId>com.github.riccardove.easyjasub.kurikosu</groupId>
 			<artifactId>kurikosu</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.chasen.mecab</groupId>

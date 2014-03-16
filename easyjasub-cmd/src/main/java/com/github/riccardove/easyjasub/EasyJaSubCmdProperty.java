@@ -28,7 +28,7 @@ import java.util.Properties;
 /**
  * Access to the properties from version.properties resource file
  */
-public class EasyJaSubProperty {
+public class EasyJaSubCmdProperty {
 
 	static {
 		String name = "unknownname";
@@ -36,7 +36,8 @@ public class EasyJaSubProperty {
 		String date = "unknowndate";
 		String issues = null;
 		String url = null;
-		InputStream stream = EasyJaSubProperty.class.getResourceAsStream("version.properties");
+		InputStream stream = EasyJaSubCmdProperty.class
+				.getResourceAsStream("easyjasub-cmd.properties");
 	    if (stream != null) {
 			Properties properties = new Properties();
 			try {

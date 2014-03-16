@@ -135,6 +135,11 @@
             <artifactId>commons-cli</artifactId>
             <version>1.2</version>
         </dependency>
+		<dependency>
+			<groupId>com.neovisionaries</groupId>
+			<artifactId>nv-i18n</artifactId>
+			<version>1.11</version>
+		</dependency>
 	</dependencies>
 
 </project>

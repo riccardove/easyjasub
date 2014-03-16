@@ -23,7 +23,7 @@ package com.github.riccardove.easyjasub;
 
 import org.junit.Test;
 
-public class EasyJaSubPropertyTest extends EasyJaSubCmdTestCase {
+public class EasyJaSubPropertyTest extends EasyJaSubTestCase {
 
 	@Test
 	public void testProperties() {
@@ -32,7 +32,7 @@ public class EasyJaSubPropertyTest extends EasyJaSubCmdTestCase {
 		assertNotNull(EasyJaSubProperty.getDate());
 		assertNotNull(EasyJaSubProperty.getIssuesManagementUrl());
 		
-		assertEquals("easyjasub-cmd", EasyJaSubProperty.getName());
+		assertEquals("easyjasub-lib", EasyJaSubProperty.getName());
 		assertFalse("unknownversion".equals(EasyJaSubProperty.getVersion()));
 		assertFalse("unknowndate".equals(EasyJaSubProperty.getDate()));
 		assertEquals("https://sourceforge.net/p/easyjasub/tickets/",

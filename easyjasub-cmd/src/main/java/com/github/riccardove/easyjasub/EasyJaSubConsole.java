@@ -156,7 +156,7 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 
 	@Override
 	public void onWriteIdxFileStart(File file, File bdnFile) {
-		lowVerboseMessage("Run BDSup2Sub with arguments -m 100 -x 10 -p keep -T 24p -v -v "
+		lowVerboseMessage("Run BDSup2Sub with arguments -m 100 -x 10 -p keep -T 24p -v -o "
 				+ toString(file)
 				+ " "
 				+ toString(bdnFile)

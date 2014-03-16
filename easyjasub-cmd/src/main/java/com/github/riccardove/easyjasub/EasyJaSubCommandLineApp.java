@@ -47,7 +47,7 @@ public class EasyJaSubCommandLineApp {
 			printVersion(outputStream);
 			commandLine.printHelp(outputStream, getCommandSample() + " [options]");
 			outputStream.print("Issues management: ");
-			outputStream.println(EasyJaSubProperty.getIssuesManagementUrl());
+			outputStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
 			outputStream.flush();
 			return 0;
 		}
@@ -88,7 +88,7 @@ public class EasyJaSubCommandLineApp {
 			ex.printStackTrace(errorStream);
 			errorStream.println("This error may be a problem in the program, please report it.");
 			errorStream.print("Issues management: ");
-			errorStream.println(EasyJaSubProperty.getIssuesManagementUrl());
+			errorStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
 			errorStream.flush();
 			return -100;
 		}
@@ -114,7 +114,7 @@ public class EasyJaSubCommandLineApp {
 			ex.printStackTrace(errorStream);
 			errorStream.println("This error may be a problem in the program, please report it.");
 			errorStream.print("Issues management: ");
-			errorStream.println(EasyJaSubProperty.getIssuesManagementUrl());
+			errorStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
 			errorStream.flush();
 			return -100;
 		}
@@ -133,13 +133,13 @@ public class EasyJaSubCommandLineApp {
 	}
 
 	private void printVersion(PrintWriter outputStream) {
-		outputStream.print(EasyJaSubProperty.getName());
+		outputStream.print(EasyJaSubCmdProperty.getName());
 		outputStream.print(" ");
-		outputStream.print(EasyJaSubProperty.getVersion());
+		outputStream.print(EasyJaSubCmdProperty.getVersion());
 		outputStream.print(" ");
-		outputStream.print(EasyJaSubProperty.getUrl());
+		outputStream.print(EasyJaSubCmdProperty.getUrl());
 		outputStream.print(" built on ");
-		outputStream.print(EasyJaSubProperty.getDate());
+		outputStream.print(EasyJaSubCmdProperty.getDate());
 		outputStream.println();
 	}
 	
