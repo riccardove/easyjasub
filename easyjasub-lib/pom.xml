@@ -37,32 +37,32 @@
 		<dependency>
 			<groupId>org.ccil.cowan.tagsoup</groupId>
 			<artifactId>tagsoup</artifactId>
-			<version>1.2</version>
+			<version>${easyjasub.tagsoup.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.rendersnake</groupId>
 			<artifactId>rendersnake</artifactId>
-			<version>1.7.1</version>
+			<version>${easyjasub.rendersnake.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
+			<version>${easyjasub.commons-io.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>gui.ava</groupId>
 			<artifactId>html2image</artifactId>
-			<version>0.9</version>
+			<version>${easyjasub.html2image.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.riccardove.easyjasub</groupId>
 			<artifactId>subtitleConvert</artifactId>
-			<version>1.0.2</version>
+			<version>${easyjasub.subtitleConvert.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.riccardove.easyjasub.kurikosu</groupId>
 			<artifactId>kurikosu</artifactId>
-			<version>0.0.2</version>
+			<version>${easyjasub.kurikosu.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.chasen.mecab</groupId>

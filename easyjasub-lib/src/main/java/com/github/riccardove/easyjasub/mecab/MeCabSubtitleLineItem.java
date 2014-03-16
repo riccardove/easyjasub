@@ -20,8 +20,7 @@ package com.github.riccardove.easyjasub.mecab;
  * #L%
  */
 
-
-class MeCabSubtitleLineItem {
+public class MeCabSubtitleLineItem {
 
 	private String reading;
 	private String text;

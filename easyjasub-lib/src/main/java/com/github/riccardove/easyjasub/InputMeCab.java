@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub.mecab;
+package com.github.riccardove.easyjasub;
 
 /*
  * #%L
@@ -28,17 +28,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
 
-import com.github.riccardove.easyjasub.EasyJaSubException;
-import com.github.riccardove.easyjasub.EasyJaSubObserver;
-import com.github.riccardove.easyjasub.EasyJaSubReader;
-import com.github.riccardove.easyjasub.EasyJaSubStringBuilder;
-import com.github.riccardove.easyjasub.Grammar;
-import com.github.riccardove.easyjasub.JapaneseChar;
-import com.github.riccardove.easyjasub.SubtitleItem;
-import com.github.riccardove.easyjasub.SubtitleLine;
-import com.github.riccardove.easyjasub.SubtitleList;
 import com.github.riccardove.easyjasub.kurikosu.Kurikosu;
 import com.github.riccardove.easyjasub.kurikosu.KurikosuWord;
+import com.github.riccardove.easyjasub.mecab.MeCabGrammarElement;
+import com.github.riccardove.easyjasub.mecab.MeCabParser;
+import com.github.riccardove.easyjasub.mecab.MeCabRunner;
+import com.github.riccardove.easyjasub.mecab.MeCabSubtitleLine;
+import com.github.riccardove.easyjasub.mecab.MeCabSubtitleLineItem;
+import com.github.riccardove.easyjasub.mecab.MeCabSubtitleList;
 
 public class InputMeCab {
 

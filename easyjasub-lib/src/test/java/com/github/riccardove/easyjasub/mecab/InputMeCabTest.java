@@ -25,6 +25,7 @@ import java.io.File;
 
 import com.github.riccardove.easyjasub.EasyJaSubTestCase;
 import com.github.riccardove.easyjasub.FakeEasyJaSubObserver;
+import com.github.riccardove.easyjasub.InputMeCab;
 import com.github.riccardove.easyjasub.SubtitleLine;
 import com.github.riccardove.easyjasub.SubtitleList;
 import com.github.riccardove.easyjasub.SubtitleListJapaneseSubFileReaderTest;

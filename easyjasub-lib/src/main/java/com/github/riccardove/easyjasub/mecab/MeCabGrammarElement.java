@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 import com.github.riccardove.easyjasub.Grammar;
 
-class MeCabGrammarElement {
+public class MeCabGrammarElement {
 
 	public MeCabGrammarElement() {
 		map = new HashMap<String, Grammar>();

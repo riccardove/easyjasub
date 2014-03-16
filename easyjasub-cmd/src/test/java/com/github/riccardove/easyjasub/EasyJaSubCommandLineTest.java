@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub.commandline;
+package com.github.riccardove.easyjasub;
 
 /*
  * #%L
@@ -26,8 +26,6 @@ import java.io.PrintWriter;
 import org.apache.commons.io.output.NullOutputStream;
 import org.junit.Test;
 
-import com.github.riccardove.easyjasub.EasyJaSubCmdTestCase;
-
 public class EasyJaSubCommandLineTest extends EasyJaSubCmdTestCase {
 
 	private static final PrintWriter NULL_WRITER =
@@ -36,7 +34,7 @@ public class EasyJaSubCommandLineTest extends EasyJaSubCmdTestCase {
 	@Test
 	public void testPrintHelp() {
 		EasyJaSubCommandLine cm = new EasyJaSubCommandLine();
-		cm.printHelp(NULL_WRITER, "javajar");
+		cm.printHelp(NULL_WRITER, "javajar", null, null);
 	}
 
 	@Test

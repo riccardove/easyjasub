@@ -20,14 +20,13 @@ package com.github.riccardove.easyjasub.commandline;
  * #L%
  */
 
-
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 
-class CommandLineContent {
+public class CommandLineContent {
 
-	private CommandLine line;
+	private final CommandLine line;
 
 	public CommandLineContent(CommandLine line) {
 		this.line = line;

@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub.mecab;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ import com.github.riccardove.easyjasub.EasyJaSubWriter;
  * Runs the MeCab process, set the process input text and retrieve the output as
  * a list of lines
  */
-class MeCabRunner {
+public class MeCabRunner {
 
 	private static final class ReaderRunnable implements Runnable {
 		private final EasyJaSubReader reader;

@@ -20,11 +20,10 @@ package com.github.riccardove.easyjasub.mecab;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
-class MeCabSubtitleList implements Iterable<MeCabSubtitleLine> {
+public class MeCabSubtitleList implements Iterable<MeCabSubtitleLine> {
 
 	public MeCabSubtitleList() {
 		lines = new ArrayList<MeCabSubtitleLine>();

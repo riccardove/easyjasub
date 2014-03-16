@@ -1,0 +1,1 @@
+java -jar BDSup2Sub.jar -m 100 -x 10 -p keep -T 24p -v -o %2 %1

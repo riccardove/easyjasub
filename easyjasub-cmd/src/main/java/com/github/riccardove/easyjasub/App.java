@@ -25,19 +25,17 @@ import java.io.PrintWriter;
 /**
  * Default entry point for the easyjasub console application
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
+public class App {
+	public static void main(String[] args) {
 		try {
-		    int result = new EasyJaSubCommandLineApp().run(args, 
-		    	new PrintWriter(System.out), 
-		    	new PrintWriter(System.err));
+			int result = new EasyJaSubCommandLineApp(new EasyJaSubCommandLine())
+					.run(args, new PrintWriter(System.out), new PrintWriter(
+							System.err));
 			System.exit(result);
 		} catch (Exception e) {
 			System.err.println("Unhandled application error:");
 			e.printStackTrace(System.err);
 			System.exit(-1000);
 		}
-    }
+	}
 }

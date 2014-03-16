@@ -20,21 +20,19 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import com.github.riccardove.easyjasub.commandline.EasyJaSubCommandLine;
-
-public class EasyJaSubCommandLineApp {
-	public EasyJaSubCommandLineApp() {
-		commandLine = new EasyJaSubCommandLine();
+class EasyJaSubCommandLineApp {
+	public EasyJaSubCommandLineApp(EasyJaSubCommandLine commandLine) {
+		this.commandLine = commandLine;
 	}
 
-	EasyJaSubCommandLine commandLine;
-	
-	public int run(String[] args, PrintWriter outputStream, PrintWriter errorStream) {
+	private final EasyJaSubCommandLine commandLine;
+
+	public int run(String[] args, PrintWriter outputStream,
+			PrintWriter errorStream) {
 		if (!commandLine.parse(args)) {
 			printVersion(errorStream);
 			errorStream.println("Command invocation error:");
@@ -45,7 +43,8 @@ public class EasyJaSubCommandLineApp {
 		}
 		if (commandLine.isHelp()) {
 			printVersion(outputStream);
-			commandLine.printHelp(outputStream, getCommandSample() + " [options]");
+			commandLine.printHelp(outputStream, getCommandSample()
+					+ " [options]", null, null);
 			outputStream.print("Issues management: ");
 			outputStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
 			outputStream.flush();
@@ -57,19 +56,24 @@ public class EasyJaSubCommandLineApp {
 			if (input.getDefaultFileNamePrefix() == null) {
 				throw new EasyJaSubException("No input file specified");
 			}
-			outputStream.println("Processing " + input.getDefaultFileNamePrefix());
+			outputStream.println("Processing "
+					+ input.getDefaultFileNamePrefix());
 			printFile(outputStream, "Video file: ", input.getVideoFile());
-			printFile(outputStream, "Japanese subtitles file: ", input.getJapaneseSubFile());
-			printFile(outputStream, "Translated subtitles file: ", input.getTranslatedSubFile());
-			printFile(outputStream, "nihongo.j/talk.com file: ", input.getNihongoJtalkHtmlFile());
+			printFile(outputStream, "Japanese subtitles file: ",
+					input.getJapaneseSubFile());
+			printFile(outputStream, "Translated subtitles file: ",
+					input.getTranslatedSubFile());
+			printFile(outputStream, "nihongo.j/talk.com file: ",
+					input.getNihongoJtalkHtmlFile());
 			printFile(outputStream, "CSS file: ", input.getCssFile());
-			printFile(outputStream, "HTML intermediate directory: ", input.getOutputHtmlDirectory());
-			printFile(outputStream, "Japanese text file: ", input.getOutputJapaneseTextFile());
+			printFile(outputStream, "HTML intermediate directory: ",
+					input.getOutputHtmlDirectory());
+			printFile(outputStream, "Japanese text file: ",
+					input.getOutputJapaneseTextFile());
 			printFile(outputStream, "BDN XML file: ", input.getBdnXmlFile());
 			printFile(outputStream, "IDX file: ", input.getOutputIdxFile());
 			outputStream.flush();
-		}
-		catch (EasyJaSubException ex) {
+		} catch (EasyJaSubException ex) {
 			outputStream.println();
 			outputStream.flush();
 			printVersion(errorStream);
@@ -78,15 +82,15 @@ public class EasyJaSubCommandLineApp {
 			suggestHelp(errorStream);
 			errorStream.flush();
 			return -2;
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			outputStream.println();
 			outputStream.flush();
 			printVersion(errorStream);
 			errorStream.println("Unexpected command error:");
 			errorStream.println(ex.getMessage());
 			ex.printStackTrace(errorStream);
-			errorStream.println("This error may be a problem in the program, please report it.");
+			errorStream
+					.println("This error may be a problem in the program, please report it.");
 			errorStream.print("Issues management: ");
 			errorStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
 			errorStream.flush();
@@ -95,8 +99,7 @@ public class EasyJaSubCommandLineApp {
 		try {
 			return new EasyJaSub().run(input, new EasyJaSubConsole(
 					outputStream, errorStream, commandLine.getVerbose()));
-		}
-		catch (EasyJaSubException ex) {
+		} catch (EasyJaSubException ex) {
 			outputStream.println();
 			outputStream.flush();
 			printVersion(errorStream);
@@ -104,15 +107,15 @@ public class EasyJaSubCommandLineApp {
 			errorStream.println(ex.getMessage());
 			errorStream.flush();
 			return -3;
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			outputStream.println();
 			outputStream.flush();
 			printVersion(errorStream);
 			errorStream.println("Unexpected error:");
 			errorStream.println(ex.getMessage());
 			ex.printStackTrace(errorStream);
-			errorStream.println("This error may be a problem in the program, please report it.");
+			errorStream
+					.println("This error may be a problem in the program, please report it.");
 			errorStream.print("Issues management: ");
 			errorStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
 			errorStream.flush();
@@ -125,10 +128,9 @@ public class EasyJaSubCommandLineApp {
 	}
 
 	private String getCommandSample() {
-		String usage = 
-				EasyJaSubProgramLocation.isExe() ? 
-				EasyJaSubProgramLocation.getName() :		
-				"java -jar " + EasyJaSubProgramLocation.getLocationStr();
+		String usage = EasyJaSubProgramLocation.isExe() ? EasyJaSubProgramLocation
+				.getName() : "java -jar "
+				+ EasyJaSubProgramLocation.getLocationStr();
 		return usage;
 	}
 
@@ -142,9 +144,9 @@ public class EasyJaSubCommandLineApp {
 		outputStream.print(EasyJaSubCmdProperty.getDate());
 		outputStream.println();
 	}
-	
-	private static void printFile(PrintWriter outputStream, String message, File file)
-			throws IOException{
+
+	private static void printFile(PrintWriter outputStream, String message,
+			File file) throws IOException {
 		if (file != null) {
 			outputStream.print(message);
 			outputStream.print(file.getCanonicalPath());

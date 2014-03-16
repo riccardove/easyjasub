@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub.commandline;
+package com.github.riccardove.easyjasub;
 
 /*
  * #%L
@@ -22,9 +22,10 @@ package com.github.riccardove.easyjasub.commandline;
 
 import java.io.PrintWriter;
 
-import com.github.riccardove.easyjasub.EasyJaSubInputCommand;
+import com.github.riccardove.easyjasub.commandline.CommandLineContent;
+import com.github.riccardove.easyjasub.commandline.CommandLineOptionList;
 
-public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
+class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private static final String HELP = "h";
 	private static final String VI = "vi";
 	private static final String JA = "ja";
@@ -268,8 +269,9 @@ public class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 		return true;
 	}
 
-	public void printHelp(PrintWriter stream, String usage) {
-		list.printHelp(stream, usage, null, null);
+	public void printHelp(PrintWriter stream, String usage, String header,
+			String footer) {
+		list.printHelp(stream, usage, header, footer);
 	}
 
 	@Override

@@ -1,0 +1,13 @@
+${project.name} ${project.version} bundles the following libraries:
+
+Libraries available under "Apache Software License, Version 2.0" license:
+- Commons IO ${easyjasub.commons-io.version} - http://commons.apache.org/io/
+- TagSoup ${easyjasub.tagsoup.version} - http://home.ccil.org/~cowan/XML/tagsoup/
+- rendersnake ${easyjasub.rendersnake.version} - http://rendersnake.org/
+- Kurikosu 0.0.1-SNAPSHOT retrieved on 2014/02/20 - http://code.google.com/p/kurikosu/
+
+Libraries available under "MIT" license:
+- subtitleConvert retrieved on 2014/02/20. For details see https://github.com/JDaren/subtitleConverter
+
+Libraries available under "GNU LESSER GENERAL PUBLIC LICENSE" license:
+- html2image ${easyjasub.html2image.version}.  For details see http://code.google.com/p/java-html2image/
