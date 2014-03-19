@@ -31,11 +31,14 @@ public class EasyJaSubCmdPropertyTest extends EasyJaSubCmdTestCase {
 		assertNotNull(EasyJaSubCmdProperty.getVersion());
 		assertNotNull(EasyJaSubCmdProperty.getDate());
 		assertNotNull(EasyJaSubCmdProperty.getIssuesManagementUrl());
+		assertNotNull(EasyJaSubCmdProperty.getUrl());
 		
 		assertEquals("easyjasub-cmd", EasyJaSubCmdProperty.getName());
 		assertFalse("unknownversion".equals(EasyJaSubCmdProperty.getVersion()));
 		assertFalse("unknowndate".equals(EasyJaSubCmdProperty.getDate()));
 		assertEquals("https://sourceforge.net/p/easyjasub/tickets/",
 				EasyJaSubCmdProperty.getIssuesManagementUrl());
+		assertEquals("http://easyjasub.sourceforge.net",
+				EasyJaSubCmdProperty.getUrl());
 	}
 }
