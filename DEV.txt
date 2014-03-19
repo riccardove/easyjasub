@@ -1,10 +1,13 @@
 Notes for developers
 
+To build a jar:
 mvn package
-    jar:jar create a jar file for your project sources.
-    jar:test-jar create a jar file for your project test classes.
+optional:    jar:jar create a jar file for your project sources.
+optional:    jar:test-jar create a jar file for your project test classes.
     
-    mvn license:update-file-header
+
+When adding new files, update the license headers:
+mvn license:update-file-header
     
 oss parent pom is in http://repo1.maven.org/maven2/org/sonatype/oss/oss-parent/
 

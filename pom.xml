@@ -4,7 +4,7 @@
 
 	<groupId>com.github.riccardove.easyjasub</groupId>
 	<artifactId>easyjasub</artifactId>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>0.1.1</version>
 	<packaging>pom</packaging>
 
 	<inceptionYear>2014</inceptionYear>
@@ -36,6 +36,7 @@
 		<easyjasub.html2image.version>0.9</easyjasub.html2image.version>
 		<easyjasub.subtitleConvert.version>1.0.2</easyjasub.subtitleConvert.version>
 		<easyjasub.commons-cli.version>1.2</easyjasub.commons-cli.version>
+		<easyjasub.nv-i18n.version>1.11</easyjasub.nv-i18n.version>
 	</properties>
 
 	<issueManagement>

@@ -8,7 +8,7 @@ It is designed to work as a command-line utility or as a Java library to be inte
 
 easyjasub is still in alpha development stage, you may find defects and its usage may be difficult, do not hesitate to ask for help opening a new ticket (http://sourceforge.net/p/easyjasub/tickets/)
 
-Visit http://easyjasub.sourceforge.net/ for usage info
+Visit http://easyjasub.sourceforge.net for usage info
 
 Developer information
 ---------------------
@@ -22,6 +22,9 @@ see https://oss.sonatype.org/content/groups/public/com/github/riccardove/easyjas
 - https://github.com/JDaren/subtitleConverter is used to read the text subtitles
 - https://github.com/mjuhasz/BDSup2Sub is necessary to convert the resulting BDN XML subtitle file
 - http://rendersnake.org is used to produce HTML files
-- http://code.google.com/p/wkhtmltopdf/ is used to create the pictures from HTML files
-- http://sourceforge.jp/projects/chasen-legacy/ ChaSen is used by Kanji Converter
-
+- http://code.google.com/p/wkhtmltopdf/ wkhtmltoimage is used to create the pictures from HTML files, you need to install it separately
+- http://code.google.com/p/java-html2image/ html2image is used to create the pictures from HTML files alternatively to wkhtmltoimage
+- http://sourceforge.jp/projects/chasen-legacy/ ChaSen is used by the online Kanji Converter
+- http://home.ccil.org/~cowan/XML/tagsoup/ TagSoup is used to parse the online Kanji Converter HTML
+- http://code.google.com/p/kurikosu/ Kurikosu is used for Katakana/Hiragana/Romaji conversions 
+- https://github.com/TakahikoKawasaki/nv-i18n nv-i18n is used for country codes list

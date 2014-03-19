@@ -2,3 +2,4 @@ ${project.name} ${project.version} bundles the following libraries:
 
 Libraries available under "Apache Software License, Version 2.0" license:
 - Commons CLI ${easyjasub.commons-cli.version} - http://commons.apache.org/cli/
+- nv-i18n ${easyjasub.nv-i18n.version} - https://github.com/TakahikoKawasaki/nv-i18n
