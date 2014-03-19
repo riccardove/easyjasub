@@ -29,7 +29,7 @@ public class SubtitleListTranslatedSubFileReaderTest extends EasyJaSubTestCase {
 
 	@Test
 	public void test() throws Exception {
-		File fileJa = getSampleFile("sample1.ja.ass");
+		File fileJa = getSampleFile("sample1.jp.ass");
 		File file = getSampleFile("sample1.en.srt");
 
 		SubtitleList s = new SubtitleList();

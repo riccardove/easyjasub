@@ -167,7 +167,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		for (File file : defaultFileList) {
 			String extension = getExtension(file);
 			if (isTextContentType(file) && isSubExtension(extension)
-					&& isJaLanguageFromFileName(file)) {
+					&& isJapaneseLanguageFromFileName(file)) {
 				return file;
 			}
 		}
@@ -200,7 +200,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return null;
 	}
 
-	private static File getOutputBdmFile(EasyJaSubInputCommand command,
+	private static File getOutputBdnFile(EasyJaSubInputCommand command,
 			File outputIdxFile, DefaultFileList defaultFileList)
 			throws EasyJaSubException {
 		String fileName = command.getOutputBdnFileName();
@@ -219,7 +219,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				directory = new File(directoryName);
 			} else if (outputIdxFile != null) {
 				directory = new File(outputIdxFile.getAbsoluteFile()
-						.getParentFile(), fileNameBase + "_bdmxml");
+						.getParentFile(), fileNameBase + "_bdnxml");
 			} else {
 				directory = defaultFileList.getDefaultDirectory();
 			}
@@ -231,7 +231,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static File getOutputHtmlDirectory(EasyJaSubInputCommand command,
-			File outputBdmFile, DefaultFileList defaultFileList)
+			File outputbdnFile, DefaultFileList defaultFileList)
 			throws EasyJaSubException {
 		String directoryName = command.getOutputHtmlDirectory();
 		if (isDisabled(directoryName)) {
@@ -240,8 +240,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		File directory = null;
 		if (directoryName != null && !isDefault(directoryName)) {
 			directory = new File(directoryName);
-		} else if (outputBdmFile != null) {
-			directory = outputBdmFile.getAbsoluteFile().getParentFile();
+		} else if (outputbdnFile != null) {
+			directory = outputbdnFile.getAbsoluteFile().getParentFile();
 		} else {
 			directory = new File(defaultFileList.getDefaultDirectory(),
 					defaultFileList.getDefaultFileNamePrefix() + "_html");
@@ -508,9 +508,9 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return type == null || "text/html".equals(type);
 	}
 
-	private static boolean isJaLanguageFromFileName(File file) {
+	private static boolean isJapaneseLanguageFromFileName(File file) {
 		String language = getSubtitleLanguageFromFileName(file.getName());
-		return "ja".equals(language);
+		return "jp".equals(language);
 	}
 
 	private static boolean isSubExtension(String ext) {
@@ -550,7 +550,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private final int approxMatchTimeDiff;
-	private final File bdmXmlFile;
+	private final File bdnXmlFile;
 	private final File cssFile;
 	private final String cssHiraganaFont;
 	private final String cssKanjiFont;
@@ -593,8 +593,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				translatedSubFile);
 		videoFile = getVideoFile(command, defaultFileList);
 		outputIdxFile = getOutputIdxFile(command, videoFile, defaultFileList);
-		bdmXmlFile = getOutputBdmFile(command, outputIdxFile, defaultFileList);
-		outputHtmlDirectory = getOutputHtmlDirectory(command, bdmXmlFile,
+		bdnXmlFile = getOutputBdnFile(command, outputIdxFile, defaultFileList);
+		outputHtmlDirectory = getOutputHtmlDirectory(command, bdnXmlFile,
 				defaultFileList);
 		wkhtmltoimageFile = getWkhtmltoimageFile(command);
 		outputJapaneseTextFile = getOutputJapaneseTextFile(command, videoFile,
@@ -795,7 +795,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 	@Override
 	public File getBdnXmlFile() {
-		return bdmXmlFile;
+		return bdnXmlFile;
 	}
 
 	@Override

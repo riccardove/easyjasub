@@ -8,8 +8,6 @@ mvn package
     
 oss parent pom is in http://repo1.maven.org/maven2/org/sonatype/oss/oss-parent/
 
-mvn release:rollback - rolls back the changes done in the pom and commits it to the scm
-mvn release:clean - cleans the workspace
 git tag - lists the tags, pick the one Maven made,
 git tag -d <tag> - removes the tag from the local index
 git push <remote> :<tag> - removes the tag from the remote, typically origin
@@ -21,4 +19,9 @@ https://oss.sonatype.org/content/groups/staging/com/github/riccardove/easyjasub/
 deploy url:
 https://oss.sonatype.org/service/local/staging/deploy/maven2/com/github/riccardove/easyjasub/
 
+To release:
 mvn deploy -DperformRelease=true
+
+the Maven release plug-in seems to have problems with Git
+mvn release:rollback - rolls back the changes done in the pom and commits it to the scm
+mvn release:clean - cleans the workspace

@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub.mecab;
+package com.github.riccardove.easyjasub;
 
 /*
  * #%L
@@ -23,18 +23,11 @@ package com.github.riccardove.easyjasub.mecab;
 
 import java.io.File;
 
-import com.github.riccardove.easyjasub.EasyJaSubTestCase;
-import com.github.riccardove.easyjasub.FakeEasyJaSubObserver;
-import com.github.riccardove.easyjasub.InputMeCab;
-import com.github.riccardove.easyjasub.SubtitleLine;
-import com.github.riccardove.easyjasub.SubtitleList;
-import com.github.riccardove.easyjasub.SubtitleListJapaneseSubFileReaderTest;
-
 public class InputMeCabTest extends EasyJaSubTestCase {
 
 	public void test() throws Exception {
 		File meCabOutputFile = getSampleFile("samplemecabout.txt");
-		File subtitleFile = getSampleFile("sample2.ja.ass");
+		File subtitleFile = getSampleFile("sample2.jp.ass");
 
 		Observer observer = new Observer();
 

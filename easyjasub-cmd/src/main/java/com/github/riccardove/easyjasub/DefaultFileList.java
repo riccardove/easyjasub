@@ -60,8 +60,8 @@ class DefaultFileList implements Iterable<File> {
 		if (fileName == null) {
 			fileName = command.getTranslatedSubFileName();
 		} else {
-			if (fileName.contains(".ja.")) {
-				fileName = fileName.replace(".ja.", ".");
+			if (fileName.contains(".jp.")) {
+				fileName = fileName.replace(".jp.", ".");
 			}
 		}
 		if (fileName == null) {

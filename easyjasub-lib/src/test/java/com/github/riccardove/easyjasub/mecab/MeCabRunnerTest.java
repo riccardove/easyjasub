@@ -21,8 +21,11 @@ package com.github.riccardove.easyjasub.mecab;
  */
 
 
+import org.junit.Ignore;
+
 import com.github.riccardove.easyjasub.EasyJaSubTestCase;
 
+@Ignore
 public class MeCabRunnerTest extends EasyJaSubTestCase {
 
 	public void test() throws Exception {

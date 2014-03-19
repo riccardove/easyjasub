@@ -27,7 +27,7 @@ import org.junit.Test;
 
 public class EasyJaSubInputFromCommandTest extends EasyJaSubCmdTestCase {
 
-	private static final String Sample1JaSub = "samples\\sample1.ja.ass";
+	private static final String Sample1JaSub = "samples\\sample1.jp.ass";
 	private static final String Sample1TrSub = "samples\\sample1.en.srt";
 	private static final String Sample1Html = "samples\\sample1.htm";
 	
@@ -40,7 +40,7 @@ public class EasyJaSubInputFromCommandTest extends EasyJaSubCmdTestCase {
 		EasyJaSubInputFromCommand obj = new EasyJaSubInputFromCommand(fakeInput);
 
 		assertEquals("sample1", obj.getDefaultFileNamePrefix());
-		assertInputFile(obj.getJapaneseSubFile(), "sample1.ja.ass");
+		assertInputFile(obj.getJapaneseSubFile(), "sample1.jp.ass");
 		assertInputFile(obj.getTranslatedSubFile(), "sample1.en.srt");
 		assertInputFile(obj.getNihongoJtalkHtmlFile(), "sample1.htm");
 		assertEquals(SubtitleFileType.ASS, obj.getJapaneseSubFileType());
@@ -69,7 +69,7 @@ public class EasyJaSubInputFromCommandTest extends EasyJaSubCmdTestCase {
 
 		assertEquals("sample1", obj.getDefaultFileNamePrefix());
 		assertInputFile(obj.getTranslatedSubFile(), "sample1.en.srt");
-		assertInputFile(obj.getJapaneseSubFile(), "sample1.ja.ass");
+		assertInputFile(obj.getJapaneseSubFile(), "sample1.jp.ass");
 		assertInputFile(obj.getNihongoJtalkHtmlFile(), "sample1.htm");
 		assertEquals(SubtitleFileType.ASS, obj.getJapaneseSubFileType());
 		assertEquals(SubtitleFileType.SRT, obj.getTranslatedSubFileType());
@@ -87,7 +87,7 @@ public class EasyJaSubInputFromCommandTest extends EasyJaSubCmdTestCase {
 		assertEquals("sample1", obj.getDefaultFileNamePrefix());
 		assertInputFile(obj.getNihongoJtalkHtmlFile(), "sample1.htm");
 		assertInputFile(obj.getTranslatedSubFile(), "sample1.en.srt");
-		assertInputFile(obj.getJapaneseSubFile(), "sample1.ja.ass");
+		assertInputFile(obj.getJapaneseSubFile(), "sample1.jp.ass");
 		assertEquals(SubtitleFileType.ASS, obj.getJapaneseSubFileType());
 		assertEquals(SubtitleFileType.SRT, obj.getTranslatedSubFileType());
 	}

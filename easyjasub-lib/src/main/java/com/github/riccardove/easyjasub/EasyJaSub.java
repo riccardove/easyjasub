@@ -282,6 +282,8 @@ public class EasyJaSub {
 		File jaF = command.getJapaneseSubFile();
 		if (jaF == null) {
 			observer.onReadJapaneseSubtitlesSkipped(jaF);
+			throw new EasyJaSubException(
+					"You must specify a valid Japanese subtitles file");
 		} else {
 			observer.onReadJapaneseSubtitlesStart(jaF);
 			try {
