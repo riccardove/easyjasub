@@ -318,11 +318,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static String getSubtitleLanguageFromFileName(String fileName) {
-		int index = fileName.lastIndexOf('.');
-		if (index > 3 && fileName.charAt(index - 3) == '.') {
-			return fileName.substring(index - 2, index);
-		}
-		return null;
+		return EasyJaSubLanguageCode.getLanguageCodeFromFileName(fileName);
 	}
 
 	private static int getTimeDiff(String name, String timeStr, int defaultValue)
@@ -330,17 +326,6 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return getInteger(name, timeStr, defaultValue, 100, 5000);
 	}
 
-	/**
-	 * TODO: use list of language codes for (LanguageCode code :
-	 * LanguageCode.values()) { System.out.format("[%s] %s\n", code,
-	 * code.getName()); }
-	 * 
-	 * @param command
-	 * @param defaultFileList
-	 * @param japaneseSubFile
-	 * @return
-	 * @throws EasyJaSubException
-	 */
 	private static File getTranslatedSubFile(EasyJaSubInputCommand command,
 			Iterable<File> defaultFileList, File japaneseSubFile)
 			throws EasyJaSubException {
@@ -445,8 +430,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static String getMeCabCommand(EasyJaSubInputCommand command,
-			File nihongoJtalkHtmlFile)
-			throws EasyJaSubException {
+			File nihongoJtalkHtmlFile) throws EasyJaSubException {
 		String fileName = command.getMeCabCommand();
 		if (isDisabled(fileName)) {
 			return null;
@@ -509,8 +493,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static boolean isJapaneseLanguageFromFileName(File file) {
-		String language = getSubtitleLanguageFromFileName(file.getName());
-		return "jp".equals(language);
+		return EasyJaSubLanguageCode.isJapaneseLanguageFromFileName(file
+				.getName());
 	}
 
 	private static boolean isSubExtension(String ext) {
@@ -732,8 +716,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static boolean getShowKanji(String show, File nihongoJtalkHtmlFile,
-			String meCabCommand)
-			throws EasyJaSubException {
+			String meCabCommand) throws EasyJaSubException {
 		if (show == null || isDefault(show)) {
 			return nihongoJtalkHtmlFile != null || meCabCommand != null;
 		}

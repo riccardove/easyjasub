@@ -2,7 +2,7 @@
 	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-	<id>portable-distribution</id>
+	<id>dist</id>
 	<formats>
 		<format>tar</format>
 	</formats>
@@ -31,15 +31,15 @@
 		</file>
 		<file>
 			<lineEnding>unix</lineEnding>
-			<source>../README.md</source>
+			<source>../README.txt</source>
 		</file>
 		<file>
 			<lineEnding>unix</lineEnding>
-			<source>../LICENSE</source>
+			<source>../LICENSE.txt</source>
 		</file>
 		<file>
 			<lineEnding>unix</lineEnding>
-			<source>../NOTICE</source>
+			<source>../NOTICE.txt</source>
 		</file>
 	</files>
 </assembly>

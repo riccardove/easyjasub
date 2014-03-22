@@ -60,18 +60,16 @@ class DefaultFileList implements Iterable<File> {
 		if (fileName == null) {
 			fileName = command.getTranslatedSubFileName();
 		} else {
-			if (fileName.contains(".jp.")) {
-				fileName = fileName.replace(".jp.", ".");
-			}
+			fileName = EasyJaSubLanguageCode
+					.removeJapaneseLanguageCodeFromFileName(fileName);
 		}
 		if (fileName == null) {
 			fileName = command.getNihongoJtalkHtmlFileName();
 		} else {
-			if (fileName.contains(".en.")) {
-				fileName = fileName.replace(".en.", ".");
-			}
+			fileName = EasyJaSubLanguageCode.removeLanguageCodeFromFileName(fileName);
 		}
 		if (fileName != null) {
+
 			int pathSeparatorIndex = fileName.lastIndexOf(File.separatorChar);
 			if (pathSeparatorIndex >= 0) {
 				fileName = fileName.substring(pathSeparatorIndex + 1);
