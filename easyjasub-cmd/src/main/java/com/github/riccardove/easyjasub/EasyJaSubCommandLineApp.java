@@ -23,6 +23,7 @@ package com.github.riccardove.easyjasub;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URI;
 
 class EasyJaSubCommandLineApp {
 	public EasyJaSubCommandLineApp(EasyJaSubCommandLine commandLine) {
@@ -43,8 +44,16 @@ class EasyJaSubCommandLineApp {
 		}
 		if (commandLine.isHelp()) {
 			printVersion(outputStream);
+			outputStream.println();
+			outputStream.println(EasyJaSubCmdLicense.getLicense());
+			outputStream.println();
+			outputStream.println(EasyJaSubLicense.getLicense());
+			outputStream.println();
+			outputStream.println();
+
 			commandLine.printHelp(outputStream, getCommandSample()
 					+ " [options]", null, null);
+			outputStream.println();
 			outputStream.print("Issues management: ");
 			outputStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
 			outputStream.flush();
@@ -58,20 +67,25 @@ class EasyJaSubCommandLineApp {
 			}
 			outputStream.println("Processing "
 					+ input.getDefaultFileNamePrefix());
-			printFile(outputStream, "Video file: ", input.getVideoFile());
+			URI baseDirectory = new File(SystemProperty.getUserDir()).toURI();
+			printFile(outputStream, "Video file: ", input.getVideoFile(),
+					baseDirectory);
 			printFile(outputStream, "Japanese subtitles file: ",
-					input.getJapaneseSubFile());
+					input.getJapaneseSubFile(), baseDirectory);
 			printFile(outputStream, "Translated subtitles file: ",
-					input.getTranslatedSubFile());
+					input.getTranslatedSubFile(), baseDirectory);
 			printFile(outputStream, "nihongo.j/talk.com file: ",
-					input.getNihongoJtalkHtmlFile());
-			printFile(outputStream, "CSS file: ", input.getCssFile());
+					input.getNihongoJtalkHtmlFile(), baseDirectory);
+			printFile(outputStream, "CSS file: ", input.getCssFile(),
+					baseDirectory);
 			printFile(outputStream, "HTML intermediate directory: ",
-					input.getOutputHtmlDirectory());
+					input.getOutputHtmlDirectory(), baseDirectory);
 			printFile(outputStream, "Japanese text file: ",
-					input.getOutputJapaneseTextFile());
-			printFile(outputStream, "BDN XML file: ", input.getBdnXmlFile());
-			printFile(outputStream, "IDX file: ", input.getOutputIdxFile());
+					input.getOutputJapaneseTextFile(), baseDirectory);
+			printFile(outputStream, "BDN XML file: ", input.getBdnXmlFile(),
+					baseDirectory);
+			printFile(outputStream, "IDX file: ", input.getOutputIdxFile(),
+					baseDirectory);
 			outputStream.flush();
 		} catch (EasyJaSubException ex) {
 			outputStream.println();
@@ -145,11 +159,15 @@ class EasyJaSubCommandLineApp {
 		outputStream.println();
 	}
 
+	private static String toRelativePath(File file, URI baseDirectory) {
+		return file.toURI().relativize(baseDirectory).getPath();
+	}
+
 	private static void printFile(PrintWriter outputStream, String message,
-			File file) throws IOException {
+			File file, URI baseDirectory) throws IOException {
 		if (file != null) {
 			outputStream.print(message);
-			outputStream.print(file.getCanonicalPath());
+			outputStream.print(toRelativePath(file, baseDirectory));
 			if (!file.exists()) {
 				outputStream.print('*');
 			}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ~ Copyright (c) 2014 Riccardo Vestrini ~ ~ This program is licensed 
+	to you under the Apache License Version 2.0, ~ and you may not use this file 
+	except in compliance with the Apache License Version 2.0. ~ You may obtain 
+	a copy of the Apache License Version 2.0 at http://www.apache.org/licenses/LICENSE-2.0. 
+	~ ~ Unless required by applicable law or agreed to in writing, ~ software 
+	distributed under the Apache License Version 2.0 is distributed on an ~ "AS 
+	IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
+	implied. ~ See the Apache License Version 2.0 for the specific language governing 
+	permissions and limitations there under. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>easyjasub-distribution</artifactId>
+	<packaging>pom</packaging>
+	<name>easyjasub-distribution</name>
+	<url>http://easyjasub.sourceforge.net</url>
+
+	<parent>
+		<groupId>com.github.riccardove.easyjasub</groupId>
+		<artifactId>easyjasub</artifactId>
+		<version>0.2.0-SNAPSHOT</version>
+	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>make-zip</id>
+						<phase>package</phase>
+						<configuration>
+							<descriptor>src/assembly/zip.xml</descriptor>
+							<finalName>${assembly.name}</finalName>
+						</configuration>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>make-tar</id>
+						<phase>package</phase>
+						<configuration>
+							<descriptor>src/assembly/tar.xml</descriptor>
+							<finalName>${assembly.name}</finalName>
+						</configuration>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.github.riccardove.easyjasub</groupId>
+			<artifactId>easyjasub-cmd</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+</project>

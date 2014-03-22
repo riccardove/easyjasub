@@ -8,28 +8,20 @@
 	IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
 	implied. ~ See the Apache License Version 2.0 for the specific language governing 
 	permissions and limitations there under. -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>easyjasub-cmd</artifactId>
 	<packaging>jar</packaging>
 	<name>easyjasub-cmd</name>
+	<url>http://easyjasub.sourceforge.net</url>
 
 	<parent>
 		<groupId>com.github.riccardove.easyjasub</groupId>
 		<artifactId>easyjasub</artifactId>
 		<version>0.2.0-SNAPSHOT</version>
 	</parent>
-
-	<properties>
-		<wix.version>${project.version}.1</wix.version>
-		<launch4j.name>easyjasub</launch4j.name>
-		<launch4j.jremin>1.7.0</launch4j.jremin>
-		<launch4j.jreheap>128</launch4j.jreheap>
-		<launch4j.jreheapmax>512</launch4j.jreheapmax>
-		<launch4j.icon>src/main/resources/com/github/riccardove/easyjasub/icon32.ico</launch4j.icon>
-		<main.class>com.github.riccardove.easyjasub.App</main.class>
-	</properties>
 
 	<build>
 		<resources>
@@ -50,22 +42,22 @@
 		</testResources>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.3</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>${main.class}</mainClass>
-						</manifest>
-					</archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-				</configuration>
 				<executions>
 					<execution>
 						<id>make-assembly</id>
 						<phase>package</phase>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>${main.class}</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
 						<goals>
 							<goal>single</goal>
 						</goals>
@@ -75,7 +67,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>1.4</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -92,7 +83,6 @@
 			<plugin>
 				<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
 				<artifactId>launch4j-plugin</artifactId>
-				<version>1.5.0.0</version>
 				<executions>
 					<execution>
 						<id>l4j-cli</id>
@@ -102,7 +92,7 @@
 						</goals>
 						<configuration>
 							<headerType>console</headerType>
-							<outfile>${project.build.directory}/${launch4j.name}.exe</outfile>
+							<outfile>${launch4j.outfile}</outfile>
 							<jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
 							<errTitle>${launch4j.name} Error</errTitle>
 							<classPath>
@@ -114,7 +104,7 @@
 								<initialHeapSize>${launch4j.jreheap}</initialHeapSize>
 								<maxHeapSize>${launch4j.jreheapmax}</maxHeapSize>
 								<opts>
-									<opt>-Dfile.encoding=UTF-8</opt>
+									<opt>${launch4j.jreopt}</opt>
 								</opts>
 							</jre>
 						</configuration>
@@ -130,11 +120,11 @@
 			<artifactId>easyjasub-lib</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>commons-cli</groupId>
-            <artifactId>commons-cli</artifactId>
-            <version>${easyjasub.commons-cli.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>${easyjasub.commons-cli.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.neovisionaries</groupId>
 			<artifactId>nv-i18n</artifactId>
@@ -142,5 +132,4 @@
 		</dependency>
 	</dependencies>
 
-	<url>http://easyjasub.sourceforge.net</url>
 </project>
