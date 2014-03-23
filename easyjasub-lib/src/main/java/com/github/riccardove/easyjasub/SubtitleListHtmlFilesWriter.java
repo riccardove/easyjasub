@@ -89,6 +89,8 @@ class SubtitleListHtmlFilesWriter {
 			if (command.getWkHtmlToImageCommand() != null
 					&& !command.showRomaji() && !command.showDictionary()
 					&& command.showFurigana() && command.showKanji()) {
+				// TODO: ruby may be used also for romaji+furigana or
+				// kanji+romaji etc.
 				appendRubyItems(html, items);
 			} else {
 				appendItems(html, command.showFurigana(),
