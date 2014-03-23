@@ -147,6 +147,10 @@ public class RendersnakeHtmlCanvas {
 		html._p();
 	}
 
+	public void ruby() throws IOException {
+		html.ruby();
+	}
+
 	public void ruby(String grammarElement) throws IOException {
 		html.ruby(class_(grammarElement));
 	}

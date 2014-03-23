@@ -48,9 +48,18 @@ class SubtitleListCssFileWriter {
 	}
 	
 	public void write() throws IOException {
-		// TODO: allow specifying sizes
+		final int shadow = 2;
+		final int kanjiSize = 40;
+		final int hiraganaSize = kanjiSize / 8 * 5;
+		final int inlineTranslationSize = hiraganaSize / 2;
+		final int furiganaSize = hiraganaSize * 2 / 3;
+		final int translationSize = furiganaSize;
+		final int lineHeight = (kanjiSize + furiganaSize) + 15;
+		final int kanjiSpacing = -(kanjiSize / 8);
+		final int hiraganaSpacing = -(hiraganaSize / 10);
 		w("body {");
-		w("	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;");
+		w("	text-shadow: -" + shadow + "px 0 black, 0 " + shadow + "px black, "
+				+ shadow + "px 0 black, 0 -" + shadow + "px black;");
 		w("	color: white;");
 		w("	text-align: center;");
 		w("}");
@@ -58,50 +67,53 @@ class SubtitleListCssFileWriter {
 		w("p {");
 		w("	margin-left: auto;");
 		w("	margin-right: auto;");
+		w("	margin-bottom: 3pt;");
+		w("	margin-top: 3pt;");
 		w("}");
 		w();
 		w("p.translation {");
 		if (translationFont != null) {
 			w("	font-family: " + translationFont + ";");
 		}
-		w("	font-size: 14pt;");
+		w("	font-size: " + translationSize + "pt;");
 		w("}");
 		w();
 		w("table {");
-		w("	letter-spacing: -4px;");
+		w("	letter-spacing: " + hiraganaSpacing + "px;");
 		w("	margin-left: auto;");
 		w("	margin-right: auto;");
 		w("}");
 		w();
 		w("p.ja {");
-		w("	letter-spacing: -4px;");
+		w("	letter-spacing: " + hiraganaSpacing + "px;");
 		if (hiraganaFont != null) {
 			w("	font-family: " + hiraganaFont + ";");
 		}
-		w("	font-size: 25pt;");
+		w("	font-size: " + hiraganaSize + "pt;");
+		w("	line-height: " + lineHeight + "pt;");
 		w("}");
 		w();
 		w("tr.top {");
-		w("	letter-spacing: -2px;");
+		w("	letter-spacing: " + hiraganaSpacing + "px;");
 		if (hiraganaFont != null) {
 			w("	font-family: " + hiraganaFont + ";");
 		}
-		w("	font-size: 18pt;");
+		w("	font-size: " + furiganaSize + "pt;");
 		w("}");
 		w();
 		w("rt {");
-		w("	letter-spacing: -2px;");
+		w("	letter-spacing: " + hiraganaSpacing + "px;");
 		if (hiraganaFont != null) {
 			w("	font-family: " + hiraganaFont + ";");
 		}
-		w("	font-size: 18pt;");
+		w("	font-size: " + furiganaSize + "pt;");
 		w("}");
 		w();
 		w("tr.bottom {");
 		if (translationFont != null) {
 			w("	font-family: " + translationFont + ";");
 		}
-		w("	font-size: 12pt;");
+		w("	font-size: " + translationSize + "pt;");
 		w("	letter-spacing: 3px;");
 		w("}");
 		w();
@@ -114,7 +126,7 @@ class SubtitleListCssFileWriter {
 		if (translationFont != null) {
 			w("	font-family: " + translationFont + ";");
 		}
-		w("	font-size: 12pt;");
+		w("	font-size: " + inlineTranslationSize + "pt;");
 		w("	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;");
 		w("	letter-spacing: 1px;");
 		w("}");
@@ -127,15 +139,15 @@ class SubtitleListCssFileWriter {
 		if (hiraganaFont != null) {
 			w("	font-family: " + hiraganaFont + ";");
 		}
-		w("	font-size: 25pt;");
+		w("	font-size: " + hiraganaSize + "pt;");
 		w("}");
 		w();
 		w("span.kk {");
-		w("	letter-spacing: -6px;");
+		w("	letter-spacing: " + kanjiSpacing + "px;");
 		if (kanjiFont != null) {
 			w("	font-family: " + kanjiFont + ";");
 		}
-		w("	font-size: 40pt;");
+		w("	font-size: " + kanjiSize + "pt;");
 		w("	margin-left: 0;");
 		w("	margin-right: 0;");
 		w("	padding: 0;");

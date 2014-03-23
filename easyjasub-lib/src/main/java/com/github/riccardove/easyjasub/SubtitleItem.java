@@ -25,7 +25,7 @@ import java.util.List;
 public class SubtitleItem {
 
 	private String furigana;
-	private String translation;
+	private String dictionary;
 	private String text;
 	private String romaji;
 	private String comment;
@@ -56,12 +56,12 @@ public class SubtitleItem {
 		this.furigana = furigana;
 	}
 
-	public String getTranslation() {
-		return translation;
+	public String getDictionary() {
+		return dictionary;
 	}
 
-	public void setTranslation(String translation) {
-		this.translation = translation;
+	public void setDictionary(String dictionary) {
+		this.dictionary = dictionary;
 	}
 
 	public String getText() {

@@ -110,7 +110,7 @@ class DictSubtitleLineItem extends RedSubtitleLineItem {
 			if (translation == null) {
 				translation = dict.get(0);
 			}
-			item.setTranslation(translation);
+			item.setDictionary(translation);
 			item.setComment(text + ": " + CommonsLangStringUtils.join(dict, ";"));
 		}
 		super.toItem(item);
