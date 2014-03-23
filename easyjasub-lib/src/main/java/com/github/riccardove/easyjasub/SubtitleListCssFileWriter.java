@@ -58,6 +58,9 @@ class SubtitleListCssFileWriter {
 		w("p {");
 		w("	margin-left: auto;");
 		w("	margin-right: auto;");
+		w("}");
+		w();
+		w("p.translation {");
 		if (translationFont != null) {
 			w("	font-family: " + translationFont + ";");
 		}
@@ -70,7 +73,23 @@ class SubtitleListCssFileWriter {
 		w("	margin-right: auto;");
 		w("}");
 		w();
+		w("p.ja {");
+		w("	letter-spacing: -4px;");
+		if (hiraganaFont != null) {
+			w("	font-family: " + hiraganaFont + ";");
+		}
+		w("	font-size: 25pt;");
+		w("}");
+		w();
 		w("tr.top {");
+		w("	letter-spacing: -2px;");
+		if (hiraganaFont != null) {
+			w("	font-family: " + hiraganaFont + ";");
+		}
+		w("	font-size: 18pt;");
+		w("}");
+		w();
+		w("rt {");
 		w("	letter-spacing: -2px;");
 		if (hiraganaFont != null) {
 			w("	font-family: " + hiraganaFont + ";");

@@ -20,14 +20,12 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.github.riccardove.easyjasub.rendersnake.RendersnakeHtmlCanvas;
-
 
 class SubtitleListHtmlFilesWriter {
 	private final File cssFile;
@@ -42,15 +40,14 @@ class SubtitleListHtmlFilesWriter {
 	}
 
 	private static String toRelativeURIStr(File file, File directory) {
-		return file.toURI().relativize(directory.toURI()).toString();
+		return directory.toURI().relativize(file.toURI()).toString();
 	}
 
 	public void writeHtmls(SubtitleList s, EasyJaSubInput command)
 			throws IOException {
 		// TODO construct relative url
 		String cssFileUrl = cssFile != null ? toRelativeURIStr(cssFile,
-				htmlDirectory)
-				: "default.css";
+				htmlDirectory) : "default.css";
 
 		ArrayList<EasyJaSubWriter> writers = new ArrayList<EasyJaSubWriter>(
 				s.size());
@@ -89,8 +86,15 @@ class SubtitleListHtmlFilesWriter {
 		List<SubtitleItem> items = s.getItems();
 		if (items != null) {
 			html.newline();
-			appendItems(html, command.showFurigana(), command.showDictionary(),
-					command.showRomaji(), command.showKanji(), items);
+			if (command.getWkHtmlToImageCommand() != null
+					&& !command.showRomaji() && !command.showDictionary()
+					&& command.showFurigana() && command.showKanji()) {
+				appendRubyItems(html, items);
+			} else {
+				appendItems(html, command.showFurigana(),
+						command.showDictionary(), command.showRomaji(),
+						command.showKanji(), items);
+			}
 		} else {
 			if (s.getSubText() != null) {
 				appendSubText(html, s);
@@ -108,6 +112,37 @@ class SubtitleListHtmlFilesWriter {
 		return html.toString();
 	}
 
+	private void appendRubyItems(RendersnakeHtmlCanvas html,
+			List<SubtitleItem> items) throws IOException {
+		html.p();
+		for (SubtitleItem item : items) {
+			if (item.getText() != null) {
+				String furigana = item.getFurigana();
+				if (furigana == null) {
+					appendText(html, item.getText());
+				} else {
+					appendRuby(html, item);
+				}
+			}
+		}
+
+		html._p();
+	}
+
+	private void appendRuby(RendersnakeHtmlCanvas html, SubtitleItem item)
+			throws IOException {
+		List<SubtitleItem.Inner> elements = item.getElements();
+		String text = item.getText();
+		if (elements == null) {
+			appendText(html, text);
+		} else {
+			html.ruby(item.getGrammarElement());
+			appendElements(html, elements);
+			html.rt(item.getFurigana());
+			html._ruby();
+		}
+	}
+
 	private static EasyJaSubWriter toFile(String text, File file)
 			throws IOException {
 		EasyJaSubWriter fw = new EasyJaSubWriter(file);
@@ -115,18 +150,23 @@ class SubtitleListHtmlFilesWriter {
 		return fw;
 	}
 
-
-	private void appendComment(RendersnakeHtmlCanvas html, List<SubtitleItem> items)
-			throws IOException {
-		html.comment();
+	private void appendComment(RendersnakeHtmlCanvas html,
+			List<SubtitleItem> items) throws IOException {
+		boolean hasComment = false;
 		for (SubtitleItem item : items) {
 			String comment = item.getComment();
 			if (comment != null) {
+				if (!hasComment) {
+					hasComment = true;
+					html.comment();
+				}
 				html.write(comment);
 				html.newline();
 			}
 		}
-		html._comment();
+		if (hasComment) {
+			html._comment();
+		}
 	}
 
 	private void appendTranslation(RendersnakeHtmlCanvas html, SubtitleLine line)
@@ -135,6 +175,7 @@ class SubtitleListHtmlFilesWriter {
 		if (translation != null) {
 			html.newline();
 			html.p(translation);
+			html.newline();
 		}
 	}
 
@@ -161,7 +202,6 @@ class SubtitleListHtmlFilesWriter {
 		}
 		html.tr("center");
 		for (SubtitleItem item : items) {
-			html.write("  ");
 			renderOnCenter(html, item, showKanji);
 			html.newline();
 		}
@@ -203,36 +243,47 @@ class SubtitleListHtmlFilesWriter {
 
 	private void renderOnCenter(RendersnakeHtmlCanvas html, SubtitleItem item,
 			boolean showKanji) throws IOException {
+		html.write("  ");
 		List<SubtitleItem.Inner> elements = item.getElements();
 		String text = item.getText();
 		if (text == null) {
 			html.tdEmpty();
 		} else if (elements == null) {
-			String trimmedText = text.replace('　', ' ').trim();
 			String styleClass = item.getGrammarElement();
 			if (styleClass == null) {
 				html.td();
 			} else {
 				html.tdOpen(styleClass);
 			}
-			html.write(trimmedText);
-			if (trimmedText.length() < text.length()) {
-				html.write("&thinsp;");
-			}
+			appendText(html, text);
 			html._td();
 		} else if (showKanji) {
 			html.tdOpen(item.getGrammarElement());
-			for (SubtitleItem.Inner element : elements) {
-				String kanji = element.getKanji();
-				if (kanji != null) {
-					html.span(kanji);
-				} else {
-					html.write(element.getText());
-				}
-			}
+			appendElements(html, elements);
 			html._td();
 		} else {
 			html.td(item.getGrammarElement(), item.getFurigana());
+		}
+	}
+
+	private void appendText(RendersnakeHtmlCanvas html, String text)
+			throws IOException {
+		String trimmedText = text.replace('　', ' ').trim();
+		html.write(trimmedText);
+		if (trimmedText.length() < text.length()) {
+			html.write("&thinsp;");
+		}
+	}
+
+	private void appendElements(RendersnakeHtmlCanvas html,
+			List<SubtitleItem.Inner> elements) throws IOException {
+		for (SubtitleItem.Inner element : elements) {
+			String kanji = element.getKanji();
+			if (kanji != null) {
+				html.span(kanji);
+			} else {
+				html.write(element.getText());
+			}
 		}
 	}
 

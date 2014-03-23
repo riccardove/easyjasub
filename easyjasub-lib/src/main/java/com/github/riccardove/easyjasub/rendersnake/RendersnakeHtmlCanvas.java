@@ -21,12 +21,17 @@ public class RendersnakeHtmlCanvas {
 
 	public void header(String cssFileRef, String charsetStr) throws IOException {
 		html.write("<!DOCTYPE html>", false)
+				.write(newLineStr, false)
 				.html(lang("ja"))
+				.write(newLineStr, false)
 				.head()
+				.write(newLineStr, false)
 				.meta(charset(charsetStr))
+				.write(newLineStr, false)
 				.write("<link href=\"" + cssFileRef
 						+ "\" rel=\"stylesheet\" type=\"text/css\" />", false)
-				._head().body();
+				.write(newLineStr, false)._head().write(newLineStr, false)
+				.body().write(newLineStr, false);
 	}
 
 	public void footer() throws IOException {
@@ -95,7 +100,7 @@ public class RendersnakeHtmlCanvas {
 	}
 
 	public void p(String translation) throws IOException {
-		html.p().write(translation, false)._p();
+		html.p(class_("translation")).write(translation, false)._p();
 	}
 
 	public void table(String string, String subText) throws IOException {
@@ -104,12 +109,32 @@ public class RendersnakeHtmlCanvas {
 	}
 
 	public void comment() throws IOException {
-		html.write("<!--");
+		html.write("<!--", false);
 		newline();
 	}
 
 	public void _comment() throws IOException {
-		html.write("-->");
+		html.write("-->", false);
 		newline();
+	}
+
+	public void p() throws IOException {
+		html.p(class_("ja"));
+	}
+
+	public void _p() throws IOException {
+		html._p();
+	}
+
+	public void ruby(String grammarElement) throws IOException {
+		html.ruby(class_(grammarElement));
+	}
+
+	public void rt(String furigana) throws IOException {
+		html.rt().write(furigana, false)._rt();
+	}
+
+	public void _ruby() throws IOException {
+		html._ruby();
 	}
 }
