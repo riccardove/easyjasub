@@ -307,12 +307,7 @@ public class EasyJaSub {
 	}
 
 	private void mkParentDirs(File file) throws EasyJaSubException {
-		File parent = file.getAbsoluteFile().getParentFile();
-		if (parent == null || (!parent.exists() && !parent.mkdirs())) {
-			throw new EasyJaSubException(
-					"Could not create parent directories for "
-							+ file.getAbsolutePath());
-		}
+		EasyJaSubWriter.mkParentDirs(file);
 	}
 
 	private void readJapaneseSubtitles(EasyJaSubInput command,

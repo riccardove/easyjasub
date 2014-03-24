@@ -44,24 +44,37 @@ public class EasyJaSubWriter {
 				EasyJaSubCharset.CHARSET);
 	}
 
-	public void print(String text) throws IOException {
-		writer.append(text);
+	public static void mkParentDirs(File file) throws EasyJaSubException {
+		File parent = file.getAbsoluteFile().getParentFile();
+		if (parent == null || (!parent.exists() && !parent.mkdirs())) {
+			throw new EasyJaSubException(
+					"Could not create parent directories for "
+							+ file.getAbsolutePath());
+		}
 	}
 
-	public void println(String text) throws IOException {
+	public EasyJaSubWriter print(String text) throws IOException {
+		writer.append(text);
+		return this;
+	}
+
+	public EasyJaSubWriter println(String text) throws IOException {
 		writer.append(text);
 		println();
+		return this;
 	}
 
 	public void close() throws IOException {
 		writer.close();
 	}
 
-	public void println() throws IOException {
+	public EasyJaSubWriter println() throws IOException {
 		writer.append(Newline);
+		return this;
 	}
 
-	public void flush() throws IOException {
+	public EasyJaSubWriter flush() throws IOException {
 		writer.flush();
+		return this;
 	}
 }

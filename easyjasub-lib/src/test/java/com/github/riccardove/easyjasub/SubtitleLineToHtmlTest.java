@@ -1,5 +1,9 @@
 package com.github.riccardove.easyjasub;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.StringReader;
+
 /*
  * #%L
  * easyjasub-lib
@@ -20,55 +24,117 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
-import java.io.IOException;
-import java.util.Arrays;
-
-import org.junit.Ignore;
-
-@Ignore
 public class SubtitleLineToHtmlTest extends EasyJaSubTestCase {
 
 	private static final String Css = "default.css";
 
-	public void test() throws IOException 
-	{
-		SubtitleLine line = getSampleLine1();
-		String text = new SubtitleLineToHtml(true, true, false, false, true,
-				false).toHtml(line, Css);
-		assertEquals("test", text);
+	private static SubtitleList sample1List;
+
+	static {
+		sample1List = readSampleSubtitleList("sample1.xml");
 	}
 
-	public void test2() throws IOException {
-		SubtitleLine line = getSampleLine1();
-		String text = new SubtitleLineToHtml(true, true, false, false, true,
-				false).toHtml(line, Css);
-		assertEquals("test", text);
+	private static SubtitleList readSampleSubtitleList(String fileName) {
+		try {
+			SubtitleList list = new SubtitleList();
+			new SubtitleListXmlFileReader(list).read(getSampleFile(fileName));
+			int index = 0;
+			for (SubtitleLine line : list) {
+				line.setIndex(++index);
+			}
+			return list;
+		} catch (Exception ex) {
+			return null;
+		}
 	}
 
-	private SubtitleLine getSampleLine1() {
-		SubtitleLine line = new SubtitleLine();
-		line.setTranslatedText("the translation");
-		line.setSubText("the sub text");
-		
-		SubtitleItem item1 = new SubtitleItem();
-		item1.setFurigana("furi");
-		item1.setText("text");
-		SubtitleItem.Inner inner11 = new SubtitleItem.Inner();
-		SubtitleItem.Inner inner12 = new SubtitleItem.Inner();
-		SubtitleItem.Inner inner13 = new SubtitleItem.Inner();
-		item1.setElements(Arrays.asList(inner11, inner12, inner13));
+	private static String toHtml(SubtitleLine line, boolean hasWkhtml,
+			boolean hasFurigana, boolean hasRomaji, boolean hasDictionary,
+			boolean hasKanji, boolean showTranslation) throws Exception {
+		return new SubtitleLineToHtml(hasWkhtml, hasFurigana, hasRomaji,
+				hasDictionary, hasKanji, showTranslation).toHtml(line, Css);
+	}
 
-		SubtitleItem item2 = new SubtitleItem();
-		item2.setFurigana("fuari");
-		item2.setText("tsfext");
-		SubtitleItem.Inner inner21 = new SubtitleItem.Inner();
-		SubtitleItem.Inner inner22 = new SubtitleItem.Inner();
-		item1.setElements(Arrays.asList(inner21, inner22));
+	public void testDefault() throws Exception {
+		runTestOnSample("default", "sample1", sample1List, true, true, false,
+				false, true, true);
+	}
 
-		SubtitleItem item3 = new SubtitleItem();
-		item3.setText("tteee");
-		line.setItems(Arrays.asList(item1, item2, item3));
-		return line;
+	public void testTableFormatDefault() throws Exception {
+		runTestOnSample("defaulttable", "sample1", sample1List, false, true,
+				false, false, true, true);
+	}
+
+	public void testTableFormatNoFurigana() throws Exception {
+		runTestOnSample("nofuriganatable", "sample1", sample1List, false, false,
+				false, false, true, true);
+	}
+
+	public void testTableFormatRomaji() throws Exception {
+		runTestOnSample("romajitable", "sample1", sample1List, false, false,
+				true, false, true, true);
+	}
+
+	public void testAddRomaji() throws Exception {
+		runTestOnSample("addromaji", "sample1", sample1List, false, true, true,
+				false, true, true);
+	}
+
+	public void testRomaji() throws Exception {
+		runTestOnSample("romaji", "sample1", sample1List, true, false, true,
+				false, true, true);
+	}
+
+	public void testOnlyRomaji() throws Exception {
+		runTestOnSample("onlyromaji", "sample1", sample1List, true, false,
+				true, false, false, true);
+	}
+
+	public void testOnlyFurigana() throws Exception {
+		runTestOnSample("onlyfurigana", "sample1", sample1List, true, true,
+				false,
+				false, false, true);
+	}
+
+	public void testFuriganaAndRomaji() throws Exception {
+		runTestOnSample("furiganaromaji", "sample1", sample1List, true, true,
+				true, false, false, true);
+	}
+
+	private void runTestOnSample(String name, String sample, SubtitleList list,
+			boolean hasWkhtml, boolean hasFurigana, boolean hasRomaji,
+			boolean hasDictionary, boolean hasKanji, boolean showTranslation) throws Exception {
+		File directory = getSampleHtmlOutputDirectory(name, sample);
+		for (SubtitleLine line : list) {
+			String html = toHtml(line, hasWkhtml, hasFurigana, hasRomaji,
+					hasDictionary, hasKanji, showTranslation);
+
+			String fileName = "line" + String.format("%04d", line.getIndex())
+					+ ".html";
+			File file = new File(directory, fileName);
+			if (!file.exists()) {
+				// writes the sample file if it does not exist
+				if (!directory.exists()) {
+					directory.mkdirs();
+				}
+				new EasyJaSubWriter(file).print(html)
+						.close();
+			} else {
+				EasyJaSubReader reader = new EasyJaSubReader(file);
+				String lineStr = null;
+				String htmlLineStr = null;
+				int index = 0;
+				BufferedReader htmlReader = new BufferedReader(
+						new StringReader(html));
+				do {
+					++index;
+					lineStr = reader.readLine();
+					htmlLineStr = htmlReader.readLine();
+					assertEquals("Error at line " + index, lineStr, htmlLineStr);
+				} while (lineStr != null);
+				reader.close();
+				htmlReader.close();
+			}
+		}
 	}
 }

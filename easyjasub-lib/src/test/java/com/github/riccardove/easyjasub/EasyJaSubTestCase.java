@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 public abstract class EasyJaSubTestCase extends TestCase {
 
 	private static final File samplesFile = new File("samples");
+	private static final File samplesHtmlFile = new File(samplesFile, "html");
 	
 	private static final boolean IS_ECLIPSE;
 	static {
@@ -50,6 +51,15 @@ public abstract class EasyJaSubTestCase extends TestCase {
 		File file = new File(samplesFile, name);
 		assertTrue("Could not find file " + file.getAbsolutePath() + " from " + SystemProperty.getUserDir(), file.exists());
 		return file;
+	}
+
+	protected static File getSampleHtmlOutputDirectory() {
+		return samplesHtmlFile;
+	}
+
+	protected static File getSampleHtmlOutputDirectory(String directory,
+			String name) {
+		return new File(samplesHtmlFile, directory + File.separator + name);
 	}
 
 	protected static String getMeCabExePath() {

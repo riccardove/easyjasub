@@ -50,10 +50,10 @@ class SubtitleLineToHtml {
 		RendersnakeHtmlCanvas html = new RendersnakeHtmlCanvas(
 				EasyJaSubWriter.Newline);
 		html.header(cssFileRef, EasyJaSubCharset.CHARSETSTR);
+		html.newline();
 
 		List<SubtitleItem> items = s.getItems();
 		if (items != null) {
-			html.newline();
 			if (hasWkhtml && canUseRuby()) {
 				appendRubyItems(html, items);
 			} else {
@@ -79,13 +79,13 @@ class SubtitleLineToHtml {
 	private void appendRubyItems(RendersnakeHtmlCanvas html,
 			List<SubtitleItem> items) throws IOException {
 		html.p();
-		html.newline();
 		for (SubtitleItem item : items) {
 			if (item.getText() != null) {
 				appendRuby(html, item);
 			}
 		}
 		html._p();
+		html.newline();
 	}
 
 	private void appendRuby(RendersnakeHtmlCanvas html, SubtitleItem item)
