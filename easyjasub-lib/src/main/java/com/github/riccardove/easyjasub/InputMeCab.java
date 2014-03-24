@@ -132,6 +132,7 @@ public class InputMeCab {
 
 				Grammar grammar = grammarElements.translate(meCabItem
 						.getGrammarElement());
+				subsItem.setGrammarElement(grammar.toString());
 				if (grammar == Grammar.undef) {
 					unknownGrammar.add(meCabItem.getGrammarElement());
 				}

@@ -32,8 +32,8 @@ import com.github.riccardove.easyjasub.inputtextsub.InputTextSubFile;
 
 class SubtitleListTranslatedSubFileReader {
 	
-	private int msecondsMatch;
-	private int msecondsApproxMatch;
+	private final int msecondsMatch;
+	private final int msecondsApproxMatch;
 
 	public SubtitleListTranslatedSubFileReader(int msecondsMatch, int msecondsApproxMatch) {
 		this.msecondsMatch = msecondsMatch;
@@ -118,7 +118,7 @@ class SubtitleListTranslatedSubFileReader {
 	}
 	
 	private static final Pattern TranslationReplace = Pattern.compile("<br ?/>");
-	private static final String BreakStr = "&nbsp;&nbsp;&nbsp;";
+	private static final String BreakStr = "  ";
 
 	private boolean startsAfter(SubtitleLine line, InputTextSubCaption translatedCaption) {
 		return line.getStartTime() >= translatedCaption.getEnd().getMSeconds();

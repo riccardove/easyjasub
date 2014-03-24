@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,8 +42,7 @@ class SubtitleListXmlFileReader {
 		this.list = list;
 	}
 
-	public void read(File file) throws IOException,
-			SAXException {
+	public void read(File file) throws IOException, SAXException {
 		Handler handler = new Handler();
 		new EasyJaSubXmlReader(handler).parse(file);
 	}
@@ -57,10 +55,12 @@ class SubtitleListXmlFileReader {
 		}
 		case items: {
 			items = new ArrayList<SubtitleItem>();
+			break;
 		}
 		case item: {
 			item = new SubtitleItem();
 			items.add(item);
+			break;
 		}
 		case inner: {
 			elements = new ArrayList<Inner>();
@@ -74,8 +74,7 @@ class SubtitleListXmlFileReader {
 
 	private void onEndElement(SubtitleListXmlElement element, String text) {
 		switch (element) {
-		case title:
-		{
+		case title: {
 			list.setTitle(text);
 			break;
 		}
@@ -84,38 +83,35 @@ class SubtitleListXmlFileReader {
 			items = null;
 			break;
 		}
-		case translation:{
+		case translation: {
 			line.setTranslatedText(text);
 			break;
-		} 
+		}
 		case text: {
 			line.setSubText(text);
 			break;
 		}
 		case item: {
 			item = null;
+			break;
 		}
-		case grammar:
-		{
+		case grammar: {
 			item.setGrammarElement(text);
 			break;
 		}
 		case dictionary: {
 			item.setDictionary(text);
 			break;
-		} 
-		case furigana: 
-			{
-				item.setFurigana(text);
-				break;
-			}
-		case romaji: 
-		{
+		}
+		case furigana: {
+			item.setFurigana(text);
+			break;
+		}
+		case romaji: {
 			item.setRomaji(text);
 			break;
 		}
-		case itemtext: 
-		{
+		case itemtext: {
 			item.setText(text);
 			break;
 		}
@@ -125,16 +121,19 @@ class SubtitleListXmlFileReader {
 		}
 		case comment: {
 			item.setComment(text);
+			break;
 		}
 		case chars: {
 			Inner inner = new Inner();
 			inner.setText(text);
 			elements.add(inner);
+			break;
 		}
 		case kanji: {
 			Inner inner = new Inner();
 			inner.setKanji(text);
 			elements.add(inner);
+			break;
 		}
 		case start: {
 			line.setStartTime(Integer.parseInt(text));
@@ -173,6 +172,7 @@ class SubtitleListXmlFileReader {
 		@Override
 		public void endElement(String uri, String localName, String qName)
 				throws SAXException {
+			element = SubtitleListXmlElement.valueOf(qName);
 			onEndElement(element, text.toString());
 			element = SubtitleListXmlElement.undef;
 			text.setLength(0);
