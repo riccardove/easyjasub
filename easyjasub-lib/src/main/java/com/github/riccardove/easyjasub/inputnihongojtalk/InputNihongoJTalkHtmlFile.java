@@ -20,21 +20,14 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
  * #L%
  */
 
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
 
-import com.github.riccardove.easyjasub.EasyJaSubCharset;
 import com.github.riccardove.easyjasub.EasyJaSubObserver;
+import com.github.riccardove.easyjasub.EasyJaSubXmlReader;
 import com.github.riccardove.easyjasub.SubtitleLine;
 import com.github.riccardove.easyjasub.SubtitleList;
 
@@ -43,71 +36,60 @@ public class InputNihongoJTalkHtmlFile {
 	private static final String TAGSOUP_PARSER = "org.ccil.cowan.tagsoup.Parser";
 
 	public void parse(File file, SubtitleList subs, EasyJaSubObserver observer)
-			throws IOException, SAXException
-	{
+			throws IOException, SAXException {
 		NihongoJTalkSubtitleList nlist = new NihongoJTalkSubtitleList();
-	    XMLReader saxParser = XMLReaderFactory.createXMLReader(TAGSOUP_PARSER);
+		InputNihongoJTalkHtmlHandler handler = new InputNihongoJTalkHtmlHandler(
+				nlist, observer);
 
-	    InputNihongoJTalkHtmlHandler handler = new InputNihongoJTalkHtmlHandler(nlist, observer);
+		EasyJaSubXmlReader saxParser = new EasyJaSubXmlReader(TAGSOUP_PARSER,
+				handler, handler);
+		saxParser.parse(file);
 
-	    saxParser.setContentHandler(handler);
-		saxParser.setEntityResolver(handler);
-		
-		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), EasyJaSubCharset.CHARSET));
-
-		saxParser.parse(new InputSource(br));
-		
-		br.close();
-		
-		
-	    int index = 0;
-	    int nIndex = 0;
-	    int size = subs.size();
-	    int nsize = nlist.size();
-	    ArrayList<Integer> subsSkipped = new ArrayList<Integer>();
-	    ArrayList<Integer> nSkipped = new ArrayList<Integer>();
-	    while (index < size && nIndex < nsize) {
-	    	SubtitleLine line = subs.get(index);
-	    	if (line.getJapaneseSubKey() == null) {
-	    		index++;
-	    	}
-	    	else {
-		    	NihongoJTalkSubtitleLine nline = nlist.get(nIndex);
-		    	if (nline.getJapaneseKey() == null) {
-		    		nIndex++;
-		    	}
-		    	else {
-		    		if (areCompatible(line, nline)) {
-		    	    	joinLines(nline, line);
-		    	    	nIndex++;
-		    	    	index++;
-		    		}
-		    		else {
-		    			int subsequentNIndex = 
-		    					findInSubsequentNihongoJTalkSubtitleLines(line, nIndex, nlist);
-		    			if (subsequentNIndex > 0) {
-			    	    	joinLines(nlist.get(subsequentNIndex), line);
-			    	    	index++;
-			    	    	for (int j = nIndex; j<subsequentNIndex; ++j) {
-				    	    	nSkipped.add(j);
-			    	    	}
-			    	    	nIndex = subsequentNIndex+1;
-		    			}
-		    			else {
-		    				int subsequentIndex = findInSubsequentSubtitleLines(nline, index, subs);
-			    			if (subsequentIndex > 0) {
-				    	    	joinLines(nline, subs.get(subsequentIndex));
-				    	    	nIndex++;
-				    	    	for (int j = index; j<subsequentIndex; ++j) {
-				    	    		subsSkipped.add(j);
-				    	    	}
-				    	    	index = subsequentIndex+1;
-			    			}
-		    			}
-		    		}
-		    	}
-	    	}
-	    }
+		int index = 0;
+		int nIndex = 0;
+		int size = subs.size();
+		int nsize = nlist.size();
+		ArrayList<Integer> subsSkipped = new ArrayList<Integer>();
+		ArrayList<Integer> nSkipped = new ArrayList<Integer>();
+		while (index < size && nIndex < nsize) {
+			SubtitleLine line = subs.get(index);
+			if (line.getJapaneseSubKey() == null) {
+				index++;
+			} else {
+				NihongoJTalkSubtitleLine nline = nlist.get(nIndex);
+				if (nline.getJapaneseKey() == null) {
+					nIndex++;
+				} else {
+					if (areCompatible(line, nline)) {
+						joinLines(nline, line);
+						nIndex++;
+						index++;
+					} else {
+						int subsequentNIndex = findInSubsequentNihongoJTalkSubtitleLines(
+								line, nIndex, nlist);
+						if (subsequentNIndex > 0) {
+							joinLines(nlist.get(subsequentNIndex), line);
+							index++;
+							for (int j = nIndex; j < subsequentNIndex; ++j) {
+								nSkipped.add(j);
+							}
+							nIndex = subsequentNIndex + 1;
+						} else {
+							int subsequentIndex = findInSubsequentSubtitleLines(
+									nline, index, subs);
+							if (subsequentIndex > 0) {
+								joinLines(nline, subs.get(subsequentIndex));
+								nIndex++;
+								for (int j = index; j < subsequentIndex; ++j) {
+									subsSkipped.add(j);
+								}
+								index = subsequentIndex + 1;
+							}
+						}
+					}
+				}
+			}
+		}
 		if (index < size) {
 			for (int j = index; j < size; ++j) {
 				subsSkipped.add(j);
@@ -118,36 +100,36 @@ public class InputNihongoJTalkHtmlFile {
 				nSkipped.add(j);
 			}
 		}
-	    if (nSkipped.size() > 0 ||
-	    	subsSkipped.size() > 0) {
-	    	observer.onInputNihongoJTalkHtmlLineParseSkipped(nSkipped, subsSkipped);
-	    }
+		if (nSkipped.size() > 0 || subsSkipped.size() > 0) {
+			observer.onInputNihongoJTalkHtmlLineParseSkipped(nSkipped,
+					subsSkipped);
+		}
 	}
 
-	private int findInSubsequentNihongoJTalkSubtitleLines(SubtitleLine line, int startIndex, NihongoJTalkSubtitleList nlist) {
+	private int findInSubsequentNihongoJTalkSubtitleLines(SubtitleLine line,
+			int startIndex, NihongoJTalkSubtitleList nlist) {
 		int size = nlist.size();
-		for (int i=startIndex+1; i<size; ++i) {
+		for (int i = startIndex + 1; i < size; ++i) {
 			NihongoJTalkSubtitleLine nLine = nlist.get(i);
-			if (nLine.getJapaneseKey() != null &&
-				areCompatible(line, nLine)) {
+			if (nLine.getJapaneseKey() != null && areCompatible(line, nLine)) {
 				return i;
 			}
 		}
 		return -1;
 	}
 
-	private int findInSubsequentSubtitleLines(NihongoJTalkSubtitleLine line, int startIndex, SubtitleList nlist) {
+	private int findInSubsequentSubtitleLines(NihongoJTalkSubtitleLine line,
+			int startIndex, SubtitleList nlist) {
 		int size = nlist.size();
-		for (int i=startIndex+1; i<size; ++i) {
+		for (int i = startIndex + 1; i < size; ++i) {
 			SubtitleLine nLine = nlist.get(i);
-			if (nLine.getJapaneseSubKey() != null &&
-				areCompatible(nLine, line)) {
+			if (nLine.getJapaneseSubKey() != null && areCompatible(nLine, line)) {
 				return i;
 			}
 		}
 		return -1;
 	}
-	
+
 	private boolean areCompatible(SubtitleLine line,
 			NihongoJTalkSubtitleLine nline) {
 		return nline.getJapaneseKey().equals(line.getJapaneseSubKey());

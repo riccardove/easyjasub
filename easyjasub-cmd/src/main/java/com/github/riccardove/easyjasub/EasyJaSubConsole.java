@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,6 +28,7 @@ import java.util.Set;
 
 import org.xml.sax.SAXException;
 
+import com.github.riccardove.easyjasub.commons.CommonsLangStringUtils;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 class EasyJaSubConsole implements EasyJaSubObserver {
@@ -74,7 +74,8 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlFileParseEnd(File file, Set<String> posset) {
+	public void onInputNihongoJTalkHtmlFileParseEnd(File file,
+			Set<String> posset) {
 		lowVerboseMessage("onInputNihongoJTalkHtmlFileParseEnd "
 				+ toString(file) + " "
 				+ CommonsLangStringUtils.join(posset, ","));
@@ -135,8 +136,7 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	public void onWriteImagesStart(String wkhtml, File htmlFolder,
 			File bdnFolder, int width) {
 		lowVerboseMessage("onWriteImagesStart " + toString(bdnFolder) + " "
-				+ wkhtml
-				+ " " + width);
+				+ wkhtml + " " + width);
 	}
 
 	@Override
@@ -198,81 +198,94 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	@Override
 	public void onReadJapaneseSubtitlesIOError(File file, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error reading japanese subtitles file " + toString(file) + ": " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error reading japanese subtitles file "
+				+ toString(file) + ": " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onReadJapaneseSubtitlesParseError(File file,
 			InputTextSubException ex) throws EasyJaSubException {
-		throw new EasyJaSubException("Error parsing japanese subtitles file " + toString(file) + " content: " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error parsing japanese subtitles file "
+				+ toString(file) + " content: " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileIOError(File file, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error reading nihongo.j-talk file " + toString(file) + ": " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error reading nihongo.j-talk file "
+				+ toString(file) + ": " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onInputNihongoJTalkHtmlFileParseError(File file, SAXException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error parsing nihongo.j-talk file " + toString(file) + "content: " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error parsing nihongo.j-talk file "
+				+ toString(file) + "content: " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onReadTranslatedSubtitlesIOError(File file, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error reading translated subtitles file " + toString(file) + ": " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error reading translated subtitles file "
+				+ toString(file) + ": " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onReadTranslatedSubtitlesParseError(File file,
 			InputTextSubException ex) throws EasyJaSubException {
-		throw new EasyJaSubException("Error parsing translated subtitles file " + toString(file) + " content: " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error parsing translated subtitles file "
+				+ toString(file) + " content: " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onWriteCssIOError(File file, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error writing css file " + toString(file) + " : " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error writing css file " + toString(file)
+				+ " : " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onWriteHtmlError(File htmlFolder, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error writing html file on folder " + toString(htmlFolder) + " : " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error writing html file on folder "
+				+ toString(htmlFolder) + " : " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onWriteImagesWkhtmlError(File bdnFolder, Exception ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error invoking wkhtmltoimage to write files on folder " + toString(bdnFolder) + " : " + ex.getLocalizedMessage());
+		throw new EasyJaSubException(
+				"Error invoking wkhtmltoimage to write files on folder "
+						+ toString(bdnFolder) + " : "
+						+ ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onWriteImagesIOError(File bdnFolder, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error writing image files on folder " + toString(bdnFolder) + " : " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error writing image files on folder "
+				+ toString(bdnFolder) + " : " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onWriteBdnXmlFileIOError(File file, IOException ex)
 			throws EasyJaSubException {
-		throw new EasyJaSubException("Error writing BDMXML file " + toString(file) + " : " + ex.getLocalizedMessage());
+		throw new EasyJaSubException("Error writing BDMXML file "
+				+ toString(file) + " : " + ex.getLocalizedMessage());
 	}
 
 	@Override
-	public void onWriteOutputJapaneseTextFileIOError(File file,
-			IOException ex) throws EasyJaSubException {
-		throw new EasyJaSubException("Error writing japanese text file " + toString(file) + " : " + ex.getLocalizedMessage());
+	public void onWriteOutputJapaneseTextFileIOError(File file, IOException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error writing japanese text file "
+				+ toString(file) + " : " + ex.getLocalizedMessage());
 	}
 
 	@Override
 	public void onTranslatedSubDuplicated(String content, int mSeconds,
 			int startTime) {
 		lowVerboseMessage("Duplicated translation caption " + content
-				+ " starting at "
-				+ mSeconds + " at " + startTime);
+				+ " starting at " + mSeconds + " at " + startTime);
 	}
 
 	@Override
@@ -333,11 +346,11 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	public void onReadJapaneseSubtitlesSkipped(File file) {
 		lowVerboseMessage("onReadJapaneseSubtitlesSkipped " + toString(file));
 	}
-	
+
 	private static String toString(File file) {
 		return file != null ? file.getAbsolutePath() : "<null>";
 	}
-	
+
 	private static String toString(String text) {
 		return text != null ? text : "<null>";
 	}
@@ -415,5 +428,51 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 					+ CommonsLangStringUtils.join(pronunciationErrors,
 							SystemProperty.getLineSeparator()));
 		}
+	}
+
+	@Override
+	public void onWriteXmlFileStart(File file) {
+		lowVerboseMessage("onWriteXmlFileStart " + toString(file));
+	}
+
+	@Override
+	public void onWriteXmlFileEnd(File file) {
+		lowVerboseMessage("onWriteXmlFileEnd " + toString(file));
+	}
+
+	@Override
+	public void onWriteXmlFileIOError(File file, IOException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error writing XML file " + toString(file)
+				+ ": " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onWriteXmlFileSkipped(File file) {
+		lowVerboseMessage("onWriteXmlFileSkipped " + toString(file));
+	}
+
+	@Override
+	public void onReadXmlFileStart(File file) {
+		lowVerboseMessage("onReadXmlFileStart " + toString(file));
+	}
+
+	@Override
+	public void onReadXmlFileEnd(File file) {
+		lowVerboseMessage("onReadXmlFileEnd " + toString(file));
+	}
+
+	@Override
+	public void onReadXmlFileIOError(File file, IOException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error reading input XML file "
+				+ toString(file) + ": " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onReadXmlFileError(File file, SAXException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error parsing input XML file "
+				+ toString(file) + ": " + ex.getLocalizedMessage());
 	}
 }

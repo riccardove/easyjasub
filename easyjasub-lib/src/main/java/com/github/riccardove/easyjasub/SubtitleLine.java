@@ -82,10 +82,6 @@ public class SubtitleLine {
 		endTime = mSeconds;
 	}
 
-	public void setJapaneseSubText(String content) {
-		japanese = content;
-	}
-
 	public List<SubtitleItem> getItems() {
 		return items;
 	}
@@ -103,10 +99,6 @@ public class SubtitleLine {
 	}
 
 	private String japaneseSubKey;
-	
-	public void setJapaneseSubKey(String japaneseSubKey) {
-		this.japaneseSubKey = japaneseSubKey;
-	}
 
 	/**
 	 * Key string containing only japanese chars in the caption, used for comparisons
@@ -119,6 +111,10 @@ public class SubtitleLine {
 	
 	public void setSubText(String subText) {
 		this.subText = subText;
+		japaneseSubKey = JapaneseChar.getJapaneseKey(subText);
+		if (japaneseSubKey != null) {
+			japanese = subText;
+		}
 	}
 
 	/**

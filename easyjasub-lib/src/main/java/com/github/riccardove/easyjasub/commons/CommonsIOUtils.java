@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub;
+package com.github.riccardove.easyjasub.commons;
 
 /*
  * #%L
@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
+
+import com.github.riccardove.easyjasub.EasyJaSubCharset;
 
 public final class CommonsIOUtils {
 

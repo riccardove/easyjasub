@@ -3,6 +3,8 @@ package com.github.riccardove.easyjasub;
 import java.lang.Character.UnicodeBlock;
 import java.util.ArrayList;
 
+import com.github.riccardove.easyjasub.commons.CommonsLangStringUtils;
+
 /*
  * #%L
  * easyjasub

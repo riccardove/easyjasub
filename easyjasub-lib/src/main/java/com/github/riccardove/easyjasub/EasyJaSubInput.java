@@ -46,6 +46,8 @@ public interface EasyJaSubInput {
 
 	public abstract File getOutputIdxFile();
 
+	public abstract File getXmlFile();
+
 	public abstract File getOutputHtmlDirectory();
 
 	public abstract File getCssFile();

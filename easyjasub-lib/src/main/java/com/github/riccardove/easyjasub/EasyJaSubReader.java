@@ -27,6 +27,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.xml.sax.InputSource;
+
+/**
+ * Simple helper to read text files
+ */
 public class EasyJaSubReader {
 
 	private final BufferedReader reader;
@@ -46,5 +51,9 @@ public class EasyJaSubReader {
 
 	public void close() throws IOException {
 		reader.close();
+	}
+
+	public InputSource getInputSource() {
+		return new InputSource(reader);
 	}
 }

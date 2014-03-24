@@ -177,56 +177,11 @@ public class InputMeCab {
 
 	private void trySetFurigana(String text, String furigana, SubtitleItem item) {
 
-		ArrayList<SubtitleItem.Inner> list = new ArrayList<SubtitleItem.Inner>();
-		String kanjiChars = null;
-		String chars = null;
-		boolean hasKanji = false;
-		for (int i = 0; i < text.length(); i++) {
-			char c = text.charAt(i);
-			if (!JapaneseChar.isSmallSizeJapaneseChar(c)) {
-				hasKanji = true;
-				if (chars != null) {
-					addText(list, chars);
-					chars = null;
-				}
-				if (kanjiChars == null) {
-					kanjiChars = Character.toString(c);
-				} else {
-					kanjiChars += c;
-				}
-			} else {
-				if (kanjiChars != null) {
-					addKanji(list, kanjiChars);
-					kanjiChars = null;
-				}
-				if (chars == null) {
-					chars = Character.toString(c);
-				} else {
-					chars += c;
-				}
-			}
-		}
-		if (kanjiChars != null) {
-			addKanji(list, kanjiChars);
-		}
-		if (chars != null) {
-			addText(list, chars);
-		}
-		if (hasKanji) {
+		List<SubtitleItem.Inner> list = new SubtitleItemElementsList()
+				.createElementsList(text, furigana, item);
+		if (list != null) {
 			item.setElements(list);
 			item.setFurigana(furigana);
 		}
-	}
-
-	private void addText(ArrayList<SubtitleItem.Inner> list, String chars) {
-		SubtitleItem.Inner inner = new SubtitleItem.Inner();
-		inner.setText(chars);
-		list.add(inner);
-	}
-
-	private void addKanji(ArrayList<SubtitleItem.Inner> list, String chars) {
-		SubtitleItem.Inner inner = new SubtitleItem.Inner();
-		inner.setKanji(chars);
-		list.add(inner);
 	}
 }

@@ -396,4 +396,55 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	}
 
+	@Override
+	public void onWriteXmlFileStart(File f) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onWriteXmlFileEnd(File f) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onWriteXmlFileIOError(File f, IOException ex)
+			throws EasyJaSubException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onWriteXmlFileSkipped(File f) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onReadXmlFileStart(File f) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onReadXmlFileEnd(File f) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onReadXmlFileIOError(File f, IOException ex)
+			throws EasyJaSubException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onReadXmlFileError(File f, SAXException ex)
+			throws EasyJaSubException {
+		// TODO Auto-generated method stub
+
+	}
+
 }

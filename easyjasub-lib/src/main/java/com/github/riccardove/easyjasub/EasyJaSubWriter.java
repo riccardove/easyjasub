@@ -27,6 +27,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+/**
+ * Simple helper to write text files
+ */
 public class EasyJaSubWriter {
 
 	private final OutputStreamWriter writer;
@@ -39,6 +42,10 @@ public class EasyJaSubWriter {
 	public EasyJaSubWriter(OutputStream outputStream) throws IOException {
 		this.writer = new OutputStreamWriter(outputStream,
 				EasyJaSubCharset.CHARSET);
+	}
+
+	public void print(String text) throws IOException {
+		writer.append(text);
 	}
 
 	public void println(String text) throws IOException {

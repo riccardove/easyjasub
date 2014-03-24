@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -56,7 +55,8 @@ public interface EasyJaSubObserver {
 
 	void onWriteHtmlEnd(File htmlFolder);
 
-	void onWriteImagesStart(String wkhtml, File htmlFolder, File bdnFolder, int width);
+	void onWriteImagesStart(String wkhtml, File htmlFolder, File bdnFolder,
+			int width);
 
 	void onWriteImagesEnd(String wkhtml, File htmlFolder, File bdnFolder);
 
@@ -78,29 +78,41 @@ public interface EasyJaSubObserver {
 
 	void onWriteImage(File pngFile, File file);
 
-	void onReadJapaneseSubtitlesIOError(File jaF, IOException ex) throws EasyJaSubException;
+	void onReadJapaneseSubtitlesIOError(File jaF, IOException ex)
+			throws EasyJaSubException;
 
-	void onReadJapaneseSubtitlesParseError(File jaF, InputTextSubException ex) throws EasyJaSubException;
+	void onReadJapaneseSubtitlesParseError(File jaF, InputTextSubException ex)
+			throws EasyJaSubException;
 
-	void onInputNihongoJTalkHtmlFileIOError(File f, IOException ex) throws EasyJaSubException;
+	void onInputNihongoJTalkHtmlFileIOError(File f, IOException ex)
+			throws EasyJaSubException;
 
-	void onInputNihongoJTalkHtmlFileParseError(File f, SAXException ex) throws EasyJaSubException;
+	void onInputNihongoJTalkHtmlFileParseError(File f, SAXException ex)
+			throws EasyJaSubException;
 
-	void onReadTranslatedSubtitlesIOError(File jaF, IOException ex) throws EasyJaSubException;
+	void onReadTranslatedSubtitlesIOError(File jaF, IOException ex)
+			throws EasyJaSubException;
 
-	void onReadTranslatedSubtitlesParseError(File jaF, InputTextSubException ex) throws EasyJaSubException;
+	void onReadTranslatedSubtitlesParseError(File jaF, InputTextSubException ex)
+			throws EasyJaSubException;
 
-	void onWriteCssIOError(File cssFile, IOException ex) throws EasyJaSubException;
+	void onWriteCssIOError(File cssFile, IOException ex)
+			throws EasyJaSubException;
 
-	void onWriteHtmlError(File htmlFolder, IOException ex) throws EasyJaSubException;
+	void onWriteHtmlError(File htmlFolder, IOException ex)
+			throws EasyJaSubException;
 
-	void onWriteImagesWkhtmlError(File bdnFolder, Exception ex) throws EasyJaSubException;
+	void onWriteImagesWkhtmlError(File bdnFolder, Exception ex)
+			throws EasyJaSubException;
 
-	void onWriteImagesIOError(File bdnFolder, IOException ex) throws EasyJaSubException;
+	void onWriteImagesIOError(File bdnFolder, IOException ex)
+			throws EasyJaSubException;
 
-	void onWriteBdnXmlFileIOError(File f, IOException ex) throws EasyJaSubException;
+	void onWriteBdnXmlFileIOError(File f, IOException ex)
+			throws EasyJaSubException;
 
-	void onWriteOutputJapaneseTextFileIOError(File txtFile, IOException ex) throws EasyJaSubException ;
+	void onWriteOutputJapaneseTextFileIOError(File txtFile, IOException ex)
+			throws EasyJaSubException;
 
 	void onTranslatedSubDuplicated(String content, int mSeconds, int startTime);
 
@@ -126,7 +138,8 @@ public interface EasyJaSubObserver {
 
 	void onReadJapaneseSubtitlesSkipped(File jaF);
 
-	void onInputNihongoJTalkHtmlLineParseSkipped(List<Integer> nLines, List<Integer> subLines);
+	void onInputNihongoJTalkHtmlLineParseSkipped(List<Integer> nLines,
+			List<Integer> subLines);
 
 	void onEncodingWarning(String systemEncoding, String charsetstr);
 
@@ -148,4 +161,21 @@ public interface EasyJaSubObserver {
 
 	void onMeCabUnknownGrammar(Set<String> elements,
 			List<String> pronunciationErrors);
+
+	void onWriteXmlFileStart(File f);
+
+	void onWriteXmlFileEnd(File f);
+
+	void onWriteXmlFileIOError(File f, IOException ex)
+			throws EasyJaSubException;
+
+	void onWriteXmlFileSkipped(File f);
+
+	void onReadXmlFileStart(File f);
+
+	void onReadXmlFileEnd(File f);
+
+	void onReadXmlFileIOError(File f, IOException ex) throws EasyJaSubException;
+
+	void onReadXmlFileError(File f, SAXException ex) throws EasyJaSubException;
 }

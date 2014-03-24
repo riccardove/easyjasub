@@ -72,10 +72,5 @@ class SubtitleListJapaneseSubFileReader {
 		line.setEndTime(caption.getEnd().getMSeconds());
 		String content = caption.getContent();
 		line.setSubText(content);
-		String key = JapaneseChar.getJapaneseKey(content);
-		if (key != null) {
-			line.setJapaneseSubText(content);
-			line.setJapaneseSubKey(key);
-		}
 	}
 }

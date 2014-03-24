@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub;
+package com.github.riccardove.easyjasub.commons;
 
 /*
  * #%L
@@ -45,5 +45,13 @@ public abstract class CommonsLangStringUtils {
 
 	public static String charListToString(Iterable<Character> japaneseChars) {
 		return StringUtils.join(japaneseChars, "");
+	}
+
+	public static String removeStart(String str, String remove) {
+		return StringUtils.removeStart(str, remove);
+	}
+
+	public static String removeEnd(String str, String remove) {
+		return StringUtils.removeEnd(str, remove);
 	}
 }

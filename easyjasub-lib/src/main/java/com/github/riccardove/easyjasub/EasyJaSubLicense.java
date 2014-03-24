@@ -24,6 +24,8 @@ package com.github.riccardove.easyjasub;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.github.riccardove.easyjasub.commons.CommonsIOUtils;
+
 /**
  * Access to the license text available in easyjasub-lib_LICENSE.txt resource
  */

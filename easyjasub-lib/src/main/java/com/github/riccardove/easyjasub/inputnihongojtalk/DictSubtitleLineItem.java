@@ -24,8 +24,8 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import com.github.riccardove.easyjasub.CommonsLangStringUtils;
 import com.github.riccardove.easyjasub.SubtitleItem;
+import com.github.riccardove.easyjasub.commons.CommonsLangStringUtils;
 
 class DictSubtitleLineItem extends RedSubtitleLineItem {
 

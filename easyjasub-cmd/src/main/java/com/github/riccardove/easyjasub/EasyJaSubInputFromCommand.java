@@ -26,6 +26,8 @@ import java.nio.file.Files;
 
 import org.apache.commons.io.FilenameUtils;
 
+import com.github.riccardove.easyjasub.commons.CommonsLangSystemUtils;
+
 /**
  * Checks input commands and determines valid program input using some heuristic
  * 
@@ -561,6 +563,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	private final boolean showRomaji;
 	private final boolean showKanji;
 	private final File meCabFile;
+	private final File xmlFile;
 	private int startLine;
 	private int endLine;
 
@@ -608,6 +611,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		showRomaji = getShowRomaji(command.getShowRomaji(),
 				nihongoJtalkHtmlFile, meCabCommand, showFurigana);
 		meCabFile = getMeCabFile(defaultFileList, outputJapaneseTextFile);
+		xmlFile = getXmlFile(defaultFileList, outputJapaneseTextFile);
 		getSelectLines(command.getSelectLines());
 	}
 
@@ -616,6 +620,13 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		// TODO select a file
 		return new File(defaultFileList.getDefaultDirectory(),
 				defaultFileList.getDefaultFileNamePrefix() + "_mecab.txt");
+	}
+
+	private File getXmlFile(DefaultFileList defaultFileList,
+			File outputJapaneseTextFile) {
+		// TODO select a file
+		return new File(defaultFileList.getDefaultDirectory(),
+				defaultFileList.getDefaultFileNamePrefix() + "_easyjasub.xml");
 	}
 
 	private void getSelectLines(String selectLines) throws EasyJaSubException {
@@ -924,5 +935,10 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	@Override
 	public File getMeCabFile() {
 		return meCabFile;
+	}
+
+	@Override
+	public File getXmlFile() {
+		return xmlFile;
 	}
 }

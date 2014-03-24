@@ -49,23 +49,31 @@ public class EasyJaSub {
 
 		SubtitleList s = new SubtitleList();
 
-		EasyJaSubLinesSelection selection = null;
-		if (command.getStartLine() > 0 || command.getEndLine() > 0) {
-			selection = new EasyJaSubLinesSelection();
-			selection.setStartLine(command.getStartLine());
-			selection.setEndLine(command.getEndLine());
-		}
-
-		readJapaneseSubtitles(command, observer, s, selection);
-
-		writeOutputJapaneseTextFile(command, observer, s);
-
-		readTranslatedSubFile(command, observer, s, selection);
-
-		if (command.getNihongoJtalkHtmlFile() != null) {
-			parseNihongoJTalkFile(command, observer, s);
+		if (command.getXmlFile() != null && command.getXmlFile().exists()) {
+			readInputXmlFile(s, command, observer);
 		} else {
-			runMeCab(command, observer, s);
+			EasyJaSubLinesSelection selection = null;
+			if (command.getStartLine() > 0 || command.getEndLine() > 0) {
+				selection = new EasyJaSubLinesSelection();
+				selection.setStartLine(command.getStartLine());
+				selection.setEndLine(command.getEndLine());
+			}
+
+			readJapaneseSubtitles(command, observer, s, selection);
+
+			writeOutputJapaneseTextFile(command, observer, s);
+
+			readTranslatedSubFile(command, observer, s, selection);
+
+			if (command.getNihongoJtalkHtmlFile() != null) {
+				parseNihongoJTalkFile(command, observer, s);
+			} else {
+				runMeCab(command, observer, s);
+			}
+
+			if (command.getXmlFile() != null) {
+				writeOutputXmlFile(s, command, observer);
+			}
 		}
 
 		// TODO: check that actions skipped do not impact other actions
@@ -107,6 +115,37 @@ public class EasyJaSub {
 		}
 		observer.onWriteIdxFileStart(idxFile, bdnFile);
 		return 0;
+	}
+
+	private void readInputXmlFile(SubtitleList s, EasyJaSubInput command,
+			EasyJaSubObserver observer) throws EasyJaSubException {
+		File f = command.getXmlFile();
+		observer.onReadXmlFileStart(f);
+		try {
+			new SubtitleListXmlFileReader(s).read(f);
+			observer.onReadXmlFileEnd(f);
+		} catch (IOException ex) {
+			observer.onReadXmlFileIOError(f, ex);
+		} catch (SAXException ex) {
+			observer.onReadXmlFileError(f, ex);
+		}
+	}
+
+	private void writeOutputXmlFile(SubtitleList s, EasyJaSubInput command,
+			EasyJaSubObserver observer) throws EasyJaSubException {
+		File f = command.getXmlFile();
+		if (f != null) {
+			mkParentDirs(f);
+			observer.onWriteXmlFileStart(f);
+			try {
+				new SubtitleListXmlFileWriter().write(s, f);
+				observer.onWriteXmlFileEnd(f);
+			} catch (IOException ex) {
+				observer.onWriteXmlFileIOError(f, ex);
+			}
+		} else {
+			observer.onWriteXmlFileSkipped(f);
+		}
 	}
 
 	private void writeBdnXmlFile(EasyJaSubInput command,
