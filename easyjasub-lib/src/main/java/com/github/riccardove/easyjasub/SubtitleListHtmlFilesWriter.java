@@ -53,8 +53,7 @@ class SubtitleListHtmlFilesWriter {
 			if (!file.exists()) {
 				observer.onWriteHtmlFile(file);
 
-				String htmlStr = new SubtitleLineToHtml(
-						command.getWkHtmlToImageCommand() != null,
+				String htmlStr = new SubtitleLineToHtml(command.isSingleLine(),
 						command.showFurigana(), command.showRomaji(),
 						command.showDictionary(), command.showKanji(),
 						command.showTranslation()).toHtml(l, cssFileUrl);

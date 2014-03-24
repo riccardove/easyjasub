@@ -66,6 +66,14 @@ public abstract class EasyJaSubTestCase extends TestCase {
 		return "C:/Program Files (x86)/MeCab/bin/mecab.exe";
 	}
 
+	protected static String getWkhtmltoimagePath() {
+		return "C:/Program Files (x86)/wkhtmltopdf/wkhtmltoimage.exe";
+	}
+
+	protected static boolean isEclipse() {
+		return IS_ECLIPSE;
+	}
+
 	protected static void println(String text) {
 		if (IS_ECLIPSE) {
 			System.out.println(text);

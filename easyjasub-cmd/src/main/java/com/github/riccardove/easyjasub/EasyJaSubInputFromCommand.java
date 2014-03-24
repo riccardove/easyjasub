@@ -566,6 +566,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	private final File xmlFile;
 	private int startLine;
 	private int endLine;
+	private final boolean isSingleLine;
 
 	public EasyJaSubInputFromCommand(EasyJaSubInputCommand command)
 			throws EasyJaSubException {
@@ -612,7 +613,22 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				nihongoJtalkHtmlFile, meCabCommand, showFurigana);
 		meCabFile = getMeCabFile(defaultFileList, outputJapaneseTextFile);
 		xmlFile = getXmlFile(defaultFileList, outputJapaneseTextFile);
+		isSingleLine = getSingleLine();
 		getSelectLines(command.getSelectLines());
+	}
+
+	private boolean getSingleLine() {
+		if (wkhtmltoimageFile != null) {
+			if (showKanji) {
+				if (showRomaji) {
+					return !showFurigana && !showDictionary;
+				} else if (showFurigana) {
+					return !showDictionary;
+				}
+				return true;
+			}
+		}
+		return false; // TODO
 	}
 
 	private File getMeCabFile(DefaultFileList defaultFileList,
@@ -940,5 +956,10 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	@Override
 	public File getXmlFile() {
 		return xmlFile;
+	}
+
+	@Override
+	public boolean isSingleLine() {
+		return isSingleLine;
 	}
 }

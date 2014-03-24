@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.IOException;
 import java.util.List;
 
@@ -28,17 +27,17 @@ import com.github.riccardove.easyjasub.rendersnake.RendersnakeHtmlCanvas;
 
 class SubtitleLineToHtml {
 
-	private final boolean hasWkhtml;
+	private final boolean isSingleLine;
 	private final boolean hasFurigana;
 	private final boolean hasDictionary;
 	private final boolean hasKanji;
 	private final boolean hasRomaji;
 	private final boolean showTranslation;
 
-	public SubtitleLineToHtml(boolean hasWkhtml, boolean hasFurigana,
+	public SubtitleLineToHtml(boolean isSingleLine, boolean hasFurigana,
 			boolean hasRomaji, boolean hasDictionary, boolean hasKanji,
 			boolean showTranslation) {
-		this.hasWkhtml = hasWkhtml;
+		this.isSingleLine = isSingleLine;
 		this.hasFurigana = hasFurigana;
 		this.hasRomaji = hasRomaji;
 		this.hasDictionary = hasDictionary;
@@ -54,7 +53,7 @@ class SubtitleLineToHtml {
 
 		List<SubtitleItem> items = s.getItems();
 		if (items != null) {
-			if (hasWkhtml && canUseRuby()) {
+			if (isSingleLine) {
 				appendRubyItems(html, items);
 			} else {
 				appendItems(html, items);
@@ -80,24 +79,86 @@ class SubtitleLineToHtml {
 			List<SubtitleItem> items) throws IOException {
 		html.p();
 		for (SubtitleItem item : items) {
-			if (item.getText() != null) {
-				appendRuby(html, item);
-			}
+			appendRuby(html, item);
 		}
+		html.newline();
 		html._p();
 		html.newline();
 	}
 
 	private void appendRuby(RendersnakeHtmlCanvas html, SubtitleItem item)
 			throws IOException {
+		if (!Grammar.symbol.toString().equals(item.getGrammarElement())) {
+			html.newline();
+		}
 		List<SubtitleItem.Inner> elements = item.getElements();
-		String text = item.getText();
-		if (elements == null) {
-			appendText(html, text);
+		if (elements == null && hasKanji) {
+			// there is no kanji element in the item
+			if (hasFurigana && item.getFurigana() != null) {
+				// item has a valid furigana, show text with furigana
+				appendRuby(html, item.getGrammarElement(), item.getText(),
+						item.getFurigana());
+			} else if (hasRomaji && item.getRomaji() != null) {
+				// item has a valid romaji, show text with romaji as ruby
+				appendRuby(html, item.getGrammarElement(), item.getText(),
+						item.getRomaji());
+			} else if (hasDictionary && item.getDictionary() != null) {
+				// item has a valid dictionary, show text with dictionary as
+				// ruby
+				appendRuby(html, item.getGrammarElement(), item.getText(),
+						item.getDictionary());
+			} else {
+				appendText(html, item.getText());
+			}
+		} else if (!hasKanji) {
+			// you do not want to show kanji
+			if (hasFurigana) {
+				// if item has a valid furigana then we show as hiragana text
+				String text = item.getFurigana();
+				if (text == null) {
+					// otherwise we use text
+					text = item.getText();
+				}
+				if (hasRomaji && item.getRomaji() != null) {
+					// show hiragana text with romaji as ruby
+					appendRuby(html, item.getGrammarElement(), text,
+							item.getRomaji());
+				} else if (hasDictionary && item.getDictionary() != null) {
+					// show hiragana text with dictionary
+					appendRuby(html, item.getGrammarElement(), text,
+							item.getDictionary());
+				} else {
+					// show hiragana text
+					appendText(html, text);
+				}
+			} else {
+				// we do not want to show kanji nor furigana
+				if (hasRomaji) {
+					// we show romaji when possible
+					String text = item.getRomaji();
+					if (text == null) {
+						text = item.getText();
+					}
+					if (hasDictionary && item.getDictionary() != null) {
+						appendRuby(html, item.getGrammarElement(), text,
+								item.getDictionary());
+					} else {
+						appendText(html, text);
+					}
+				} else {
+					if (hasDictionary && item.getDictionary() != null) {
+						appendRuby(html, item.getGrammarElement(),
+								item.getText(), item.getDictionary());
+					} else {
+						appendText(html, item.getText());
+					}
+				}
+			}
 		} else {
 			html.ruby(item.getGrammarElement());
 			if (hasFurigana) {
-				// TODO: appendRubyElements(html, elements);
+				// TODO: sometimes furigana may be limited to some kanji part of
+				// the word
 				appendElements(html, elements);
 				html.rt(item.getFurigana());
 			} else if (hasRomaji) {
@@ -111,16 +172,12 @@ class SubtitleLineToHtml {
 		}
 	}
 
-	private boolean canUseRuby() {
-		if (hasKanji) {
-			if (hasRomaji) {
-				return !hasFurigana && !hasDictionary;
-			} else if (hasFurigana) {
-				return !hasDictionary;
-			}
-			return true;
-		}
-		return false; // TODO
+	private void appendRuby(RendersnakeHtmlCanvas html, String grammar,
+			String text, String ruby) throws IOException {
+		html.ruby(grammar);
+		html.write(text);
+		html.rt(ruby);
+		html._ruby();
 	}
 
 	private void appendComment(RendersnakeHtmlCanvas html,

@@ -48,10 +48,10 @@ public class SubtitleLineToHtmlTest extends EasyJaSubTestCase {
 		}
 	}
 
-	private static String toHtml(SubtitleLine line, boolean hasWkhtml,
+	private static String toHtml(SubtitleLine line, boolean isSingleLine,
 			boolean hasFurigana, boolean hasRomaji, boolean hasDictionary,
 			boolean hasKanji, boolean showTranslation) throws Exception {
-		return new SubtitleLineToHtml(hasWkhtml, hasFurigana, hasRomaji,
+		return new SubtitleLineToHtml(isSingleLine, hasFurigana, hasRomaji,
 				hasDictionary, hasKanji, showTranslation).toHtml(line, Css);
 	}
 
@@ -102,11 +102,11 @@ public class SubtitleLineToHtmlTest extends EasyJaSubTestCase {
 	}
 
 	private void runTestOnSample(String name, String sample, SubtitleList list,
-			boolean hasWkhtml, boolean hasFurigana, boolean hasRomaji,
+			boolean isSingleLine, boolean hasFurigana, boolean hasRomaji,
 			boolean hasDictionary, boolean hasKanji, boolean showTranslation) throws Exception {
 		File directory = getSampleHtmlOutputDirectory(name, sample);
 		for (SubtitleLine line : list) {
-			String html = toHtml(line, hasWkhtml, hasFurigana, hasRomaji,
+			String html = toHtml(line, isSingleLine, hasFurigana, hasRomaji,
 					hasDictionary, hasKanji, showTranslation);
 
 			String fileName = "line" + String.format("%04d", line.getIndex())
