@@ -4,7 +4,7 @@
 
 	<groupId>com.github.riccardove.easyjasub</groupId>
 	<artifactId>easyjasub</artifactId>
-	<version>0.2.0</version>
+	<version>0.2.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<inceptionYear>2014</inceptionYear>
@@ -94,7 +94,7 @@
 		<launch4j.outfile>${project.build.directory}/${launch4j.name}.exe</launch4j.outfile>
 		<launch4j.jreopt>-Dfile.encoding=UTF-8</launch4j.jreopt>
 		<main.class>com.github.riccardove.easyjasub.App</main.class>
-		<assembly.name>${launch4j.name}-${project.version}</assembly.name>
+		<assembly.name>easyjasub-${project.version}</assembly.name>
 	</properties>
 
 	<build>
