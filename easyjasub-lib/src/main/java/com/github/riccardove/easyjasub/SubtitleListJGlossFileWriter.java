@@ -68,7 +68,7 @@ class SubtitleListJGlossFileWriter {
 						f.tagCloseInline(SubtitleListJGlossElement.anno
 								.toString());
 					} else {
-						f.write(item.getText() + " ");
+						f.write(item.getText());
 					}
 				}
 				f.tagCloseInline(SubtitleListJGlossElement.p.toString());
