@@ -24,13 +24,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import com.github.riccardove.easyjasub.SubtitleItem.Inner;
 
-class SubtitleListXmlFileReader {
+class SubtitleListXmlFileReader implements
+		EasyJaSubXmlHandler<SubtitleListXmlElement> {
 
 	private final SubtitleList list;
 	private SubtitleLine line;
@@ -43,11 +42,15 @@ class SubtitleListXmlFileReader {
 	}
 
 	public void read(File file) throws IOException, SAXException {
-		Handler handler = new Handler();
-		new EasyJaSubXmlReader(handler).parse(file);
+		new EasyJaSubXmlReader(
+				new EasyJaSubXmlHandlerAdapter<SubtitleListXmlElement>(
+						SubtitleListXmlElement.undef,
+						SubtitleListXmlElement.values(), this))
+				.parse(file);
 	}
 
-	private void onStartElement(SubtitleListXmlElement element, String text) {
+	@Override
+	public void onStartElement(SubtitleListXmlElement element) {
 		switch (element) {
 		case line: {
 			line = list.add();
@@ -72,7 +75,8 @@ class SubtitleListXmlFileReader {
 		}
 	}
 
-	private void onEndElement(SubtitleListXmlElement element, String text) {
+	@Override
+	public void onEndElement(SubtitleListXmlElement element, String text) {
 		switch (element) {
 		case title: {
 			list.setTitle(text);
@@ -149,39 +153,6 @@ class SubtitleListXmlFileReader {
 		}
 		default:
 			break;
-		}
-	}
-
-	private class Handler extends DefaultHandler {
-		private SubtitleListXmlElement element;
-		private final StringBuilder text;
-
-		public Handler() {
-			element = SubtitleListXmlElement.undef;
-			text = new StringBuilder();
-		}
-
-		@Override
-		public void startElement(String uri, String localName, String qName,
-				Attributes attributes) throws SAXException {
-			element = SubtitleListXmlElement.valueOf(qName);
-			onStartElement(element, text.toString());
-			text.setLength(0);
-		}
-
-		@Override
-		public void endElement(String uri, String localName, String qName)
-				throws SAXException {
-			element = SubtitleListXmlElement.valueOf(qName);
-			onEndElement(element, text.toString());
-			element = SubtitleListXmlElement.undef;
-			text.setLength(0);
-		}
-
-		@Override
-		public void characters(char[] ch, int start, int length)
-				throws SAXException {
-			text.append(ch, start, length);
 		}
 	}
 }
