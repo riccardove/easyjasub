@@ -66,11 +66,18 @@ class SubtitleListJapaneseSubFileReader {
 		s.setJapaneseSubLanguage(subs.getLanguage());
 	}
 
+	private SubtitleLine previous;
+
 	private void addLine(SubtitleList s, InputTextSubCaption caption) {
 		SubtitleLine line = s.add();
+		if (previous != null) {
+			line.setPrevious(previous);
+			previous.setNext(line);
+		}
 		line.setStartTime(caption.getStart().getMSeconds());
 		line.setEndTime(caption.getEnd().getMSeconds());
 		String content = caption.getContent();
 		line.setSubText(content);
+		previous = line;
 	}
 }

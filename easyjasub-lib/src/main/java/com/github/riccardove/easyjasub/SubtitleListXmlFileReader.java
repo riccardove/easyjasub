@@ -49,11 +49,18 @@ class SubtitleListXmlFileReader implements
 				.parse(file);
 	}
 
+	private SubtitleLine previous;
+
 	@Override
 	public void onStartElement(SubtitleListXmlElement element) {
 		switch (element) {
 		case line: {
+			previous = line;
 			line = list.add();
+			if (previous != null) {
+				previous.setNext(line);
+				line.setPrevious(previous);
+			}
 			break;
 		}
 		case items: {

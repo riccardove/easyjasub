@@ -124,6 +124,26 @@ public class SubtitleLine {
 		return subText;
 	}
 
+	private SubtitleLine next;
+
+	public SubtitleLine getNext() {
+		return next;
+	}
+
+	public void setNext(SubtitleLine next) {
+		this.next = next;
+	}
+
+	private SubtitleLine previous;
+
+	public SubtitleLine getPrevious() {
+		return previous;
+	}
+
+	public void setPrevious(SubtitleLine previous) {
+		this.previous = previous;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
