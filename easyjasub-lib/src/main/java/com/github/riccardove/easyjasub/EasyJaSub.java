@@ -28,6 +28,9 @@ import org.xml.sax.SAXException;
 import com.github.riccardove.easyjasub.inputnihongojtalk.InputNihongoJTalkHtmlFile;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
+/**
+ * Main code, executes actions
+ */
 public class EasyJaSub {
 
 	public int run(EasyJaSubInput command, EasyJaSubObserver observer)

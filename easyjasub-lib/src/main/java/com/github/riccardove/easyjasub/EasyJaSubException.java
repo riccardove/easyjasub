@@ -20,7 +20,9 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
+/**
+ * Default exception for the library, used for handled errors
+ */
 public class EasyJaSubException extends Exception {
 
 	public EasyJaSubException(String message, Throwable ex) {
