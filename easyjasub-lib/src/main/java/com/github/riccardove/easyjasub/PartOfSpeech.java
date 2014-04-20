@@ -20,7 +20,7 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-public enum Grammar {
+public enum PartOfSpeech {
 	adj, naadj, prenadj,
 
 	verb, pronoun, noun, conj,

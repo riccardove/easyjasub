@@ -27,14 +27,11 @@ import java.io.IOException;
 import com.github.riccardove.easyjasub.SubtitleItem.Inner;
 
 class SubtitleListXmlFileWriter {
-	private int indent;
 
 	public void write(SubtitleList s, File file) throws IOException,
 			FileNotFoundException {
-		f = new EasyJaSubWriter(file);
+		f = new EasyJaSubXmlWriter(file);
 
-		writeln("<?xml version=\"1.0\" encoding=\""
-				+ EasyJaSubCharset.CHARSETSTR + "\"?>");
 		groupOpen(SubtitleListXmlElement.easyjasub);
 		tag(SubtitleListXmlElement.title, s.getTitle());
 		groupOpen(SubtitleListXmlElement.lines);
@@ -75,36 +72,18 @@ class SubtitleListXmlFileWriter {
 		f.close();
 	}
 
-	private EasyJaSubWriter f;
-	private static final String IndentStr = "  ";
+	private EasyJaSubXmlWriter f;
 
 	private void groupOpen(SubtitleListXmlElement name) throws IOException {
-		printIndent();
-		writeln("<" + name + ">");
-		indent++;
+		f.groupOpen(name.toString());
 	}
 
 	private void groupClose(SubtitleListXmlElement name) throws IOException {
-		--indent;
-		printIndent();
-		writeln("</" + name + ">");
+		f.groupClose(name.toString());
 	}
 
 	private void tag(SubtitleListXmlElement name, String content)
 			throws IOException {
-		if (content != null) {
-			printIndent();
-			writeln("<" + name + ">" + content + "</" + name + ">");
-		}
-	}
-
-	private void printIndent() throws IOException {
-		for (int i = 0; i < indent; ++i) {
-			f.print(IndentStr);
-		}
-	}
-
-	private void writeln(String line) throws IOException {
-		f.println(line);
+		f.tag(name.toString(), content);
 	}
 }

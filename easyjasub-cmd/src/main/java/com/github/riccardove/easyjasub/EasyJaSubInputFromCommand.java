@@ -564,6 +564,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	private final boolean showKanji;
 	private final File meCabFile;
 	private final File xmlFile;
+	private final File jglossFile;
 	private int startLine;
 	private int endLine;
 	private final boolean isSingleLine;
@@ -613,6 +614,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				nihongoJtalkHtmlFile, meCabCommand, showFurigana);
 		meCabFile = getMeCabFile(defaultFileList, outputJapaneseTextFile);
 		xmlFile = getXmlFile(defaultFileList, outputJapaneseTextFile);
+		jglossFile = getJGlossFile(defaultFileList);
 		isSingleLine = getSingleLine();
 		getSelectLines(command.getSelectLines());
 	}
@@ -643,6 +645,12 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		// TODO select a file
 		return new File(defaultFileList.getDefaultDirectory(),
 				defaultFileList.getDefaultFileNamePrefix() + "_easyjasub.xml");
+	}
+
+	private File getJGlossFile(DefaultFileList defaultFileList) {
+		// TODO select a file
+		return new File(defaultFileList.getDefaultDirectory(),
+				defaultFileList.getDefaultFileNamePrefix() + ".jgloss");
 	}
 
 	private void getSelectLines(String selectLines) throws EasyJaSubException {
@@ -961,5 +969,10 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	@Override
 	public boolean isSingleLine() {
 		return isSingleLine;
+	}
+
+	@Override
+	public File getJGlossFile() {
+		return jglossFile;
 	}
 }

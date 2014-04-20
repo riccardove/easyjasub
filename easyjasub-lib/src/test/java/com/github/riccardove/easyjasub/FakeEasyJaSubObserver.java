@@ -447,4 +447,28 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	}
 
+	@Override
+	public void onWriteJGlossFileStart(File f) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onWriteJGlossFileEnd(File f) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onWriteJGlossFileIOError(File f, IOException ex) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onWriteJGlossFileSkipped(File f) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

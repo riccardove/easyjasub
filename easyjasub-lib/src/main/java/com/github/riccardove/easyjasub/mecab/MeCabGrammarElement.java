@@ -23,35 +23,35 @@ package com.github.riccardove.easyjasub.mecab;
 
 import java.util.HashMap;
 
-import com.github.riccardove.easyjasub.Grammar;
+import com.github.riccardove.easyjasub.PartOfSpeech;
 
 public class MeCabGrammarElement {
 
 	public MeCabGrammarElement() {
-		map = new HashMap<String, Grammar>();
-		map.put("魔法", Grammar.noun);
-		map.put("助詞", Grammar.particle);
-		map.put("記号", Grammar.symbol);
-		map.put("動詞", Grammar.verb);
-		map.put("助動詞", Grammar.auxiliaryverb);
+		map = new HashMap<String, PartOfSpeech>();
+		map.put("魔法", PartOfSpeech.noun);
+		map.put("助詞", PartOfSpeech.particle);
+		map.put("記号", PartOfSpeech.symbol);
+		map.put("動詞", PartOfSpeech.verb);
+		map.put("助動詞", PartOfSpeech.auxiliaryverb);
 
-		map.put("フィラー", Grammar.fill);
-		map.put("副詞", Grammar.adv);
-		map.put("名詞", Grammar.propern);
-		map.put("形容詞", Grammar.adj);
-		map.put("感動詞", Grammar.interj);
-		map.put("接続詞", Grammar.conj);
-		map.put("接頭詞", Grammar.prefix);
-		map.put("連体詞", Grammar.attributive);
+		map.put("フィラー", PartOfSpeech.fill);
+		map.put("副詞", PartOfSpeech.adv);
+		map.put("名詞", PartOfSpeech.propern);
+		map.put("形容詞", PartOfSpeech.adj);
+		map.put("感動詞", PartOfSpeech.interj);
+		map.put("接続詞", PartOfSpeech.conj);
+		map.put("接頭詞", PartOfSpeech.prefix);
+		map.put("連体詞", PartOfSpeech.attributive);
 	}
 
-	private final HashMap<String, Grammar> map;
+	private final HashMap<String, PartOfSpeech> map;
 
-	public Grammar translate(String japaneseText) {
+	public PartOfSpeech translate(String japaneseText) {
 		Object value = map.get(japaneseText);
 		if (value == null) {
-			return Grammar.undef;
+			return PartOfSpeech.undef;
 		}
-		return (Grammar) value;
+		return (PartOfSpeech) value;
 	}
 }

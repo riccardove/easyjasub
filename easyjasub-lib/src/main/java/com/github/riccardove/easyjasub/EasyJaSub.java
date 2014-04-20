@@ -76,6 +76,10 @@ public class EasyJaSub {
 			}
 		}
 
+		if (command.getJGlossFile() != null) {
+			writeJGlossFile(command, observer, s);
+		}
+
 		// TODO: check that actions skipped do not impact other actions
 
 		File htmlFolder = command.getOutputHtmlDirectory();
@@ -164,6 +168,24 @@ public class EasyJaSub {
 			}
 		} else {
 			observer.onWriteBdnXmlFileSkipped(f);
+		}
+	}
+
+	private void writeJGlossFile(EasyJaSubInput command,
+			EasyJaSubObserver observer, SubtitleList s)
+			throws EasyJaSubException {
+		File f = command.getJGlossFile();
+		if (!f.exists()) {
+			mkParentDirs(f);
+			observer.onWriteJGlossFileStart(f);
+			try {
+				new SubtitleListJGlossFileWriter().write(s, f);
+				observer.onWriteJGlossFileEnd(f);
+			} catch (IOException ex) {
+				observer.onWriteJGlossFileIOError(f, ex);
+			}
+		} else {
+			observer.onWriteJGlossFileSkipped(f);
 		}
 	}
 

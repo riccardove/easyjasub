@@ -50,9 +50,8 @@ class SubtitleListBdnXmlFileWriter {
 	private final ImageReader ir;
 	
 	public void write(SubtitleList s, File file) throws IOException, FileNotFoundException {
-		f = new EasyJaSubWriter(file);
+		f = new EasyJaSubXmlWriter(file);
 
-		writeln("<?xml version=\"1.0\" encoding=\"" + EasyJaSubCharset.CHARSETSTR + "\"?>");
         writeln("<BDN Version=\"0.93\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"BD-03-006-0093b BDN File Format.xsd\">");
 		writeln("<Description>");
 		writeln("  <Name Title=\"" + s.getTitle() + "\" Content=\"\"/>");
@@ -132,10 +131,10 @@ class SubtitleListBdnXmlFileWriter {
 		return ir.next();
 	}
 
-	private EasyJaSubWriter f;
+	private EasyJaSubXmlWriter f;
 	
 	private void writeln(String line) throws IOException
 	{
-		f.println(line);
+		f.writeln(line);
 	}
 }

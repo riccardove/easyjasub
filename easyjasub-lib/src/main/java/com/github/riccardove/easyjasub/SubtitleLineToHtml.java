@@ -88,7 +88,7 @@ class SubtitleLineToHtml {
 
 	private void appendRuby(RendersnakeHtmlCanvas html, SubtitleItem item)
 			throws IOException {
-		if (!Grammar.symbol.toString().equals(item.getGrammarElement())) {
+		if (!PartOfSpeech.symbol.toString().equals(item.getGrammarElement())) {
 			html.newline();
 		}
 		List<SubtitleItem.Inner> elements = item.getElements();

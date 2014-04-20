@@ -24,7 +24,7 @@ package com.github.riccardove.easyjasub.inputnihongojtalk;
 import java.util.HashSet;
 import java.util.regex.Pattern;
 
-import com.github.riccardove.easyjasub.Grammar;
+import com.github.riccardove.easyjasub.PartOfSpeech;
 import com.github.riccardove.easyjasub.SubtitleItem;
 
 class RedSubtitleLineItem  extends TextSubtitleLineItem {
@@ -43,12 +43,12 @@ class RedSubtitleLineItem  extends TextSubtitleLineItem {
 		this.romaji= romaji;
 		posc = PosRegex.matcher(pos).replaceAll("").replace(" ", "");
 		PosSet.add(posc);
-		gpos = Enum.valueOf(Grammar.class, posc);
+		gpos = Enum.valueOf(PartOfSpeech.class, posc);
 	}
 	
 	private static final Pattern PosRegex = Pattern.compile("[\\.()-]");
 	public static final HashSet<String> PosSet = new HashSet<String>();
-	protected final Grammar gpos;
+	protected final PartOfSpeech gpos;
 	protected String pos;
 	protected String romaji;
 	protected String posc;

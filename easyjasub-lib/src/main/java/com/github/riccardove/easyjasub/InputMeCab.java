@@ -130,10 +130,10 @@ public class InputMeCab {
 			for (MeCabSubtitleLineItem meCabItem : meCabLine) {
 				SubtitleItem subsItem = new SubtitleItem();
 
-				Grammar grammar = grammarElements.translate(meCabItem
+				PartOfSpeech grammar = grammarElements.translate(meCabItem
 						.getGrammarElement());
 				subsItem.setGrammarElement(grammar.toString());
-				if (grammar == Grammar.undef) {
+				if (grammar == PartOfSpeech.undef) {
 					unknownGrammar.add(meCabItem.getGrammarElement());
 				}
 				String text = meCabItem.getText();
@@ -166,7 +166,7 @@ public class InputMeCab {
 		}
 	}
 
-	private static boolean canHaveFurigana(Grammar grammar) {
+	private static boolean canHaveFurigana(PartOfSpeech grammar) {
 		switch (grammar) {
 		case punctuation:
 		case symbol:

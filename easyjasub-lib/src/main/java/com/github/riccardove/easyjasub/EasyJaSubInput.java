@@ -91,4 +91,6 @@ public interface EasyJaSubInput {
 	public abstract File getMeCabFile();
 
 	public abstract boolean isSingleLine();
+
+	public abstract File getJGlossFile();
 }

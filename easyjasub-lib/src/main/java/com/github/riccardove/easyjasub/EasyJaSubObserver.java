@@ -178,4 +178,13 @@ public interface EasyJaSubObserver {
 	void onReadXmlFileIOError(File f, IOException ex) throws EasyJaSubException;
 
 	void onReadXmlFileError(File f, SAXException ex) throws EasyJaSubException;
+
+	void onWriteJGlossFileStart(File f);
+
+	void onWriteJGlossFileEnd(File f);
+
+	void onWriteJGlossFileIOError(File f, IOException ex)
+			throws EasyJaSubException;
+
+	void onWriteJGlossFileSkipped(File f);
 }

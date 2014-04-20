@@ -475,4 +475,26 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 		throw new EasyJaSubException("Error parsing input XML file "
 				+ toString(file) + ": " + ex.getLocalizedMessage());
 	}
+
+	@Override
+	public void onWriteJGlossFileStart(File file) {
+		lowVerboseMessage("onWriteJGlossFileStart " + toString(file));
+	}
+
+	@Override
+	public void onWriteJGlossFileEnd(File file) {
+		lowVerboseMessage("onWriteJGlossFileEnd " + toString(file));
+	}
+
+	@Override
+	public void onWriteJGlossFileIOError(File file, IOException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error writing JGloss file "
+				+ toString(file) + ": " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onWriteJGlossFileSkipped(File file) {
+		lowVerboseMessage("onWriteJGlossFileSkipped " + toString(file));
+	}
 }
