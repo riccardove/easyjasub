@@ -70,6 +70,11 @@
 			<version>0.993</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-kuromoji</artifactId>
+			<version>4.7.2</version>
+		</dependency>
 	</dependencies>
 
 	<url>http://easyjasub.sourceforge.net</url>
