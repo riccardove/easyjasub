@@ -2,7 +2,9 @@ package com.github.riccardove.easyjasub.lucene;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
@@ -11,8 +13,8 @@ import org.apache.lucene.analysis.ja.tokenattributes.BaseFormAttribute;
 import org.apache.lucene.analysis.ja.tokenattributes.InflectionAttribute;
 import org.apache.lucene.analysis.ja.tokenattributes.PartOfSpeechAttribute;
 import org.apache.lucene.analysis.ja.tokenattributes.ReadingAttribute;
-import org.apache.lucene.analysis.ja.util.ToStringUtil;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.util.Version;
 
 /**
@@ -20,11 +22,14 @@ import org.apache.lucene.util.Version;
  */
 public class LuceneParser {
 
-	public LuceneParser() throws IOException {
+	public LuceneParser(boolean ignoreDefaultWordSet) throws IOException {
+		CharArraySet stopSet = ignoreDefaultWordSet ? JapaneseAnalyzer
+				.getDefaultStopSet() : new CharArraySet(Version.LUCENE_47,
+				new ArrayList<String>(), true);
+		Set<String> stopTags = ignoreDefaultWordSet ? JapaneseAnalyzer
+				.getDefaultStopTags() : new HashSet<String>();
 		analyzer = new JapaneseAnalyzer(Version.LUCENE_47, null,
-				JapaneseTokenizer.Mode.SEARCH,
-				JapaneseAnalyzer.getDefaultStopSet(),
-				JapaneseAnalyzer.getDefaultStopTags());
+				JapaneseTokenizer.Mode.SEARCH, stopSet, stopTags);
 	}
 
 	private final JapaneseAnalyzer analyzer;
@@ -78,8 +83,11 @@ public class LuceneParser {
 		InflectionAttribute inflection = tokenStream
 				.getAttribute(InflectionAttribute.class);
 		if (inflection != null) {
-			token.setInflectionForm(inflection.getInflectionForm());
-			token.setInflectionType(inflection.getInflectionType());
+			token.setInflectionForm(LuceneUtil
+					.TranslateInflectedForm(inflection.getInflectionForm()));
+			token.setInflectionType(LuceneUtil
+					.TranslateInflectionType(inflection
+							.getInflectionType()));
 		}
 	}
 
@@ -89,8 +97,7 @@ public class LuceneParser {
 		if (partOfSpeech != null) {
 			String str = partOfSpeech.getPartOfSpeech();
 			if (str != null) {
-				token.setPartOfSpeech(ToStringUtil
-						.getPOSTranslation(str));
+				token.setPartOfSpeech(LuceneUtil.TranslatePartOfSpeech(str));
 			}
 		}
 	}

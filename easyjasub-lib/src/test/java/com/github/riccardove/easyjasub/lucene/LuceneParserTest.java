@@ -7,8 +7,8 @@ import com.github.riccardove.easyjasub.EasyJaSubTestCase;
 
 public class LuceneParserTest extends EasyJaSubTestCase {
 
-	public void testParse() throws Exception {
-		LuceneParser parser = new LuceneParser();
+	public void testParseIgnoreDefaultWordSet() throws Exception {
+		LuceneParser parser = new LuceneParser(true);
 
 		String text = "魔法は　普通に売り買いされ 人々の生活に根づいていた。";
 		List<LuceneToken> tokens = parse(parser, text);
@@ -17,6 +17,20 @@ public class LuceneParserTest extends EasyJaSubTestCase {
 		tokens = parse(parser, "依頼に応じて仕事をする。");
 		assertNotNull(tokens);
 		assertEquals(3, tokens.size());
+
+		parser.close();
+	}
+
+	public void testParse() throws Exception {
+		LuceneParser parser = new LuceneParser(false);
+
+		String text = "魔法は　普通に売り買いされ 人々の生活に根づいていた。";
+		List<LuceneToken> tokens = parse(parser, text);
+		assertEquals(15, tokens.size());
+
+		tokens = parse(parser, "依頼に応じて仕事をする。");
+		assertNotNull(tokens);
+		assertEquals(7, tokens.size());
 
 		parser.close();
 	}
