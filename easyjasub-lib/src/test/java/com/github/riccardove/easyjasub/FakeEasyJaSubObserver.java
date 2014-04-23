@@ -471,4 +471,22 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	}
 
+	@Override
+	public void onLuceneErrors(List<String> pronunciationErrors) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onLuceneParseStart() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onLuceneParseEnd() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

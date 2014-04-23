@@ -283,9 +283,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static File getOutputJapaneseTextFile(
-			EasyJaSubInputCommand command, File videoFile,
-			File japaneseSubFile, DefaultFileList defaultFileList)
-			throws EasyJaSubException {
+			EasyJaSubInputCommand command, File bdnXmlFile,
+			DefaultFileList defaultFileList) throws EasyJaSubException {
 		String fileName = command.getOutputJapaneseTextFileName();
 		if (isDisabled(fileName)) {
 			return null;
@@ -296,16 +295,11 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			file = new File(fileName);
 		} else {
 			fileNameBase = defaultFileList.getDefaultFileNamePrefix() + ".txt";
-			if (videoFile != null) {
-				file = new File(videoFile.getAbsoluteFile().getParentFile(),
-						fileNameBase);
-			} else if (japaneseSubFile != null) {
-				file = new File(japaneseSubFile.getAbsoluteFile()
-						.getParentFile(), fileNameBase);
-			} else {
-				file = new File(defaultFileList.getDefaultDirectory(),
-						fileNameBase);
+			File directory = defaultFileList.getDefaultDirectory();
+			if (bdnXmlFile != null) {
+				directory = bdnXmlFile.getParentFile();
 			}
+			file = new File(directory, fileNameBase);
 			fileName = file.getAbsolutePath();
 		}
 		checkOutputFile(fileName, file);
@@ -586,8 +580,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		outputHtmlDirectory = getOutputHtmlDirectory(command, bdnXmlFile,
 				defaultFileList);
 		wkhtmltoimageFile = getWkhtmltoimageFile(command);
-		outputJapaneseTextFile = getOutputJapaneseTextFile(command, videoFile,
-				japaneseSubFile, defaultFileList);
+		outputJapaneseTextFile = getOutputJapaneseTextFile(command, bdnXmlFile,
+				defaultFileList);
 		cssFile = getCssFile(command, outputHtmlDirectory, defaultFileList);
 		exactMatchTimeDiff = getTimeDiff("exact match time",
 				command.getExactMatchTimeDiff(), 2000);
@@ -604,17 +598,14 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		showTranslation = getShowTranslation(command.getShowTranslation(),
 				translatedSubFile);
 		meCabCommand = getMeCabCommand(command, nihongoJtalkHtmlFile);
-		showKanji = getShowKanji(command.getShowKanji(), nihongoJtalkHtmlFile,
-				meCabCommand);
-		showFurigana = getShowFurigana(command.getShowFurigana(),
-				nihongoJtalkHtmlFile, meCabCommand, showKanji);
+		showKanji = getShowKanji(command.getShowKanji());
+		showFurigana = getShowFurigana(command.getShowFurigana(), showKanji);
 		showDictionary = getShowDictionary(command.getShowDictionary(),
 				nihongoJtalkHtmlFile);
-		showRomaji = getShowRomaji(command.getShowRomaji(),
-				nihongoJtalkHtmlFile, meCabCommand, showFurigana);
-		meCabFile = getMeCabFile(defaultFileList, outputJapaneseTextFile);
+		showRomaji = getShowRomaji(command.getShowRomaji(), showFurigana);
+		meCabFile = getMeCabFile(defaultFileList, bdnXmlFile);
 		xmlFile = getXmlFile(defaultFileList, outputJapaneseTextFile);
-		jglossFile = getJGlossFile(defaultFileList);
+		jglossFile = getJGlossFile(defaultFileList, bdnXmlFile);
 		isSingleLine = getSingleLine();
 		getSelectLines(command.getSelectLines());
 	}
@@ -633,11 +624,15 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return false; // TODO
 	}
 
-	private File getMeCabFile(DefaultFileList defaultFileList,
-			File outputJapaneseTextFile) {
+	private static File getMeCabFile(DefaultFileList defaultFileList,
+			File bdnXmlFile) {
 		// TODO select a file
-		return new File(defaultFileList.getDefaultDirectory(),
-				defaultFileList.getDefaultFileNamePrefix() + "_mecab.txt");
+		File directory = defaultFileList.getDefaultDirectory();
+		if (bdnXmlFile != null) {
+			directory = bdnXmlFile.getParentFile();
+		}
+		return new File(directory, defaultFileList.getDefaultFileNamePrefix()
+				+ "_mecab.txt");
 	}
 
 	private File getXmlFile(DefaultFileList defaultFileList,
@@ -647,10 +642,15 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				defaultFileList.getDefaultFileNamePrefix() + "_easyjasub.xml");
 	}
 
-	private File getJGlossFile(DefaultFileList defaultFileList) {
+	private static File getJGlossFile(DefaultFileList defaultFileList,
+			File bdnXmlFile) {
 		// TODO select a file
-		return new File(defaultFileList.getDefaultDirectory(),
-				defaultFileList.getDefaultFileNamePrefix() + ".jgloss");
+		File directory = defaultFileList.getDefaultDirectory();
+		if (bdnXmlFile != null) {
+			directory = bdnXmlFile.getParentFile();
+		}
+		return new File(directory, defaultFileList.getDefaultFileNamePrefix()
+				+ ".jgloss");
 	}
 
 	private void getSelectLines(String selectLines) throws EasyJaSubException {
@@ -729,60 +729,43 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				+ showTranslation);
 	}
 
-	private static boolean getShowRomaji(String showRomaji,
-			File nihongoJtalkHtmlFile, String meCabCommand, boolean showFurigana)
+	private static boolean getShowRomaji(String showRomaji, boolean showFurigana)
 			throws EasyJaSubException {
 		if (showRomaji == null || isDefault(showRomaji)) {
-			return (nihongoJtalkHtmlFile != null || meCabCommand != null)
-					&& !showFurigana;
+			return !showFurigana;
 		}
 		if (isDisabled(showRomaji)) {
 			return false;
 		}
 		if (isEnabled(showRomaji)) {
-			if (nihongoJtalkHtmlFile == null) {
-				throw new EasyJaSubException(
-						"Can not display romaji without MeCab or nihongo JTalk file");
-			}
 			return true;
 		}
 		throw new EasyJaSubException("Invalid setting for romaji: "
 				+ showRomaji);
 	}
 
-	private static boolean getShowKanji(String show, File nihongoJtalkHtmlFile,
-			String meCabCommand) throws EasyJaSubException {
+	private static boolean getShowKanji(String show) throws EasyJaSubException {
 		if (show == null || isDefault(show)) {
-			return nihongoJtalkHtmlFile != null || meCabCommand != null;
+			return true;
 		}
 		if (isDisabled(show)) {
 			return false;
 		}
 		if (isEnabled(show)) {
-			if (nihongoJtalkHtmlFile == null && meCabCommand == null) {
-				throw new EasyJaSubException(
-						"Can not display kanji without MeCab or nihongo JTalk file");
-			}
 			return true;
 		}
 		throw new EasyJaSubException("Invalid setting for kanji: " + show);
 	}
 
-	private static boolean getShowFurigana(String show,
-			File nihongoJtalkHtmlFile, String meCabCommand, boolean showKanji)
+	private static boolean getShowFurigana(String show, boolean showKanji)
 			throws EasyJaSubException {
 		if (show == null || isDefault(show)) {
-			return (nihongoJtalkHtmlFile != null || meCabCommand != null)
-					&& showKanji;
+			return true;
 		}
 		if (isDisabled(show)) {
 			return false;
 		}
 		if (isEnabled(show)) {
-			if (nihongoJtalkHtmlFile == null && meCabCommand == null) {
-				throw new EasyJaSubException(
-						"Can not display furigana without MeCab or nihongo JTalk file");
-			}
 			return true;
 		}
 		throw new EasyJaSubException("Invalid setting for furigana: " + show);

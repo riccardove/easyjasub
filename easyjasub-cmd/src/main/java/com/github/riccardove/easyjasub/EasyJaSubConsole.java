@@ -497,4 +497,25 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	public void onWriteJGlossFileSkipped(File file) {
 		lowVerboseMessage("onWriteJGlossFileSkipped " + toString(file));
 	}
+
+	@Override
+	public void onLuceneErrors(List<String> pronunciationErrors) {
+		if (pronunciationErrors.size() > 0) {
+			lowVerboseMessage("pronunciationErrors "
+					+ pronunciationErrors.size()
+					+ SystemProperty.getLineSeparator()
+					+ CommonsLangStringUtils.join(pronunciationErrors,
+							SystemProperty.getLineSeparator()));
+		}
+	}
+
+	@Override
+	public void onLuceneParseStart() {
+		lowVerboseMessage("onLuceneParseStart");
+	}
+
+	@Override
+	public void onLuceneParseEnd() {
+		lowVerboseMessage("onLuceneParseEnd");
+	}
 }

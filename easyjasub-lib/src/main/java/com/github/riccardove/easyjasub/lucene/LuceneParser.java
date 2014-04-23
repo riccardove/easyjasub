@@ -1,7 +1,29 @@
 package com.github.riccardove.easyjasub.lucene;
 
+/*
+ * #%L
+ * easyjasub-lib
+ * %%
+ * Copyright (C) 2014 Riccardo Vestrini
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,19 +67,38 @@ public class LuceneParser {
 	private List<LuceneToken> readTokens(TokenStream tokenStream)
 			throws IOException {
 		ArrayList<LuceneToken> tokens = new ArrayList<LuceneToken>();
+		HashMap<Integer, LuceneToken> tokensByStartOffset = new HashMap<Integer, LuceneToken>();
 		addAttributes(tokenStream);
 		tokenStream.reset();
+
 		while (tokenStream.incrementToken()) {
 			if (tokenStream.hasAttributes()) {
 				LuceneToken token = new LuceneToken();
+
 				readOffset(tokenStream, token);
+
+				// Lucene may output multiple tokens for compound words
+				LuceneToken tokenWithSameStartOffset = tokensByStartOffset
+						.get(token.getStartOffset());
+				if (tokenWithSameStartOffset != null) {
+					if (token.getEndOffset() >= tokenWithSameStartOffset
+							.getEndOffset()) {
+						continue;
+					} else {
+						tokens.remove(tokenWithSameStartOffset);
+					}
+				}
+
 				readReading(tokenStream, token);
 				readPartOfSpeech(tokenStream, token);
 				readInflection(tokenStream, token);
 				readBaseForm(tokenStream, token);
+
+				tokensByStartOffset.put(token.getStartOffset(), token);
 				tokens.add(token);
 			}
 		}
+
 		tokenStream.end();
 		tokenStream.close();
 		return tokens;
@@ -86,8 +127,7 @@ public class LuceneParser {
 			token.setInflectionForm(LuceneUtil
 					.TranslateInflectedForm(inflection.getInflectionForm()));
 			token.setInflectionType(LuceneUtil
-					.TranslateInflectionType(inflection
-							.getInflectionType()));
+					.TranslateInflectionType(inflection.getInflectionType()));
 		}
 	}
 

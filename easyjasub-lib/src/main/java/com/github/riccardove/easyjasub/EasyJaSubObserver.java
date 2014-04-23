@@ -187,4 +187,10 @@ public interface EasyJaSubObserver {
 			throws EasyJaSubException;
 
 	void onWriteJGlossFileSkipped(File f);
+
+	void onLuceneErrors(List<String> pronunciationErrors);
+
+	void onLuceneParseStart();
+
+	void onLuceneParseEnd();
 }

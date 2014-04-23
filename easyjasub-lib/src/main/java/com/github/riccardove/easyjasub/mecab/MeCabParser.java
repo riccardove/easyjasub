@@ -44,9 +44,9 @@ public class MeCabParser {
 						line = list.add();
 					}
 					MeCabSubtitleLineItem item = new MeCabSubtitleLineItem();
-					item.setReading(matcher.katakana());
+					item.setReading(matcher.getReading());
 					item.setText(matcher.originalWord());
-					item.setGrammarElement(matcher.grammar());
+					item.setGrammarElement(matcher.getPartOfSpeech());
 					line.addItem(item);
 				}
 			}

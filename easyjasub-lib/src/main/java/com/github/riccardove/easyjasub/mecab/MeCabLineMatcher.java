@@ -38,7 +38,7 @@ class MeCabLineMatcher {
 	 * Parses a line of MeCab output, e.g.:<br/>
 	 * 魔法 名詞,一般,*,*,*,*,魔法,マホウ,マホー<br/>
 	 */
-	private static final String RegexStr = "^([^\t]+)\t([^,]+),[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,(.+)$";
+	private static final String RegexStr = "^([^\t]+)\t([^,]+),[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,([^,]+),(.+)$";
 	/**
 	 * lines for proper nouns seems to be different:<br/>
 	 * フィオーレ 名詞,固有名詞,一般,*,*,*,* <br/>
@@ -67,14 +67,21 @@ class MeCabLineMatcher {
 	 * <li>助動詞: auxiliary verb</li>
 	 * </ul>
 	 */
-	public String grammar() {
+	public String getPartOfSpeech() {
 		return matcher.group(2);
 	}
 
-	public String katakana() {
+	public String getReading() {
 		if (second) {
 			return null;
 		}
 		return matcher.group(3);
+	}
+
+	public String getPronunciation() {
+		if (second) {
+			return null;
+		}
+		return matcher.group(4);
 	}
 }

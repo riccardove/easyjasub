@@ -70,8 +70,10 @@ public class EasyJaSub {
 
 			if (command.getNihongoJtalkHtmlFile() != null) {
 				parseNihongoJTalkFile(command, observer, s);
-			} else {
+			} else if (command.getMeCabCommand() != null) {
 				runMeCab(command, observer, s);
+			} else {
+				luceneAnalyze(command, observer, s);
 			}
 
 			if (command.getXmlFile() != null) {
@@ -279,6 +281,14 @@ public class EasyJaSub {
 		} else {
 			observer.onReadTranslatedSubtitlesSkipped(file);
 		}
+	}
+
+	private void luceneAnalyze(EasyJaSubInput command,
+			EasyJaSubObserver observer, SubtitleList s)
+			throws EasyJaSubException {
+		observer.onLuceneParseStart();
+		new SubtitleListLuceneAnalyzer(observer).run(s);
+		observer.onLuceneParseEnd();
 	}
 
 	private void runMeCab(EasyJaSubInput command, EasyJaSubObserver observer,
