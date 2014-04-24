@@ -39,7 +39,7 @@ public class MeCabLineMatcherTest extends EasyJaSubTestCase {
 		assertTrue(r.matches());
 		assertEquals("根づい", r.originalWord());
 		assertEquals("動詞", r.getPartOfSpeech());
-		assertEquals("ネズイ", r.getReading());
+		assertEquals("ネヅイ", r.getReading());
 	}
 
 	public void test3() {

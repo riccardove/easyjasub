@@ -43,35 +43,36 @@ public class SubtitleListLuceneAnalyzer {
 
 		int position = 0;
 		for (LuceneToken token : tokens) {
-			SubtitleItem subsItem = new SubtitleItem();
 			if (token.getStartOffset() > position) {
-				// symbol or otherwise unparsed text
+				SubtitleItem subsItem = new SubtitleItem();
+				// we have missed a symbol or otherwise unparsed text
 				String text = line.getJapanese().substring(position,
 						token.getStartOffset());
 				subsItem.setText(text);
-			} else {
-				// TODO: merge suffix tokens
-				String text = line.getJapanese().substring(
-						token.getStartOffset(), token.getEndOffset());
-				subsItem.setText(text);
-				subsItem.setGrammarElement(token.getPartOfSpeech());
+				items.add(subsItem);
+			}
 
-				String reading = token.getReading();
-				if (reading != null) {
-					KurikosuWord word = null;
-					try {
-						word = Kurikosu.convertKatakanaToHiragana(reading);
-					} catch (EasyJaSubException e) {
-						pronunciationErrors.add(e.getMessage());
-					}
-					if (word != null) {
-						if (!word.getHiragana().equals(text)) {
-							trySetFurigana(text, word.getHiragana(), subsItem);
-						}
-						subsItem.setRomaji(word.getRomaji());
-					}
+			SubtitleItem subsItem = new SubtitleItem();
+			// TODO: merge suffix tokens
+			String text = line.getJapanese().substring(token.getStartOffset(),
+					token.getEndOffset());
+			subsItem.setText(text);
+			subsItem.setGrammarElement(token.getPartOfSpeech());
+
+			String reading = token.getReading();
+			if (reading != null) {
+				KurikosuWord word = null;
+				try {
+					word = Kurikosu.convertKatakanaToHiragana(reading);
+				} catch (EasyJaSubException e) {
+					pronunciationErrors.add(e.getMessage());
 				}
-
+				if (word != null) {
+					if (!word.getHiragana().equals(text)) {
+						trySetFurigana(text, word.getHiragana(), subsItem);
+					}
+					subsItem.setRomaji(word.getRomaji());
+				}
 			}
 			items.add(subsItem);
 			position = token.getEndOffset();
