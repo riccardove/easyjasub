@@ -5,7 +5,7 @@
 <meta name="description"
 	content="SourceForge presents the easyjasub project. easyjasub is an open source application. easyjasub is a tool to add furigana and in-line translation to japanese subtitles, for language learning." />
 <meta name="keywords"
-	content="easyjasub, furigana, subtitles, Open Source, Software, Development, Command-line, Languages, Video, Java, OS Portable, Apache License V2.0, Advanced End Users" />
+	content="easyjasub, Japanese, furigana, subtitles" />
 <title>SourceForge.net: easyjasub</title>
 <style type="text/css">
 body {
@@ -145,6 +145,9 @@ span.kk {
 				href="http://sourceforge.net/p/easyjasub/tickets/">ask for help
 				opening a new ticket</a>
 		</p>
+		<p>
+		 	Visit <a href="http://easyjasub.wordpress.com">the project blog</a> to get support and discuss about the easyjasub tool usage and development.
+		</p>
 
 		<p>The result of the automatic parsing of Japanese is not always
 			accurate and you may see incorrect words in subtitles, this is
@@ -159,6 +162,7 @@ span.kk {
 		<ul>
 			<li><a href="http://sourceforge.net/projects/easyjasub/">Project
 					summary</a></li>
+			<li><a href="http://easyjasub.wordpress.com">Project blog</a></li>
 			<li><a href="http://sourceforge.net/p/easyjasub/tickets/">Defects
 					notifications and support tickets</a></li>
 			<li><a href="http://easyjasub.sourceforge.net">Documentation</a>
@@ -189,10 +193,6 @@ span.kk {
 				from <a href="http://java.com">Java.com</a> if your OS does not
 				provide a standard installation
 			</li>
-			<li><a href="https://code.google.com/p/mecab">MeCab</a> is used
-				to parse Japanese and is rather fundamental, you can download it
-				from <a href=" https://code.google.com/p/mecab/downloads/list">MeCab
-					on Google Code download page</a>. Be sure you select UTF-8 usage.</li>
 			<li><a href="https://github.com/mjuhasz/BDSup2Sub">BDSup2Sub</a>
 				is useful to convert easyjasub output (Sony BDN XML) to a format
 				usable by your video player: it can convert subtitles in Blu-Ray
@@ -297,11 +297,11 @@ span.kk {
 			produced. The tool does not overwrite files already existing but uses
 			them.</p>
 
-		<p>MeCab and wkhtmltoimage are searched in their default
-			installation folders, if they are not found you can use options -mc
-			and -wk to specify the full path to the executable.</p>
-		<pre>java -jar easyjasub-cmd.jar -ja subtitle.ja.srt -tr subtitle.en.srt -wk /usr/local/bin/wkhtmltoimage -mc /opt/mecab/mecab</pre>
-		<pre>easyjasub.exe -ja subtitle.ja.srt -tr subtitle.en.srt -mc D:\MeCab\bin\mecab.exe</pre>
+		<p>wkhtmltoimage is searched in its default
+			installation folder, if it is not found you can use option
+			-wk to specify the full path to the executable.</p>
+		<pre>java -jar easyjasub-cmd.jar -ja subtitle.ja.srt -tr subtitle.en.srt -wk /usr/local/bin/wkhtmltoimage</pre>
+		<pre>easyjasub.exe -ja subtitle.ja.srt -tr subtitle.en.srt -wk D:\wkhtmltopdf\bin\wkhtmltoimage.exe</pre>
 		<p>You can customize the elements displayed in subtitles, for
 			example you can show romaji, hide the translation, and even show just
 			the Hiragana rewriting hiding Kanji; to do so use the following
@@ -321,6 +321,20 @@ span.kk {
 			And here a sample without Kanji <img src="sample11.png"
 				alt="Sample easyjasub subtitle picture" />
 		</p>
+
+		<h2>Using MeCab</h2>
+
+		<p>Starting from version 0.3, easyjasub uses <a href="http://www.atilika.org/">Lucene Kuromoji Analyzer</a> 
+			for parsing Japanese text, but if you want you use
+			<a href="https://code.google.com/p/mecab">MeCab</a> tool, you can download it
+				from <a href=" https://code.google.com/p/mecab/downloads/list">MeCab
+					on Google Code download page</a>. Be sure you select UTF-8 usage.</p>
+
+		<p>MeCab is searched in its default
+			installation folder, if not found you can use option -mc
+			to specify the full path to the executable.</p>
+		<pre>java -jar easyjasub-cmd.jar -ja subtitle.ja.srt -tr subtitle.en.srt -mc /opt/mecab/mecab</pre>
+		<pre>easyjasub.exe -ja subtitle.ja.srt -tr subtitle.en.srt -mc D:\MeCab\bin\mecab.exe</pre>
 
 		<h2>Using online converter</h2>
 		<p>
@@ -391,8 +405,7 @@ span.kk {
 			<li>Converts Japanese subtitles in plain text format and write
 				it in a text .txt file</li>
 			<li>Read translated subtitles file</li>
-			<li>If the online translator HTML file is available, parses it,
-				otherwise runs MeCab</li>
+			<li>Parses the Japanese text</li>
 			<li>Create the output folder to store files</li>
 			<li>Writes a CSS file to style subtitles</li>
 			<li>Writes one HTML file for each subtitle line</li>

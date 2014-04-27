@@ -50,7 +50,8 @@
 		</file>
 		<file>
 			<lineEnding>unix</lineEnding>
-			<source>../README.txt</source>
+			<source>../README.md</source>
+			<destName>README.txt</destName>
 		</file>
 		<file>
 			<lineEnding>unix</lineEnding>

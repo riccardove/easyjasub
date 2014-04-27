@@ -19,7 +19,7 @@
 	<parent>
 		<groupId>com.github.riccardove.easyjasub</groupId>
 		<artifactId>easyjasub</artifactId>
-		<version>0.2.1-SNAPSHOT</version>
+		<version>0.3.0</version>
 	</parent>
 
 	<build>
@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-analyzers-kuromoji</artifactId>
-			<version>4.7.2</version>
+			<version>${easyjasub.lucene-analyzers-kuromoji.version}</version>
 		</dependency>
 	</dependencies>
 
