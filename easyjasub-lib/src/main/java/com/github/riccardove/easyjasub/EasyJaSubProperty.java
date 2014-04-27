@@ -39,8 +39,7 @@ public final class EasyJaSubProperty {
 		String date = "unknowndate";
 		String issues = null;
 		String url = null;
-		InputStream stream = EasyJaSubProperty.class
-				.getResourceAsStream("easyjasub-lib.properties");
+		InputStream stream = getPropertiesResourceStream("easyjasub-lib.properties");
 		if (stream != null) {
 			Properties properties = new Properties();
 			try {
@@ -60,6 +59,10 @@ public final class EasyJaSubProperty {
 		Version = version;
 		IssuesManagementUrl = issues;
 		Url = url;
+	}
+
+	private static InputStream getPropertiesResourceStream(String name) {
+		return EasyJaSubProperty.class.getResourceAsStream(name);
 	}
 
 	private static final String Name;
