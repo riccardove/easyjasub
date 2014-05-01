@@ -87,15 +87,10 @@
 		<easyjasub.nv-i18n.version>1.11</easyjasub.nv-i18n.version>
 		<easyjasub.lucene-analyzers-kuromoji.version>4.7.2</easyjasub.lucene-analyzers-kuromoji.version>
 		<wix.version>${project.version}.1</wix.version>
-		<launch4j.name>easyjasub-cmd-${project.version}</launch4j.name>
-		<launch4j.jremin>1.7.0</launch4j.jremin>
-		<launch4j.jreheap>128</launch4j.jreheap>
-		<launch4j.jreheapmax>512</launch4j.jreheapmax>
-		<launch4j.icon>src/main/resources/com/github/riccardove/easyjasub/icon32.ico</launch4j.icon>
-		<launch4j.outfile>${project.build.directory}/${launch4j.name}.exe</launch4j.outfile>
-		<launch4j.jreopt>-Dfile.encoding=UTF-8</launch4j.jreopt>
 		<main.class>com.github.riccardove.easyjasub.App</main.class>
 		<assembly.name>easyjasub-${project.version}</assembly.name>
+		<launch4j.name>easyjasub-cmd-${project.version}</launch4j.name>
+		<launch4j.outfile>${project.build.directory}/${launch4j.name}.exe</launch4j.outfile>
 	</properties>
 
 	<build>

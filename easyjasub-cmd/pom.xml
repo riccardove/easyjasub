@@ -22,6 +22,17 @@
 		<artifactId>easyjasub</artifactId>
 		<version>0.4.0-SNAPSHOT</version>
 	</parent>
+	
+	<properties>
+		<launch4j.jremin>1.7.0</launch4j.jremin>
+		<launch4j.jreheap>128</launch4j.jreheap>
+		<launch4j.jreheapmax>512</launch4j.jreheapmax>
+		<launch4j.icon>src/main/resources/com/github/riccardove/easyjasub/icon32.ico</launch4j.icon>
+		<launch4j.jreopt>-Dfile.encoding=UTF-8</launch4j.jreopt>
+		<launch4j.sourceclassifier>shaded</launch4j.sourceclassifier>
+		<launch4j.jar>${project.build.directory}/${project.artifactId}-${project.version}-${launch4j.sourceclassifier}.jar</launch4j.jar>
+		<launch4j.error>${launch4j.name} Error</launch4j.error>
+	</properties>
 
 	<build>
 		<resources>
@@ -77,7 +88,7 @@
 				</executions>
 				<configuration>
 					<shadedArtifactAttached>true</shadedArtifactAttached>
-					<shadedClassifierName>shaded</shadedClassifierName>
+					<shadedClassifierName>${launch4j.sourceclassifier}</shadedClassifierName>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -93,8 +104,8 @@
 						<configuration>
 							<headerType>console</headerType>
 							<outfile>${launch4j.outfile}</outfile>
-							<jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
-							<errTitle>${launch4j.name} Error</errTitle>
+							<jar>${launch4j.jar}</jar>
+							<errTitle>${launch4j.error}</errTitle>
 							<classPath>
 								<mainClass>${main.class}</mainClass>
 							</classPath>
