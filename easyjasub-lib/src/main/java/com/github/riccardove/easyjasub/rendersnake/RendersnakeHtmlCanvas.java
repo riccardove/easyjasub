@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub.rendersnake;
  * #L%
  */
 
-
 import static org.rendersnake.HtmlAttributesFactory.charset;
 import static org.rendersnake.HtmlAttributesFactory.class_;
 import static org.rendersnake.HtmlAttributesFactory.lang;
@@ -112,8 +111,16 @@ public class RendersnakeHtmlCanvas {
 		html._td();
 	}
 
-	public void span(String kanji) throws IOException {
+	public void spanKanji(String kanji) throws IOException {
 		html.span(class_("kk")).content(kanji, false);
+	}
+
+	public void span(String styleClass) throws IOException {
+		html.span(class_(styleClass));
+	}
+
+	public void _span() throws IOException {
+		html._span();
 	}
 
 	public void _table() throws IOException {

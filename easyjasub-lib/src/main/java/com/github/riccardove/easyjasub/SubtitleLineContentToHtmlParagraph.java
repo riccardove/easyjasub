@@ -1,0 +1,133 @@
+package com.github.riccardove.easyjasub;
+
+import java.io.IOException;
+import java.util.List;
+
+import com.github.riccardove.easyjasub.rendersnake.RendersnakeHtmlCanvas;
+
+class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
+
+	private final boolean hasFurigana;
+	private final boolean hasDictionary;
+	private final boolean hasKanji;
+	private final boolean hasRomaji;
+
+	public SubtitleLineContentToHtmlParagraph(boolean hasFurigana,
+			boolean hasRomaji, boolean hasDictionary, boolean hasKanji) {
+		this.hasFurigana = hasFurigana;
+		this.hasRomaji = hasRomaji;
+		this.hasDictionary = hasDictionary;
+		this.hasKanji = hasKanji;
+	}
+
+	@Override
+	public void appendItems(RendersnakeHtmlCanvas html, List<SubtitleItem> items)
+			throws IOException {
+		html.p();
+		for (SubtitleItem item : items) {
+			appendRuby(html, item);
+		}
+		html.newline();
+		html._p();
+		html.newline();
+	}
+
+	private void appendRuby(RendersnakeHtmlCanvas html, SubtitleItem item)
+			throws IOException {
+		if (!PartOfSpeech.symbol.toString().equals(item.getGrammarElement())) {
+			html.newline();
+		}
+		List<SubtitleItem.Inner> elements = item.getElements();
+		if (elements == null && hasKanji) {
+			// there is no kanji element in the item
+			if (hasFurigana && item.getFurigana() != null) {
+				// item has a valid furigana, show text with furigana
+				appendRuby(html, item.getGrammarElement(), item.getText(),
+						item.getFurigana());
+			} else if (hasRomaji && item.getRomaji() != null) {
+				// item has a valid romaji, show text with romaji as ruby
+				appendRuby(html, item.getGrammarElement(), item.getText(),
+						item.getRomaji());
+			} else if (hasDictionary && item.getDictionary() != null) {
+				// item has a valid dictionary, show text with dictionary as
+				// ruby
+				appendRuby(html, item.getGrammarElement(), item.getText(),
+						item.getDictionary());
+			} else {
+				appendText(html, item.getText());
+			}
+		} else if (!hasKanji) {
+			// you do not want to show kanji
+			if (hasFurigana) {
+				// if item has a valid furigana then we show as hiragana text
+				String text = item.getFurigana();
+				if (text == null) {
+					// otherwise we use text
+					text = item.getText();
+				}
+				if (hasRomaji && item.getRomaji() != null) {
+					// show hiragana text with romaji as ruby
+					appendRuby(html, item.getGrammarElement(), text,
+							item.getRomaji());
+				} else if (hasDictionary && item.getDictionary() != null) {
+					// show hiragana text with dictionary
+					appendRuby(html, item.getGrammarElement(), text,
+							item.getDictionary());
+				} else {
+					// show hiragana text
+					appendText(html, text);
+				}
+			} else {
+				// we do not want to show kanji nor furigana
+				if (hasRomaji) {
+					// we show romaji when possible
+					String text = item.getRomaji();
+					if (text == null) {
+						text = item.getText();
+					}
+					if (hasDictionary && item.getDictionary() != null) {
+						appendRuby(html, item.getGrammarElement(), text,
+								item.getDictionary());
+					} else {
+						appendText(html, text);
+					}
+				} else {
+					if (hasDictionary && item.getDictionary() != null) {
+						appendRuby(html, item.getGrammarElement(),
+								item.getText(), item.getDictionary());
+					} else {
+						appendText(html, item.getText());
+					}
+				}
+			}
+		} else if (hasFurigana || hasRomaji || hasDictionary) {
+			html.ruby(item.getGrammarElement());
+			if (hasFurigana) {
+				// TODO: sometimes furigana may be limited to some kanji part of
+				// the word
+				appendElements(html, elements);
+				html.rt(item.getFurigana());
+			} else if (hasRomaji) {
+				appendElements(html, elements);
+				html.rt(item.getRomaji());
+			} else {
+				appendElements(html, elements);
+				html.rt(item.getDictionary());
+			}
+			html._ruby();
+		} else {
+			html.span(item.getGrammarElement());
+			appendElements(html, elements);
+			html._span();
+		}
+	}
+
+	private void appendRuby(RendersnakeHtmlCanvas html, String grammar,
+			String text, String ruby) throws IOException {
+		html.ruby(grammar);
+		html.write(text);
+		html.rt(ruby);
+		html._ruby();
+	}
+
+}
