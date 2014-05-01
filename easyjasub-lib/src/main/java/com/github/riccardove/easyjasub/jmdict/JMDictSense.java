@@ -23,26 +23,26 @@ package com.github.riccardove.easyjasub.jmdict;
 
 import java.util.ArrayList;
 
-import com.github.riccardove.easyjasub.PartOfSpeech;
-
-public final class JMDictSense {
+final class JMDictSense implements IJMDictSense {
 	public JMDictSense() {
-		posList = new ArrayList<PartOfSpeech>();
+		posList = new ArrayList<String>();
 		glossList = new ArrayList<String>();
 	}
 
 	private final ArrayList<String> glossList;
-	private final ArrayList<PartOfSpeech> posList;
+	private final ArrayList<String> posList;
 
-	public Iterable<PartOfSpeech> getPartOfSpeech() {
+	@Override
+	public Iterable<String> getPartOfSpeech() {
 		return posList;
 	}
 
+	@Override
 	public Iterable<String> getGloss() {
 		return glossList;
 	}
 
-	protected void addPartOfSpeech(PartOfSpeech pos) {
+	protected void addPartOfSpeech(String pos) {
 		posList.add(pos);
 	}
 

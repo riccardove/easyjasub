@@ -23,23 +23,22 @@ package com.github.riccardove.easyjasub.jmdict;
 import java.util.ArrayList;
 
 import com.github.riccardove.easyjasub.EasyJaSubXmlHandler;
-import com.github.riccardove.easyjasub.PartOfSpeech;
 
 // TODO
-public class JMDictXmlHandler implements EasyJaSubXmlHandler<JMDictXmlElement> {
+class JMDictXmlHandler implements EasyJaSubXmlHandler<JMDictXmlElement> {
 
 	private final JMDictObserver observer;
 
 	public JMDictXmlHandler(JMDictObserver observer) {
 		this.observer = observer;
-		senses = new ArrayList<JMDictSense>();
+		senses = new ArrayList<IJMDictSense>();
 	}
 
 	private int count;
 	private String keb;
 	private String reb;
 	private String entseq;
-	private final ArrayList<JMDictSense> senses;
+	private final ArrayList<IJMDictSense> senses;
 	private JMDictSense sense;
 
 	@Override
@@ -50,7 +49,7 @@ public class JMDictXmlHandler implements EasyJaSubXmlHandler<JMDictXmlElement> {
 			break;
 		}
 		case sense: {
-			sense = new JMDictSense();
+			sense = JMDictSenseLazy.create();
 			senses.add(sense);
 			break;
 		}
@@ -58,10 +57,6 @@ public class JMDictXmlHandler implements EasyJaSubXmlHandler<JMDictXmlElement> {
 			break;
 		}
 		}
-	}
-
-	private static PartOfSpeech convertTextToPartOfSpeech(String text) {
-		return PartOfSpeech.undef; // TODO
 	}
 
 	@Override
@@ -78,6 +73,7 @@ public class JMDictXmlHandler implements EasyJaSubXmlHandler<JMDictXmlElement> {
 				observer.onEntry(count, entseq, keb, reb, sense);
 			}
 			senses.clear();
+			JMDictSenseLazy.clear();
 			entseq = null;
 			sense = null;
 			keb = null;
@@ -94,12 +90,7 @@ public class JMDictXmlHandler implements EasyJaSubXmlHandler<JMDictXmlElement> {
 		}
 		case pos: {
 			if (sense != null) {
-				PartOfSpeech pos = convertTextToPartOfSpeech(text);
-				if (pos != PartOfSpeech.undef) {
-					sense.addPartOfSpeech(pos);
-				} else {
-					// TODO onError("Unknown pos: " + text);
-				}
+				sense.addPartOfSpeech(text);
 			} else {
 				onError("Invalid pos: " + text);
 			}

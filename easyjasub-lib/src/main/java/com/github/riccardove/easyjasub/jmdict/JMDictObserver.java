@@ -26,9 +26,9 @@ public interface JMDictObserver {
 	void onError(int index, String entseq, String message);
 
 	void onEntry(int index, String entseq, String keb, String reb,
-			Iterable<JMDictSense> senses);
+			Iterable<IJMDictSense> senses);
 
 	void onEntry(int index, String entseq, String keb, String reb,
-			JMDictSense sense);
+			IJMDictSense sense);
 
 }

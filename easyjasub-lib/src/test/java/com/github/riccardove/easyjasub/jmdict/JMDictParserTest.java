@@ -66,7 +66,7 @@ public class JMDictParserTest extends EasyJaSubTestCase {
 
 		@Override
 		public void onEntry(int index, String entseq, String keb, String reb,
-				Iterable<JMDictSense> senses) {
+				Iterable<IJMDictSense> senses) {
 			printlnSample(index, index + " " + entseq + " " + keb + " " + reb);
 			assertTrue(keb != null || reb != null);
 			assertNotNull(senses);
@@ -75,7 +75,7 @@ public class JMDictParserTest extends EasyJaSubTestCase {
 
 		@Override
 		public void onEntry(int index, String entseq, String keb, String reb,
-				JMDictSense sense) {
+				IJMDictSense sense) {
 			printlnSample(index, index + " " + entseq + " " + keb + " " + reb);
 			assertTrue(keb != null || reb != null);
 		}
