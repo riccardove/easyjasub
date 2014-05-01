@@ -612,11 +612,17 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 	private boolean getSingleLine() {
 		if (wkhtmltoimageFile != null) {
+			// ruby tag is not supported by Java-only HTML renderer
 			if (showKanji) {
 				if (showRomaji) {
 					return !showFurigana && !showDictionary;
 				} else if (showFurigana) {
 					return !showDictionary;
+				}
+				return true;
+			} else {
+				if (showRomaji) {
+					return !showFurigana || !showDictionary;
 				}
 				return true;
 			}
