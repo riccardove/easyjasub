@@ -21,12 +21,37 @@ package com.github.riccardove.easyjasub.jmdict;
  */
 
 
-public enum JMDictXmlElement {
-	undef, entry, ent_seq,
-	// k_ele,
-	keb,
-	// r_ele,
-	reb, re_restr,
-	// info, audit, upd_date, upd_detl,
-	sense, pos, xref, misc, gloss
+import java.util.ArrayList;
+
+import com.github.riccardove.easyjasub.PartOfSpeech;
+
+public final class JMDictSense {
+	public JMDictSense() {
+		posList = new ArrayList<PartOfSpeech>();
+		glossList = new ArrayList<String>();
+	}
+
+	private final ArrayList<String> glossList;
+	private final ArrayList<PartOfSpeech> posList;
+
+	public Iterable<PartOfSpeech> getPartOfSpeech() {
+		return posList;
+	}
+
+	public Iterable<String> getGloss() {
+		return glossList;
+	}
+
+	protected void addPartOfSpeech(PartOfSpeech pos) {
+		posList.add(pos);
+	}
+
+	protected void addGloss(String gloss) {
+		glossList.add(gloss);
+	}
+
+	protected void clear() {
+		glossList.clear();
+		posList.clear();
+	}
 }

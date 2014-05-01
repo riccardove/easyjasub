@@ -1,8 +1,8 @@
-package com.github.riccardove.easyjasub.jmdict;
+package com.github.riccardove.easyjasub;
 
 /*
  * #%L
- * easyjasub-lib
+ * easyjasub-cmd
  * %%
  * Copyright (C) 2014 Riccardo Vestrini
  * %%
@@ -21,12 +21,21 @@ package com.github.riccardove.easyjasub.jmdict;
  */
 
 
-public enum JMDictXmlElement {
-	undef, entry, ent_seq,
-	// k_ele,
-	keb,
-	// r_ele,
-	reb, re_restr,
-	// info, audit, upd_date, upd_detl,
-	sense, pos, xref, misc, gloss
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
+// TODO
+class EasyJaSubCmdPropertyFile {
+
+	public void load(File file) throws FileNotFoundException, IOException {
+		Properties p = new Properties();
+		FileInputStream stream = new FileInputStream(file);
+		p.load(stream);
+		stream.close();
+
+	}
+
 }

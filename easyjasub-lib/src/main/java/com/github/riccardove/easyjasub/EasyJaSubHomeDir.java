@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub.jmdict;
+package com.github.riccardove.easyjasub;
 
 /*
  * #%L
@@ -21,12 +21,23 @@ package com.github.riccardove.easyjasub.jmdict;
  */
 
 
-public enum JMDictXmlElement {
-	undef, entry, ent_seq,
-	// k_ele,
-	keb,
-	// r_ele,
-	reb, re_restr,
-	// info, audit, upd_date, upd_detl,
-	sense, pos, xref, misc, gloss
+import java.io.File;
+
+import com.github.riccardove.easyjasub.commons.CommonsLangSystemUtils;
+
+public final class EasyJaSubHomeDir {
+
+	public static File getDefaultHomeDir(String name) {
+		return CommonsLangSystemUtils.isWindows() ? getWindowsHomeDir(name)
+				: getUnixHomeDir(name);
+	}
+
+	private static File getUnixHomeDir(String name) {
+		return new File(SystemProperty.getUserDir(), "." + name);
+	}
+
+	private static File getWindowsHomeDir(String name) {
+		return new File(SystemEnv.getWindowsAppData(), name);
+	}
+
 }

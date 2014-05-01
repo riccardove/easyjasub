@@ -27,6 +27,7 @@ import com.github.riccardove.easyjasub.EasyJaSubObserver;
 
 public class MeCabParser {
 
+	// TODO: use a mecab specific observer class here
 	public MeCabSubtitleList parse(List<String> text, EasyJaSubObserver observer) {
 		MeCabSubtitleList list = new MeCabSubtitleList();
 		MeCabSubtitleLine line = null;

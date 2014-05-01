@@ -21,12 +21,14 @@ package com.github.riccardove.easyjasub.jmdict;
  */
 
 
-public enum JMDictXmlElement {
-	undef, entry, ent_seq,
-	// k_ele,
-	keb,
-	// r_ele,
-	reb, re_restr,
-	// info, audit, upd_date, upd_detl,
-	sense, pos, xref, misc, gloss
+public interface JMDictObserver {
+
+	void onError(int index, String entseq, String message);
+
+	void onEntry(int index, String entseq, String keb, String reb,
+			Iterable<JMDictSense> senses);
+
+	void onEntry(int index, String entseq, String keb, String reb,
+			JMDictSense sense);
+
 }

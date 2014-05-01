@@ -24,6 +24,9 @@ package com.github.riccardove.easyjasub;
 import java.io.File;
 import java.security.CodeSource;
 
+/**
+ * Detects from where this class is being executed
+ */
 class EasyJaSubProgramLocation {
 
 	static {
@@ -36,7 +39,8 @@ class EasyJaSubProgramLocation {
 			name = file.getName();
 		}
 		catch (Throwable ex) {
-
+			locationStr = "<invalid:" + ex.getLocalizedMessage() + ">";
+			name = "<easyjasub>";
 		}
 		LocationStr = locationStr;
 		Name = name;
@@ -44,17 +48,28 @@ class EasyJaSubProgramLocation {
 	
 	private static final String LocationStr;
 	
+	/**
+	 * Returns the full path of the file used to run this program
+	 */
 	public static String getLocationStr() {
 		return LocationStr;
 	}
 	
 	private static final String Name;
 	
+	/**
+	 * Returns the name of the file used to run this program, may be a .jar or a
+	 * .exe
+	 */
 	public static String getName() {
 		return Name;
 	}
 	
+	/**
+	 * Detects if this application is being run from a Windows executable file
+	 * likely using launch4j
+	 */
 	public static boolean isExe() {
-		return Name.endsWith(".exe");
+		return Name != null && Name.endsWith(".exe");
 	}
 }

@@ -21,12 +21,23 @@ package com.github.riccardove.easyjasub.jmdict;
  */
 
 
-public enum JMDictXmlElement {
-	undef, entry, ent_seq,
-	// k_ele,
-	keb,
-	// r_ele,
-	reb, re_restr,
-	// info, audit, upd_date, upd_detl,
-	sense, pos, xref, misc, gloss
+import java.io.File;
+import java.io.IOException;
+
+import org.xml.sax.SAXException;
+
+import com.github.riccardove.easyjasub.EasyJaSubXmlHandlerAdapter;
+import com.github.riccardove.easyjasub.EasyJaSubXmlReader;
+
+public class JMDictParser {
+
+	public void parse(File file, JMDictObserver observer) throws IOException,
+			SAXException {
+		EasyJaSubXmlReader reader = new EasyJaSubXmlReader(
+				new EasyJaSubXmlHandlerAdapter<JMDictXmlElement>(
+						JMDictXmlElement.undef, JMDictXmlElement.values(),
+						new JMDictXmlHandler(observer)));
+		reader.parse(file);
+	}
+
 }

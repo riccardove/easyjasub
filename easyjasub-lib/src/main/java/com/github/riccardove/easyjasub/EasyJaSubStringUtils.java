@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub.jmdict;
+package com.github.riccardove.easyjasub;
 
 /*
  * #%L
@@ -21,12 +21,11 @@ package com.github.riccardove.easyjasub.jmdict;
  */
 
 
-public enum JMDictXmlElement {
-	undef, entry, ent_seq,
-	// k_ele,
-	keb,
-	// r_ele,
-	reb, re_restr,
-	// info, audit, upd_date, upd_detl,
-	sense, pos, xref, misc, gloss
+import com.github.riccardove.easyjasub.commons.CommonsLangStringUtils;
+
+public final class EasyJaSubStringUtils {
+	public static String getMultiLineMessage(Iterable<String> messages) {
+		return CommonsLangStringUtils.join(messages,
+				SystemProperty.getLineSeparator());
+	}
 }

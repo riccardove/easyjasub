@@ -29,4 +29,8 @@ class SystemEnv {
 	public static String getWindowsProgramFiles32() {
 		return System.getenv("ProgramFiles(x86)");
 	}
+
+	public static String getWindowsAppData() {
+		return System.getenv("APPDATA");
+	}
 }
