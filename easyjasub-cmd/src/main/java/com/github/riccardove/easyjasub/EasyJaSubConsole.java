@@ -518,4 +518,21 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	public void onLuceneParseEnd() {
 		lowVerboseMessage("onLuceneParseEnd");
 	}
+
+	@Override
+	public void onConvertToHtmlSubtitleListStart(File htmlFolder) {
+		lowVerboseMessage("onConvertToHtmlSubtitleListStart");
+	}
+
+	@Override
+	public void onConvertToHtmlSubtitleListEnd(File htmlFolder) {
+		lowVerboseMessage("onConvertToHtmlSubtitleListEnd");
+	}
+
+	@Override
+	public void onConvertToHtmlSubtitleListError(File htmlFolder, IOException ex)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error generating HTML files: "
+				+ ex.getLocalizedMessage());
+	}
 }

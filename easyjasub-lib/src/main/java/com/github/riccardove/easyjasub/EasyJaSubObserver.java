@@ -193,4 +193,11 @@ public interface EasyJaSubObserver {
 	void onLuceneParseStart();
 
 	void onLuceneParseEnd();
+
+	void onConvertToHtmlSubtitleListStart(File htmlFolder);
+
+	void onConvertToHtmlSubtitleListEnd(File htmlFolder);
+
+	void onConvertToHtmlSubtitleListError(File htmlFolder, IOException ex)
+			throws EasyJaSubException;
 }

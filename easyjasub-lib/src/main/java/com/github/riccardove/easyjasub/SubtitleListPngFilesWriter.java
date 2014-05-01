@@ -39,12 +39,14 @@ class SubtitleListPngFilesWriter {
 	
 	private final WkHtmlToImageProcessBuilder wkhtmltoimageexe;
 	
-	public void writeImages(SubtitleList s, File htmlFolder, File pngFolder) throws IOException, InterruptedException, WkhtmltoimageException 
+	public void writeImages(PictureSubtitleList s, File htmlFolder,
+			File pngFolder) throws IOException, InterruptedException,
+			WkhtmltoimageException
 	{
 		int result  = 0;
 		LinkedList<Process> processes = new LinkedList<Process>();
 		boolean first = true;
-		for (SubtitleLine l : s) {
+		for (PictureSubtitleLine l : s) {
 			
 			File file = l.getHtmlFile();
 		

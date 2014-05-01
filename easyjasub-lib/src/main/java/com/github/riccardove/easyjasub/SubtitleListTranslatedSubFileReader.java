@@ -53,35 +53,41 @@ class SubtitleListTranslatedSubFileReader {
 		s.setTranslatedSubLanguage(subs.getLanguage());
 		s.setTranslatedSubWarnings(subs.getWarnings());
 		for (InputTextSubCaption translatedCaption : subs.getCaptions()) {
-			boolean added = false;
-			for (SubtitleLine jaLine : s) {
-				if (isJa(jaLine) && compatibleWith(jaLine, translatedCaption)) {
-					addTranslation(jaLine, translatedCaption);
-					added = true;
-				} else if (added) {
-					break;
-				}
-			}
-			if (!added) {
+			String content = SubtitleListJapaneseSubFileReader
+					.getContent(translatedCaption);
+			if (content != null) {
+				boolean added = false;
 				for (SubtitleLine jaLine : s) {
 					if (isJa(jaLine)
-							&& approxCompatibleWith(jaLine, translatedCaption)) {
-						addTranslation(jaLine, translatedCaption);
-						if (!added) {
-							added = true;
-						} else {
-							observer.onTranslatedSubDuplicated(
-									translatedCaption.getContent(),
-									translatedCaption.getStart().getMSeconds(),
-									jaLine.getStartTime());
-						}
+							&& compatibleWith(jaLine, translatedCaption)) {
+						addTranslation(jaLine, content);
+						added = true;
 					} else if (added) {
 						break;
 					}
 				}
-			}
-			if (!added && showTranslation) {
-				insertTranslation(s, translatedCaption, selection);
+				if (!added) {
+					for (SubtitleLine jaLine : s) {
+						if (isJa(jaLine)
+								&& approxCompatibleWith(jaLine,
+										translatedCaption)) {
+							addTranslation(jaLine, content);
+							if (!added) {
+								added = true;
+							} else {
+								observer.onTranslatedSubDuplicated(content,
+										translatedCaption.getStart()
+												.getMSeconds(), jaLine
+												.getStartTime());
+							}
+						} else if (added) {
+							break;
+						}
+					}
+				}
+				if (!added && showTranslation) {
+					insertTranslation(s, translatedCaption, selection, content);
+				}
 			}
 		}
 		String lastTranslation = null;
@@ -98,11 +104,6 @@ class SubtitleListTranslatedSubFileReader {
 				lastTranslation = null;
 			}
 		}
-	}
-
-	private void addTranslation(SubtitleLine jaLine,
-			InputTextSubCaption enCaption) {
-		addTranslation(jaLine, enCaption.getContent());
 	}
 
 	private static void addTranslation(SubtitleLine jaLine,
@@ -134,14 +135,14 @@ class SubtitleListTranslatedSubFileReader {
 
 	private void insertTranslation(SubtitleList lines,
 			InputTextSubCaption translatedCaption,
-			EasyJaSubLinesSelection selection) {
+			EasyJaSubLinesSelection selection, String content) {
 		// TODO: avoid inserting lines that match a non-japanese line with just
 		// getSubText()
 		for (int i = 0; i < lines.size(); ++i) {
 			SubtitleLine line = lines.get(i);
 			if (isJa(line) && startsAfter(line, translatedCaption)) {
 				if (i > 0 && !endsBefore(lines.get(i - 1), translatedCaption)) {
-					addTranslation(lines.get(i - 1), translatedCaption);
+					addTranslation(lines.get(i - 1), content);
 				} else {
 					if (selection == null
 							|| isTimeCompatibleWithSelection(translatedCaption,
@@ -165,7 +166,7 @@ class SubtitleListTranslatedSubFileReader {
 								.getStart().getMSeconds());
 						translationLine.setEndTime(translatedCaption.getEnd()
 								.getMSeconds());
-						addTranslation(translationLine, translatedCaption);
+						addTranslation(translationLine, content);
 					}
 				}
 				break;

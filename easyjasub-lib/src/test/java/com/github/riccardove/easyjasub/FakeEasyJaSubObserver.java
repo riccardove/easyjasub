@@ -489,4 +489,22 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	}
 
+	@Override
+	public void onConvertToHtmlSubtitleListStart(File htmlFolder) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onConvertToHtmlSubtitleListEnd(File htmlFolder) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onConvertToHtmlSubtitleListError(File htmlFolder, IOException ex) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

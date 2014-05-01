@@ -59,17 +59,40 @@ public final class EasyJaSubProperty {
 		Version = version;
 		IssuesManagementUrl = issues;
 		Url = url;
+
+		EasyJaSubInputOption[] options = EasyJaSubInputOption.values();
+		String[] inputOptions = new String[options.length];
+		InputStream streamXml = getPropertiesResourceStream("easyjasub-lib.properties.xml");
+		if (streamXml != null) {
+			Properties properties = new Properties();
+			try {
+				properties.loadFromXML(streamXml);
+				for (int i = 0; i < options.length; ++i) {
+					String text = properties.getProperty("optiondesc."
+							+ options[i]);
+					inputOptions[i] = text;
+				}
+			} catch (IOException e) {
+				streamXml = null;
+			}
+		}
+		InputOptions = inputOptions;
 	}
 
 	private static InputStream getPropertiesResourceStream(String name) {
 		return EasyJaSubProperty.class.getResourceAsStream(name);
 	}
 
+	private static final String[] InputOptions;
 	private static final String Name;
 	private static final String Version;
 	private static final String Date;
 	private static final String IssuesManagementUrl;
 	private static final String Url;
+
+	public static String getOptionDescription(EasyJaSubInputOption optionIndex) {
+		return InputOptions[optionIndex.ordinal()];
+	}
 
 	public static String getName() {
 		return Name;

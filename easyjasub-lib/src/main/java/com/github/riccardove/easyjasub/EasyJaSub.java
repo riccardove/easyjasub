@@ -105,18 +105,16 @@ public class EasyJaSub {
 		int index = 0;
 		for (SubtitleLine line : s) {
 			line.setIndex(++index);
-
-			String b = filePrefix + "_line"
-					+ String.format("%04d", line.getIndex());
-			line.setHtmlFile(new File(htmlFolder, b + ".html"));
-			line.setPngFile(new File(bdnFolder, b + ".png"));
 		}
 
-		writeHtmlFiles(command, observer, s, htmlFolder, cssFileUrl);
+		PictureSubtitleList ps = toPictureSubtitleList(s, observer, command,
+				filePrefix, htmlFolder, bdnFolder, cssFileUrl);
 
-		writePngFiles(command, observer, s, htmlFolder, bdnFolder);
+		writeHtmlFiles(command, observer, ps, htmlFolder, cssFileUrl);
 
-		writeBdnXmlFile(command, observer, s);
+		writePngFiles(command, observer, ps, htmlFolder, bdnFolder);
+
+		writeBdnXmlFile(command, observer, ps);
 
 		File idxFile = command.getOutputIdxFile();
 		if (idxFile == null) {
@@ -124,6 +122,23 @@ public class EasyJaSub {
 		}
 		observer.onWriteIdxFileStart(idxFile, bdnFile);
 		return 0;
+	}
+
+	private PictureSubtitleList toPictureSubtitleList(SubtitleList s,
+			EasyJaSubObserver observer, EasyJaSubInput command,
+			String filePrefix, File htmlFolder, File bdnFolder, File cssFileUrl)
+			throws EasyJaSubException {
+		observer.onConvertToHtmlSubtitleListStart(htmlFolder);
+		PictureSubtitleList result = null;
+		try {
+			result = new SubtitleListToPictureSubtitleList(htmlFolder,
+					cssFileUrl).writeHtmls(filePrefix, s, command, htmlFolder,
+					bdnFolder);
+			observer.onConvertToHtmlSubtitleListEnd(htmlFolder);
+		} catch (IOException ex) {
+			observer.onConvertToHtmlSubtitleListError(htmlFolder, ex);
+		}
+		return result;
 	}
 
 	private void readInputXmlFile(SubtitleList s, EasyJaSubInput command,
@@ -158,7 +173,7 @@ public class EasyJaSub {
 	}
 
 	private void writeBdnXmlFile(EasyJaSubInput command,
-			EasyJaSubObserver observer, SubtitleList s)
+			EasyJaSubObserver observer, PictureSubtitleList s)
 			throws EasyJaSubException {
 		File f = command.getBdnXmlFile();
 		if (!f.exists()) {
@@ -195,7 +210,7 @@ public class EasyJaSub {
 	}
 
 	private void writePngFiles(EasyJaSubInput command,
-			EasyJaSubObserver observer, SubtitleList s, File htmlFolder,
+			EasyJaSubObserver observer, PictureSubtitleList s, File htmlFolder,
 			File bdnFolder) throws EasyJaSubException {
 		String wkhtml = command.getWkHtmlToImageCommand();
 		int width = command.getWidth();
@@ -221,13 +236,12 @@ public class EasyJaSub {
 	}
 
 	private void writeHtmlFiles(EasyJaSubInput command,
-			EasyJaSubObserver observer, SubtitleList s, File htmlFolder,
+			EasyJaSubObserver observer, PictureSubtitleList s, File htmlFolder,
 			File cssFile) throws EasyJaSubException {
 		observer.onWriteHtmlStart(htmlFolder, cssFile);
 		mkDirs(htmlFolder);
 		try {
-			new SubtitleListHtmlFilesWriter(htmlFolder, cssFile, observer)
-					.writeHtmls(s, command);
+			new SubtitleListHtmlFilesWriter(observer).writeHtmls(s, command);
 			observer.onWriteHtmlEnd(htmlFolder);
 		} catch (IOException ex) {
 			observer.onWriteHtmlError(htmlFolder, ex);

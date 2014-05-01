@@ -69,6 +69,10 @@ class SubtitleListJapaneseSubFileReader {
 	private SubtitleLine previous;
 
 	private void addLine(SubtitleList s, InputTextSubCaption caption) {
+		String content = getContent(caption);
+		if (content == null) {
+			return;
+		}
 		SubtitleLine line = s.add();
 		if (previous != null) {
 			line.setPrevious(previous);
@@ -76,8 +80,19 @@ class SubtitleListJapaneseSubFileReader {
 		}
 		line.setStartTime(caption.getStart().getMSeconds());
 		line.setEndTime(caption.getEnd().getMSeconds());
-		String content = caption.getContent();
 		line.setSubText(content);
 		previous = line;
+	}
+
+	public static String getContent(InputTextSubCaption caption) {
+		String content = caption.getContent();
+		if (content == null) {
+			return null;
+		}
+		content = content.trim();
+		if (content.length() == 0) {
+			return null;
+		}
+		return content;
 	}
 }

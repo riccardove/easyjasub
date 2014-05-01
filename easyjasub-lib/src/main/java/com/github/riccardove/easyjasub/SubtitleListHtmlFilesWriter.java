@@ -25,40 +25,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 class SubtitleListHtmlFilesWriter {
-	private final File cssFile;
 	private final EasyJaSubObserver observer;
-	private final File htmlDirectory;
 
-	public SubtitleListHtmlFilesWriter(File htmlDirectory, File cssFile,
-			EasyJaSubObserver observer) {
-		this.htmlDirectory = htmlDirectory;
-		this.cssFile = cssFile;
+	public SubtitleListHtmlFilesWriter(EasyJaSubObserver observer) {
 		this.observer = observer;
 	}
 
-	private static String toRelativeURIStr(File file, File directory) {
-		return directory.toURI().relativize(file.toURI()).toString();
-	}
-
-	public void writeHtmls(SubtitleList s, EasyJaSubInput command)
+	public void writeHtmls(PictureSubtitleList s, EasyJaSubInput command)
 			throws IOException {
-		// TODO construct relative url
-		String cssFileUrl = cssFile != null ? toRelativeURIStr(cssFile,
-				htmlDirectory) : "default.css";
 
 		ArrayList<EasyJaSubWriter> writers = new ArrayList<EasyJaSubWriter>(
 				s.size());
-		for (SubtitleLine l : s) {
+		for (PictureSubtitleLine l : s) {
 			File file = l.getHtmlFile();
 			if (!file.exists()) {
 				observer.onWriteHtmlFile(file);
 
-				String htmlStr = new SubtitleLineToHtml(command.isSingleLine(),
-						command.showFurigana(), command.showRomaji(),
-						command.showDictionary(), command.showKanji(),
-						command.showTranslation()).toHtml(l, cssFileUrl);
-
-				writers.add(toFile(htmlStr, file));
+				writers.add(toFile(l.getHtml(), file));
 			} else {
 				observer.onWriteHtmlFileSkipped(file);
 			}

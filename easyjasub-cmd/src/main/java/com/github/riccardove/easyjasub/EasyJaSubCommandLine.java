@@ -56,80 +56,58 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 
 	public EasyJaSubCommandLine() {
 		list = new CommandLineOptionList();
-		list.addOption(VI, "video",
-				"Sets file as reference for video and audio", "file");
-		list.addOption(
-				JA,
-				"japanese-sub",
-				"Read japanese subtitles from file. "
-						+ "If not specified files with the same name of video file and of supported text subtitle type are searched.",
+		addOption(EasyJaSubInputOption.video, VI, "video", "file");
+		addOption(EasyJaSubInputOption.japanesesub, JA, "japanese-sub", "file");
+		addOption(EasyJaSubInputOption.translatedsub, TR, "translated-sub",
 				"file");
-		list.addOption(
-				TR,
-				"translated-sub",
-				"Read translated subtitles from file. "
-						+ "If not specified files with the same name of video file and of supported text subtitle type are searched.",
+		addOption(EasyJaSubInputOption.nihongojtalk, NJ, "nihongo-jtalk",
 				"file");
-		list.addOption(
-				NJ,
-				"nihongo-jtalk",
-				"Read text analysys produced with http://nihongo.j-talk.com from file. "
-						+ "If not specified HTML files with the same name of video file are searched.",
-				"file");
-
-		list.addOption(TRANSLATION, "translation",
-				"Displays translated subtitles", "enabled|disabled");
-		list.addOption(ROMAJI, "romaji", "Shows romaji text in subtitles",
+		addOption(EasyJaSubInputOption.translation, TRANSLATION, "translation",
 				"enabled|disabled");
-		list.addOption(DICTIONARY, "dictionary",
-				"Shows dictionary text in subtitles", "enabled|disabled");
-		list.addOption(FURIGANA, "furigana",
-				"Shows furigana text in subtitles", "enabled|disabled");
-		list.addOption(KANJI, "kanji", "Shows kanji text in subtitles",
+		addOption(EasyJaSubInputOption.romaji, ROMAJI, "romaji",
 				"enabled|disabled");
-
-		list.addOption(
-				TRL,
-				"tr-sub-lang",
-				"Sets language (two letter ISO code) as language used for translation. "
-						+ "By default reads it from the translated subtitle file.",
+		addOption(EasyJaSubInputOption.dictionary, DICTIONARY, "dictionary",
+				"enabled|disabled");
+		addOption(EasyJaSubInputOption.furigana, FURIGANA, "furigana",
+				"enabled|disabled");
+		addOption(EasyJaSubInputOption.kanji, KANJI, "kanji",
+				"enabled|disabled");
+		addOption(EasyJaSubInputOption.trsublang, TRL, "tr-sub-lang",
 				"language");
-		list.addOption(TX, "output-text",
-				"File name for text file of japanese subtitles", "file");
-		list.addOption(CSS, "css-style",
-				"File name for CSS file used to style subtitles", "file");
-		list.addOption(IDX, "output-idx",
-				"File name for IDX file of IDX/SUB subtitles", "file");
-		list.addOption(HTML, "output-html",
-				"Writes HTML intermediate files in directory", "directory");
-		list.addOption(BDN, "output-bdmxml",
-				"Writes BDN/XML intermediate files in directory", "directory");
-		list.addOption(MECAB, "mecab", "Command to execute MeCab program",
+		addOption(EasyJaSubInputOption.outputtext, TX, "output-text", "file");
+		addOption(EasyJaSubInputOption.cssstyle, CSS, "css-style", "file");
+		addOption(EasyJaSubInputOption.outputidx, IDX, "output-idx", "file");
+		addOption(EasyJaSubInputOption.outputhtml, HTML, "output-html",
+				"directory");
+		addOption(EasyJaSubInputOption.outputbdmxml, BDN, "output-bdmxml",
+				"directory");
+		addOption(EasyJaSubInputOption.mecab, MECAB, "mecab", "command");
+		addOption(EasyJaSubInputOption.wkhtmltoimage, WK, "wkhtmltoimage",
 				"command");
-		list.addOption(WK, "wkhtmltoimage",
-				"Command to execute wkhtmltoimage program", "command");
-		list.addOption(HEIGHT, "height",
-				"Height of the generated subtitles pictures", "pixels");
-		list.addOption(WIDTH, "width",
-				"Width of the generated subtitles pictures", "pixels");
-		list.addOption(
-				MATCHTIME,
-				"match-diff",
-				"Amount of milliseconds of difference in time to consider two subtitle lines the same",
+		addOption(EasyJaSubInputOption.height, HEIGHT, "height", "pixels");
+		addOption(EasyJaSubInputOption.width, WIDTH, "width", "pixels");
+		addOption(EasyJaSubInputOption.matchdiff, MATCHTIME, "match-diff",
 				"milliseconds");
-		list.addOption(
-				APPROXTIME,
-				"approx-diff",
-				"Amount of milliseconds of difference in time to consider two subtitle lines approximately the same",
+		addOption(EasyJaSubInputOption.approxdiff, APPROXTIME, "approx-diff",
 				"milliseconds");
-		list.addOption(
-				SELECT,
-				"select-lines",
-				"Select a subset of subtitle lines from japanese subtitles, useful for sampling",
+		addOption(EasyJaSubInputOption.selectlines, SELECT, "select-lines",
 				"n-m");
-		list.addOption(QUIET, "quiet", "Suppresses output messages");
-		list.addOption(VERBOSE, "verbose", "More verbose output messages");
-		list.addOption(HELP, "help", "Displays help");
+		addOption(EasyJaSubInputOption.quiet, QUIET, "quiet");
+		addOption(EasyJaSubInputOption.verbose, VERBOSE, "verbose");
+		addOption(EasyJaSubInputOption.help, HELP, "help");
+	}
+
+	private void addOption(EasyJaSubInputOption optionIndex, String shortName,
+			String longName) {
+		list.addOption(shortName, longName,
+				EasyJaSubProperty.getOptionDescription(optionIndex));
+	}
+
+	private void addOption(EasyJaSubInputOption optionIndex, String shortName,
+			String longName, String argumentDescription) {
+		list.addOption(shortName, longName,
+				EasyJaSubProperty.getOptionDescription(optionIndex),
+				argumentDescription);
 	}
 
 	private final CommandLineOptionList list;
@@ -232,7 +210,8 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	public boolean parse(String[] args) {
 		try {
 			CommandLineContent cm = list.parse(args);
-			isHelp = cm.hasOption(HELP);
+			String d = HELP;
+			isHelp = cm.hasOption(d);
 			videoFileName = cm.getOptionValue(VI);
 			japaneseSubFileName = cm.getOptionValue(JA);
 			translatedSubFileName = cm.getOptionValue(TR);

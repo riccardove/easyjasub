@@ -42,4 +42,14 @@ public class EasyJaSubPropertyTest extends EasyJaSubTestCase {
 		assertEquals("https://sourceforge.net/p/easyjasub/tickets/",
 				EasyJaSubProperty.getIssuesManagementUrl());
 	}
+
+	@Test
+	public void testOptionDescriptions() {
+		assertNotNull(EasyJaSubProperty
+				.getOptionDescription(EasyJaSubInputOption.dictionary));
+		assertNotNull(EasyJaSubProperty
+				.getOptionDescription(EasyJaSubInputOption.furigana));
+		assertNotNull(EasyJaSubProperty
+				.getOptionDescription(EasyJaSubInputOption.approxdiff));
+	}
 }

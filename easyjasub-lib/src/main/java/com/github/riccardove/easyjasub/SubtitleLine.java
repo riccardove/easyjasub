@@ -21,7 +21,6 @@ package com.github.riccardove.easyjasub;
  */
 
 
-import java.io.File;
 import java.util.List;
 
 public class SubtitleLine {
@@ -37,41 +36,22 @@ public class SubtitleLine {
 	
 	private int index;
 
-	private File htmlFile;
-	
-	public void setHtmlFile(File file) {
-		htmlFile = file;
-	}
-	
-	public File getHtmlFile() {
-		return htmlFile;
-	}
-
-	private File pngFile;
-	public void setPngFile(File string) {
-		pngFile = string;
-	}
-	
-	public File getPngFile() {
-		return pngFile;
-	}
-
 	private List<SubtitleItem> items;
 	private String translation;
+	private String japanese;
+
+	public String getJapanese() {
+		return japanese;
+	}
+
 	private int startTime;
 	private int endTime;
-	private String japanese;
-	
 	public int getStartTime() {
 		return startTime;
 	}
 
 	public int getEndTime() {
 		return endTime;
-	}
-
-	public String getJapanese() {
-		return japanese;
 	}
 
 	public void setStartTime(int mSeconds) {

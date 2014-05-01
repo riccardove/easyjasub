@@ -49,7 +49,8 @@ class SubtitleListBdnXmlFileWriter {
 	
 	private final ImageReader ir;
 	
-	public void write(SubtitleList s, File file) throws IOException, FileNotFoundException {
+	public void write(PictureSubtitleList s, File file) throws IOException,
+			FileNotFoundException {
 		f = new EasyJaSubXmlWriter(file);
 
         writeln("<BDN Version=\"0.93\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"BD-03-006-0093b BDN File Format.xsd\">");
@@ -67,7 +68,7 @@ class SubtitleListBdnXmlFileWriter {
 
 		int videoWidth = command.getWidth();
 		int videoHeight = command.getHeight();
-		for (SubtitleLine l : s) {
+		for (PictureSubtitleLine l : s) {
 			File imageFile = l.getPngFile();
 			if (!imageFile.canRead()) {
 				throw new IOException("Can not read file " + imageFile.getAbsolutePath());
