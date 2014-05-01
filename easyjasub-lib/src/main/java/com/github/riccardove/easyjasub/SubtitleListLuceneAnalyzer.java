@@ -24,8 +24,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.riccardove.easyjasub.kurikosu.Kurikosu;
-import com.github.riccardove.easyjasub.kurikosu.KurikosuWord;
 import com.github.riccardove.easyjasub.lucene.LuceneParser;
 import com.github.riccardove.easyjasub.lucene.LuceneToken;
 
@@ -61,12 +59,8 @@ public class SubtitleListLuceneAnalyzer {
 
 			String reading = token.getReading();
 			if (reading != null) {
-				KurikosuWord word = null;
-				try {
-					word = Kurikosu.convertKatakanaToHiragana(reading);
-				} catch (EasyJaSubException e) {
-					pronunciationErrors.add(e.getMessage());
-				}
+				EasyJaSubJapaneseConvertedText word = EasyJaSubJapaneseTextConverter
+						.convertKatakanaToHiragana(reading, pronunciationErrors);
 				if (word != null) {
 					if (!word.getHiragana().equals(text)) {
 						trySetFurigana(text, word.getHiragana(), subsItem);

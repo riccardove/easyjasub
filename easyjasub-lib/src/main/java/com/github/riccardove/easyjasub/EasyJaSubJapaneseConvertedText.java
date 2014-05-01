@@ -1,4 +1,4 @@
-package com.github.riccardove.easyjasub.kurikosu;
+package com.github.riccardove.easyjasub;
 
 /*
  * #%L
@@ -21,7 +21,7 @@ package com.github.riccardove.easyjasub.kurikosu;
  */
 
 
-public class KurikosuWord {
+class EasyJaSubJapaneseConvertedText {
 	private String hiragana;
 
 	public String getHiragana() {

@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,8 +27,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
 
-import com.github.riccardove.easyjasub.kurikosu.Kurikosu;
-import com.github.riccardove.easyjasub.kurikosu.KurikosuWord;
 import com.github.riccardove.easyjasub.mecab.MeCabGrammarElement;
 import com.github.riccardove.easyjasub.mecab.MeCabParser;
 import com.github.riccardove.easyjasub.mecab.MeCabRunner;
@@ -37,7 +34,7 @@ import com.github.riccardove.easyjasub.mecab.MeCabSubtitleLine;
 import com.github.riccardove.easyjasub.mecab.MeCabSubtitleLineItem;
 import com.github.riccardove.easyjasub.mecab.MeCabSubtitleList;
 
-public class InputMeCab {
+class InputMeCab {
 
 	private final EasyJaSubObserver observer;
 	private final String meCabCommand;
@@ -139,12 +136,9 @@ public class InputMeCab {
 				String text = meCabItem.getText();
 				String reading = meCabItem.getReading();
 				if (reading != null && canHaveFurigana(grammar)) {
-					KurikosuWord word = null;
-					try {
-						word = Kurikosu.convertKatakanaToHiragana(reading);
-					} catch (EasyJaSubException e) {
-						pronunciationErrors.add(e.getMessage());
-					}
+					EasyJaSubJapaneseConvertedText word = EasyJaSubJapaneseTextConverter
+							.convertKatakanaToHiragana(reading,
+									pronunciationErrors);
 					if (word != null) {
 						if (!word.getHiragana().equals(text)) {
 							trySetFurigana(text, word.getHiragana(), subsItem);

@@ -28,17 +28,26 @@ import com.github.riccardove.easyjasub.EasyJaSubException;
 
 public final class Kurikosu {
 
-	public static KurikosuWord convertKatakanaToHiragana(String katakana)
+	public static boolean isKatakana(String text) {
+		return Katakana.isKatakana(text);
+	}
+
+	public static String convertKatakanaToRomaji(String katakana)
 			throws EasyJaSubException {
-		if (!Katakana.isKatakana(katakana)) {
-			return null;
-		}
 		try {
-			KurikosuWord word = new KurikosuWord();
 			Katakana k = new Katakana(katakana);
-			word.setRomaji(new Katakana2Romaji().transcribe(k).getValue());
-			word.setHiragana(new Katakana2Hiragana().transcribe(k).getValue());
-			return word;
+			return new Katakana2Romaji().transcribe(k).getValue();
+		} catch (Throwable e) {
+			throw new EasyJaSubException("Error converting \"" + katakana
+					+ "\": " + e.getMessage(), e);
+		}
+	}
+
+	public static String convertKatakanaToHiragana(String katakana)
+			throws EasyJaSubException {
+		try {
+			Katakana k = new Katakana(katakana);
+			return new Katakana2Hiragana().transcribe(k).getValue();
 		} catch (Throwable e) {
 			throw new EasyJaSubException("Error converting \"" + katakana
 					+ "\": " + e.getMessage(), e);
