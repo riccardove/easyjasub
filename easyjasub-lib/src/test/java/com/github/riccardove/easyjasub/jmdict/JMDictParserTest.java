@@ -78,13 +78,5 @@ public class JMDictParserTest extends EasyJaSubTestCase {
 			assertTrue(senses.iterator().hasNext());
 			assertTrue(senses.size() < 100);
 		}
-
-		@Override
-		public void onEntry(int index, String entseq, String keb, String reb,
-				IJMDictSense sense) {
-			printlnSample(index, index + " " + entseq + " " + keb + " " + reb);
-			assertTrue(keb != null || reb != null);
-		}
-
 	}
 }

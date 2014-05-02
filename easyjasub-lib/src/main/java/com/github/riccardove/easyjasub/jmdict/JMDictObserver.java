@@ -29,8 +29,4 @@ public interface JMDictObserver {
 
 	void onEntry(int index, String entseq, String keb, String reb,
 			Collection<IJMDictSense> senses);
-
-	void onEntry(int index, String entseq, String keb, String reb,
-			IJMDictSense sense);
-
 }

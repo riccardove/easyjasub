@@ -91,11 +91,7 @@ class JMDictXmlHandler implements EasyJaSubXmlHandler<JMDictXmlElement> {
 			break;
 		}
 		case entry: {
-			if (senses.size() > 1) {
-				observer.onEntry(count, entseq, keb, reb, senses);
-			} else {
-				observer.onEntry(count, entseq, keb, reb, sense);
-			}
+			observer.onEntry(count, entseq, keb, reb, senses);
 			senses.clear();
 			JMDictSenseLazy.clear();
 			entseq = null;
