@@ -23,12 +23,17 @@ package com.github.riccardove.easyjasub.jmdict;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import com.github.riccardove.easyjasub.EasyJaSubHomeDir;
 import com.github.riccardove.easyjasub.EasyJaSubTestCase;
 
 public class JMDictParserTest extends EasyJaSubTestCase {
 
+	/**
+	 * This test will not run if JMDict_e.xml is not found in easyjasub-cmd home
+	 * dir
+	 */
 	public void testFullFile() throws Exception {
 		File jmDictFile = new File(
 				EasyJaSubHomeDir.getDefaultHomeDir("easyjasub-cmd"),
@@ -40,7 +45,7 @@ public class JMDictParserTest extends EasyJaSubTestCase {
 			return;
 		}
 		FakeObserver observer = new FakeObserver();
-		new JMDictParser().parse(jmDictFile, observer);
+		new JMDictParser().parse(jmDictFile, observer, null);
 		assertEquals("There are errors in parsing", 0, observer.errors.size());
 		if (observer.errors.size() > 0) {
 			for (String error : observer.errors) {
@@ -66,11 +71,12 @@ public class JMDictParserTest extends EasyJaSubTestCase {
 
 		@Override
 		public void onEntry(int index, String entseq, String keb, String reb,
-				Iterable<IJMDictSense> senses) {
+				Collection<IJMDictSense> senses) {
 			printlnSample(index, index + " " + entseq + " " + keb + " " + reb);
 			assertTrue(keb != null || reb != null);
 			assertNotNull(senses);
 			assertTrue(senses.iterator().hasNext());
+			assertTrue(senses.size() < 100);
 		}
 
 		@Override

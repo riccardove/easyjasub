@@ -1,5 +1,7 @@
 package com.github.riccardove.easyjasub.jmdict;
 
+import java.util.Collection;
+
 /*
  * #%L
  * easyjasub-lib
@@ -26,7 +28,7 @@ public interface JMDictObserver {
 	void onError(int index, String entseq, String message);
 
 	void onEntry(int index, String entseq, String keb, String reb,
-			Iterable<IJMDictSense> senses);
+			Collection<IJMDictSense> senses);
 
 	void onEntry(int index, String entseq, String keb, String reb,
 			IJMDictSense sense);

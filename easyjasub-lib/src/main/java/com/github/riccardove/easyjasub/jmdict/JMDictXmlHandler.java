@@ -22,15 +22,31 @@ package com.github.riccardove.easyjasub.jmdict;
 
 import java.util.ArrayList;
 
+import org.xml.sax.Attributes;
+
 import com.github.riccardove.easyjasub.EasyJaSubXmlHandler;
 
-// TODO
+/**
+ * Handles SAX XML parser events for JMDict XML file
+ */
 class JMDictXmlHandler implements EasyJaSubXmlHandler<JMDictXmlElement> {
 
 	private final JMDictObserver observer;
+	private final String threeLetterlanguageCode;
 
-	public JMDictXmlHandler(JMDictObserver observer) {
+	/**
+	 * Creates a new handler for XML events
+	 * 
+	 * @param observer
+	 *            The object that receives events
+	 * @param threeLetterlanguageCode
+	 *            The language code you are interested in, english (null) is
+	 *            always accepted
+	 */
+	public JMDictXmlHandler(JMDictObserver observer,
+			String threeLetterlanguageCode) {
 		this.observer = observer;
+		this.threeLetterlanguageCode = threeLetterlanguageCode;
 		senses = new ArrayList<IJMDictSense>();
 	}
 
@@ -38,11 +54,13 @@ class JMDictXmlHandler implements EasyJaSubXmlHandler<JMDictXmlElement> {
 	private String keb;
 	private String reb;
 	private String entseq;
+	private String lang;
+	private boolean discardGloss;
 	private final ArrayList<IJMDictSense> senses;
 	private JMDictSense sense;
 
 	@Override
-	public void onStartElement(JMDictXmlElement element) {
+	public void onStartElement(JMDictXmlElement element, Attributes attributes) {
 		switch (element) {
 		case entry: {
 			count++;
@@ -51,6 +69,12 @@ class JMDictXmlHandler implements EasyJaSubXmlHandler<JMDictXmlElement> {
 		case sense: {
 			sense = JMDictSenseLazy.create();
 			senses.add(sense);
+			break;
+		}
+		case gloss: {
+			lang = attributes.getValue("xml", "lang");
+			discardGloss = lang != null
+					&& !lang.equals(threeLetterlanguageCode);
 			break;
 		}
 		default: {
@@ -78,6 +102,7 @@ class JMDictXmlHandler implements EasyJaSubXmlHandler<JMDictXmlElement> {
 			sense = null;
 			keb = null;
 			reb = null;
+			lang = null;
 			break;
 		}
 		case keb: {
@@ -98,10 +123,14 @@ class JMDictXmlHandler implements EasyJaSubXmlHandler<JMDictXmlElement> {
 		}
 		case gloss: {
 			if (sense != null) {
-				sense.addGloss(text);
+				if (!discardGloss) {
+					sense.addGloss(text, lang);
+				}
 			} else {
 				onError("Invalid sense: " + text);
 			}
+			discardGloss = false;
+			lang = null;
 			break;
 		}
 		default:

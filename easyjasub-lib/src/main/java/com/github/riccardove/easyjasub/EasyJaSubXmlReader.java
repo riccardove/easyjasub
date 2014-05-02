@@ -23,6 +23,7 @@ package com.github.riccardove.easyjasub;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.xml.sax.ContentHandler;
 import org.xml.sax.EntityResolver;
@@ -52,8 +53,17 @@ public class EasyJaSubXmlReader {
 
 	public void parse(File file) throws IOException, SAXException {
 		EasyJaSubReader reader = new EasyJaSubReader(file);
-		saxParser.parse(reader.getInputSource());
+		parse(reader);
 		reader.close();
 	}
 
+	public void parse(InputStream inputStream) throws IOException, SAXException {
+		EasyJaSubReader reader = new EasyJaSubReader(inputStream);
+		parse(reader);
+		reader.close();
+	}
+
+	private void parse(EasyJaSubReader reader) throws IOException, SAXException {
+		saxParser.parse(reader.getInputSource());
+	}
 }

@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import com.github.riccardove.easyjasub.SubtitleItem.Inner;
@@ -52,7 +53,7 @@ class SubtitleListXmlFileReader implements
 	private SubtitleLine previous;
 
 	@Override
-	public void onStartElement(SubtitleListXmlElement element) {
+	public void onStartElement(SubtitleListXmlElement element, Attributes attributes) {
 		switch (element) {
 		case line: {
 			previous = line;

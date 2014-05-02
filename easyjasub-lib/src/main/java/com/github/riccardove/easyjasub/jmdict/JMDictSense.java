@@ -27,8 +27,10 @@ final class JMDictSense implements IJMDictSense {
 	public JMDictSense() {
 		posList = new ArrayList<String>();
 		glossList = new ArrayList<String>();
+		langGlossList = new ArrayList<String>();
 	}
 
+	private final ArrayList<String> langGlossList;
 	private final ArrayList<String> glossList;
 	private final ArrayList<String> posList;
 
@@ -42,15 +44,25 @@ final class JMDictSense implements IJMDictSense {
 		return glossList;
 	}
 
+	@Override
+	public Iterable<String> getGlossInLang() {
+		return langGlossList;
+	}
+
 	protected void addPartOfSpeech(String pos) {
 		posList.add(pos);
 	}
 
-	protected void addGloss(String gloss) {
-		glossList.add(gloss);
+	protected void addGloss(String gloss, String lang) {
+		if (lang != null) {
+			langGlossList.add(gloss);
+		} else {
+			glossList.add(gloss);
+		}
 	}
 
 	protected void clear() {
+		langGlossList.clear();
 		glossList.clear();
 		posList.clear();
 	}

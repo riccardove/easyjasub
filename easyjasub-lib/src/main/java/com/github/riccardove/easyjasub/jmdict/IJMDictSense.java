@@ -4,4 +4,6 @@ public interface IJMDictSense {
 	Iterable<String> getPartOfSpeech();
 
 	Iterable<String> getGloss();
+
+	Iterable<String> getGlossInLang();
 }

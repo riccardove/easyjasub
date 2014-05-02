@@ -1,5 +1,7 @@
 package com.github.riccardove.easyjasub;
 
+import org.xml.sax.Attributes;
+
 /*
  * #%L
  * easyjasub-lib
@@ -23,7 +25,7 @@ package com.github.riccardove.easyjasub;
 
 
 public interface EasyJaSubXmlHandler<T extends Enum<?>> {
-	void onStartElement(T element);
+	void onStartElement(T element, Attributes attributes);
 
 	void onEndElement(T element, String text);
 }

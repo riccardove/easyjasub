@@ -20,9 +20,9 @@ package com.github.riccardove.easyjasub.jmdict;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.xml.sax.SAXException;
 
@@ -31,13 +31,21 @@ import com.github.riccardove.easyjasub.EasyJaSubXmlReader;
 
 public class JMDictParser {
 
-	public void parse(File file, JMDictObserver observer) throws IOException,
-			SAXException {
-		EasyJaSubXmlReader reader = new EasyJaSubXmlReader(
-				new EasyJaSubXmlHandlerAdapter<JMDictXmlElement>(
-						JMDictXmlElement.undef, JMDictXmlElement.values(),
-						new JMDictXmlHandler(observer)));
-		reader.parse(file);
+	public void parse(File file, JMDictObserver observer,
+			String threeLetterlanguageCode) throws IOException, SAXException {
+		createXmlReader(observer, threeLetterlanguageCode).parse(file);
 	}
 
+	public void parse(InputStream inputStream, JMDictObserver observer,
+			String threeLetterlanguageCode) throws IOException, SAXException {
+		createXmlReader(observer, threeLetterlanguageCode).parse(inputStream);
+	}
+
+	private EasyJaSubXmlReader createXmlReader(JMDictObserver observer,
+			String threeLetterlanguageCode) throws SAXException {
+		return new EasyJaSubXmlReader(
+				new EasyJaSubXmlHandlerAdapter<JMDictXmlElement>(
+						JMDictXmlElement.undef, JMDictXmlElement.values(),
+						new JMDictXmlHandler(observer, threeLetterlanguageCode)));
+	}
 }

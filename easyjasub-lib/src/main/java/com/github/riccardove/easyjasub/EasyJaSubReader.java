@@ -40,8 +40,8 @@ public class EasyJaSubReader {
 		this(new FileInputStream(file));
 	}
 
-	public EasyJaSubReader(InputStream outputStream) throws IOException {
-		this.reader = new BufferedReader(new InputStreamReader(outputStream,
+	public EasyJaSubReader(InputStream inputStream) throws IOException {
+		this.reader = new BufferedReader(new InputStreamReader(inputStream,
 				EasyJaSubCharset.CHARSET));
 	}
 

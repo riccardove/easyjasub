@@ -27,6 +27,13 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * Handler for SAX parser events that identifies a set of elements defined in an
+ * enum and notifies the text content
+ * 
+ * @param <T>
+ *            Enum identifying interesting elements
+ */
 public class EasyJaSubXmlHandlerAdapter<T extends Enum<?>> extends
 		DefaultHandler {
 
@@ -56,7 +63,7 @@ public class EasyJaSubXmlHandlerAdapter<T extends Enum<?>> extends
 		element = valueOf(qName);
 		if (element != undefElement) {
 			clearText();
-			handler.onStartElement(element);
+			handler.onStartElement(element, attributes);
 		}
 	}
 
