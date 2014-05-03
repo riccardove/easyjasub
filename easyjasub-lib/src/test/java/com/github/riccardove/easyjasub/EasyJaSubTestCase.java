@@ -79,5 +79,15 @@ public abstract class EasyJaSubTestCase extends TestCase {
 			System.out.println(text);
 		}
 	}
+
+	protected File getJMDictFile() {
+		File jmDictFile = new File(
+				EasyJaSubHomeDir.getDefaultHomeDir("easyjasub-cmd"),
+				"JMDict_e.xml");
+		assertTrue(
+				"Can not find JMDict file in " + jmDictFile.getAbsolutePath(),
+				jmDictFile.exists() || !isEclipse());
+		return jmDictFile;
+	}
 }
 

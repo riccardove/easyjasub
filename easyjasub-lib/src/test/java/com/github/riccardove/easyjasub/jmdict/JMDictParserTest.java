@@ -25,7 +25,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.github.riccardove.easyjasub.EasyJaSubHomeDir;
 import com.github.riccardove.easyjasub.EasyJaSubTestCase;
 
 public class JMDictParserTest extends EasyJaSubTestCase {
@@ -35,12 +34,7 @@ public class JMDictParserTest extends EasyJaSubTestCase {
 	 * dir
 	 */
 	public void testFullFile() throws Exception {
-		File jmDictFile = new File(
-				EasyJaSubHomeDir.getDefaultHomeDir("easyjasub-cmd"),
-				"JMDict_e.xml");
-		assertTrue(
-				"Can not find JMDict file in " + jmDictFile.getAbsolutePath(),
-				jmDictFile.exists() || !isEclipse());
+		File jmDictFile = getJMDictFile();
 		if (!jmDictFile.exists()) {
 			return;
 		}
