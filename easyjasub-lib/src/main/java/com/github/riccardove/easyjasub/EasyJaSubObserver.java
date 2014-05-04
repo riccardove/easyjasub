@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.xml.sax.SAXException;
 
+import com.github.riccardove.easyjasub.dictionary.EasyJaSubDictionary;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 public interface EasyJaSubObserver {
@@ -200,4 +201,22 @@ public interface EasyJaSubObserver {
 
 	void onConvertToHtmlSubtitleListError(File htmlFolder, IOException ex)
 			throws EasyJaSubException;
+
+	void onDictionaryDeserialize(File cacheFile);
+
+	void onDictionaryDeserialized(File cacheFile, EasyJaSubDictionary dictionary);
+
+	void onDictionaryDeserializeError(File cacheFile, Exception ex);
+
+	void onDictionaryJMDictParse(File dictionaryFile);
+
+	void onDictionaryJMDictParsed(File dictionaryFile);
+
+	void onDictionaryJMDictParseError(File dictionaryFile, Exception ex);
+
+	void onDictionarySerialize(File cacheFile);
+
+	void onDictionarySerialized(File cacheFile);
+
+	void onDictionarySerializeError(File cacheFile, Exception ex);
 }

@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import org.apache.commons.io.FilenameUtils;
 
 import com.github.riccardove.easyjasub.commons.CommonsLangSystemUtils;
+import com.github.riccardove.easyjasub.dictionary.EasyJaSubDictionary;
 
 /**
  * Checks input commands and determines valid program input using some heuristic
@@ -565,6 +566,10 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 	public EasyJaSubInputFromCommand(EasyJaSubInputCommand command)
 			throws EasyJaSubException {
+
+		EasyJaSubCmdHomeDir homeDir = new EasyJaSubCmdHomeDir();
+		homeDir.init(null);
+
 		DefaultFileList defaultFileList = new DefaultFileList(command);
 		nihongoJtalkHtmlFile = getNihongoJtalkHtmlFile(command, defaultFileList);
 		japaneseSubFile = getJapaneseSubFile(command, defaultFileList);
@@ -608,6 +613,26 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		jglossFile = getJGlossFile(defaultFileList, bdnXmlFile);
 		isSingleLine = getSingleLine();
 		getSelectLines(command.getSelectLines());
+		jmDictFile = getJMDictFile(homeDir);
+		dictionaryCacheFile = getDictionaryCacheFile(homeDir);
+	}
+
+	private static File getDictionaryCacheFile(EasyJaSubCmdHomeDir homeDir) {
+		// TODO allow options
+		return homeDir.getDictionaryFile();
+	}
+
+	private static File getJMDictFile(EasyJaSubCmdHomeDir homeDir) {
+		// TODO allow options
+		return homeDir.getJMDictFile();
+	}
+
+	private final File jmDictFile;
+	private final File dictionaryCacheFile;
+
+	@Override
+	public EasyJaSubDictionary getDictionary() {
+		return null;
 	}
 
 	private boolean getSingleLine() {
@@ -786,10 +811,10 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			return false;
 		}
 		if (isEnabled(show)) {
-			if (nihongoJtalkHtmlFile == null) {
-				throw new EasyJaSubException(
-						"Can not display dictionary without nihongo JTalk file");
-			}
+			// if (nihongoJtalkHtmlFile == null) {
+			// throw new EasyJaSubException(
+			// "Can not display dictionary without nihongo JTalk file");
+			// }
 			return true;
 		}
 		throw new EasyJaSubException("Invalid setting for dictionary: " + show);
@@ -963,5 +988,15 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	@Override
 	public File getJGlossFile() {
 		return jglossFile;
+	}
+
+	@Override
+	public File getJMDictFile() {
+		return jmDictFile;
+	}
+
+	@Override
+	public File getDictionaryCacheFile() {
+		return dictionaryCacheFile;
 	}
 }

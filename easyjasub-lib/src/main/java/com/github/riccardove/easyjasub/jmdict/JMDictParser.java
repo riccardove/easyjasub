@@ -43,9 +43,11 @@ public class JMDictParser {
 
 	private EasyJaSubXmlReader createXmlReader(JMDictObserver observer,
 			String threeLetterlanguageCode) throws SAXException {
-		return new EasyJaSubXmlReader(
+		EasyJaSubXmlReader reader = new EasyJaSubXmlReader(
 				new EasyJaSubXmlHandlerAdapter<JMDictXmlElement>(
 						JMDictXmlElement.undef, JMDictXmlElement.values(),
 						new JMDictXmlHandler(observer, threeLetterlanguageCode)));
+		reader.setEntityExpansionLimit(12800000);
+		return reader;
 	}
 }

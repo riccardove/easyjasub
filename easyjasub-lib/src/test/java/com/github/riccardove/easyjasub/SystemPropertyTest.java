@@ -26,7 +26,14 @@ import org.junit.Ignore;
 @Ignore
 public class SystemPropertyTest extends EasyJaSubTestCase {
 
-	public void test() {
+	public void testEncoding() {
 		assertEquals(EasyJaSubCharset.CHARSETSTR, SystemProperty.getEncoding());
+	}
+
+	public void testVendor() {
+		String value = SystemProperty.getVendor();
+		assertNotNull(value);
+		assertTrue(value.length() > 1);
+		println(value);
 	}
 }

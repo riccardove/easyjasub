@@ -27,11 +27,16 @@ class SystemProperty {
 		UserDir = System.getProperty("user.dir");
 		LineSeparator = System.getProperty("line.separator");
 		Encoding = System.getProperty("file.encoding");
+		String vendor = System.getProperty("java.vendor");
+		Vendor = vendor;
+		IsVendorOracle = vendor.contains("Oracle");
 	}
 	
 	private static final String UserDir;
 	private static final String LineSeparator;
 	private static final String Encoding;
+	private static final String Vendor;
+	private static final boolean IsVendorOracle;
 	
 	public static String getUserDir() {
 		return UserDir;
@@ -43,5 +48,13 @@ class SystemProperty {
 
 	public static String getEncoding() {
 		return Encoding;
+	}
+
+	public static String getVendor() {
+		return Vendor;
+	}
+
+	public static boolean isVendorOracle() {
+		return IsVendorOracle;
 	}
 }

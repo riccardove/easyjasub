@@ -30,6 +30,8 @@ import org.xml.sax.SAXException;
 
 import com.github.riccardove.easyjasub.CharacterIterator;
 import com.github.riccardove.easyjasub.EasyJaSubTrie;
+import com.github.riccardove.easyjasub.EasyJaSubWordTranslation;
+import com.github.riccardove.easyjasub.EasyJaSubWordTranslator;
 import com.github.riccardove.easyjasub.jmdict.JMDictParser;
 
 /**
@@ -39,7 +41,8 @@ import com.github.riccardove.easyjasub.jmdict.JMDictParser;
  * Can be serialized, populating this class with all possible entries may be
  * expensive
  */
-class EasyJaSubDictionary implements Serializable {
+public class EasyJaSubDictionary implements Serializable,
+		EasyJaSubWordTranslator {
 
 	/**
 	 * Generated serial code
@@ -53,8 +56,8 @@ class EasyJaSubDictionary implements Serializable {
 		errors = new ArrayList<String>();
 	}
 
-	final EasyJaSubTrie<EasyJaSubDictionaryEntry, Character> trie;
-	final ArrayList<String> errors;
+	private final EasyJaSubTrie<EasyJaSubDictionaryEntry, Character> trie;
+	private final ArrayList<String> errors;
 
 	/**
 	 * Returns an entry corresponding to specified word, or to a prefix of it
@@ -69,6 +72,11 @@ class EasyJaSubDictionary implements Serializable {
 			return null;
 		}
 		return value.getValue();
+	}
+
+	@Override
+	public EasyJaSubWordTranslation translate(String word) {
+		return getEntry(word);
 	}
 
 	/**

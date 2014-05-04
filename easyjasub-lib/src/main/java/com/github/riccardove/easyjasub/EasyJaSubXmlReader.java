@@ -28,6 +28,8 @@ import java.io.InputStream;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
@@ -47,6 +49,17 @@ public class EasyJaSubXmlReader {
 		saxParser = XMLReaderFactory.createXMLReader(parser);
 		saxParser.setContentHandler(contentHandler);
 		saxParser.setEntityResolver(entityResolver);
+	}
+
+	public void setEntityExpansionLimit(int count)
+			throws SAXNotRecognizedException, SAXNotSupportedException {
+		if (SystemProperty.isVendorOracle()) {
+			saxParser
+					.setProperty(
+							"http://www.oracle.com/xml/jaxp/properties/entityExpansionLimit",
+							count);
+		}
+		// TODO: find how to set this with other JVM
 	}
 
 	private final XMLReader saxParser;

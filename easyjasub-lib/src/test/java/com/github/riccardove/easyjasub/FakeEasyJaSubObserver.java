@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.xml.sax.SAXException;
 
+import com.github.riccardove.easyjasub.dictionary.EasyJaSubDictionary;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 public class FakeEasyJaSubObserver implements EasyJaSubObserver {
@@ -503,6 +504,61 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	@Override
 	public void onConvertToHtmlSubtitleListError(File htmlFolder, IOException ex) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDictionaryDeserialize(File cacheFile) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDictionaryDeserialized(File cacheFile,
+			EasyJaSubDictionary dictionary) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDictionaryDeserializeError(File cacheFile, Exception ex) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDictionaryJMDictParse(File dictionaryFile) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDictionaryJMDictParsed(File dictionaryFile) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDictionaryJMDictParseError(File dictionaryFile, Exception ex) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDictionarySerialize(File cacheFile) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDictionarySerialized(File cacheFile) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDictionarySerializeError(File cacheFile, Exception ex) {
 		// TODO Auto-generated method stub
 
 	}

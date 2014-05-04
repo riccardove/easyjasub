@@ -25,6 +25,8 @@ import java.io.IOException;
 
 import org.xml.sax.SAXException;
 
+import com.github.riccardove.easyjasub.dictionary.EasyJaSubDictionary;
+import com.github.riccardove.easyjasub.dictionary.EasyJaSubSerializeDictionaryFactory;
 import com.github.riccardove.easyjasub.inputnihongojtalk.InputNihongoJTalkHtmlFile;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
@@ -76,6 +78,10 @@ public class EasyJaSub {
 				luceneAnalyze(command, observer, s);
 			}
 
+			if (command.showDictionary()) {
+				addDictionary(observer, s, command);
+			}
+
 			if (command.getXmlFile() != null) {
 				writeOutputXmlFile(s, command, observer);
 			}
@@ -122,6 +128,25 @@ public class EasyJaSub {
 		}
 		observer.onWriteIdxFileStart(idxFile, bdnFile);
 		return 0;
+	}
+
+	private void addDictionary(EasyJaSubObserver observer, SubtitleList s,
+			EasyJaSubInput command) throws EasyJaSubException {
+		EasyJaSubDictionary dictionary = command.getDictionary();
+		if (dictionary == null) {
+			if (command.getDictionaryCacheFile() != null
+					|| command.getJMDictFile() != null) {
+				EasyJaSubSerializeDictionaryFactory factory = new EasyJaSubSerializeDictionaryFactory(
+						command.getJMDictFile(),
+						command.getDictionaryCacheFile(), observer);
+				dictionary = factory.createDictionary();
+			}
+		}
+		if (dictionary == null) {
+			throw new EasyJaSubException("Cound not get any valid dictionary!");
+		}
+		new SubtitleListDictionaryEntryManager(observer).addDictionaryEntries(
+				s, dictionary);
 	}
 
 	private PictureSubtitleList toPictureSubtitleList(SubtitleList s,

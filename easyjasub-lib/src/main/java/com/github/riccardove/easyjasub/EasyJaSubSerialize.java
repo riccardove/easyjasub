@@ -21,6 +21,9 @@ package com.github.riccardove.easyjasub;
  */
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -35,18 +38,32 @@ import java.io.Serializable;
  */
 public class EasyJaSubSerialize<T extends Serializable> {
 
-	public T deserialize(InputStream stream) throws IOException,
+	public T deserializeFromStream(InputStream stream) throws IOException,
 			ClassNotFoundException {
 		ObjectInputStream in = new ObjectInputStream(stream);
-		T trie = readObject(in);
+		T obj = readObject(in);
 		in.close();
-		return trie;
+		return obj;
 	}
 
-	public void serialize(OutputStream stream, T obj) throws IOException {
+	public T deserializeFromFile(File file) throws ClassNotFoundException,
+			IOException {
+		InputStream stream = new FileInputStream(file);
+		T obj = deserializeFromStream(stream);
+		stream.close();
+		return obj;
+	}
+
+	public void serializeToStream(OutputStream stream, T obj) throws IOException {
 		ObjectOutputStream out = new ObjectOutputStream(stream);
 		writeObject(obj, out);
 		out.close();
+	}
+
+	public void serializeToFile(File file, T obj) throws IOException {
+		FileOutputStream stream = new FileOutputStream(file);
+		serializeToStream(stream, obj);
+		stream.close();
 	}
 
 	@SuppressWarnings("unchecked")

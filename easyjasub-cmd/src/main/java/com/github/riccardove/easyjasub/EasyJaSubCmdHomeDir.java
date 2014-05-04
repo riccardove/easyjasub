@@ -60,4 +60,13 @@ class EasyJaSubCmdHomeDir {
 		}
 		return jmDictFile;
 	}
+
+	private File dictionaryFile;
+
+	public File getDictionaryFile() {
+		if (dictionaryFile == null) {
+			dictionaryFile = new File(home, "dictionarySerialized.bin");
+		}
+		return dictionaryFile;
+	}
 }

@@ -29,6 +29,7 @@ import java.util.Set;
 import org.xml.sax.SAXException;
 
 import com.github.riccardove.easyjasub.commons.CommonsLangStringUtils;
+import com.github.riccardove.easyjasub.dictionary.EasyJaSubDictionary;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 class EasyJaSubConsole implements EasyJaSubObserver {
@@ -534,5 +535,54 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 			throws EasyJaSubException {
 		throw new EasyJaSubException("Error generating HTML files: "
 				+ ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onDictionaryDeserialize(File file) {
+		lowVerboseMessage("onDictionaryDeserialize " + toString(file));
+	}
+
+	@Override
+	public void onDictionaryDeserialized(File file,
+			EasyJaSubDictionary dictionary) {
+		lowVerboseMessage("onDictionaryDeserialized " + toString(file));
+	}
+
+	@Override
+	public void onDictionaryDeserializeError(File file, Exception ex) {
+		lowVerboseMessage("Error deserializing dictionary " + toString(file)
+				+ ": " + ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onDictionaryJMDictParse(File file) {
+		lowVerboseMessage("onDictionaryJMDictParse  " + toString(file));
+	}
+
+	@Override
+	public void onDictionaryJMDictParsed(File file) {
+		lowVerboseMessage("onDictionaryJMDictParsed  " + toString(file));
+	}
+
+	@Override
+	public void onDictionaryJMDictParseError(File file, Exception ex) {
+		lowVerboseMessage("Error parsing JMDict file " + toString(file) + ": "
+				+ ex.getLocalizedMessage());
+	}
+
+	@Override
+	public void onDictionarySerialize(File file) {
+		lowVerboseMessage("onDictionarySeserialize " + toString(file));
+	}
+
+	@Override
+	public void onDictionarySerialized(File file) {
+		lowVerboseMessage("onDictionarySerialized " + toString(file));
+	}
+
+	@Override
+	public void onDictionarySerializeError(File file, Exception ex) {
+		lowVerboseMessage("Error serializing dictionary " + toString(file)
+				+ ": " + ex.getLocalizedMessage());
 	}
 }

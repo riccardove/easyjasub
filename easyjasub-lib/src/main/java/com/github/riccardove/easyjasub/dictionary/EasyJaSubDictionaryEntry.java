@@ -23,24 +23,28 @@ package com.github.riccardove.easyjasub.dictionary;
 
 import java.util.ArrayList;
 
+import com.github.riccardove.easyjasub.EasyJaSubWordTranslation;
+import com.github.riccardove.easyjasub.EasyJaSubWordTranslationSense;
+
 // TODO
-class EasyJaSubDictionaryEntry {
+class EasyJaSubDictionaryEntry implements EasyJaSubWordTranslation {
 
 	public EasyJaSubDictionaryEntry() {
-		senses = new ArrayList<Sense>();
+		senses = new ArrayList<EasyJaSubWordTranslationSense>();
 	}
 
-	private final ArrayList<Sense> senses;
+	private final ArrayList<EasyJaSubWordTranslationSense> senses;
 
 	public void addSense(Sense sense) {
 		senses.add(sense);
 	}
 
-	public Iterable<Sense> getSenses() {
+	@Override
+	public Iterable<EasyJaSubWordTranslationSense> getSenses() {
 		return senses;
 	}
 
-	public static class Sense {
+	public static class Sense implements EasyJaSubWordTranslationSense {
 
 		public Sense() {
 			posList = new ArrayList<String>();
@@ -50,10 +54,12 @@ class EasyJaSubDictionaryEntry {
 		private final ArrayList<String> glossList;
 		private final ArrayList<String> posList;
 
+		@Override
 		public Iterable<String> getPartOfSpeech() {
 			return posList;
 		}
 
+		@Override
 		public Iterable<String> getGloss() {
 			return glossList;
 		}

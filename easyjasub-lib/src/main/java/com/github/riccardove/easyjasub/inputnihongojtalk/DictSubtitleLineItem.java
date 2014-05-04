@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 
 import com.github.riccardove.easyjasub.SubtitleItem;
 import com.github.riccardove.easyjasub.commons.CommonsLangStringUtils;
+import com.github.riccardove.easyjasub.dictionary.DictionaryGloss;
 
 class DictSubtitleLineItem extends RedSubtitleLineItem {
 
@@ -74,19 +75,8 @@ class DictSubtitleLineItem extends RedSubtitleLineItem {
 	
 	private void addDictElem(String dictInfo) {
 		for (String dictElem : InnerListPattern.split(dictInfo)) {
-			dictElem = ItemClearPattern.matcher(dictElem).replaceAll("").trim();
-			// simplify verbs
-			if (pos.contains("verb") && dictElem.startsWith("to ")) {
-				dictElem = dictElem.substring(3);
-			}
-			// discard elements of more than 4 words
-			if (CommonsLangStringUtils.countMatches(dictElem, " ") >= 4) {
-				continue;
-			}
-			// single letters are not considered, nor excessively long items
-			if (dictElem.length() > 1 &&
-				dictElem.length() < 20 &&
-				dictElem.length() < (romaji.length() * 3 + 5)) {
+			dictElem = DictionaryGloss.choose(dictElem, romaji);
+			if (dictElem != null) {
 				dict.add(dictElem);
 			}
 		}
@@ -94,7 +84,6 @@ class DictSubtitleLineItem extends RedSubtitleLineItem {
 	
 	private static final Pattern ListPattern = Pattern.compile("\\([0-9]+\\)");
 	private static final Pattern InnerListPattern = Pattern.compile("; ");
-	private static final Pattern ItemClearPattern = Pattern.compile("\\([^)]+\\)|!|\\?|(euph\\. for )|\\.");
 	
 	protected String dictionaryInfo;
 	

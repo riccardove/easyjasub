@@ -82,11 +82,22 @@ final class DictionaryJMDictReader implements JMDictObserver {
 		List<EasyJaSubDictionaryEntry.Sense> senseList = new ArrayList<EasyJaSubDictionaryEntry.Sense>();
 		for (IJMDictSense sense : senses) {
 			EasyJaSubDictionaryEntry.Sense s = new Sense();
+			boolean glossFound = false;
+			for (String gloss : sense.getGloss()) {
+				// tries to simplify the gloss to fit a subtitle word
+				gloss = DictionaryGloss.choose(gloss, "             "); // TODO
+				if (gloss != null) {
+					glossFound = true;
+					s.addGloss(gloss);
+				}
+			}
+			if (!glossFound) {
+				String gloss = DictionaryGloss.getLong(sense.getGloss()
+						.iterator().next());
+				s.addGloss(gloss);
+			}
 			for (String pos : sense.getPartOfSpeech()) {
 				s.addPartOfSpeech(pos);
-			}
-			for (String gloss : sense.getGloss()) {
-				s.addGloss(gloss);
 			}
 			senseList.add(s);
 		}

@@ -54,4 +54,8 @@ public abstract class CommonsLangStringUtils {
 	public static String removeEnd(String str, String remove) {
 		return StringUtils.removeEnd(str, remove);
 	}
+
+	public static int ordinalIndexOf(String str, String searchStr, int ordinal) {
+		return StringUtils.ordinalIndexOf(str, searchStr, ordinal);
+	}
 }
