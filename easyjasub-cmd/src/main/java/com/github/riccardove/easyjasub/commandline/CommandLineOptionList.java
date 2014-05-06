@@ -31,6 +31,9 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
 
+/**
+ * Support for parsing command line options, using Apache CLI library
+ */
 public class CommandLineOptionList {
 
 	public CommandLineOptionList() {

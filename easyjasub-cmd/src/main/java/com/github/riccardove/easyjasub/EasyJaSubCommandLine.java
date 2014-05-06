@@ -22,9 +22,6 @@ package com.github.riccardove.easyjasub;
 
 import java.io.PrintWriter;
 
-import com.github.riccardove.easyjasub.commandline.CommandLineContent;
-import com.github.riccardove.easyjasub.commandline.CommandLineOptionList;
-
 class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private static final String HELP = "h";
 	private static final String VI = "vi";
@@ -55,62 +52,54 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private static final String MECAB = "mc";
 
 	public EasyJaSubCommandLine() {
-		list = new CommandLineOptionList();
-		addOption(EasyJaSubInputOption.video, VI, "video", "file");
-		addOption(EasyJaSubInputOption.japanesesub, JA, "japanese-sub", "file");
-		addOption(EasyJaSubInputOption.translatedsub, TR, "translated-sub",
+		list = new EasyJaSubCommandLineOptionList();
+		list.addOption(EasyJaSubInputOption.video, VI, "video", "file");
+		list.addOption(EasyJaSubInputOption.japanesesub, JA, "japanese-sub",
 				"file");
-		addOption(EasyJaSubInputOption.nihongojtalk, NJ, "nihongo-jtalk",
+		list.addOption(EasyJaSubInputOption.translatedsub, TR,
+				"translated-sub", "file");
+		list.addOption(EasyJaSubInputOption.nihongojtalk, NJ, "nihongo-jtalk",
 				"file");
-		addOption(EasyJaSubInputOption.translation, TRANSLATION, "translation",
+		list.addOption(EasyJaSubInputOption.translation, TRANSLATION,
+				"translation", "enabled|disabled");
+		list.addOption(EasyJaSubInputOption.romaji, ROMAJI, "romaji",
 				"enabled|disabled");
-		addOption(EasyJaSubInputOption.romaji, ROMAJI, "romaji",
+		list.addOption(EasyJaSubInputOption.dictionary, DICTIONARY,
+				"dictionary", "enabled|disabled");
+		list.addOption(EasyJaSubInputOption.furigana, FURIGANA, "furigana",
 				"enabled|disabled");
-		addOption(EasyJaSubInputOption.dictionary, DICTIONARY, "dictionary",
+		list.addOption(EasyJaSubInputOption.kanji, KANJI, "kanji",
 				"enabled|disabled");
-		addOption(EasyJaSubInputOption.furigana, FURIGANA, "furigana",
-				"enabled|disabled");
-		addOption(EasyJaSubInputOption.kanji, KANJI, "kanji",
-				"enabled|disabled");
-		addOption(EasyJaSubInputOption.trsublang, TRL, "tr-sub-lang",
+		list.addOption(EasyJaSubInputOption.trsublang, TRL, "tr-sub-lang",
 				"language");
-		addOption(EasyJaSubInputOption.outputtext, TX, "output-text", "file");
-		addOption(EasyJaSubInputOption.cssstyle, CSS, "css-style", "file");
-		addOption(EasyJaSubInputOption.outputidx, IDX, "output-idx", "file");
-		addOption(EasyJaSubInputOption.outputhtml, HTML, "output-html",
+		list.addOption(EasyJaSubInputOption.outputtext, TX, "output-text",
+				"file");
+		list.addOption(EasyJaSubInputOption.cssstyle, CSS, "css-style", "file");
+		list.addOption(EasyJaSubInputOption.outputidx, IDX, "output-idx",
+				"file");
+		list.addOption(EasyJaSubInputOption.outputhtml, HTML, "output-html",
 				"directory");
-		addOption(EasyJaSubInputOption.outputbdmxml, BDN, "output-bdmxml",
+		list.addOption(EasyJaSubInputOption.outputbdmxml, BDN, "output-bdmxml",
 				"directory");
-		addOption(EasyJaSubInputOption.mecab, MECAB, "mecab", "command");
-		addOption(EasyJaSubInputOption.wkhtmltoimage, WK, "wkhtmltoimage",
+		list.addOption(EasyJaSubInputOption.home, "ho", "home", "directory");
+		list.addOption(EasyJaSubInputOption.jmdict, "jmd", "jmdict", "file");
+		list.addOption(EasyJaSubInputOption.mecab, MECAB, "mecab", "command");
+		list.addOption(EasyJaSubInputOption.wkhtmltoimage, WK, "wkhtmltoimage",
 				"command");
-		addOption(EasyJaSubInputOption.height, HEIGHT, "height", "pixels");
-		addOption(EasyJaSubInputOption.width, WIDTH, "width", "pixels");
-		addOption(EasyJaSubInputOption.matchdiff, MATCHTIME, "match-diff",
+		list.addOption(EasyJaSubInputOption.height, HEIGHT, "height", "pixels");
+		list.addOption(EasyJaSubInputOption.width, WIDTH, "width", "pixels");
+		list.addOption(EasyJaSubInputOption.matchdiff, MATCHTIME, "match-diff",
 				"milliseconds");
-		addOption(EasyJaSubInputOption.approxdiff, APPROXTIME, "approx-diff",
-				"milliseconds");
-		addOption(EasyJaSubInputOption.selectlines, SELECT, "select-lines",
-				"n-m");
-		addOption(EasyJaSubInputOption.quiet, QUIET, "quiet");
-		addOption(EasyJaSubInputOption.verbose, VERBOSE, "verbose");
-		addOption(EasyJaSubInputOption.help, HELP, "help");
+		list.addOption(EasyJaSubInputOption.approxdiff, APPROXTIME,
+				"approx-diff", "milliseconds");
+		list.addOption(EasyJaSubInputOption.selectlines, SELECT,
+				"select-lines", "n-m");
+		list.addOption(EasyJaSubInputOption.quiet, QUIET, "quiet");
+		list.addOption(EasyJaSubInputOption.verbose, VERBOSE, "verbose");
+		list.addOption(EasyJaSubInputOption.help, HELP, "help");
 	}
 
-	private void addOption(EasyJaSubInputOption optionIndex, String shortName,
-			String longName) {
-		list.addOption(shortName, longName,
-				EasyJaSubProperty.getOptionDescription(optionIndex));
-	}
-
-	private void addOption(EasyJaSubInputOption optionIndex, String shortName,
-			String longName, String argumentDescription) {
-		list.addOption(shortName, longName,
-				EasyJaSubProperty.getOptionDescription(optionIndex),
-				argumentDescription);
-	}
-
-	private final CommandLineOptionList list;
+	private final EasyJaSubCommandLineOptionList list;
 	private String message;
 	private boolean isHelp;
 
@@ -195,6 +184,8 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private String showKanji;
 	private String selectLines;
 	private String mecab;
+	private String home;
+	private String jmdict;
 	private int verbose;
 
 	@Override
@@ -207,36 +198,60 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 		return outputBdnFileName;
 	}
 
+	@Override
+	public String getHomeDirectoryName() {
+		return home;
+	}
+
+	@Override
+	public String getJMDictFileName() {
+		return jmdict;
+	}
+
 	public boolean parse(String[] args) {
 		try {
-			CommandLineContent cm = list.parse(args);
-			String d = HELP;
-			isHelp = cm.hasOption(d);
-			videoFileName = cm.getOptionValue(VI);
-			japaneseSubFileName = cm.getOptionValue(JA);
-			translatedSubFileName = cm.getOptionValue(TR);
-			nihongoJtalkHtmlFileName = cm.getOptionValue(NJ);
-			translatedSubLanguage = cm.getOptionValue(TRL);
-			outputIdxFileName = cm.getOptionValue(IDX);
-			outputHtmlDirectory = cm.getOptionValue(HELP);
-			outputBdnDirectory = cm.getOptionValue(BDN);
-			wkhtmltoimage = cm.getOptionValue(WK);
-			outputJapaneseTextFileName = cm.getOptionValue(TX);
-			cssFileName = cm.getOptionValue(CSS);
-			exactMatchTimeDiff = cm.getOptionValue(MATCHTIME);
-			approxMatchTimeDiff = cm.getOptionValue(APPROXTIME);
-			width = cm.getOptionValue(WIDTH);
-			height = cm.getOptionValue(HEIGHT);
-			showDictionary = cm.getOptionValue(DICTIONARY);
-			showFurigana = cm.getOptionValue(FURIGANA);
-			showRomaji = cm.getOptionValue(ROMAJI);
-			showKanji = cm.getOptionValue(KANJI);
-			showTranslation = cm.getOptionValue(TRANSLATION);
-			selectLines = cm.getOptionValue(SELECT);
-			mecab = cm.getOptionValue(MECAB);
-			if (cm.hasOption(VERBOSE)) {
+			list.parse(args);
+			isHelp = list.hasOption(EasyJaSubInputOption.help);
+			videoFileName = list.getOptionValue(EasyJaSubInputOption.video);
+			japaneseSubFileName = list
+					.getOptionValue(EasyJaSubInputOption.japanesesub);
+			translatedSubFileName = list
+					.getOptionValue(EasyJaSubInputOption.translatedsub);
+			nihongoJtalkHtmlFileName = list
+					.getOptionValue(EasyJaSubInputOption.nihongojtalk);
+			translatedSubLanguage = list
+					.getOptionValue(EasyJaSubInputOption.trsublang);
+			outputIdxFileName = list
+					.getOptionValue(EasyJaSubInputOption.outputidx);
+			outputHtmlDirectory = list
+					.getOptionValue(EasyJaSubInputOption.outputhtml);
+			outputBdnDirectory = list
+					.getOptionValue(EasyJaSubInputOption.outputbdmxml);
+			wkhtmltoimage = list
+					.getOptionValue(EasyJaSubInputOption.wkhtmltoimage);
+			outputJapaneseTextFileName = list
+					.getOptionValue(EasyJaSubInputOption.outputtext);
+			cssFileName = list.getOptionValue(EasyJaSubInputOption.cssstyle);
+			exactMatchTimeDiff = list
+					.getOptionValue(EasyJaSubInputOption.matchdiff);
+			approxMatchTimeDiff = list
+					.getOptionValue(EasyJaSubInputOption.approxdiff);
+			width = list.getOptionValue(EasyJaSubInputOption.width);
+			height = list.getOptionValue(EasyJaSubInputOption.height);
+			showDictionary = list
+					.getOptionValue(EasyJaSubInputOption.dictionary);
+			showFurigana = list.getOptionValue(EasyJaSubInputOption.furigana);
+			showRomaji = list.getOptionValue(EasyJaSubInputOption.romaji);
+			showKanji = list.getOptionValue(EasyJaSubInputOption.kanji);
+			showTranslation = list
+					.getOptionValue(EasyJaSubInputOption.translation);
+			selectLines = list.getOptionValue(EasyJaSubInputOption.selectlines);
+			mecab = list.getOptionValue(EasyJaSubInputOption.mecab);
+			home = list.getOptionValue(EasyJaSubInputOption.home);
+			jmdict = list.getOptionValue(EasyJaSubInputOption.jmdict);
+			if (list.hasOption(EasyJaSubInputOption.verbose)) {
 				verbose = 1;
-			} else if (cm.hasOption(QUIET)) {
+			} else if (list.hasOption(EasyJaSubInputOption.quiet)) {
 				verbose = -1;
 			}
 		} catch (Exception ex) {

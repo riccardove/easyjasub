@@ -22,61 +22,65 @@ package com.github.riccardove.easyjasub;
 
 public interface EasyJaSubInputCommand {
 
-	public abstract boolean isHelp();
+	boolean isHelp();
 
-	public abstract String getVideoFileName();
+	String getVideoFileName();
 
-	public abstract String getJapaneseSubFileName();
+	String getJapaneseSubFileName();
 
-	public abstract String getTranslatedSubFileName();
+	String getTranslatedSubFileName();
 
-	public abstract String getNihongoJtalkHtmlFileName();
+	String getNihongoJtalkHtmlFileName();
 
-	public abstract String getTranslatedSubLanguage();
+	String getTranslatedSubLanguage();
 
-	public abstract String getOutputIdxFileName();
+	String getOutputIdxFileName();
 
-	public abstract String getOutputIdxDirectory();
+	String getOutputIdxDirectory();
 
-	public abstract String getOutputHtmlDirectory();
+	String getOutputHtmlDirectory();
 
-	public abstract String getOutputBdnDirectory();
+	String getOutputBdnDirectory();
 
-	public abstract String getOutputBdnFileName();
+	String getOutputBdnFileName();
 
-	public abstract String getWkHtmlToImageCommand();
+	String getWkHtmlToImageCommand();
 
-	public abstract String getOutputJapaneseTextFileName();
+	String getOutputJapaneseTextFileName();
 
-	public abstract String getCssFileName();
+	String getCssFileName();
 
-	public abstract String getExactMatchTimeDiff();
+	String getExactMatchTimeDiff();
 
-	public abstract String getApproxMatchTimeDiff();
+	String getApproxMatchTimeDiff();
 
-	public abstract String getHeight();
+	String getHeight();
 
-	public abstract String getWidth();
+	String getWidth();
 
-	public abstract String getCssHiraganaFont();
+	String getCssHiraganaFont();
 
-	public abstract String getCssKanjiFont();
+	String getCssKanjiFont();
 
-	public abstract String getCssTranslationFont();
+	String getCssTranslationFont();
 
-	public abstract String getShowRomaji();
+	String getShowRomaji();
 
-	public abstract String getShowTranslation();
+	String getShowTranslation();
 
-	public abstract String getShowKanji();
+	String getShowKanji();
 
-	public abstract String getShowFurigana();
+	String getShowFurigana();
 
-	public abstract String getShowDictionary();
+	String getShowDictionary();
 
-	public abstract String getSelectLines();
+	String getSelectLines();
 
-	public abstract String getMeCabCommand();
+	String getMeCabCommand();
 
-	public abstract int getVerbose();
+	int getVerbose();
+
+	String getHomeDirectoryName();
+
+	String getJMDictFileName();
 }

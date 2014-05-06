@@ -26,6 +26,12 @@ import java.io.PrintWriter;
  * Default entry point for the easyjasub console application
  */
 public class App {
+
+	/**
+	 * Main method
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		try {
 			int result = new EasyJaSubCommandLineApp(new EasyJaSubCommandLine())

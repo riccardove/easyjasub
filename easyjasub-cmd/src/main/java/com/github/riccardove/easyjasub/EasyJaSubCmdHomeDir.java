@@ -45,8 +45,7 @@ class EasyJaSubCmdHomeDir {
 	}
 
 	private File getDefaultHomeDir() {
-		return EasyJaSubHomeDir.getDefaultHomeDir(EasyJaSubCmdProperty
-				.getName());
+		return EasyJaSubHomeDir.getDefaultHomeDir("easyjasub");
 	}
 
 	private File jmDictFile;

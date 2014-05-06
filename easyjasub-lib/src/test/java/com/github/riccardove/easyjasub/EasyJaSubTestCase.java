@@ -22,8 +22,11 @@ package com.github.riccardove.easyjasub;
 
 
 import java.io.File;
+import java.io.InputStream;
 
 import junit.framework.TestCase;
+
+import com.github.riccardove.easyjasub.jmdict.JMDictParserTest;
 
 public abstract class EasyJaSubTestCase extends TestCase {
 
@@ -82,12 +85,16 @@ public abstract class EasyJaSubTestCase extends TestCase {
 
 	protected File getJMDictFile() {
 		File jmDictFile = new File(
-				EasyJaSubHomeDir.getDefaultHomeDir("easyjasub-cmd"),
+				EasyJaSubHomeDir.getDefaultHomeDir("easyjasub"),
 				"JMDict_e.xml");
 		assertTrue(
 				"Can not find JMDict file in " + jmDictFile.getAbsolutePath(),
 				jmDictFile.exists() || !isEclipse());
 		return jmDictFile;
+	}
+
+	protected InputStream getJMDictTestResource() {
+		return JMDictParserTest.class.getResourceAsStream("JMdict_sample.xml");
 	}
 }
 

@@ -50,4 +50,20 @@ public class EasyJaSubDictionaryTest extends EasyJaSubTestCase {
 
 	}
 
+	public void testReadSample() throws Exception {
+
+		EasyJaSubDictionary dictionary = new EasyJaSubDictionary(null);
+		dictionary.addJMDict(getJMDictTestResource());
+
+		EasyJaSubDictionaryEntry entry = dictionary.getEntry("基本単位");
+		assertNotNull(entry);
+
+		entry = dictionary.getEntry("基準内賃金");
+		assertNotNull(entry);
+		final String gloss = "fixed wages";
+		assertEquals(gloss, entry.getSenses().iterator().next().getGloss()
+				.iterator().next());
+
+	}
+
 }

@@ -233,4 +233,16 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public String getHomeDirectoryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getJMDictFileName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

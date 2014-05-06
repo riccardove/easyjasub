@@ -472,8 +472,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				|| "text/plain".equals(type);
 	}
 
-	private static boolean isDefault(String fontStr) {
-		return "default".equals(fontStr);
+	private static boolean isDefault(String name) {
+		return "default".equals(name);
 	}
 
 	private static boolean isDisabled(String name) {
@@ -567,8 +567,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	public EasyJaSubInputFromCommand(EasyJaSubInputCommand command)
 			throws EasyJaSubException {
 
-		EasyJaSubCmdHomeDir homeDir = new EasyJaSubCmdHomeDir();
-		homeDir.init(null);
+		EasyJaSubCmdHomeDir homeDir = getHomeDir(command.getHomeDirectoryName());
 
 		DefaultFileList defaultFileList = new DefaultFileList(command);
 		nihongoJtalkHtmlFile = getNihongoJtalkHtmlFile(command, defaultFileList);
@@ -609,12 +608,42 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				nihongoJtalkHtmlFile);
 		showRomaji = getShowRomaji(command.getShowRomaji(), showFurigana);
 		meCabFile = getMeCabFile(defaultFileList, bdnXmlFile);
-		xmlFile = getXmlFile(defaultFileList, outputJapaneseTextFile);
+		xmlFile = getXmlFile(defaultFileList, outputJapaneseTextFile,
+				bdnXmlFile);
 		jglossFile = getJGlossFile(defaultFileList, bdnXmlFile);
 		isSingleLine = getSingleLine();
 		getSelectLines(command.getSelectLines());
-		jmDictFile = getJMDictFile(homeDir);
+		jmDictFile = getJMDictFile(homeDir, command.getJMDictFileName());
 		dictionaryCacheFile = getDictionaryCacheFile(homeDir);
+	}
+
+	private EasyJaSubCmdHomeDir getHomeDir(String directoryName)
+			throws EasyJaSubException {
+		File directory = null;
+		if (directoryName != null && !isDefault(directoryName)
+				&& !isEnabled(directoryName)) {
+			if (isDisabled(directoryName)) {
+				return null;
+			}
+			directory = new File(directoryName);
+			if (directory.exists()) {
+				if (!directory.isDirectory()) {
+					throw new EasyJaSubException("Home directory "
+							+ directoryName + " is not a directory");
+				}
+				if (!directory.canRead()) {
+					throw new EasyJaSubException("Home directory "
+							+ directoryName + " can not be read");
+				}
+				if (!directory.canWrite()) {
+					throw new EasyJaSubException("Home directory "
+							+ directoryName + " can not be written");
+				}
+			}
+		}
+		EasyJaSubCmdHomeDir homeDir = new EasyJaSubCmdHomeDir();
+		homeDir.init(directory);
+		return homeDir;
 	}
 
 	private static File getDictionaryCacheFile(EasyJaSubCmdHomeDir homeDir) {
@@ -622,9 +651,26 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return homeDir.getDictionaryFile();
 	}
 
-	private static File getJMDictFile(EasyJaSubCmdHomeDir homeDir) {
-		// TODO allow options
-		return homeDir.getJMDictFile();
+	private static File getJMDictFile(EasyJaSubCmdHomeDir homeDir,
+			String fileName) throws EasyJaSubException {
+		if (fileName != null && !isDefault(fileName) && !isEnabled(fileName)) {
+			if (isDisabled(fileName)) {
+				return null;
+			}
+			File file = new File(fileName);
+			if (!file.exists() || !file.isFile()) {
+				throw new EasyJaSubException("Can not find JMdict file "
+						+ fileName);
+			}
+			if (!file.canRead()) {
+				throw new EasyJaSubException("Can not read JMdict file "
+						+ fileName);
+			}
+		}
+		if (homeDir != null) {
+			return homeDir.getJMDictFile();
+		}
+		return null;
 	}
 
 	private final File jmDictFile;
@@ -667,10 +713,16 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private File getXmlFile(DefaultFileList defaultFileList,
-			File outputJapaneseTextFile) {
+			File outputJapaneseTextFile, File bdnXmlFile) {
 		// TODO select a file
-		return new File(defaultFileList.getDefaultDirectory(),
-				defaultFileList.getDefaultFileNamePrefix() + "_easyjasub.xml");
+		File directory = null;
+		if (bdnXmlFile != null) {
+			directory = bdnXmlFile.getParentFile();
+		} else {
+			directory = defaultFileList.getDefaultDirectory();
+		}
+		return new File(directory, defaultFileList.getDefaultFileNamePrefix()
+				+ "_easyjasub.xml");
 	}
 
 	private static File getJGlossFile(DefaultFileList defaultFileList,

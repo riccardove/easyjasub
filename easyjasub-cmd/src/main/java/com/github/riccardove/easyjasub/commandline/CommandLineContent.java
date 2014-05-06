@@ -24,6 +24,9 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 
+/**
+ * Content of the command line, using Apache CLI
+ */
 public class CommandLineContent {
 
 	private final CommandLine line;

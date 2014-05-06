@@ -48,6 +48,18 @@ public class JMDictParserTest extends EasyJaSubTestCase {
 		}
 	}
 
+	public void testSampleResource() throws Exception {
+		FakeObserver observer = new FakeObserver();
+		new JMDictParser().parse(getJMDictTestResource(), observer, null);
+		assertEquals("There are errors in parsing", 0, observer.errors.size());
+		if (observer.errors.size() > 0) {
+			for (String error : observer.errors) {
+				println(error);
+			}
+		}
+		assertEquals(7, observer.count);
+	}
+
 	private static void printlnSample(int count, String text) {
 		if ((count % 1327) == 42) {
 			println(text);
@@ -57,6 +69,7 @@ public class JMDictParserTest extends EasyJaSubTestCase {
 	private class FakeObserver implements JMDictObserver {
 
 		public ArrayList<String> errors = new ArrayList<String>();
+		public int count;
 
 		@Override
 		public void onError(int index, String entseq, String message) {
@@ -66,6 +79,7 @@ public class JMDictParserTest extends EasyJaSubTestCase {
 		@Override
 		public void onEntry(int index, String entseq, String keb, String reb,
 				Collection<IJMDictSense> senses) {
+			count++;
 			printlnSample(index, index + " " + entseq + " " + keb + " " + reb);
 			assertTrue(keb != null || reb != null);
 			assertNotNull(senses);

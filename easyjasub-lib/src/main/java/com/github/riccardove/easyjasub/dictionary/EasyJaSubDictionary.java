@@ -20,9 +20,9 @@ package com.github.riccardove.easyjasub.dictionary;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -93,6 +93,21 @@ public class EasyJaSubDictionary implements Serializable,
 		new JMDictParser().parse(file,
 				new DictionaryJMDictReader(trie, errors),
 				threeLetterlanguageCode);
+	}
+
+	/**
+	 * Adds entries from a JMDict file
+	 * 
+	 * @param stream
+	 *            an XML JMDict file as stream
+	 * @throws IOException
+	 *             when reading file
+	 * @throws SAXException
+	 *             when reading file
+	 */
+	public void addJMDict(InputStream stream) throws IOException, SAXException {
+		new JMDictParser().parse(stream, new DictionaryJMDictReader(trie,
+				errors), threeLetterlanguageCode);
 	}
 
 }

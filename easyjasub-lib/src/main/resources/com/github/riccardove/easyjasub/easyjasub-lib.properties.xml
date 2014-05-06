@@ -53,6 +53,8 @@ If not found it is created automatically.</entry>
 <entry key="optiondesc.matchdiff">Amount of milliseconds of difference in time to consider two subtitle lines the same</entry>
 <entry key="optiondesc.approxdiff">Amount of milliseconds of difference in time to consider two subtitle lines approximately the same</entry>
 <entry key="optiondesc.selectlines">Select a subset of subtitle lines from japanese subtitles, useful for sampling</entry>
+<entry key="optiondesc.jmdict">Uses specified JMdict dictionary file, defaults to JMdict_e.gz in easyjasub home directory.</entry>
+<entry key="optiondesc.home">easyjasub home directory, where user configuration files are located, defaults to ~/.easyjasub on Unix and %APPDATA%\easyjasub on Windows.</entry>
 <entry key="optiondesc.quiet">Suppresses output messages</entry>
 <entry key="optiondesc.verbose">More verbose output messages</entry>
 <entry key="optiondesc.help">Displays help</entry>
