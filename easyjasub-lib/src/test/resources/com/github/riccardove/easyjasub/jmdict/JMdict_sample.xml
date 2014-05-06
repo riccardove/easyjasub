@@ -20,9 +20,12 @@
   -->
 
 <!-- 
-Extract from JMdict Rev 1.07 
+Extract from JMdict Rev 1.07 / EDRDG http://www.edrdg.org
 This is used for testing easyjasub and as a reference for XML structure, 
 it just contains a few sample entries
+
+Original file was retrieved from
+http://www.edrdg.org/jmdict/j_jmdict.html
 -->
 <!DOCTYPE JMdict [
 <!ELEMENT JMdict (entry*)>

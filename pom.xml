@@ -151,6 +151,9 @@
 							<phase>process-sources</phase>
 							<configuration>
 								<licenseName>${license.licenseName}</licenseName>
+								<excludes>
+									<exclude>JMdict_sample.xml</exclude>
+								</excludes>
 							</configuration>
 						</execution>
 					</executions>
