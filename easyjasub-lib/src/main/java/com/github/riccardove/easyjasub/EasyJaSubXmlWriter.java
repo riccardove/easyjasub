@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.IOException;
 
@@ -81,8 +80,7 @@ public class EasyJaSubXmlWriter {
 		write("</" + name + ">");
 	}
 
-	public void tag(String name, String content)
-			throws IOException {
+	public void tag(String name, String content) throws IOException {
 		if (content != null) {
 			printIndent();
 			writeln("<" + name + ">" + content + "</" + name + ">");
@@ -93,6 +91,15 @@ public class EasyJaSubXmlWriter {
 			String attributeContent, String content) throws IOException {
 		printIndent();
 		writeln("<" + name + " " + attribute + "=\"" + attributeContent + "\">"
+				+ content + "</" + name + ">");
+	}
+
+	public void tagWithAttribute(String name, String attribute1,
+			String attributeContent1, String attribute2,
+			String attributeContent2, String content) throws IOException {
+		printIndent();
+		writeln("<" + name + " " + attribute1 + "=\"" + attributeContent1
+				+ "\" " + attribute2 + "=\"" + attributeContent2 + "\">"
 				+ content + "</" + name + ">");
 	}
 

@@ -26,18 +26,18 @@ import java.util.List;
 public class SubtitleLine {
 
 
-	public String getTranslation() {
+	public List<SubtitleTranslatedLine> getTranslation() {
 		return translation;
 	}
 
-	public void setTranslatedText(String text) {
+	public void setTranslation(List<SubtitleTranslatedLine> text) {
 		translation = text;
 	}
 	
 	private int index;
 
+	private List<SubtitleTranslatedLine> translation;
 	private List<SubtitleItem> items;
-	private String translation;
 	private String japanese;
 
 	public String getJapanese() {

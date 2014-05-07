@@ -136,7 +136,8 @@ public class InputNihongoJTalkHtmlFile {
 	}
 
 	private void joinLines(NihongoJTalkSubtitleLine nline, SubtitleLine line) {
-		nline.setTranslatedText(line.getTranslation());
+		// nline.setTranslatedText(line.getTranslation()); NOTE: translation may
+		// be useful for dictionary match
 		line.setItems(nline.toItems());
 	}
 }

@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubCaption;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
@@ -93,6 +94,13 @@ class SubtitleListJapaneseSubFileReader {
 		if (content.length() == 0) {
 			return null;
 		}
-		return content;
+		return replaceNewlines(content);
 	}
+
+	private static String replaceNewlines(String content) {
+		return TranslationReplace.matcher(content).replaceAll(" ");
+	}
+
+	private static final Pattern TranslationReplace = Pattern
+			.compile(" *<br ?/> *");
 }

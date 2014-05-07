@@ -41,7 +41,9 @@ class SubtitleListXmlFileWriter {
 					Integer.toString(l.getStartTime()));
 			tag(SubtitleListXmlElement.end, Integer.toString(l.getEndTime()));
 			tag(SubtitleListXmlElement.text, l.getSubText());
-			tag(SubtitleListXmlElement.translation, l.getTranslation());
+			if (l.getTranslation() != null) {
+				appendTranslation(l.getTranslation());
+			}
 			if (l.getItems() != null) {
 				groupOpen(SubtitleListXmlElement.items);
 				for (SubtitleItem item : l.getItems()) {
@@ -70,6 +72,20 @@ class SubtitleListXmlFileWriter {
 		groupClose(SubtitleListXmlElement.lines);
 		groupClose(SubtitleListXmlElement.easyjasub);
 		f.close();
+	}
+
+	private void appendTranslation(Iterable<SubtitleTranslatedLine> translation)
+			throws IOException {
+		groupOpen(SubtitleListXmlElement.translation);
+		for (SubtitleTranslatedLine t : translation) {
+			groupOpen(SubtitleListXmlElement.tline);
+			tag(SubtitleListXmlElement.ttext, t.getText());
+			tag(SubtitleListXmlElement.tstart,
+					Integer.toString(t.getStartTime()));
+			tag(SubtitleListXmlElement.tend, Integer.toString(t.getEndTime()));
+			groupClose(SubtitleListXmlElement.tline);
+		}
+		groupClose(SubtitleListXmlElement.translation);
 	}
 
 	private EasyJaSubXmlWriter f;

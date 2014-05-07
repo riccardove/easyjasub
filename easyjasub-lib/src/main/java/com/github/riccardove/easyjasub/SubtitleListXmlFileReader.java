@@ -37,6 +37,8 @@ class SubtitleListXmlFileReader implements
 	private ArrayList<SubtitleItem> items;
 	private SubtitleItem item;
 	private ArrayList<Inner> elements;
+	private ArrayList<SubtitleTranslatedLine> translation;
+	private SubtitleTranslatedLine tline;
 
 	public SubtitleListXmlFileReader(SubtitleList list) {
 		this.list = list;
@@ -68,6 +70,10 @@ class SubtitleListXmlFileReader implements
 			items = new ArrayList<SubtitleItem>();
 			break;
 		}
+		case tline: {
+			tline = new SubtitleTranslatedLine();
+			break;
+		}
 		case item: {
 			item = new SubtitleItem();
 			items.add(item);
@@ -75,6 +81,10 @@ class SubtitleListXmlFileReader implements
 		}
 		case inner: {
 			elements = new ArrayList<Inner>();
+			break;
+		}
+		case translation: {
+			translation = new ArrayList<SubtitleTranslatedLine>();
 			break;
 		}
 		default: {
@@ -91,12 +101,36 @@ class SubtitleListXmlFileReader implements
 			break;
 		}
 		case items: {
-			line.setItems(items);
+			if (items.size() > 0) {
+				line.setItems(items);
+			}
 			items = null;
 			break;
 		}
 		case translation: {
-			line.setTranslatedText(text);
+			if (translation.size() > 0) {
+				line.setTranslation(translation);
+			}
+			translation = null;
+			break;
+		}
+		case tline: {
+			if (tline.getText() != null) {
+				translation.add(tline);
+			}
+			tline = null;
+			break;
+		}
+		case ttext: {
+			tline.setText(text);
+			break;
+		}
+		case tstart: {
+			tline.setStartTime(parseInt(text));
+			break;
+		}
+		case tend: {
+			tline.setEndTime(parseInt(text));
 			break;
 		}
 		case text: {
@@ -148,11 +182,11 @@ class SubtitleListXmlFileReader implements
 			break;
 		}
 		case start: {
-			line.setStartTime(Integer.parseInt(text));
+			line.setStartTime(parseInt(text));
 			break;
 		}
 		case end: {
-			line.setEndTime(Integer.parseInt(text));
+			line.setEndTime(parseInt(text));
 			break;
 		}
 		case line: {
@@ -162,5 +196,9 @@ class SubtitleListXmlFileReader implements
 		default:
 			break;
 		}
+	}
+
+	private int parseInt(String text) {
+		return Integer.parseInt(text);
 	}
 }

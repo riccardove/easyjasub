@@ -23,6 +23,9 @@ package com.github.riccardove.easyjasub.dictionary;
 
 import java.io.File;
 
+import org.junit.Ignore;
+import org.junit.Test;
+
 import com.github.riccardove.easyjasub.EasyJaSubTestCase;
 
 public class EasyJaSubDictionaryTest extends EasyJaSubTestCase {
@@ -30,6 +33,8 @@ public class EasyJaSubDictionaryTest extends EasyJaSubTestCase {
 	 * This test will not run if JMDict_e.xml is not found in easyjasub-cmd home
 	 * dir
 	 */
+	@Test
+	@Ignore
 	public void testReadFile() throws Exception {
 		File jmDictFile = getJMDictFile();
 		if (!jmDictFile.exists()) {

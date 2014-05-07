@@ -29,7 +29,8 @@ public class SubtitleListXmlFileReaderTest extends EasyJaSubTestCase {
 
 		assertEquals("Beginning", list.getTitle());
 		assertEquals(49, list.size());
-		assertEquals("The Kingdom of Fiore... ", list.get(0).getTranslation());
+		assertEquals("The Kingdom of Fiore... ", list.get(0).getTranslation()
+				.get(0).getText());
 		assertEquals("人口１，７００万の永世中立国。", list.get(1).getJapanese());
 	}
 }

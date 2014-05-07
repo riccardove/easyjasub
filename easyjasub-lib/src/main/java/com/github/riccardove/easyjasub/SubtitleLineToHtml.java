@@ -21,6 +21,7 @@ package com.github.riccardove.easyjasub;
  */
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import com.github.riccardove.easyjasub.rendersnake.RendersnakeHtmlCanvas;
@@ -98,12 +99,29 @@ class SubtitleLineToHtml {
 		}
 	}
 
+	private static String getTranslationStr(
+			List<SubtitleTranslatedLine> translation) {
+		Iterator<SubtitleTranslatedLine> it = translation.iterator();
+		String first = it.next().getText();
+		if (!it.hasNext()) {
+			return first;
+		}
+		StringBuilder text = new StringBuilder(first);
+		do {
+			text.append(BreakStr);
+			text.append(it.next().getText());
+		} while (it.hasNext());
+		return text.toString();
+	}
+
+	private static final String BreakStr = "  ";
+
 	private void appendTranslation(RendersnakeHtmlCanvas html, SubtitleLine line)
 			throws IOException {
-		String translation = line.getTranslation();
-		if (translation != null) {
+		List<SubtitleTranslatedLine> translation = line.getTranslation();
+		if (translation != null && translation.size() > 0) {
 			html.newline();
-			html.p(translation);
+			html.p(getTranslationStr(translation));
 			html.newline();
 		}
 	}

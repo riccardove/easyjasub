@@ -24,7 +24,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubCaption;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
@@ -60,16 +61,16 @@ class SubtitleListTranslatedSubFileReader {
 						translatedLine);
 			}
 		}
-		copyPreviousTranslationWhenNone(s);
+		copyPreviousTranslationWhenNone(s); // TODO may be not necessary
 	}
 
 	private void copyPreviousTranslationWhenNone(SubtitleList s) {
-		String lastTranslation = null;
+		List<SubtitleTranslatedLine> lastTranslation = null;
 		for (SubtitleLine jaLine : s) {
 			if (isJa(jaLine)) {
 				if (!isTranslation(jaLine)) {
 					if (lastTranslation != null) {
-						jaLine.setTranslatedText(lastTranslation);
+						jaLine.setTranslation(lastTranslation);
 					}
 				} else {
 					lastTranslation = jaLine.getTranslation();
@@ -83,8 +84,7 @@ class SubtitleListTranslatedSubFileReader {
 	private SubtitleTranslatedLine createTranslatedLine(
 			InputTextSubCaption translatedCaption, String content) {
 		SubtitleTranslatedLine translatedLine = new SubtitleTranslatedLine();
-		String text = replaceNewlines(content);
-		translatedLine.setText(text);
+		translatedLine.setText(content);
 		translatedLine.setStartTime(translatedCaption.getStart()
 				.getMSeconds());
 		translatedLine.setEndTime(translatedCaption.getEnd()
@@ -138,23 +138,13 @@ class SubtitleListTranslatedSubFileReader {
 
 	private static void addTranslation(SubtitleLine jaLine,
 			SubtitleTranslatedLine translatedLineText) {
-		String translation = jaLine.getTranslation();
-		String text = translatedLineText.getText();
+		List<SubtitleTranslatedLine> translation = jaLine.getTranslation();
 		if (translation == null) {
-			translation = text;
-		} else {
-			translation += BreakStr + text;
+			translation = new ArrayList<SubtitleTranslatedLine>();
+			jaLine.setTranslation(translation);
 		}
-		jaLine.setTranslatedText(translation);
+		translation.add(translatedLineText);
 	}
-
-	private String replaceNewlines(String content) {
-		return TranslationReplace.matcher(content).replaceAll(" ");
-	}
-
-	private static final Pattern TranslationReplace = Pattern
-			.compile("<br ?/>");
-	private static final String BreakStr = "  ";
 
 	private boolean startsAfter(SubtitleLine line,
 			SubtitleTranslatedLine translatedCaption) {

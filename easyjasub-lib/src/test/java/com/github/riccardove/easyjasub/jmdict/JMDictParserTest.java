@@ -25,6 +25,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.junit.Ignore;
+import org.junit.Test;
+
 import com.github.riccardove.easyjasub.EasyJaSubTestCase;
 
 public class JMDictParserTest extends EasyJaSubTestCase {
@@ -33,6 +36,8 @@ public class JMDictParserTest extends EasyJaSubTestCase {
 	 * This test will not run if JMDict_e.xml is not found in easyjasub-cmd home
 	 * dir
 	 */
+	@Test
+	@Ignore
 	public void testFullFile() throws Exception {
 		File jmDictFile = getJMDictFile();
 		if (!jmDictFile.exists()) {

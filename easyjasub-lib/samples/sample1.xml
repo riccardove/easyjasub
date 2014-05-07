@@ -6,7 +6,9 @@
       <start>3800</start>
       <end>7470</end>
       <text>＜フィオーレ王国。</text>
-      <translation>The Kingdom of Fiore... </translation>
+      <translation>
+      <tline><ttext>The Kingdom of Fiore... </ttext></tline>
+      </translation>
       <items>
         <item>
           <grammar>symbol</grammar>
