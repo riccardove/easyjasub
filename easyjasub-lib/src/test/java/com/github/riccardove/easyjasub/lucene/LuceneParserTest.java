@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub.lucene;
  * #L%
  */
 
-
 import java.io.IOException;
 import java.util.List;
 
@@ -54,6 +53,17 @@ public class LuceneParserTest extends EasyJaSubTestCase {
 		assertEquals(7, tokens.size());
 
 		parser.close();
+	}
+
+	/**
+	 * "魔導士" should be a single word
+	 */
+	public void testUnknownCompound() throws Exception {
+		String text = "人々は　彼らを魔導士と呼んだ。";
+
+		LuceneParser parser = new LuceneParser(false);
+		List<LuceneToken> tokens = parse(parser, text);
+		assertEquals(10, tokens.size());
 	}
 
 	private List<LuceneToken> parse(LuceneParser parser, String text)
