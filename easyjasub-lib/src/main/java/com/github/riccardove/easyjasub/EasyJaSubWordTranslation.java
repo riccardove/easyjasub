@@ -22,6 +22,7 @@ package com.github.riccardove.easyjasub;
 
 
 public interface EasyJaSubWordTranslation {
+	int getLength();
 
 	Iterable<EasyJaSubWordTranslationSense> getSenses();
 }

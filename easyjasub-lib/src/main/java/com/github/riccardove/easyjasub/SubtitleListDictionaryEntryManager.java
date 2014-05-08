@@ -20,13 +20,22 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 class SubtitleListDictionaryEntryManager {
 
 	private final EasyJaSubObserver observer;
 
 	public SubtitleListDictionaryEntryManager(EasyJaSubObserver observer) {
 		this.observer = observer;
+	}
+
+	private boolean itemCanHaveDictionary(SubtitleItem item) {
+		return (item.getElements() != null
+				|| item.getPartOfSpeech().startsWith("noun")
+				|| item.getPartOfSpeech().startsWith("verb")
+				|| item.getPartOfSpeech().startsWith("adjective") || item
+				.getPartOfSpeech().startsWith("adverb"))
+				&& !item.getPartOfSpeech().contains("auxiliary");
+
 	}
 
 	public void addDictionaryEntries(SubtitleList s,
@@ -36,20 +45,99 @@ class SubtitleListDictionaryEntryManager {
 			Iterable<SubtitleItem> items = line.getItems();
 			if (items != null) {
 				for (SubtitleItem item : items) {
-					// TODO: translation should be applied to anything but
-					// particles
-					if (item.getElements() != null) {
-						EasyJaSubWordTranslation translation = dictionary
-								.translate(item.getText());
+					if (itemCanHaveDictionary(item)) {
+						EasyJaSubWordTranslation translation = getWordTranslation(
+								item, dictionary);
 						if (translation != null) {
-							String translationStr = translation.getSenses()
-									.iterator().next().getGloss().iterator()
-									.next();
+							EasyJaSubWordTranslationSense sense = getBestSense(
+									translation, item);
+							String translationStr = getBestTranslation(sense,
+									line);
 							item.setDictionary(translationStr);
 						}
 					}
 				}
 			}
 		}
+	}
+
+	private String getBestTranslation(EasyJaSubWordTranslationSense sense,
+			SubtitleLine line) {
+		if (line.getTranslation() == null) {
+			return sense.getGloss().iterator().next();
+		}
+		// TODO: pick up a gloss depending on translated line
+		return sense.getGloss().iterator().next();
+	}
+
+	private String getSimplifiedItemPartOfSpeech(SubtitleItem item) {
+		String itemPartOfSpeech = item.getPartOfSpeech();
+		if (itemPartOfSpeech != null) {
+			int index = itemPartOfSpeech.indexOf('-');
+			if (index > 0) {
+				return itemPartOfSpeech.substring(0, index);
+			}
+		}
+		return itemPartOfSpeech;
+	}
+
+	private EasyJaSubWordTranslationSense getBestSense(
+			EasyJaSubWordTranslation translation, SubtitleItem item) {
+		EasyJaSubWordTranslationSense result = null;
+		String itemPartOfSpeech = getSimplifiedItemPartOfSpeech(item);
+		boolean resultChecked = false;
+		for (EasyJaSubWordTranslationSense sense : translation.getSenses()) {
+			if (result == null) {
+				result = sense;
+			} else if (itemPartOfSpeech != null) {
+				if (!resultChecked) {
+					if (result.getPartOfSpeech() != null) {
+						for (String pos : result.getPartOfSpeech()) {
+							if (pos.contains(itemPartOfSpeech)) {
+								return result;
+							}
+						}
+					}
+					resultChecked = true;
+				}
+				if (sense.getPartOfSpeech() != null) {
+					for (String pos : sense.getPartOfSpeech()) {
+						if (pos.contains(itemPartOfSpeech)) {
+							return sense;
+						}
+					}
+				}
+			} else {
+				return sense;
+			}
+		}
+		return result;
+	}
+
+	private String getFirstTranslation(EasyJaSubWordTranslation translation) {
+		return translation.getSenses().iterator().next().getGloss().iterator()
+				.next();
+	}
+
+	private EasyJaSubWordTranslation getWordTranslation(SubtitleItem item,
+			EasyJaSubWordTranslator dictionary) {
+		EasyJaSubWordTranslation textTranslation = dictionary.translate(item
+				.getText());
+		EasyJaSubWordTranslation baseFormTranslation = dictionary
+				.translate(item.getBaseForm());
+		if (baseFormTranslation != null
+				&& isBaseFormTranslationBetter(item, textTranslation,
+						baseFormTranslation)) {
+			return baseFormTranslation;
+		}
+		return textTranslation;
+	}
+
+	private boolean isBaseFormTranslationBetter(SubtitleItem item,
+			EasyJaSubWordTranslation textTranslation,
+			EasyJaSubWordTranslation baseFormTranslation) {
+		return (baseFormTranslation.getLength() >= textTranslation.getLength())
+				|| (baseFormTranslation.getLength() == item.getBaseForm()
+						.length());
 	}
 }

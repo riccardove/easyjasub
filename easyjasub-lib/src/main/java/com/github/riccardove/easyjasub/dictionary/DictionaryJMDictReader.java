@@ -72,6 +72,7 @@ final class DictionaryJMDictReader implements JMDictObserver {
 		EasyJaSubDictionaryEntry entry = value.getValue();
 		if (entry == null) {
 			entry = new EasyJaSubDictionaryEntry();
+			entry.setLength(keb.length());
 			value.setValue(entry);
 		}
 		return entry;
@@ -80,8 +81,9 @@ final class DictionaryJMDictReader implements JMDictObserver {
 	private List<EasyJaSubDictionaryEntry.Sense> getSenseList(
 			Collection<IJMDictSense> senses) {
 		List<EasyJaSubDictionaryEntry.Sense> senseList = new ArrayList<EasyJaSubDictionaryEntry.Sense>();
+		int index = 0;
 		for (IJMDictSense sense : senses) {
-			EasyJaSubDictionaryEntry.Sense s = new Sense();
+			EasyJaSubDictionaryEntry.Sense s = new Sense(index++);
 			boolean glossFound = false;
 			for (String gloss : sense.getGloss()) {
 				// tries to simplify the gloss to fit a subtitle word

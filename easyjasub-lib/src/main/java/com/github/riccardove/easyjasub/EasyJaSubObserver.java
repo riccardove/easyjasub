@@ -219,4 +219,6 @@ public interface EasyJaSubObserver {
 	void onDictionarySerialized(File cacheFile);
 
 	void onDictionarySerializeError(File cacheFile, Exception ex);
+
+	void onWriteImageError(File pngFile, File file) throws EasyJaSubException;
 }

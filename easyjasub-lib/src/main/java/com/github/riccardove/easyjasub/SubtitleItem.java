@@ -29,15 +29,24 @@ public class SubtitleItem {
 	private String text;
 	private String romaji;
 	private String comment;
-	private String grammarElement;
+	private String partOfSpeech;
 	private List<Inner> elements;
+	private String baseForm;
 
-	public String getGrammarElement() {
-		return grammarElement;
+	public String getBaseForm() {
+		return baseForm;
 	}
 
-	public void setGrammarElement(String grammarElement) {
-		this.grammarElement = grammarElement;
+	public void setBaseForm(String baseForm) {
+		this.baseForm = baseForm;
+	}
+
+	public String getPartOfSpeech() {
+		return partOfSpeech;
+	}
+
+	public void setPartOfSpeech(String grammarElement) {
+		this.partOfSpeech = grammarElement;
 	}
 
 	public String getComment() {

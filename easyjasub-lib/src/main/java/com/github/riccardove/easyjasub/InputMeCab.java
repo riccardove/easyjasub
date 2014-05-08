@@ -129,7 +129,7 @@ class InputMeCab {
 
 				PartOfSpeech grammar = grammarElements.translate(meCabItem
 						.getGrammarElement());
-				subsItem.setGrammarElement(grammar.toString());
+				subsItem.setPartOfSpeech(grammar.toString());
 				if (grammar == PartOfSpeech.undef) {
 					unknownGrammar.add(meCabItem.getGrammarElement());
 				}

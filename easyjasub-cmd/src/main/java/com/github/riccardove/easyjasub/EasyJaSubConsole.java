@@ -585,4 +585,11 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 		lowVerboseMessage("Error serializing dictionary " + toString(file)
 				+ ": " + ex.getLocalizedMessage());
 	}
+
+	@Override
+	public void onWriteImageError(File pngFile, File file)
+			throws EasyJaSubException {
+		throw new EasyJaSubException("Error writing picture file "
+				+ toString(pngFile) + " " + toString(file));
+	}
 }

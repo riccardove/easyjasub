@@ -55,7 +55,7 @@ class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
 
 	private void appendRuby(RendersnakeHtmlCanvas html, SubtitleItem item)
 			throws IOException {
-		if (!PartOfSpeech.symbol.toString().equals(item.getGrammarElement())) {
+		if (!PartOfSpeech.symbol.toString().equals(item.getPartOfSpeech())) {
 			html.newline();
 		}
 		List<SubtitleItem.Inner> elements = item.getElements();
@@ -63,16 +63,16 @@ class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
 			// there is no kanji element in the item
 			if (hasFurigana && item.getFurigana() != null) {
 				// item has a valid furigana, show text with furigana
-				appendRuby(html, item.getGrammarElement(), item.getText(),
+				appendRuby(html, item.getPartOfSpeech(), item.getText(),
 						item.getFurigana());
 			} else if (hasRomaji && item.getRomaji() != null) {
 				// item has a valid romaji, show text with romaji as ruby
-				appendRuby(html, item.getGrammarElement(), item.getText(),
+				appendRuby(html, item.getPartOfSpeech(), item.getText(),
 						item.getRomaji());
 			} else if (hasDictionary && item.getDictionary() != null) {
 				// item has a valid dictionary, show text with dictionary as
 				// ruby
-				appendRuby(html, item.getGrammarElement(), item.getText(),
+				appendRuby(html, item.getPartOfSpeech(), item.getText(),
 						item.getDictionary());
 			} else {
 				appendText(html, item.getText());
@@ -88,11 +88,11 @@ class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
 				}
 				if (hasRomaji && item.getRomaji() != null) {
 					// show hiragana text with romaji as ruby
-					appendRuby(html, item.getGrammarElement(), text,
+					appendRuby(html, item.getPartOfSpeech(), text,
 							item.getRomaji());
 				} else if (hasDictionary && item.getDictionary() != null) {
 					// show hiragana text with dictionary
-					appendRuby(html, item.getGrammarElement(), text,
+					appendRuby(html, item.getPartOfSpeech(), text,
 							item.getDictionary());
 				} else {
 					// show hiragana text
@@ -107,14 +107,14 @@ class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
 						text = item.getText();
 					}
 					if (hasDictionary && item.getDictionary() != null) {
-						appendRuby(html, item.getGrammarElement(), text,
+						appendRuby(html, item.getPartOfSpeech(), text,
 								item.getDictionary());
 					} else {
 						appendText(html, text);
 					}
 				} else {
 					if (hasDictionary && item.getDictionary() != null) {
-						appendRuby(html, item.getGrammarElement(),
+						appendRuby(html, item.getPartOfSpeech(),
 								item.getText(), item.getDictionary());
 					} else {
 						appendText(html, item.getText());
@@ -122,7 +122,7 @@ class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
 				}
 			}
 		} else if (hasFurigana || hasRomaji || hasDictionary) {
-			html.ruby(item.getGrammarElement());
+			html.ruby(item.getPartOfSpeech());
 			if (hasFurigana) {
 				// TODO: sometimes furigana may be limited to some kanji part of
 				// the word
@@ -137,7 +137,7 @@ class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
 			}
 			html._ruby();
 		} else {
-			html.span(item.getGrammarElement());
+			html.span(item.getPartOfSpeech());
 			appendElements(html, elements);
 			html._span();
 		}

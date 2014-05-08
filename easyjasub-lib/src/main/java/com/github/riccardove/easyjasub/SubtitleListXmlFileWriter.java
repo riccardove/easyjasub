@@ -49,7 +49,7 @@ class SubtitleListXmlFileWriter {
 				for (SubtitleItem item : l.getItems()) {
 					groupOpen(SubtitleListXmlElement.item);
 					tag(SubtitleListXmlElement.grammar,
-							item.getGrammarElement());
+							item.getPartOfSpeech());
 					tag(SubtitleListXmlElement.dictionary, item.getDictionary());
 					tag(SubtitleListXmlElement.furigana, item.getFurigana());
 					tag(SubtitleListXmlElement.romaji, item.getRomaji());

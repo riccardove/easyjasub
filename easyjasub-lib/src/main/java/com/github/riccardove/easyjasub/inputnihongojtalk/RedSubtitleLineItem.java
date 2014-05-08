@@ -56,7 +56,7 @@ class RedSubtitleLineItem  extends TextSubtitleLineItem {
 	@Override
 	public void toItem(SubtitleItem item) {
 		item.setRomaji(romaji);
-		item.setGrammarElement(posc);
+		item.setPartOfSpeech(posc);
 		super.toItem(item);
 	}
 	

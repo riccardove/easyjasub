@@ -142,7 +142,7 @@ class SubtitleListXmlFileReader implements
 			break;
 		}
 		case grammar: {
-			item.setGrammarElement(text);
+			item.setPartOfSpeech(text);
 			break;
 		}
 		case dictionary: {

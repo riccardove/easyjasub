@@ -46,11 +46,13 @@ class EasyJaSubDictionaryEntry implements EasyJaSubWordTranslation {
 
 	public static class Sense implements EasyJaSubWordTranslationSense {
 
-		public Sense() {
+		public Sense(int index) {
 			posList = new ArrayList<String>();
 			glossList = new ArrayList<String>();
+			this.index = index;
 		}
 
+		private final int index;
 		private final ArrayList<String> glossList;
 		private final ArrayList<String> posList;
 
@@ -71,5 +73,21 @@ class EasyJaSubDictionaryEntry implements EasyJaSubWordTranslation {
 		protected void addGloss(String gloss) {
 			glossList.add(gloss);
 		}
+
+		@Override
+		public int getIndex() {
+			return index;
+		}
+	}
+
+	private int length;
+
+	@Override
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
 	}
 }

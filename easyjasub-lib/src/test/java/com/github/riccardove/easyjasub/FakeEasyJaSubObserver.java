@@ -563,4 +563,11 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	}
 
+	@Override
+	public void onWriteImageError(File pngFile, File file)
+			throws EasyJaSubException {
+		// TODO Auto-generated method stub
+
+	}
+
 }

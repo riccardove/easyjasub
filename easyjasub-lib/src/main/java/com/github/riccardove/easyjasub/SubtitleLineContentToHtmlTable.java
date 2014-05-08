@@ -91,7 +91,7 @@ class SubtitleLineContentToHtmlTable extends SubtitleLineContentToHtmlBase {
 		if (romaji == null) {
 			html.tdEmpty();
 		} else {
-			html.td(item.getGrammarElement(), romaji);
+			html.td(item.getPartOfSpeech(), romaji);
 		}
 
 	}
@@ -112,7 +112,7 @@ class SubtitleLineContentToHtmlTable extends SubtitleLineContentToHtmlBase {
 		if (furigana == null) {
 			html.tdEmpty();
 		} else {
-			html.td(item.getGrammarElement(), furigana);
+			html.td(item.getPartOfSpeech(), furigana);
 		}
 
 	}
@@ -125,7 +125,7 @@ class SubtitleLineContentToHtmlTable extends SubtitleLineContentToHtmlBase {
 		if (text == null) {
 			html.tdEmpty();
 		} else if (elements == null) {
-			String styleClass = item.getGrammarElement();
+			String styleClass = item.getPartOfSpeech();
 			if (styleClass == null) {
 				html.td();
 			} else {
@@ -134,11 +134,11 @@ class SubtitleLineContentToHtmlTable extends SubtitleLineContentToHtmlBase {
 			appendText(html, text);
 			html._td();
 		} else if (showKanji) {
-			html.tdOpen(item.getGrammarElement());
+			html.tdOpen(item.getPartOfSpeech());
 			appendElements(html, elements);
 			html._td();
 		} else {
-			html.td(item.getGrammarElement(), item.getFurigana());
+			html.td(item.getPartOfSpeech(), item.getFurigana());
 		}
 	}
 

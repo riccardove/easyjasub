@@ -55,7 +55,8 @@ public class SubtitleListLuceneAnalyzer {
 			String text = line.getJapanese().substring(token.getStartOffset(),
 					token.getEndOffset());
 			subsItem.setText(text);
-			subsItem.setGrammarElement(token.getPartOfSpeech());
+			subsItem.setPartOfSpeech(token.getPartOfSpeech());
+			subsItem.setBaseForm(token.getBaseForm());
 
 			String reading = token.getReading();
 			if (reading != null) {

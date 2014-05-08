@@ -22,6 +22,8 @@ package com.github.riccardove.easyjasub;
 
 
 public interface EasyJaSubWordTranslationSense {
+	int getIndex();
+
 	Iterable<String> getPartOfSpeech();
 
 	Iterable<String> getGloss();

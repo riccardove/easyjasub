@@ -40,7 +40,8 @@ class SubtitleListPngFilesJavaWriter {
 	private final HtmlImageGenerator imageGenerator;
 
 	public void writeImages(PictureSubtitleList s, File htmlFolder,
-			File pngFolder) throws IOException, InterruptedException {
+			File pngFolder) throws IOException, InterruptedException,
+			EasyJaSubException {
 		for (PictureSubtitleLine l : s) {
 			File file = l.getHtmlFile();
 			File pngFile = l.getPngFile();
@@ -49,9 +50,13 @@ class SubtitleListPngFilesJavaWriter {
 			} else {
 				observer.onWriteImage(pngFile, file);
 
-				imageGenerator.loadUrl(file.toURI().toURL());
-				// TODO avoid rereading the file if written in this session, use
-				// imageGenerator.loadHtml();
+				if (l.getHtml() != null) {
+					imageGenerator.loadHtml(l.getHtml());
+				} else if (file != null && file.exists()) {
+					imageGenerator.loadUrl(file.toURI().toURL());
+				} else {
+					observer.onWriteImageError(pngFile, file);
+				}
 				imageGenerator.saveAsImage(file.getAbsolutePath());
 				// TODO store the image size
 			}
