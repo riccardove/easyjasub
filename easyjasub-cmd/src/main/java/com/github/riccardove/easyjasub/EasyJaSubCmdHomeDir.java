@@ -56,6 +56,18 @@ class EasyJaSubCmdHomeDir {
 			if (!jmDictFile.exists()) {
 				jmDictFile = new File(home, "JMdict.xml");
 			}
+			if (!jmDictFile.exists()) {
+				jmDictFile = new File(home, "JMdict_e");
+			}
+			if (!jmDictFile.exists()) {
+				jmDictFile = new File(home, "JMdict");
+			}
+			if (!jmDictFile.exists()) {
+				jmDictFile = new File(home, "JMdict_e.gz");
+			}
+			if (!jmDictFile.exists()) {
+				jmDictFile = new File(home, "JMdict.gz");
+			}
 		}
 		return jmDictFile;
 	}

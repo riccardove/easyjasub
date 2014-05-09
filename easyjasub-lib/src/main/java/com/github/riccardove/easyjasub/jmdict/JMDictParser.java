@@ -21,8 +21,10 @@ package com.github.riccardove.easyjasub.jmdict;
  */
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.GZIPInputStream;
 
 import org.xml.sax.SAXException;
 
@@ -33,7 +35,14 @@ public class JMDictParser {
 
 	public void parse(File file, JMDictObserver observer,
 			String threeLetterlanguageCode) throws IOException, SAXException {
-		createXmlReader(observer, threeLetterlanguageCode).parse(file);
+		if (file.getName().endsWith(".gz")) {
+			// the JMdict file can sometime be compressed
+			InputStream stream = new GZIPInputStream(new FileInputStream(file));
+			parse(stream, observer, threeLetterlanguageCode);
+			stream.close();
+		} else {
+			createXmlReader(observer, threeLetterlanguageCode).parse(file);
+		}
 	}
 
 	public void parse(InputStream inputStream, JMDictObserver observer,

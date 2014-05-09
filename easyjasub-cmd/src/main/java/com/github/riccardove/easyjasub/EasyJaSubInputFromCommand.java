@@ -666,6 +666,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				throw new EasyJaSubException("Can not read JMdict file "
 						+ fileName);
 			}
+			return file;
 		}
 		if (homeDir != null) {
 			return homeDir.getJMDictFile();
