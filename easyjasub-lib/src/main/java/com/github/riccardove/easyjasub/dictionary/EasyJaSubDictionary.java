@@ -66,6 +66,9 @@ public class EasyJaSubDictionary implements Serializable,
 	 * @return
 	 */
 	public EasyJaSubDictionaryEntry getEntry(String word) {
+		if (word == null || word.length() == 0) {
+			throw new RuntimeException("Invalid word");
+		}
 		EasyJaSubTrie.Value<EasyJaSubDictionaryEntry> value = trie
 				.get(new CharacterIterator(word));
 		if (value == null) {

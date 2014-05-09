@@ -29,12 +29,13 @@ class SubtitleListDictionaryEntryManager {
 	}
 
 	private boolean itemCanHaveDictionary(SubtitleItem item) {
-		return (item.getElements() != null
-				|| item.getPartOfSpeech().startsWith("noun")
-				|| item.getPartOfSpeech().startsWith("verb")
-				|| item.getPartOfSpeech().startsWith("adjective") || item
-				.getPartOfSpeech().startsWith("adverb"))
-				&& !item.getPartOfSpeech().contains("auxiliary");
+		String pos = item.getPartOfSpeech();
+		if (pos == null) {
+			return item.getElements() != null;
+		}
+		return (item.getElements() != null || pos.startsWith("noun")
+				|| pos.startsWith("verb") || pos.startsWith("adjective") || pos
+					.startsWith("adverb")) && !pos.contains("auxiliary");
 
 	}
 
@@ -123,12 +124,14 @@ class SubtitleListDictionaryEntryManager {
 			EasyJaSubWordTranslator dictionary) {
 		EasyJaSubWordTranslation textTranslation = dictionary.translate(item
 				.getText());
-		EasyJaSubWordTranslation baseFormTranslation = dictionary
-				.translate(item.getBaseForm());
-		if (baseFormTranslation != null
-				&& isBaseFormTranslationBetter(item, textTranslation,
-						baseFormTranslation)) {
-			return baseFormTranslation;
+		if (item.getBaseForm() != null) {
+			EasyJaSubWordTranslation baseFormTranslation = dictionary
+					.translate(item.getBaseForm());
+			if (baseFormTranslation != null
+					&& isBaseFormTranslationBetter(item, textTranslation,
+							baseFormTranslation)) {
+				return baseFormTranslation;
+			}
 		}
 		return textTranslation;
 	}
@@ -136,7 +139,9 @@ class SubtitleListDictionaryEntryManager {
 	private boolean isBaseFormTranslationBetter(SubtitleItem item,
 			EasyJaSubWordTranslation textTranslation,
 			EasyJaSubWordTranslation baseFormTranslation) {
-		return (baseFormTranslation.getLength() >= textTranslation.getLength())
+		return textTranslation == null
+				|| (baseFormTranslation.getLength() >= textTranslation
+						.getLength())
 				|| (baseFormTranslation.getLength() == item.getBaseForm()
 						.length());
 	}
