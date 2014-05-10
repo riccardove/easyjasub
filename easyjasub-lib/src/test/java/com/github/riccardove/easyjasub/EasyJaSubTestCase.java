@@ -94,7 +94,7 @@ public abstract class EasyJaSubTestCase extends TestCase {
 	}
 
 	protected InputStream getJMDictTestResource() {
-		return JMDictParserTest.class.getResourceAsStream("JMdict_sample.xml");
+		return JMDictParserTest.class.getResourceAsStream("JMdict_sample");
 	}
 }
 

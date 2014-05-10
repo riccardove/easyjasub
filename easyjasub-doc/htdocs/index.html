@@ -321,7 +321,18 @@ span.kk {
 			And here a sample without Kanji <img src="sample11.png"
 				alt="Sample easyjasub subtitle picture" />
 		</p>
-
+		
+		<h2>Using JMdict</h2>
+		<p>easyjasub can use a JMdict (<a href="http://www.edrdg.org/jmdict/j_jmdict.html">http://www.edrdg.org</a>)
+		file to add a rough in-line translation of Japanese words, you can enable dictionary usage with the 
+		following options:</p>
+		<ul>
+			<li>-d enabled: Enables dictionary in-word translation</li>
+			<li>--jmdict file: Reads file as a JMdict dictionary file</li>
+		</ul>
+		You need to download locally on your system a JMdict file. 
+		Only English is supported for the dictionary translation.
+		 
 		<h2>Using MeCab</h2>
 
 		<p>Starting from version 0.3, easyjasub uses <a href="http://www.atilika.org/">Lucene Kuromoji Analyzer</a> 
@@ -362,7 +373,7 @@ span.kk {
 			Kanji Converter internally uses <a
 				href="http://sourceforge.jp/projects/chasen-legacy/">ChaSen</a>, the
 			accuracy of Japanese parsing may be different than the one you obtain
-			using MeCab.
+			using MeCab or Lucene.
 		</p>
 		<h2>Advanced usage</h2>
 		<p>easyjasub has many options to tune subtitles generation, run it
