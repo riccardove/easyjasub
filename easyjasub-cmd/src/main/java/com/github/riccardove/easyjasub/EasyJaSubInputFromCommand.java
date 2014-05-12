@@ -177,32 +177,6 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return null;
 	}
 
-	private static File getNihongoJtalkHtmlFile(EasyJaSubInputCommand command,
-			Iterable<File> defaultFileList) throws EasyJaSubException {
-		String fileName = command.getNihongoJtalkHtmlFileName();
-		if (isDisabled(fileName)) {
-			return null;
-		}
-		if (fileName != null && !isDefault(fileName)) {
-			File file = new File(fileName);
-			checkFile(fileName, file);
-			if (!isHtmlContentType(file)) {
-				throw new EasyJaSubException("File " + fileName
-						+ " does not seem to be HTML, type is "
-						+ probeContentType(file));
-			}
-			return file;
-		}
-		for (File file : defaultFileList) {
-			String extension = getExtension(file);
-			if (("HTML".equals(extension) || "HTM".equals(extension))
-					&& isHtmlContentType(file)) {
-				return file;
-			}
-		}
-		return null;
-	}
-
 	private static File getOutputBdnFile(EasyJaSubInputCommand command,
 			File outputIdxFile, DefaultFileList defaultFileList)
 			throws EasyJaSubException {
@@ -426,46 +400,6 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return null;
 	}
 
-	private static String getMeCabCommand(EasyJaSubInputCommand command,
-			File nihongoJtalkHtmlFile) throws EasyJaSubException {
-		String fileName = command.getMeCabCommand();
-		if (isDisabled(fileName)) {
-			return null;
-		}
-		if (fileName != null && !isDefault(fileName)) {
-			File file = new File(fileName);
-			checkFile(fileName, file);
-			return fileName;
-		}
-		if (nihongoJtalkHtmlFile != null) {
-			return null;
-		}
-		if (CommonsLangSystemUtils.isWindows()) {
-			// gets the file from default installation folder in Windows
-			String programFiles = SystemEnv.getWindowsProgramFiles32();
-			if (programFiles == null) {
-				programFiles = SystemEnv.getWindowsProgramFiles();
-			}
-			File directory = new File(new File(programFiles, "MeCab"), "bin");
-			if (directory.exists()) {
-				File file = new File(directory, "mecab.exe");
-				if (file.exists()) {
-					fileName = file.getAbsolutePath();
-					checkFile(fileName, file);
-					return fileName;
-				}
-			}
-		} else {
-			// guesses the installation folder on Unix
-			// TODO: this is very system dependent
-			File file = new File("/usr/bin/mecab");
-			if (file.exists()) {
-				return file.getAbsolutePath();
-			}
-		}
-		return null;
-	}
-
 	private static boolean isCssContentType(File file) {
 		String type = probeContentType(file);
 		return type == null || "text/css".equals(type)
@@ -482,11 +416,6 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 	private static boolean isEnabled(String name) {
 		return "enabled".equals(name);
-	}
-
-	private static boolean isHtmlContentType(File file) {
-		String type = probeContentType(file);
-		return type == null || "text/html".equals(type);
 	}
 
 	private static boolean isJapaneseLanguageFromFileName(File file) {
@@ -541,7 +470,6 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	private final int height;
 	private final File japaneseSubFile;
 	private final SubtitleFileType japaneseSubFileType;
-	private final File nihongoJtalkHtmlFile;
 	private final File outputHtmlDirectory;
 	private final File outputIdxFile;
 	private final File outputJapaneseTextFile;
@@ -551,13 +479,11 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	private final File videoFile;
 	private final int width;
 	private final String wkhtmltoimageFile;
-	private final String meCabCommand;
 	private final boolean showTranslation;
 	private final boolean showFurigana;
 	private final boolean showDictionary;
 	private final boolean showRomaji;
 	private final boolean showKanji;
-	private final File meCabFile;
 	private final File xmlFile;
 	private final File jglossFile;
 	private int startLine;
@@ -570,7 +496,6 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		EasyJaSubCmdHomeDir homeDir = getHomeDir(command.getHomeDirectoryName());
 
 		DefaultFileList defaultFileList = new DefaultFileList(command);
-		nihongoJtalkHtmlFile = getNihongoJtalkHtmlFile(command, defaultFileList);
 		japaneseSubFile = getJapaneseSubFile(command, defaultFileList);
 		japaneseSubFileType = getSubtitleFileType(japaneseSubFile);
 		translatedSubFile = getTranslatedSubFile(command, defaultFileList,
@@ -599,21 +524,19 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		cssKanjiFont = getFont(command.getCssKanjiFont(),
 				"GT2000-01,cinecaption,arial");
 		cssTranslationFont = getFont(command.getCssTranslationFont(), "arial");
+		jmDictFile = getJMDictFile(homeDir, command.getJMDictFileName());
 		showTranslation = getShowTranslation(command.getShowTranslation(),
 				translatedSubFile);
-		meCabCommand = getMeCabCommand(command, nihongoJtalkHtmlFile);
 		showKanji = getShowKanji(command.getShowKanji());
 		showFurigana = getShowFurigana(command.getShowFurigana(), showKanji);
 		showDictionary = getShowDictionary(command.getShowDictionary(),
-				nihongoJtalkHtmlFile);
+				jmDictFile);
 		showRomaji = getShowRomaji(command.getShowRomaji(), showFurigana);
-		meCabFile = getMeCabFile(defaultFileList, bdnXmlFile);
 		xmlFile = getXmlFile(defaultFileList, outputJapaneseTextFile,
 				bdnXmlFile);
 		jglossFile = getJGlossFile(defaultFileList, bdnXmlFile);
 		isSingleLine = getSingleLine();
 		getSelectLines(command.getSelectLines());
-		jmDictFile = getJMDictFile(homeDir, command.getJMDictFileName());
 		dictionaryCacheFile = getDictionaryCacheFile(homeDir);
 	}
 
@@ -700,17 +623,6 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			}
 		}
 		return false; // TODO
-	}
-
-	private static File getMeCabFile(DefaultFileList defaultFileList,
-			File bdnXmlFile) {
-		// TODO select a file
-		File directory = defaultFileList.getDefaultDirectory();
-		if (bdnXmlFile != null) {
-			directory = bdnXmlFile.getParentFile();
-		}
-		return new File(directory, defaultFileList.getDefaultFileNamePrefix()
-				+ "_mecab.txt");
 	}
 
 	private File getXmlFile(DefaultFileList defaultFileList,
@@ -855,19 +767,19 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		throw new EasyJaSubException("Invalid setting for furigana: " + show);
 	}
 
-	private static boolean getShowDictionary(String show,
-			File nihongoJtalkHtmlFile) throws EasyJaSubException {
+	private static boolean getShowDictionary(String show, File jmDictFile)
+			throws EasyJaSubException {
 		if (show == null || isDefault(show)) {
-			return nihongoJtalkHtmlFile != null;
+			return jmDictFile != null;
 		}
 		if (isDisabled(show)) {
 			return false;
 		}
 		if (isEnabled(show)) {
-			// if (nihongoJtalkHtmlFile == null) {
-			// throw new EasyJaSubException(
-			// "Can not display dictionary without nihongo JTalk file");
-			// }
+			if (jmDictFile == null) {
+				throw new EasyJaSubException(
+						"Can not display dictionary without JMdict file");
+			}
 			return true;
 		}
 		throw new EasyJaSubException("Invalid setting for dictionary: " + show);
@@ -931,11 +843,6 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	@Override
 	public SubtitleFileType getJapaneseSubFileType() {
 		return japaneseSubFileType;
-	}
-
-	@Override
-	public File getNihongoJtalkHtmlFile() {
-		return nihongoJtalkHtmlFile;
 	}
 
 	@Override
@@ -1016,16 +923,6 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	@Override
 	public int getEndLine() {
 		return endLine;
-	}
-
-	@Override
-	public String getMeCabCommand() {
-		return meCabCommand;
-	}
-
-	@Override
-	public File getMeCabFile() {
-		return meCabFile;
 	}
 
 	@Override

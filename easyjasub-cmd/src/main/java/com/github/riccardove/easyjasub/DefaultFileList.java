@@ -63,9 +63,7 @@ class DefaultFileList implements Iterable<File> {
 			fileName = EasyJaSubLanguageCode
 					.removeJapaneseLanguageCodeFromFileName(fileName);
 		}
-		if (fileName == null) {
-			fileName = command.getNihongoJtalkHtmlFileName();
-		} else {
+		if (fileName != null) {
 			fileName = EasyJaSubLanguageCode.removeLanguageCodeFromFileName(fileName);
 		}
 		if (fileName != null) {
@@ -89,8 +87,7 @@ class DefaultFileList implements Iterable<File> {
 		addDirectoryIfDistinct(result, command.getOutputIdxDirectory());
 		for (String fileName : new String[] { command.getOutputIdxFileName(),
 				command.getVideoFileName(), command.getJapaneseSubFileName(),
-				command.getTranslatedSubFileName(),
-				command.getNihongoJtalkHtmlFileName() }) {
+				command.getTranslatedSubFileName() }) {
 			addParentDirectoryIfDistinct(result, fileName);
 		}
 		return result;

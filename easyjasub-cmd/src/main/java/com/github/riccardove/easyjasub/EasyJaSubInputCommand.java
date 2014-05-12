@@ -30,8 +30,6 @@ public interface EasyJaSubInputCommand {
 
 	String getTranslatedSubFileName();
 
-	String getNihongoJtalkHtmlFileName();
-
 	String getTranslatedSubLanguage();
 
 	String getOutputIdxFileName();
@@ -75,8 +73,6 @@ public interface EasyJaSubInputCommand {
 	String getShowDictionary();
 
 	String getSelectLines();
-
-	String getMeCabCommand();
 
 	int getVerbose();
 

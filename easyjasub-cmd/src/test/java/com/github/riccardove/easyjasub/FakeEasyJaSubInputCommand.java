@@ -88,10 +88,6 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 		return japaneseSubFileName;
 	}
 	@Override
-	public String getNihongoJtalkHtmlFileName() {
-		return nihongoJtalkHtmlFileName;
-	}
-	@Override
 	public String getOutputBdnDirectory() {
 		return outputBdnDirectory;
 	}
@@ -218,12 +214,6 @@ public class FakeEasyJaSubInputCommand implements EasyJaSubInputCommand {
 	}
 	@Override
 	public String getSelectLines() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getMeCabCommand() {
 		// TODO Auto-generated method stub
 		return null;
 	}

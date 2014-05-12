@@ -27,7 +27,6 @@ import org.xml.sax.SAXException;
 
 import com.github.riccardove.easyjasub.dictionary.EasyJaSubDictionary;
 import com.github.riccardove.easyjasub.dictionary.EasyJaSubSerializeDictionaryFactory;
-import com.github.riccardove.easyjasub.inputnihongojtalk.InputNihongoJTalkHtmlFile;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 /**
@@ -70,13 +69,7 @@ public class EasyJaSub {
 
 			readTranslatedSubFile(command, observer, s, selection);
 
-			if (command.getNihongoJtalkHtmlFile() != null) {
-				parseNihongoJTalkFile(command, observer, s);
-			} else if (command.getMeCabCommand() != null) {
-				runMeCab(command, observer, s);
-			} else {
-				luceneAnalyze(command, observer, s);
-			}
+			luceneAnalyze(command, observer, s);
 
 			if (command.showDictionary()) {
 				addDictionary(observer, s, command);
@@ -328,38 +321,6 @@ public class EasyJaSub {
 		observer.onLuceneParseStart();
 		new SubtitleListLuceneAnalyzer(observer).run(s);
 		observer.onLuceneParseEnd();
-	}
-
-	private void runMeCab(EasyJaSubInput command, EasyJaSubObserver observer,
-			SubtitleList s) throws EasyJaSubException {
-		String meCabCommand = command.getMeCabCommand();
-		if (meCabCommand != null) {
-			observer.onMeCabRunStart(meCabCommand);
-			new InputMeCab(observer, meCabCommand).run(s,
-					command.getMeCabFile());
-			observer.onMeCabRunEnd(meCabCommand);
-		} else {
-			observer.onMeCabRunSkipped(meCabCommand);
-		}
-	}
-
-	private void parseNihongoJTalkFile(EasyJaSubInput command,
-			EasyJaSubObserver observer, SubtitleList s)
-			throws EasyJaSubException {
-		File f = command.getNihongoJtalkHtmlFile();
-		if (f != null) {
-			observer.onInputNihongoJTalkHtmlFileParseStart(f);
-			try {
-				new InputNihongoJTalkHtmlFile().parse(f, s, observer);
-				observer.onInputNihongoJTalkHtmlFileParseEnd(f, null);
-			} catch (IOException ex) {
-				observer.onInputNihongoJTalkHtmlFileIOError(f, ex);
-			} catch (SAXException ex) {
-				observer.onInputNihongoJTalkHtmlFileParseError(f, ex);
-			}
-		} else {
-			observer.onInputNihongoJTalkHtmlFileParseSkipped(f);
-		}
 	}
 
 	private void writeOutputJapaneseTextFile(EasyJaSubInput command,

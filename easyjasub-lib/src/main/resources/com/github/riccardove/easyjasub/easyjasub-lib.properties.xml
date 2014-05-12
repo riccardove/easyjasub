@@ -27,8 +27,6 @@ This is only used to default the name of created files.</entry>
 If not specified files with the same name of video file and of supported text subtitle type are searched.</entry>
 <entry key="optiondesc.translatedsub">Read translated subtitles from file.
 If not specified files with the same name of video file and of supported text subtitle type are searched.</entry>
-<entry key="optiondesc.nihongojtalk">Read text analysys produced with http://nihongo.j-talk.com from file.
-If not specified HTML files with the same name of video file are searched.</entry>
 <entry key="optiondesc.translation">Enable or disable translated subtitles in the output</entry>
 <entry key="optiondesc.romaji">Enable or disable romaji transctiption in subtitles</entry>
 <entry key="optiondesc.dictionary">Enable or disable by word translation in subtitles.
@@ -46,7 +44,6 @@ If not found it is created automatically.</entry>
 <entry key="optiondesc.outputidx">File name for IDX file of IDX/SUB subtitles</entry>
 <entry key="optiondesc.outputhtml">Writes HTML intermediate files in directory</entry>
 <entry key="optiondesc.outputbdmxml">Writes BDN/XML intermediate files in directory</entry>
-<entry key="optiondesc.mecab">Command to execute MeCab program</entry>
 <entry key="optiondesc.wkhtmltoimage">Command to execute wkhtmltoimage program</entry>
 <entry key="optiondesc.height">Height of the generated subtitles pictures</entry>
 <entry key="optiondesc.width">Width of the generated subtitles pictures</entry>

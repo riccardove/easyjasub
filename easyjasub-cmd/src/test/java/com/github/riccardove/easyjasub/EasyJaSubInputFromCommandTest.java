@@ -29,7 +29,6 @@ public class EasyJaSubInputFromCommandTest extends EasyJaSubCmdTestCase {
 
 	private static final String Sample1JaSub = "samples\\sample1.jp.ass";
 	private static final String Sample1TrSub = "samples\\sample1.en.srt";
-	private static final String Sample1Html = "samples\\sample1.htm";
 	
 	@Test
 	public void testGiveOnlyJapaneseSubtitleFile() throws Exception {
@@ -42,7 +41,6 @@ public class EasyJaSubInputFromCommandTest extends EasyJaSubCmdTestCase {
 		assertEquals("sample1", obj.getDefaultFileNamePrefix());
 		assertInputFile(obj.getJapaneseSubFile(), "sample1.jp.ass");
 		assertInputFile(obj.getTranslatedSubFile(), "sample1.en.srt");
-		assertInputFile(obj.getNihongoJtalkHtmlFile(), "sample1.htm");
 		assertEquals(SubtitleFileType.ASS, obj.getJapaneseSubFileType());
 		assertEquals(SubtitleFileType.SRT, obj.getTranslatedSubFileType());
 		assertNotNull(obj.getCssFile());
@@ -70,26 +68,7 @@ public class EasyJaSubInputFromCommandTest extends EasyJaSubCmdTestCase {
 		assertEquals("sample1", obj.getDefaultFileNamePrefix());
 		assertInputFile(obj.getTranslatedSubFile(), "sample1.en.srt");
 		assertInputFile(obj.getJapaneseSubFile(), "sample1.jp.ass");
-		assertInputFile(obj.getNihongoJtalkHtmlFile(), "sample1.htm");
 		assertEquals(SubtitleFileType.ASS, obj.getJapaneseSubFileType());
 		assertEquals(SubtitleFileType.SRT, obj.getTranslatedSubFileType());
 	}
-
-	
-	@Test
-	public void testGiveOnlyNihongoJtalkHtmlFile() throws Exception {
-		assertTrue(new File(Sample1Html).exists());
-		
-		FakeEasyJaSubInputCommand fakeInput = new FakeEasyJaSubInputCommand();
-		fakeInput.setNihongoJtalkHtmlFileName(Sample1Html);
-		EasyJaSubInputFromCommand obj = new EasyJaSubInputFromCommand(fakeInput);
-
-		assertEquals("sample1", obj.getDefaultFileNamePrefix());
-		assertInputFile(obj.getNihongoJtalkHtmlFile(), "sample1.htm");
-		assertInputFile(obj.getTranslatedSubFile(), "sample1.en.srt");
-		assertInputFile(obj.getJapaneseSubFile(), "sample1.jp.ass");
-		assertEquals(SubtitleFileType.ASS, obj.getJapaneseSubFileType());
-		assertEquals(SubtitleFileType.SRT, obj.getTranslatedSubFileType());
-	}
-
 }

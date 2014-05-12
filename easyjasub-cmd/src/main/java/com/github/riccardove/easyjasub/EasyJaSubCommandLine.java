@@ -27,7 +27,6 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private static final String VI = "vi";
 	private static final String JA = "ja";
 	private static final String TR = "tr";
-	private static final String NJ = "nj";
 	private static final String TRL = "trl";
 	private static final String IDX = "oidx";
 	private static final String HTML = "ohtml";
@@ -49,7 +48,6 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 
 	private static final String VERBOSE = "v";
 	private static final String QUIET = "q";
-	private static final String MECAB = "mc";
 
 	public EasyJaSubCommandLine() {
 		list = new EasyJaSubCommandLineOptionList();
@@ -58,8 +56,6 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 				"file");
 		list.addOption(EasyJaSubInputOption.translatedsub, TR,
 				"translated-sub", "file");
-		list.addOption(EasyJaSubInputOption.nihongojtalk, NJ, "nihongo-jtalk",
-				"file");
 		list.addOption(EasyJaSubInputOption.translation, TRANSLATION,
 				"translation", "enabled|disabled");
 		list.addOption(EasyJaSubInputOption.romaji, ROMAJI, "romaji",
@@ -83,7 +79,6 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 				"directory");
 		list.addOption(EasyJaSubInputOption.home, "ho", "home", "directory");
 		list.addOption(EasyJaSubInputOption.jmdict, "jmd", "jmdict", "file");
-		list.addOption(EasyJaSubInputOption.mecab, MECAB, "mecab", "command");
 		list.addOption(EasyJaSubInputOption.wkhtmltoimage, WK, "wkhtmltoimage",
 				"command");
 		list.addOption(EasyJaSubInputOption.height, HEIGHT, "height", "pixels");
@@ -128,11 +123,6 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	}
 
 	@Override
-	public String getNihongoJtalkHtmlFileName() {
-		return nihongoJtalkHtmlFileName;
-	}
-
-	@Override
 	public String getTranslatedSubLanguage() {
 		return translatedSubLanguage;
 	}
@@ -160,7 +150,6 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private String videoFileName;
 	private String japaneseSubFileName;
 	private String translatedSubFileName;
-	private String nihongoJtalkHtmlFileName;
 	private String translatedSubLanguage;
 	private String outputIdxFileName;
 	private String outputHtmlDirectory;
@@ -183,7 +172,6 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private String showRomaji;
 	private String showKanji;
 	private String selectLines;
-	private String mecab;
 	private String home;
 	private String jmdict;
 	private int verbose;
@@ -217,8 +205,6 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 					.getOptionValue(EasyJaSubInputOption.japanesesub);
 			translatedSubFileName = list
 					.getOptionValue(EasyJaSubInputOption.translatedsub);
-			nihongoJtalkHtmlFileName = list
-					.getOptionValue(EasyJaSubInputOption.nihongojtalk);
 			translatedSubLanguage = list
 					.getOptionValue(EasyJaSubInputOption.trsublang);
 			outputIdxFileName = list
@@ -246,7 +232,6 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 			showTranslation = list
 					.getOptionValue(EasyJaSubInputOption.translation);
 			selectLines = list.getOptionValue(EasyJaSubInputOption.selectlines);
-			mecab = list.getOptionValue(EasyJaSubInputOption.mecab);
 			home = list.getOptionValue(EasyJaSubInputOption.home);
 			jmdict = list.getOptionValue(EasyJaSubInputOption.jmdict);
 			if (list.hasOption(EasyJaSubInputOption.verbose)) {
@@ -341,11 +326,6 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	@Override
 	public String getShowDictionary() {
 		return showDictionary;
-	}
-
-	@Override
-	public String getMeCabCommand() {
-		return mecab;
 	}
 
 	@Override

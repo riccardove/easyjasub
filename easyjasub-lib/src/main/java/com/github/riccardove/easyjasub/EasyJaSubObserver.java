@@ -23,7 +23,6 @@ package com.github.riccardove.easyjasub;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 import org.xml.sax.SAXException;
 
@@ -32,21 +31,9 @@ import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 
 public interface EasyJaSubObserver {
 
-	void onInputNihongoJTalkHtmlFileParseStart(File f);
-
-	void onInputNihongoJTalkHtmlFileParseEnd(File f, Set<String> posset);
-
 	void onReadJapaneseSubtitlesStart(File jaF);
 
 	void onReadJapaneseSubtitlesEnd(File jaF);
-
-	void onInputNihongoJTalkHtmlFileParseHiraganaDivEnd();
-
-	void onInputNihongoJTalkHtmlFileParseTextareaEnd();
-
-	void onInputNihongoJTalkHtmlFileParseTextareaStart();
-
-	void onInputNihongoJTalkHtmlFileParseHiraganaDivStart();
 
 	void onReadTranslatedSubtitlesStart(File file);
 
@@ -85,12 +72,6 @@ public interface EasyJaSubObserver {
 	void onReadJapaneseSubtitlesParseError(File jaF, InputTextSubException ex)
 			throws EasyJaSubException;
 
-	void onInputNihongoJTalkHtmlFileIOError(File f, IOException ex)
-			throws EasyJaSubException;
-
-	void onInputNihongoJTalkHtmlFileParseError(File f, SAXException ex)
-			throws EasyJaSubException;
-
 	void onReadTranslatedSubtitlesIOError(File jaF, IOException ex)
 			throws EasyJaSubException;
 
@@ -117,11 +98,7 @@ public interface EasyJaSubObserver {
 
 	void onTranslatedSubDuplicated(String content, int mSeconds, int startTime);
 
-	void onInputNihongoJTalkHtmlLine(String line);
-
 	void onWriteOutputJapaneseTextFileSkipped(File txtFile);
-
-	void onInputNihongoJTalkHtmlFileParseSkipped(File f);
 
 	void onReadTranslatedSubtitlesSkipped(File enF);
 
@@ -139,29 +116,7 @@ public interface EasyJaSubObserver {
 
 	void onReadJapaneseSubtitlesSkipped(File jaF);
 
-	void onInputNihongoJTalkHtmlLineParseSkipped(List<Integer> nLines,
-			List<Integer> subLines);
-
 	void onEncodingWarning(String systemEncoding, String charsetstr);
-
-	void onMeCabRunStart(String command);
-
-	void onMeCabRunSkipped(String command);
-
-	void onMeCabRunEnd(String command);
-
-	void onMeCabInputLine();
-
-	void onMeCabExecuted(File meCabOutputFile, List<String> meCabOutput);
-
-	void onMeCabParsed(int size);
-
-	void onMeCabParseInvalidLine(int count, String textLine);
-
-	void onMeCabFileRed(File meCabOutputFile, List<String> meCabOutput);
-
-	void onMeCabUnknownGrammar(Set<String> elements,
-			List<String> pronunciationErrors);
 
 	void onWriteXmlFileStart(File f);
 

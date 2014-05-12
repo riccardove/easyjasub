@@ -74,8 +74,6 @@ class EasyJaSubCommandLineApp {
 					input.getJapaneseSubFile(), baseDirectory);
 			printFile(outputStream, "Translated subtitles file: ",
 					input.getTranslatedSubFile(), baseDirectory);
-			printFile(outputStream, "nihongo.j/talk.com file: ",
-					input.getNihongoJtalkHtmlFile(), baseDirectory);
 			printFile(outputStream, "CSS file: ", input.getCssFile(),
 					baseDirectory);
 			printFile(outputStream, "HTML intermediate directory: ",

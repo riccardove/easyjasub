@@ -24,7 +24,6 @@ package com.github.riccardove.easyjasub;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 import org.xml.sax.SAXException;
 
@@ -34,12 +33,6 @@ import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	@Override
-	public void onInputNihongoJTalkHtmlFileParseStart(File f) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void onReadJapaneseSubtitlesStart(File jaF) {
 		// TODO Auto-generated method stub
 		
@@ -47,30 +40,6 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	@Override
 	public void onReadJapaneseSubtitlesEnd(File jaF) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseHiraganaDivEnd() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseTextareaEnd() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseTextareaStart() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseHiraganaDivStart() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -175,20 +144,6 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlFileIOError(File f, IOException ex)
-			throws EasyJaSubException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseError(File f, SAXException ex)
-			throws EasyJaSubException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void onReadTranslatedSubtitlesIOError(File jaF, IOException ex)
 			throws EasyJaSubException {
 		// TODO Auto-generated method stub
@@ -252,19 +207,7 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlLine(String line) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void onWriteOutputJapaneseTextFileSkipped(File txtFile) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseSkipped(File f) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -324,75 +267,7 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlFileParseEnd(File f, Set<String> posset) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlLineParseSkipped(List<Integer> nLines,
-			List<Integer> subLines) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void onEncodingWarning(String systemEncoding, String charsetstr) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onMeCabRunStart(String f) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onMeCabRunSkipped(String f) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onMeCabRunEnd(String f) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onMeCabInputLine() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onMeCabExecuted(File meCabOutputFile, List<String> meCabOutput) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onMeCabParsed(int size) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onMeCabParseInvalidLine(int count, String textLine) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onMeCabFileRed(File meCabOutputFile, List<String> meCabOutput) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onMeCabUnknownGrammar(Set<String> elements,
-			List<String> pronunciationErrors) {
 		// TODO Auto-generated method stub
 
 	}

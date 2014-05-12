@@ -71,13 +71,6 @@ public interface EasyJaSubInput {
 	public abstract SubtitleFileType getTranslatedSubFileType();
 
 	/**
-	 * An HTML file downloaded from nihongo.j-talk.com website
-	 * 
-	 * @return
-	 */
-	public abstract File getNihongoJtalkHtmlFile();
-
-	/**
 	 * The language of translated subtitles
 	 * 
 	 * @return
@@ -235,20 +228,6 @@ public interface EasyJaSubInput {
 	 * @return
 	 */
 	public abstract int getEndLine();
-
-	/**
-	 * Command used to run MeCab
-	 * 
-	 * @return
-	 */
-	public abstract String getMeCabCommand();
-
-	/**
-	 * File where to write or read the output of MeCab
-	 * 
-	 * @return
-	 */
-	public abstract File getMeCabFile();
 
 	/**
 	 * If you want to display subtitles into a single line and avoid

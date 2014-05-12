@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Set;
 
 import org.xml.sax.SAXException;
 
@@ -49,12 +48,6 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 		outputStream.println(text);
 	}
 
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseStart(File file) {
-		println("onInputNihongoJTalkHtmlFileParseStart " + toString(file));
-		flushOutput();
-	}
-
 	private void lowVerboseMessage(String message) {
 		verboseMessage(0, message);
 	}
@@ -75,14 +68,6 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlFileParseEnd(File file,
-			Set<String> posset) {
-		lowVerboseMessage("onInputNihongoJTalkHtmlFileParseEnd "
-				+ toString(file) + " "
-				+ CommonsLangStringUtils.join(posset, ","));
-	}
-
-	@Override
 	public void onReadJapaneseSubtitlesStart(File file) {
 		lowVerboseMessage("onReadJapaneseSubtitlesStart " + toString(file));
 	}
@@ -90,26 +75,6 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	@Override
 	public void onReadJapaneseSubtitlesEnd(File file) {
 		lowVerboseMessage("onReadJapaneseSubtitlesEnd " + toString(file));
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseHiraganaDivEnd() {
-		mediumVerboseMessage("onInputNihongoJTalkHtmlFileParseHiraganaDivEnd");
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseTextareaEnd() {
-		mediumVerboseMessage("onInputNihongoJTalkHtmlFileParseTextareaEnd");
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseTextareaStart() {
-		mediumVerboseMessage("onInputNihongoJTalkHtmlFileParseTextareaStart");
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseHiraganaDivStart() {
-		mediumVerboseMessage("onInputNihongoJTalkHtmlFileParseHiraganaDivStart");
 	}
 
 	@Override
@@ -211,20 +176,6 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlFileIOError(File file, IOException ex)
-			throws EasyJaSubException {
-		throw new EasyJaSubException("Error reading nihongo.j-talk file "
-				+ toString(file) + ": " + ex.getLocalizedMessage());
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseError(File file, SAXException ex)
-			throws EasyJaSubException {
-		throw new EasyJaSubException("Error parsing nihongo.j-talk file "
-				+ toString(file) + "content: " + ex.getLocalizedMessage());
-	}
-
-	@Override
 	public void onReadTranslatedSubtitlesIOError(File file, IOException ex)
 			throws EasyJaSubException {
 		throw new EasyJaSubException("Error reading translated subtitles file "
@@ -290,19 +241,8 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlLine(String line) {
-		mediumVerboseMessage("Line: " + toString(line));
-	}
-
-	@Override
 	public void onWriteOutputJapaneseTextFileSkipped(File file) {
 		lowVerboseMessage("onWriteOutputJapaneseTextFileSkipped "
-				+ toString(file));
-	}
-
-	@Override
-	public void onInputNihongoJTalkHtmlFileParseSkipped(File file) {
-		lowVerboseMessage("onInputNihongoJTalkHtmlFileParseSkipped "
 				+ toString(file));
 	}
 
@@ -357,78 +297,8 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 	}
 
 	@Override
-	public void onInputNihongoJTalkHtmlLineParseSkipped(List<Integer> nLines,
-			List<Integer> subLines) {
-		lowVerboseMessage("onInputNihongoJTalkHtmlLineParseSkipped "
-				+ CommonsLangStringUtils.join(nLines, ",") + " -- "
-				+ CommonsLangStringUtils.join(subLines, ","));
-	}
-
-	@Override
 	public void onEncodingWarning(String systemEncoding, String charsetstr) {
 		lowVerboseMessage("onEncodingWarning " + systemEncoding);
-	}
-
-	@Override
-	public void onMeCabRunStart(String file) {
-		lowVerboseMessage("onMeCabRunStart " + toString(file));
-	}
-
-	@Override
-	public void onMeCabRunSkipped(String file) {
-		lowVerboseMessage("onMeCabRunSkipped " + toString(file));
-	}
-
-	@Override
-	public void onMeCabRunEnd(String file) {
-		lowVerboseMessage("onMeCabRunEnd " + toString(file));
-	}
-
-	@Override
-	public void onMeCabInputLine() {
-		mediumVerboseMessage("onMeCabInputLine");
-	}
-
-	@Override
-	public void onMeCabExecuted(File meCabOutputFile, List<String> meCabOutput) {
-		mediumVerboseMessage("onMeCabExecuted " + meCabOutput.size() + " "
-				+ toString(meCabOutputFile));
-	}
-
-	@Override
-	public void onMeCabParsed(int size) {
-		mediumVerboseMessage("onMeCabParsed " + size);
-	}
-
-	@Override
-	public void onMeCabParseInvalidLine(int count, String textLine) {
-		lowVerboseMessage("onMeCabParseInvalidLine " + count + " "
-				+ toString(textLine));
-	}
-
-	@Override
-	public void onMeCabFileRed(File meCabOutputFile, List<String> meCabOutput) {
-		mediumVerboseMessage("onMeCabFileRed " + meCabOutput.size() + " "
-				+ toString(meCabOutputFile));
-	}
-
-	@Override
-	public void onMeCabUnknownGrammar(Set<String> elements,
-			List<String> pronunciationErrors) {
-		if (elements.size() > 0) {
-			lowVerboseMessage("onMeCabUnknownGrammar "
-					+ elements.size()
-					+ SystemProperty.getLineSeparator()
-					+ CommonsLangStringUtils.join(elements,
-							SystemProperty.getLineSeparator()));
-		}
-		if (pronunciationErrors.size() > 0) {
-			lowVerboseMessage("pronunciationErrors "
-					+ pronunciationErrors.size()
-					+ SystemProperty.getLineSeparator()
-					+ CommonsLangStringUtils.join(pronunciationErrors,
-							SystemProperty.getLineSeparator()));
-		}
 	}
 
 	@Override
