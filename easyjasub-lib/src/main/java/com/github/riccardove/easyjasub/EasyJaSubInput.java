@@ -254,4 +254,11 @@ public interface EasyJaSubInput {
 	File getJMDictFile();
 
 	File getDictionaryCacheFile();
+
+	/**
+	 * A single HTML file were you can transcribe all subtitles
+	 * 
+	 * @return
+	 */
+	File getHtmlFile();
 }

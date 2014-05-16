@@ -26,19 +26,13 @@ import java.io.IOException;
 
 class SubtitleListToPictureSubtitleList {
 
-	private final File cssFile;
+	private final EasyJaSubCssFile cssFile;
 	private final File htmlDirectory;
 
-	public SubtitleListToPictureSubtitleList(File htmlDirectory, File cssFile) {
+	public SubtitleListToPictureSubtitleList(File htmlDirectory,
+			EasyJaSubCssFile cssFile) {
 		this.htmlDirectory = htmlDirectory;
 		this.cssFile = cssFile;
-	}
-
-	private static String toRelativeURIStr(File file, File directory) {
-		if (directory == null) {
-			return file.toURI().toString();
-		}
-		return directory.toURI().relativize(file.toURI()).toString();
 	}
 
 	public PictureSubtitleList writeHtmls(String filePrefix, SubtitleList s,
@@ -47,9 +41,8 @@ class SubtitleListToPictureSubtitleList {
 		PictureSubtitleList list = new PictureSubtitleList();
 		list.setTitle(s.getTitle());
 
-		// TODO construct relative url
-		String cssFileUrl = cssFile != null ? toRelativeURIStr(cssFile,
-				htmlDirectory) : "default.css";
+		String cssFileUrl = cssFile != null ? cssFile
+				.toRelativeURIStr(htmlDirectory) : "default.css";
 
 		int index = 0;
 		for (SubtitleLine l : s) {

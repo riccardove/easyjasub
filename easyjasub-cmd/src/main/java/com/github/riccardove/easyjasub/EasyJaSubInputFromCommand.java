@@ -489,6 +489,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	private int startLine;
 	private int endLine;
 	private final boolean isSingleLine;
+	private final File htmlFile;
 
 	public EasyJaSubInputFromCommand(EasyJaSubInputCommand command)
 			throws EasyJaSubException {
@@ -538,6 +539,12 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		isSingleLine = getSingleLine();
 		getSelectLines(command.getSelectLines());
 		dictionaryCacheFile = getDictionaryCacheFile(homeDir);
+		htmlFile = getHtmlFile(defaultFileList);
+	}
+
+	private static File getHtmlFile(DefaultFileList defaultFileList) {
+		return new File(defaultFileList.getDefaultDirectory(),
+				defaultFileList.getDefaultFileNamePrefix() + ".html");
 	}
 
 	private EasyJaSubCmdHomeDir getHomeDir(String directoryName)
@@ -948,5 +955,10 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	@Override
 	public File getDictionaryCacheFile() {
 		return dictionaryCacheFile;
+	}
+
+	@Override
+	public File getHtmlFile() {
+		return htmlFile;
 	}
 }

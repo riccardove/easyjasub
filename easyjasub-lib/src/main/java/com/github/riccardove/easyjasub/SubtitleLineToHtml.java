@@ -47,11 +47,36 @@ class SubtitleLineToHtml {
 	}
 
 	public String toHtml(SubtitleLine s, String cssFileRef) throws IOException {
+		RendersnakeHtmlCanvas html = createHtmlCanvas(cssFileRef);
+		appendHtmlBodyContent(s, html);
+		html.footer();
+
+		return html.toString();
+	}
+
+	private RendersnakeHtmlCanvas createHtmlCanvas(String cssFileRef)
+			throws IOException {
 		RendersnakeHtmlCanvas html = new RendersnakeHtmlCanvas(
 				EasyJaSubWriter.Newline);
 		html.header(cssFileRef, EasyJaSubCharset.CHARSETSTR);
 		html.newline();
+		return html;
+	}
 
+	public String toHtml(SubtitleList list, String cssFileRef)
+			throws IOException {
+		RendersnakeHtmlCanvas html = createHtmlCanvas(cssFileRef);
+		for (SubtitleLine line : list) {
+			html.div();
+			appendHtmlBodyContent(line, html);
+			html._div();
+		}
+		html.footer();
+		return html.toString();
+	}
+
+	private void appendHtmlBodyContent(SubtitleLine s,
+			RendersnakeHtmlCanvas html) throws IOException {
 		List<SubtitleItem> items = s.getItems();
 		if (items != null) {
 			SubtitleLineContentToHtmlBase itemsWriter;
@@ -74,10 +99,6 @@ class SubtitleLineToHtml {
 		if (items != null) {
 			appendComment(html, items);
 		}
-
-		html.footer();
-
-		return html.toString();
 	}
 
 	private void appendComment(RendersnakeHtmlCanvas html,

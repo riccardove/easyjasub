@@ -91,7 +91,7 @@ public class EasyJaSub {
 			return 0;
 		}
 
-		File cssFileUrl = createCssFile(command, observer);
+		EasyJaSubCssFile cssFileUrl = createCssFile(command, observer);
 
 		File bdnFile = command.getBdnXmlFile();
 		if (bdnFile == null) {
@@ -109,7 +109,9 @@ public class EasyJaSub {
 		PictureSubtitleList ps = toPictureSubtitleList(s, observer, command,
 				filePrefix, htmlFolder, bdnFolder, cssFileUrl);
 
-		writeHtmlFiles(command, observer, ps, htmlFolder, cssFileUrl);
+		writeHtmlFile(command, observer, s, cssFileUrl, htmlFolder);
+
+		writeHtmlFiles(command, observer, ps, htmlFolder);
 
 		writePngFiles(command, observer, ps, htmlFolder, bdnFolder);
 
@@ -121,6 +123,22 @@ public class EasyJaSub {
 		}
 		observer.onWriteIdxFileStart(idxFile, bdnFile);
 		return 0;
+	}
+
+	private void writeHtmlFile(EasyJaSubInput command,
+			EasyJaSubObserver observer, SubtitleList s,
+			EasyJaSubCssFile cssFile, File htmlDirectory)
+			throws EasyJaSubException {
+		// TODO add observer calls for messages
+		File htmlFile = command.getHtmlFile();
+		if (htmlFile != null && !htmlFile.exists()) {
+			try {
+				new SubtitleListToHtmlFileWriter().writeFile(command, s,
+						cssFile, htmlFile, htmlDirectory);
+			} catch (IOException ex) {
+				throw new EasyJaSubException("Error writing HTML file", ex);
+			}
+		}
 	}
 
 	private void addDictionary(EasyJaSubObserver observer, SubtitleList s,
@@ -136,7 +154,7 @@ public class EasyJaSub {
 			}
 		}
 		if (dictionary == null) {
-			throw new EasyJaSubException("Cound not get any valid dictionary!");
+			throw new EasyJaSubException("Could not get any valid dictionary!");
 		}
 		new SubtitleListDictionaryEntryManager(observer).addDictionaryEntries(
 				s, dictionary);
@@ -144,8 +162,8 @@ public class EasyJaSub {
 
 	private PictureSubtitleList toPictureSubtitleList(SubtitleList s,
 			EasyJaSubObserver observer, EasyJaSubInput command,
-			String filePrefix, File htmlFolder, File bdnFolder, File cssFileUrl)
-			throws EasyJaSubException {
+			String filePrefix, File htmlFolder, File bdnFolder,
+			EasyJaSubCssFile cssFileUrl) throws EasyJaSubException {
 		observer.onConvertToHtmlSubtitleListStart(htmlFolder);
 		PictureSubtitleList result = null;
 		try {
@@ -254,9 +272,9 @@ public class EasyJaSub {
 	}
 
 	private void writeHtmlFiles(EasyJaSubInput command,
-			EasyJaSubObserver observer, PictureSubtitleList s, File htmlFolder,
-			File cssFile) throws EasyJaSubException {
-		observer.onWriteHtmlStart(htmlFolder, cssFile);
+			EasyJaSubObserver observer, PictureSubtitleList s, File htmlFolder)
+			throws EasyJaSubException {
+		observer.onWriteHtmlStart(htmlFolder, null);
 		mkDirs(htmlFolder);
 		try {
 			new SubtitleListHtmlFilesWriter(observer).writeHtmls(s, command);
@@ -273,7 +291,7 @@ public class EasyJaSub {
 		}
 	}
 
-	private File createCssFile(EasyJaSubInput command,
+	private EasyJaSubCssFile createCssFile(EasyJaSubInput command,
 			EasyJaSubObserver observer) throws EasyJaSubException {
 		File cssFile = command.getCssFile();
 		if (cssFile != null && !cssFile.exists()) {
@@ -288,7 +306,7 @@ public class EasyJaSub {
 		} else {
 			observer.onWriteCssSkipped(cssFile);
 		}
-		return cssFile;
+		return new EasyJaSubCssFile(cssFile);
 	}
 
 	private void readTranslatedSubFile(EasyJaSubInput command,

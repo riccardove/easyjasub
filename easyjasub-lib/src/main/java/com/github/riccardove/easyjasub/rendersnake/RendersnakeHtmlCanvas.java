@@ -169,4 +169,12 @@ public class RendersnakeHtmlCanvas {
 	public void _ruby() throws IOException {
 		html._ruby();
 	}
+
+	public void div() throws IOException {
+		html.div();
+	}
+
+	public void _div() throws IOException {
+		html._div();
+	}
 }
