@@ -12,3 +12,10 @@ Libraries available under "MIT" license:
 
 Libraries available under "GNU LESSER GENERAL PUBLIC LICENSE" license:
 - html2image ${easyjasub.html2image.version}.  For details see http://code.google.com/p/java-html2image/
+
+${project.name} includes a part of BDSup2Sub tool version ${easyjasub.bdsup2sub.version}, 
+which is distributed under "Apache Software License, Version 2.0" license and contains
+- PNG Encoder by J. David Eisenberg. Licensed under the LGPL.
+- Octree Quantize Filter by Jerry Huxtable. Licensed under the Apache License 2.0.
+- Scaling/filter routine based on Morten Nobel-Joergensen's ResampleOp from his Java image scaling library. Licensed under the LGPL.
+- JFileFilter based on ExampleFileFilter from the FileChooserDemo included in the JDK. Licensed under proprietary Sun license.

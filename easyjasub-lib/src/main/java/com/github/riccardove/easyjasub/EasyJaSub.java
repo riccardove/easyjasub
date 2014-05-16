@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import org.xml.sax.SAXException;
 
+import com.github.riccardove.easyjasub.bdsup2sub.BDSup2SubWrapper;
 import com.github.riccardove.easyjasub.dictionary.EasyJaSubDictionary;
 import com.github.riccardove.easyjasub.dictionary.EasyJaSubSerializeDictionaryFactory;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
@@ -118,11 +119,20 @@ public class EasyJaSub {
 		writeBdnXmlFile(command, observer, ps);
 
 		File idxFile = command.getOutputIdxFile();
-		if (idxFile == null) {
-			return 0;
-		}
-		observer.onWriteIdxFileStart(idxFile, bdnFile);
+		writeIdxFile(idxFile, bdnFile, observer);
 		return 0;
+	}
+
+	private void writeIdxFile(File idxFile, File bdnFile,
+			EasyJaSubObserver observer) throws EasyJaSubException {
+		if (idxFile == null) {
+			observer.onWriteIdxFileSkipped(idxFile, bdnFile);
+		} else {
+			BDSup2SubWrapper converter = new BDSup2SubWrapper(observer);
+			observer.onWriteIdxFileStart(idxFile, bdnFile);
+			converter.run(bdnFile, idxFile);
+			observer.onWriteIdxFileEnd(idxFile);
+		}
 	}
 
 	private void writeHtmlFile(EasyJaSubInput command,

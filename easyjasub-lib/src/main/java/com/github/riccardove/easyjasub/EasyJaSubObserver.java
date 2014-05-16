@@ -176,4 +176,6 @@ public interface EasyJaSubObserver {
 	void onDictionarySerializeError(File cacheFile, Exception ex);
 
 	void onWriteImageError(File pngFile, File file) throws EasyJaSubException;
+
+	void onSupConvertMessage(String message);
 }

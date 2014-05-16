@@ -445,4 +445,10 @@ public class FakeEasyJaSubObserver implements EasyJaSubObserver {
 
 	}
 
+	@Override
+	public void onSupConvertMessage(String message) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

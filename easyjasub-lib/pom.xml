@@ -71,16 +71,16 @@
 			<version>${easyjasub.kurikosu.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.chasen.mecab</groupId>
-			<artifactId>mecab-java</artifactId>
-			<version>0.993</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-analyzers-kuromoji</artifactId>
 			<version>${easyjasub.lucene-analyzers-kuromoji.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>bdsup2sub</groupId>
+			<artifactId>bdsup2sub-lib</artifactId>
+			<version>${easyjasub.bdsup2sub.version}</version>
+		</dependency>
+		
 	</dependencies>
 
 	<url>http://easyjasub.sourceforge.net</url>

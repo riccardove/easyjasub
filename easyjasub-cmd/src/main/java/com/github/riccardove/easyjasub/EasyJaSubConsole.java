@@ -462,4 +462,9 @@ class EasyJaSubConsole implements EasyJaSubObserver {
 		throw new EasyJaSubException("Error writing picture file "
 				+ toString(pngFile) + " " + toString(file));
 	}
+
+	@Override
+	public void onSupConvertMessage(String message) {
+		lowVerboseMessage("Subtitle conversion: " + message);
+	}
 }
