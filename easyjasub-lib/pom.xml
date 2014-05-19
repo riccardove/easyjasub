@@ -80,7 +80,11 @@
 			<artifactId>bdsup2sub-lib</artifactId>
 			<version>${easyjasub.bdsup2sub.version}</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>stringtemplate</artifactId>
+			<version>${easyjasub.stringtemplate.version}</version>
+		</dependency>
 	</dependencies>
 
 	<url>http://easyjasub.sourceforge.net</url>

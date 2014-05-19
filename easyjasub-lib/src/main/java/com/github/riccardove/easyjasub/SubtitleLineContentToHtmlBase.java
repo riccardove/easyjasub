@@ -24,6 +24,7 @@ package com.github.riccardove.easyjasub;
 import java.io.IOException;
 import java.util.List;
 
+import com.github.riccardove.easyjasub.commons.CommonsLangStringUtils;
 import com.github.riccardove.easyjasub.rendersnake.RendersnakeHtmlCanvas;
 
 abstract class SubtitleLineContentToHtmlBase {
@@ -45,14 +46,14 @@ abstract class SubtitleLineContentToHtmlBase {
 
 	protected void appendText(RendersnakeHtmlCanvas html, String text)
 			throws IOException {
-		String trimmedText = text.replace('　', ' ').trim();
+		String trimmedText = normalizeText(text.replace('　', ' ').trim());
 		html.write(trimmedText);
 		if (trimmedText.length() < text.length()) {
 			html.write("&thinsp;");
 		}
 	}
 
-	// TODO: write furigara separately on each kanji section
+	// TODO: write furigana separately on each kanji section
 	private void appendRubyElements(RendersnakeHtmlCanvas html,
 			List<SubtitleItem.Inner> elements) throws IOException {
 		for (SubtitleItem.Inner element : elements) {
@@ -66,6 +67,18 @@ abstract class SubtitleLineContentToHtmlBase {
 				html.write(element.getText());
 			}
 		}
+	}
+
+	private String normalizeText(String text) {
+		return CommonsLangStringUtils
+				.replaceChars(
+						text,
+						"０１２３４５６７８９ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ，．：；？！´｀¨＾～＜＞",
+						"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghilmnopqrstuvwxyz,.:;?!'`¨＾~<>");
+	}
+
+	private boolean isSymbolicPartOfSpeech(String pos) {
+		return pos != null && ("noun-numeric".equals(pos));
 	}
 
 }

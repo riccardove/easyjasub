@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub.commons;
  * #L%
  */
 
-
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -57,5 +56,10 @@ public abstract class CommonsLangStringUtils {
 
 	public static int ordinalIndexOf(String str, String searchStr, int ordinal) {
 		return StringUtils.ordinalIndexOf(str, searchStr, ordinal);
+	}
+
+	public static String replaceChars(String str, String searchChars,
+			String replaceChars) {
+		return StringUtils.replaceChars(str, searchChars, replaceChars);
 	}
 }

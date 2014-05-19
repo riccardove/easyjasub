@@ -6,6 +6,7 @@ Libraries available under "Apache Software License, Version 2.0" license:
 - rendersnake ${easyjasub.rendersnake.version} - http://rendersnake.org/
 - Kurikosu ${easyjasub.kurikosu.version} retrieved on 2014/02/20 - http://code.google.com/p/kurikosu/
 - Lucene Kuromoji Analyzer ${easyjasub.lucene-analyzers-kuromoji.version} - http://www.atilika.org/ 
+- StringTemplate ${easyjasub.stringtemplate.version} - http://www.stringtemplate.org/
 
 Libraries available under "MIT" license:
 - subtitleConvert ${easyjasub.subtitleConvert.version} retrieved on 2014/02/20. For details see https://github.com/JDaren/subtitleConverter

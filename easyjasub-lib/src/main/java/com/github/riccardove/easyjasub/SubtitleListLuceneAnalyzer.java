@@ -47,15 +47,16 @@ public class SubtitleListLuceneAnalyzer {
 				String text = line.getJapanese().substring(position,
 						token.getStartOffset());
 				subsItem.setText(text);
-				items.add(subsItem);
+				addItem(items, subsItem);
 			}
 
 			SubtitleItem subsItem = new SubtitleItem();
 			// TODO: merge suffix tokens
 			String text = line.getJapanese().substring(token.getStartOffset(),
 					token.getEndOffset());
+			String pos = token.getPartOfSpeech();
+			subsItem.setPartOfSpeech(pos);
 			subsItem.setText(text);
-			subsItem.setPartOfSpeech(token.getPartOfSpeech());
 			subsItem.setBaseForm(token.getBaseForm());
 
 			String reading = token.getReading();
@@ -69,7 +70,8 @@ public class SubtitleListLuceneAnalyzer {
 					subsItem.setRomaji(word.getRomaji());
 				}
 			}
-			items.add(subsItem);
+
+			addItem(items, subsItem);
 			position = token.getEndOffset();
 		}
 		if (position < line.getJapanese().length()) {
@@ -78,11 +80,15 @@ public class SubtitleListLuceneAnalyzer {
 			String text = line.getJapanese().substring(position,
 					line.getJapanese().length());
 			subsItem.setText(text);
-			items.add(subsItem);
+			addItem(items, subsItem);
 		}
 		if (items.size() > 0) {
 			line.setItems(items);
 		}
+	}
+
+	private void addItem(ArrayList<SubtitleItem> items, SubtitleItem subsItem) {
+		items.add(subsItem);
 	}
 
 	public void run(SubtitleList subs) throws EasyJaSubException {

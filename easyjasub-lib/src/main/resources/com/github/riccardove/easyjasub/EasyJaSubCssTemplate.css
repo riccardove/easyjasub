@@ -1,0 +1,81 @@
+body {
+	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+	color: white;
+	background: gray;
+	text-align: center;
+	font-family: cinecaption,arial;
+}
+
+p {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 3pt;
+	margin-top: 3pt;
+}
+
+table {
+	letter-spacing: -2px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+p.ja {
+	letter-spacing: -2px;
+	font-family: cinecaption,arial;
+	font-size: 25pt;
+	line-height: 71pt;
+}
+
+tr.top {
+	letter-spacing: -2px;
+	font-family: cinecaption,arial;
+	font-size: 16pt;
+}
+
+rt {
+	letter-spacing: -2px;
+	font-family: cinecaption,arial;
+	font-size: 16pt;
+}
+
+tr.bottom {
+	font-family: arial;
+	font-size: 16pt;
+	letter-spacing: 3px;
+}
+
+tr.center {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+p.translation {
+	font-family: arial;
+	font-size: 16pt;
+}
+
+tr.translation {
+	font-family: arial;
+	font-size: 12pt;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	letter-spacing: 1px;
+}
+
+td {
+	text-align: center;
+}
+
+tr {
+	font-family: cinecaption,arial;
+	font-size: 25pt;
+}
+
+span.kk {
+	letter-spacing: -5px;
+	font-family: cinecaption,arial;
+	font-size: 40pt;
+	margin-left: 0;
+	margin-right: 0;
+	padding: 0;
+}
+

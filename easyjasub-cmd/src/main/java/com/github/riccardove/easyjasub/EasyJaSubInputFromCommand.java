@@ -521,9 +521,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		width = getDimension("width", command.getWidth(), 1280);
 		defaultFileNamePrefix = defaultFileList.getDefaultFileNamePrefix();
 		cssHiraganaFont = getFont(command.getCssHiraganaFont(),
-				"cinecaption,GT2000-01,arial");
-		cssKanjiFont = getFont(command.getCssKanjiFont(),
-				"GT2000-01,cinecaption,arial");
+				"cinecaption,arial");
+		cssKanjiFont = getFont(command.getCssKanjiFont(), "cinecaption,arial"); // GT2000-01
 		cssTranslationFont = getFont(command.getCssTranslationFont(), "arial");
 		jmDictFile = getJMDictFile(homeDir, command.getJMDictFileName());
 		showTranslation = getShowTranslation(command.getShowTranslation(),

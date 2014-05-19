@@ -47,6 +47,9 @@ import com.github.riccardove.easyjasub.EasyJaSubException;
 import com.github.riccardove.easyjasub.EasyJaSubObserver;
 import com.mortennobel.imagescaling.ResampleFilter;
 
+/**
+ * This class contains some code copied from BDSup2Sub "Core" class
+ */
 public class BDSup2SubWrapper {
 
 	private final BDSup2SubManagerForEasyJaSub manager;

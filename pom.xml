@@ -87,6 +87,7 @@
 		<easyjasub.nv-i18n.version>1.11</easyjasub.nv-i18n.version>
 		<easyjasub.lucene-analyzers-kuromoji.version>4.7.2</easyjasub.lucene-analyzers-kuromoji.version>
 		<easyjasub.bdsup2sub.version>5.2.0-SNAPSHOT</easyjasub.bdsup2sub.version>
+		<easyjasub.stringtemplate.version>4.0.2</easyjasub.stringtemplate.version>
 		<wix.version>${project.version}.1</wix.version>
 		<main.class>com.github.riccardove.easyjasub.App</main.class>
 		<assembly.name>easyjasub-${project.version}</assembly.name>

@@ -53,7 +53,7 @@ public class DictionaryGloss {
 		return CommonsLangStringUtils.countMatches(dictElem, " ") >= 4;
 	}
 
-	private static String clean(String dictElem) {
+	public static String clean(String dictElem) {
 		return ItemClearPattern.matcher(dictElem).replaceAll("").trim();
 	}
 
@@ -73,6 +73,6 @@ public class DictionaryGloss {
 	}
 
 	private static final Pattern ItemClearPattern = Pattern
-			.compile("\\([^)]+\\)|!|\\?|(euph\\. for )|\\.");
+			.compile("\\([^)]+\\)|!|\\?|(euph\\. for )|([cC]ounter for )|\\.");
 
 }
