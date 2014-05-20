@@ -55,7 +55,12 @@ class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
 
 	private void appendRuby(RendersnakeHtmlCanvas html, SubtitleItem item)
 			throws IOException {
-		if (!PartOfSpeech.symbol.toString().equals(item.getPartOfSpeech())) {
+		// if (!PartOfSpeech.symbol.toString().equals(item.getPartOfSpeech())) {
+		// html.newline();
+		// }
+		boolean addSpacing = (item.getPartOfSpeech() != null && item
+				.getPartOfSpeech().contains("particle"));
+		if (addSpacing) {
 			html.newline();
 		}
 		List<SubtitleItem.Inner> elements = item.getElements();
@@ -140,6 +145,9 @@ class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
 			html.span(item.getPartOfSpeech());
 			appendElements(html, elements);
 			html._span();
+		}
+		if (addSpacing) {
+			html.newline();
 		}
 	}
 

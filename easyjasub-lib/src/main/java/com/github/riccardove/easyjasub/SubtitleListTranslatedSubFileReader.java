@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.riccardove.easyjasub.inputtextsub.InputTextSubCaption;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubFile;
 
@@ -51,7 +50,7 @@ class SubtitleListTranslatedSubFileReader {
 		s.setTranslatedSubDescription(subs.getDescription());
 		s.setTranslatedSubLanguage(subs.getLanguage());
 		s.setTranslatedSubWarnings(subs.getWarnings());
-		for (InputTextSubCaption translatedCaption : subs.getCaptions()) {
+		for (InputSubtitleLine translatedCaption : subs.getCaptions()) {
 			String content = SubtitleListJapaneseSubFileReader
 					.getContent(translatedCaption);
 			if (content != null) {
@@ -82,13 +81,11 @@ class SubtitleListTranslatedSubFileReader {
 	}
 
 	private SubtitleTranslatedLine createTranslatedLine(
-			InputTextSubCaption translatedCaption, String content) {
+			InputSubtitleLine translatedCaption, String content) {
 		SubtitleTranslatedLine translatedLine = new SubtitleTranslatedLine();
 		translatedLine.setText(content);
-		translatedLine.setStartTime(translatedCaption.getStart()
-				.getMSeconds());
-		translatedLine.setEndTime(translatedCaption.getEnd()
-				.getMSeconds());
+		translatedLine.setStartTime(translatedCaption.getStartTime());
+		translatedLine.setEndTime(translatedCaption.getEndTime());
 		return translatedLine;
 	}
 
@@ -168,21 +165,7 @@ class SubtitleListTranslatedSubFileReader {
 				} else {
 					if (selection == null
 							|| isTimeCompatibleWithSelection(content, selection)) {
-						SubtitleLine translationLine = lines.add(i);
-						SubtitleLine previous = i > 0 ? lines.get(i - 1) : null;
-						SubtitleLine next = null;
-						if (previous != null) {
-							previous.setNext(translationLine);
-							translationLine.setPrevious(previous);
-							next = previous.getNext();
-						}
-						if (next == null && lines.size() > i + 1) {
-							next = lines.get(i + 1);
-						}
-						if (next != null) {
-							next.setPrevious(translationLine);
-							translationLine.setNext(next);
-						}
+						SubtitleLine translationLine = lines.insert(i);
 						translationLine.setStartTime(content.getStartTime());
 						translationLine.setEndTime(content.getEndTime());
 						addTranslation(translationLine, content);

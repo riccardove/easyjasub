@@ -39,8 +39,8 @@ class SubtitleListPngFilesJavaWriter {
 	private static final int MaxHeight = 1000;
 	private final HtmlImageGenerator imageGenerator;
 
-	public void writeImages(PictureSubtitleList s, File htmlFolder,
-			File pngFolder) throws IOException, InterruptedException,
+	public void writeImages(PictureSubtitleList s) throws IOException,
+			InterruptedException,
 			EasyJaSubException {
 		for (PictureSubtitleLine l : s) {
 			File file = l.getHtmlFile();

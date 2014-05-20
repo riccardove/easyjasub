@@ -20,20 +20,22 @@ package subtitleFile;
  * #L%
  */
 
-
+/**
+ * This is used to get the internal representation of time for a subtitle
+ * caption, that's why it is in this namespace
+ */
 public class SubtitleFileTimeWrapper {
 
-	public SubtitleFileTimeWrapper(Time time) 
-	{
+	public SubtitleFileTimeWrapper(Time time) {
 		this.time = time;
 	}
-	
+
 	private final Time time;
-	
+
 	public String getTime(String format) {
 		return time.getTime(format);
 	}
-	
+
 	public int getMSeconds() {
 		return time.mseconds;
 	}

@@ -55,7 +55,7 @@ class SubtitleListCssFileWriter {
 		final int furiganaSize = hiraganaSize * 2 / 3;
 		final int translationSize = furiganaSize;
 		final int lineHeight = (kanjiSize + furiganaSize) + 15;
-		final int kanjiSpacing = -(kanjiSize / 8);
+		final int kanjiSpacing = -(kanjiSize / 12);
 		final int hiraganaSpacing = -(hiraganaSize / 10);
 		w("body {");
 		w("	text-shadow: -" + shadow + "px 0 black, 0 " + shadow + "px black, "

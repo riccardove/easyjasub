@@ -74,7 +74,7 @@ abstract class SubtitleLineContentToHtmlBase {
 				.replaceChars(
 						text,
 						"０１２３４５６７８９ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ，．：；？！´｀¨＾～＜＞",
-						"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghilmnopqrstuvwxyz,.:;?!'`¨＾~<>");
+						"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz,.:;?!'`¨＾~<>");
 	}
 
 	private boolean isSymbolicPartOfSpeech(String pos) {

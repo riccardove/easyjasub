@@ -20,33 +20,66 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.github.riccardove.easyjasub.inputtextsub.InputTextSubCaption;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubException;
 import com.github.riccardove.easyjasub.inputtextsub.InputTextSubFile;
 
 class SubtitleListJapaneseSubFileReader {
 
-	public void readJapaneseSubtitles(SubtitleList s, File file, SubtitleFileType type,
-			EasyJaSubObserver observer, EasyJaSubLinesSelection selection) 
-			throws IOException, InputTextSubException {
+	public void readJapaneseSubtitles(SubtitleList s, File file,
+			SubtitleFileType type, EasyJaSubObserver observer,
+			EasyJaSubLinesSelection selection) throws IOException,
+			InputTextSubException {
 		FileInputStream stream = new FileInputStream(file);
-		InputTextSubFile subs = new InputTextSubFile(type, file.getName(), stream);
+		List<InputSubtitleLine> subsList = null;
+		if (type == SubtitleFileType.TXT) {
+			subsList = readText(stream);
+			s.setTitle("Text file " + file.getName());
+			s.setJapaneseSubDescription("Read from text file "
+					+ file.getAbsolutePath());
+		} else {
+			InputTextSubFile subs = new InputTextSubFile(type, file.getName(),
+					stream);
+			s.setTitle(subs.getTitle());
+			s.setJapaneseSubWarnings(subs.getWarnings());
+			s.setJapaneseSubDescription(subs.getDescription());
+			s.setJapaneseSubLanguage(subs.getLanguage());
+			subsList = subs.getCaptions();
+		}
 		stream.close();
-		s.setTitle(subs.getTitle());
-		List<InputTextSubCaption> subsList = subs.getCaptions();
+		addLines(s, selection, subsList);
+	}
+
+	private List<InputSubtitleLine> readText(FileInputStream stream)
+			throws IOException {
+		EasyJaSubReader reader = new EasyJaSubReader(stream);
+		ArrayList<InputSubtitleLine> list = new ArrayList<InputSubtitleLine>();
+		int time = 0;
+		final int increment = 3000;
+		for (String text = reader.readLine(); text != null; text = reader
+				.readLine()) {
+			InputSubtitleLine line = new InputSubtitleLine();
+			line.setStartTime(time);
+			line.setEndTime(time += increment);
+			line.setContent(text);
+			list.add(line);
+		}
+		return list;
+	}
+
+	private void addLines(SubtitleList s, EasyJaSubLinesSelection selection,
+			List<InputSubtitleLine> subsList) {
 		if (selection == null) {
-			for (InputTextSubCaption c : subsList) {
+			for (InputSubtitleLine c : subsList) {
 				addLine(s, c);
 			}
-		}
-		else {
+		} else {
 			int startIndex = selection.getStartLine();
 			if (startIndex > 0) {
 				startIndex--;
@@ -62,30 +95,20 @@ class SubtitleListJapaneseSubFileReader {
 			selection.setStartLine(s.first().getStartTime());
 			selection.setEndTime(s.last().getEndTime());
 		}
-		s.setJapaneseSubWarnings(subs.getWarnings());
-		s.setJapaneseSubDescription(subs.getDescription());
-		s.setJapaneseSubLanguage(subs.getLanguage());
 	}
 
-	private SubtitleLine previous;
-
-	private void addLine(SubtitleList s, InputTextSubCaption caption) {
+	private void addLine(SubtitleList s, InputSubtitleLine caption) {
 		String content = getContent(caption);
 		if (content == null) {
 			return;
 		}
 		SubtitleLine line = s.add();
-		if (previous != null) {
-			line.setPrevious(previous);
-			previous.setNext(line);
-		}
-		line.setStartTime(caption.getStart().getMSeconds());
-		line.setEndTime(caption.getEnd().getMSeconds());
+		line.setStartTime(caption.getStartTime());
+		line.setEndTime(caption.getEndTime());
 		line.setSubText(content);
-		previous = line;
 	}
 
-	public static String getContent(InputTextSubCaption caption) {
+	public static String getContent(InputSubtitleLine caption) {
 		String content = caption.getContent();
 		if (content == null) {
 			return null;

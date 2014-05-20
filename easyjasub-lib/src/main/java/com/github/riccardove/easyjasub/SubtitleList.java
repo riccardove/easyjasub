@@ -30,18 +30,37 @@ public class SubtitleList implements Iterable<SubtitleLine> {
 		lines = new ArrayList<SubtitleLine>();
 	}
 	
-	private ArrayList<SubtitleLine> lines;
+	private final ArrayList<SubtitleLine> lines;
 	private String title;
-	
+
 	public SubtitleLine add() {
 		SubtitleLine line = new SubtitleLine();
+		if (lines.size() > 0) {
+			SubtitleLine previous = last();
+			line.setPrevious(previous);
+			previous.setNext(line);
+		}
 		lines.add(line);
 		return line;
 	}
 	
-	public SubtitleLine add(int index) {
+	public SubtitleLine insert(int index) {
 		SubtitleLine line = new SubtitleLine();
 		lines.add(index, line);
+		SubtitleLine previous = index > 0 ? lines.get(index - 1) : null;
+		SubtitleLine next = null;
+		if (previous != null) {
+			previous.setNext(line);
+			line.setPrevious(previous);
+			next = previous.getNext();
+		}
+		if (next == null && lines.size() > index + 1) {
+			next = lines.get(index + 1);
+		}
+		if (next != null) {
+			next.setPrevious(line);
+			line.setNext(next);
+		}
 		return line;
 	}
 	

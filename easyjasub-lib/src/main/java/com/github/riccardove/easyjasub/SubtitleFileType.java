@@ -20,20 +20,12 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.util.HashSet;
 import java.util.Set;
 
 public enum SubtitleFileType {
-	Undef,
-	SRT,
-	STL,
-	SCC,
-	XML,
-	ASS, 
-	TTML
-	;
-	
+	Undef, SRT, STL, SCC, XML, ASS, TTML, TXT;
+
 	static {
 		HashSet<String> set = new HashSet<String>();
 		for (SubtitleFileType value : SubtitleFileType.values()) {
@@ -41,13 +33,13 @@ public enum SubtitleFileType {
 		}
 		values = set;
 	}
-	
+
 	private static final Set<String> values;
-	
+
 	protected static boolean isValue(String value) {
 		return values.contains(value);
 	}
-	
+
 	protected static Iterable<String> getValuesSet() {
 		return values;
 	}

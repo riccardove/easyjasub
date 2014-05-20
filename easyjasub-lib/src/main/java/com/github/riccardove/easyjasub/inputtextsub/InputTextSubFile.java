@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub.inputtextsub;
  * #L%
  */
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -33,61 +32,71 @@ import subtitleFile.FormatSCC;
 import subtitleFile.FormatSRT;
 import subtitleFile.FormatSTL;
 import subtitleFile.FormatTTML;
+import subtitleFile.SubtitleFileTimeWrapper;
 import subtitleFile.TimedTextFileFormat;
 import subtitleFile.TimedTextObject;
 
+import com.github.riccardove.easyjasub.InputSubtitleLine;
 import com.github.riccardove.easyjasub.SubtitleFileType;
 
 public class InputTextSubFile {
 
 	private TimedTextFileFormat createFormat(SubtitleFileType inputFormat) {
 		switch (inputFormat) {
-		case SRT: 
+		case SRT:
 			return new FormatSRT();
-		case STL: 
+		case STL:
 			return new FormatSTL();
-		case SCC: 
+		case SCC:
 			return new FormatSCC();
-		case TTML: 
-		case XML: 
+		case TTML:
+		case XML:
 			return new FormatTTML();
-		case ASS: 
+		case ASS:
 			return new FormatASS();
 		default:
 			break;
 		}
-		throw new IllegalArgumentException("Unrecognized input format: "+inputFormat+" only [SRT,STL,SCC,XML,ASS] are possible");
+		throw new IllegalArgumentException("Unrecognized input format: "
+				+ inputFormat + " only [SRT,STL,SCC,XML,ASS] are possible");
 	}
-	
-	public InputTextSubFile(SubtitleFileType inputFormat, String fileName, InputStream is) throws InputTextSubException, IOException {
+
+	public InputTextSubFile(SubtitleFileType inputFormat, String fileName,
+			InputStream is) throws InputTextSubException, IOException {
 		try {
 			tto = createFormat(inputFormat).parseFile(fileName, is);
+		} catch (FatalParsingException ex) {
+			throw new InputTextSubException(
+					"Parse error returned by subtitle read library", ex);
 		}
-		catch (FatalParsingException ex) {
-			throw new InputTextSubException("Parse error returned by subtitle read library", ex);
-		}
-		captions = new ArrayList<InputTextSubCaption>(tto.captions.size()); 
+		captions = new ArrayList<InputSubtitleLine>(tto.captions.size());
 		for (Caption caption : tto.captions.values()) {
-			captions.add(new InputTextSubCaption(caption));
+			InputSubtitleLine line = new InputSubtitleLine();
+			line.setContent(caption.content);
+			line.setStartTime(new SubtitleFileTimeWrapper(caption.start)
+					.getMSeconds());
+			line.setEndTime(new SubtitleFileTimeWrapper(caption.end)
+					.getMSeconds());
+			captions.add(line);
 		}
 	}
-	
+
 	private final TimedTextObject tto;
-	private final ArrayList<InputTextSubCaption> captions;
+	private final ArrayList<InputSubtitleLine> captions;
 
 	public String getWarnings() {
 		return tto.warnings;
 	}
-	
+
 	public String getDescription() {
 		return tto.description;
 	}
-	
+
 	public String getLanguage() {
 		return tto.language;
 	}
-	
-	public List<InputTextSubCaption> getCaptions() {
+
+	public List<InputSubtitleLine> getCaptions() {
 		return captions;
 	}
 

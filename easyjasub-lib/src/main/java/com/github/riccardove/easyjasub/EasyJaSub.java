@@ -125,7 +125,7 @@ public class EasyJaSub {
 
 	private void writeIdxFile(File idxFile, File bdnFile,
 			EasyJaSubObserver observer) throws EasyJaSubException {
-		if (idxFile == null) {
+		if (idxFile == null || idxFile.exists()) {
 			observer.onWriteIdxFileSkipped(idxFile, bdnFile);
 		} else {
 			BDSup2SubWrapper converter = new BDSup2SubWrapper(observer);
@@ -266,10 +266,10 @@ public class EasyJaSub {
 		try {
 			if (wkhtml != null) {
 				new SubtitleListPngFilesWriter(wkhtml, width, observer)
-						.writeImages(s, htmlFolder, bdnFolder);
+						.writeImages(s);
 			} else {
 				new SubtitleListPngFilesJavaWriter(width, observer)
-						.writeImages(s, htmlFolder, bdnFolder);
+						.writeImages(s);
 			}
 			observer.onWriteImagesEnd(wkhtml, htmlFolder, bdnFolder);
 		} catch (WkhtmltoimageException ex) {

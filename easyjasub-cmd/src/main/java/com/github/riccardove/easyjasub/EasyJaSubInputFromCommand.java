@@ -196,7 +196,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 				directory = new File(directoryName);
 			} else if (outputIdxFile != null) {
 				directory = new File(outputIdxFile.getAbsoluteFile()
-						.getParentFile(), fileNameBase + "_bdnxml");
+						.getParentFile(), fileNameBase + "_easyjasub");
 			} else {
 				directory = defaultFileList.getDefaultDirectory();
 			}
@@ -218,7 +218,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		if (directoryName != null && !isDefault(directoryName)) {
 			directory = new File(directoryName);
 		} else if (outputbdnFile != null) {
-			directory = outputbdnFile.getAbsoluteFile().getParentFile();
+			directory = new File(outputbdnFile.getAbsoluteFile()
+					.getParentFile(), "html");
 		} else {
 			directory = new File(defaultFileList.getDefaultDirectory(),
 					defaultFileList.getDefaultFileNamePrefix() + "_html");
@@ -538,11 +539,18 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		isSingleLine = getSingleLine();
 		getSelectLines(command.getSelectLines());
 		dictionaryCacheFile = getDictionaryCacheFile(homeDir);
-		htmlFile = getHtmlFile(defaultFileList);
+		htmlFile = getHtmlFile(defaultFileList, bdnXmlFile);
 	}
 
-	private static File getHtmlFile(DefaultFileList defaultFileList) {
-		return new File(defaultFileList.getDefaultDirectory(),
+	private static File getHtmlFile(DefaultFileList defaultFileList,
+			File bdnXmlFile) {
+		File dir = null;
+		if (bdnXmlFile != null) {
+			dir = bdnXmlFile.getParentFile();
+		} else {
+			dir = defaultFileList.getDefaultDirectory();
+		}
+		return new File(dir,
 				defaultFileList.getDefaultFileNamePrefix() + ".html");
 	}
 
@@ -641,7 +649,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			directory = defaultFileList.getDefaultDirectory();
 		}
 		return new File(directory, defaultFileList.getDefaultFileNamePrefix()
-				+ "_easyjasub.xml");
+				+ ".easyjasub");
 	}
 
 	private static File getJGlossFile(DefaultFileList defaultFileList,

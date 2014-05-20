@@ -39,8 +39,8 @@ class SubtitleListPngFilesWriter {
 	
 	private final WkHtmlToImageProcessBuilder wkhtmltoimageexe;
 	
-	public void writeImages(PictureSubtitleList s, File htmlFolder,
-			File pngFolder) throws IOException, InterruptedException,
+	public void writeImages(PictureSubtitleList s) throws IOException,
+			InterruptedException,
 			WkhtmltoimageException
 	{
 		int result  = 0;
