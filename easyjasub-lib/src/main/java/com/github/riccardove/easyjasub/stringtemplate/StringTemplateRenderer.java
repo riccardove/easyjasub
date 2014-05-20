@@ -11,7 +11,7 @@ public class StringTemplateRenderer {
 	private final ST st;
 
 	public void addAggr(String name, Object obj) {
-		st.addAggr(name, obj);
+		st.addAggr(name, new Object[] { obj });
 	}
 
 	public String render() {
