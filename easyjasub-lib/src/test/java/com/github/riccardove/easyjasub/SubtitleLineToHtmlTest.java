@@ -31,7 +31,7 @@ public class SubtitleLineToHtmlTest extends EasyJaSubTestCase {
 	private static SubtitleList sample1List;
 
 	static {
-		sample1List = readSampleSubtitleList("sample1.xml");
+		sample1List = readSampleSubtitleList("sample1.easyjasub");
 	}
 
 	private static SubtitleList readSampleSubtitleList(String fileName) {

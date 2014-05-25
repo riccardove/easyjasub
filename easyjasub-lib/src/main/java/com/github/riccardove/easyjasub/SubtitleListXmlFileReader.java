@@ -39,6 +39,7 @@ class SubtitleListXmlFileReader implements
 	private ArrayList<Inner> elements;
 	private ArrayList<SubtitleTranslatedLine> translation;
 	private SubtitleTranslatedLine tline;
+	private Inner inner;
 
 	public SubtitleListXmlFileReader(SubtitleList list) {
 		this.list = list;
@@ -81,6 +82,10 @@ class SubtitleListXmlFileReader implements
 		}
 		case inner: {
 			elements = new ArrayList<Inner>();
+			break;
+		}
+		case inneritem: {
+			inner = new Inner();
 			break;
 		}
 		case translation: {
@@ -170,15 +175,16 @@ class SubtitleListXmlFileReader implements
 			break;
 		}
 		case chars: {
-			Inner inner = new Inner();
 			inner.setText(text);
-			elements.add(inner);
 			break;
 		}
 		case kanji: {
-			Inner inner = new Inner();
 			inner.setKanji(text);
+			break;
+		}
+		case inneritem: {
 			elements.add(inner);
+			inner = null;
 			break;
 		}
 		case start: {

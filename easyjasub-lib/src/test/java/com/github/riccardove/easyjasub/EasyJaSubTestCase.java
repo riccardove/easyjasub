@@ -65,10 +65,6 @@ public abstract class EasyJaSubTestCase extends TestCase {
 		return new File(samplesHtmlFile, directory + File.separator + name);
 	}
 
-	protected static String getMeCabExePath() {
-		return "C:/Program Files (x86)/MeCab/bin/mecab.exe";
-	}
-
 	protected static String getWkhtmltoimagePath() {
 		return "C:/Program Files (x86)/wkhtmltopdf/wkhtmltoimage.exe";
 	}

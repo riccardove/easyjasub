@@ -24,6 +24,7 @@ package com.github.riccardove.easyjasub;
 import java.io.IOException;
 import java.util.List;
 
+import com.github.riccardove.easyjasub.SubtitleItem.Inner;
 import com.github.riccardove.easyjasub.commons.CommonsLangStringUtils;
 import com.github.riccardove.easyjasub.rendersnake.RendersnakeHtmlCanvas;
 
@@ -32,6 +33,9 @@ abstract class SubtitleLineContentToHtmlBase {
 	public abstract void appendItems(RendersnakeHtmlCanvas html,
 			List<SubtitleItem> items) throws IOException;
 
+	/**
+	 * Appends furigana over the whole word
+	 */
 	protected void appendElements(RendersnakeHtmlCanvas html,
 			List<SubtitleItem.Inner> elements) throws IOException {
 		for (SubtitleItem.Inner element : elements) {
@@ -42,6 +46,26 @@ abstract class SubtitleLineContentToHtmlBase {
 				html.write(element.getText());
 			}
 		}
+	}
+
+	/**
+	 * Appends furigana only over relevant Kanji item
+	 */
+	protected void appendFuriganaElements(RendersnakeHtmlCanvas html,
+			List<Inner> elements, String styleClass) throws IOException {
+		html.span(styleClass);
+		for (SubtitleItem.Inner element : elements) {
+			String kanji = element.getKanji();
+			if (kanji != null) {
+				html.ruby();
+				html.spanKanji(kanji);
+				html.rt(element.getText());
+				html._ruby();
+			} else {
+				html.write(element.getText());
+			}
+		}
+		html._span();
 	}
 
 	protected void appendText(RendersnakeHtmlCanvas html, String text)

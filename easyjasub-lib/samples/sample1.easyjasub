@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <easyjasub>
-  <title>Beginning</title>
+  <title></title>
   <lines>
     <line>
       <start>3800</start>
@@ -27,7 +27,10 @@
           <romaji>ōkoku</romaji>
           <itemtext>王国</itemtext>
           <inner>
-            <kanji>王国</kanji>
+            <inneritem>
+              <kanji>王国</kanji>
+              <chars>おうこく</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -53,7 +56,10 @@
           <romaji>jinkō</romaji>
           <itemtext>人口</itemtext>
           <inner>
-            <kanji>人口</kanji>
+            <inneritem>
+              <kanji>人口</kanji>
+              <chars>じんこう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -62,7 +68,10 @@
           <romaji>ichi</romaji>
           <itemtext>１</itemtext>
           <inner>
-            <kanji>１</kanji>
+            <inneritem>
+              <kanji>１</kanji>
+              <chars>いち</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -74,7 +83,10 @@
           <romaji>nana</romaji>
           <itemtext>７</itemtext>
           <inner>
-            <kanji>７</kanji>
+            <inneritem>
+              <kanji>７</kanji>
+              <chars>なな</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -83,7 +95,10 @@
           <romaji>zero</romaji>
           <itemtext>０</itemtext>
           <inner>
-            <kanji>０</kanji>
+            <inneritem>
+              <kanji>０</kanji>
+              <chars>ぜろ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -92,7 +107,10 @@
           <romaji>zero</romaji>
           <itemtext>０</itemtext>
           <inner>
-            <kanji>０</kanji>
+            <inneritem>
+              <kanji>０</kanji>
+              <chars>ぜろ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -101,7 +119,10 @@
           <romaji>man</romaji>
           <itemtext>万</itemtext>
           <inner>
-            <kanji>万</kanji>
+            <inneritem>
+              <kanji>万</kanji>
+              <chars>まん</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -115,7 +136,10 @@
           <romaji>ēsē</romaji>
           <itemtext>永世</itemtext>
           <inner>
-            <kanji>永世</kanji>
+            <inneritem>
+              <kanji>永世</kanji>
+              <chars>えいせい</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -124,7 +148,10 @@
           <romaji>tyūritsu</romaji>
           <itemtext>中立</itemtext>
           <inner>
-            <kanji>中立</kanji>
+            <inneritem>
+              <kanji>中立</kanji>
+              <chars>ちゅうりつ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -133,7 +160,10 @@
           <romaji>koku</romaji>
           <itemtext>国</itemtext>
           <inner>
-            <kanji>国</kanji>
+            <inneritem>
+              <kanji>国</kanji>
+              <chars>こく</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -172,7 +202,10 @@
           <romaji>mahō</romaji>
           <itemtext>魔法</itemtext>
           <inner>
-            <kanji>魔法</kanji>
+            <inneritem>
+              <kanji>魔法</kanji>
+              <chars>まほう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -186,7 +219,10 @@
           <romaji>sekai</romaji>
           <itemtext>世界</itemtext>
           <inner>
-            <kanji>世界</kanji>
+            <inneritem>
+              <kanji>世界</kanji>
+              <chars>せかい</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -217,7 +253,10 @@
           <romaji>mahō</romaji>
           <itemtext>魔法</itemtext>
           <inner>
-            <kanji>魔法</kanji>
+            <inneritem>
+              <kanji>魔法</kanji>
+              <chars>まほう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -234,7 +273,10 @@
           <romaji>futsū</romaji>
           <itemtext>普通</itemtext>
           <inner>
-            <kanji>普通</kanji>
+            <inneritem>
+              <kanji>普通</kanji>
+              <chars>ふつう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -248,10 +290,20 @@
           <romaji>urikai</romaji>
           <itemtext>売り買い</itemtext>
           <inner>
-            <kanji>売</kanji>
-            <chars>り</chars>
-            <kanji>買</kanji>
-            <chars>い</chars>
+            <inneritem>
+              <kanji>売</kanji>
+              <chars>う</chars>
+            </inneritem>
+            <inneritem>
+              <chars>り</chars>
+            </inneritem>
+            <inneritem>
+              <kanji>買</kanji>
+              <chars>か</chars>
+            </inneritem>
+            <inneritem>
+              <chars>い</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -273,8 +325,10 @@
           <romaji>hitobito</romaji>
           <itemtext>人々</itemtext>
           <inner>
-            <kanji>人</kanji>
-            <chars>々</chars>
+            <inneritem>
+              <kanji>人々</kanji>
+              <chars>ひとびと</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -288,7 +342,10 @@
           <romaji>sēkatsu</romaji>
           <itemtext>生活</itemtext>
           <inner>
-            <kanji>生活</kanji>
+            <inneritem>
+              <kanji>生活</kanji>
+              <chars>せいかつ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -302,8 +359,13 @@
           <romaji>nezui</romaji>
           <itemtext>根づい</itemtext>
           <inner>
-            <kanji>根</kanji>
-            <chars>づい</chars>
+            <inneritem>
+              <kanji>根</kanji>
+              <chars>ね</chars>
+            </inneritem>
+            <inneritem>
+              <chars>づい</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -357,7 +419,10 @@
           <romaji>mahō</romaji>
           <itemtext>魔法</itemtext>
           <inner>
-            <kanji>魔法</kanji>
+            <inneritem>
+              <kanji>魔法</kanji>
+              <chars>まほう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -371,7 +436,10 @@
           <romaji>kushi</romaji>
           <itemtext>駆使</itemtext>
           <inner>
-            <kanji>駆使</kanji>
+            <inneritem>
+              <kanji>駆使</kanji>
+              <chars>くし</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -393,7 +461,10 @@
           <romaji>nariwai</romaji>
           <itemtext>生業</itemtext>
           <inner>
-            <kanji>生業</kanji>
+            <inneritem>
+              <kanji>生業</kanji>
+              <chars>なりわい</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -412,7 +483,10 @@
           <romaji>mono</romaji>
           <itemtext>者</itemtext>
           <inner>
-            <kanji>者</kanji>
+            <inneritem>
+              <kanji>者</kanji>
+              <chars>もの</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -453,8 +527,10 @@
           <romaji>hitobito</romaji>
           <itemtext>人々</itemtext>
           <inner>
-            <kanji>人</kanji>
-            <chars>々</chars>
+            <inneritem>
+              <kanji>人々</kanji>
+              <chars>ひとびと</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -471,8 +547,13 @@
           <romaji>karera</romaji>
           <itemtext>彼ら</itemtext>
           <inner>
-            <kanji>彼</kanji>
-            <chars>ら</chars>
+            <inneritem>
+              <kanji>彼</kanji>
+              <chars>かれ</chars>
+            </inneritem>
+            <inneritem>
+              <chars>ら</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -486,7 +567,10 @@
           <romaji>ma</romaji>
           <itemtext>魔</itemtext>
           <inner>
-            <kanji>魔</kanji>
+            <inneritem>
+              <kanji>魔</kanji>
+              <chars>ま</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -495,7 +579,10 @@
           <romaji>shirube</romaji>
           <itemtext>導</itemtext>
           <inner>
-            <kanji>導</kanji>
+            <inneritem>
+              <kanji>導</kanji>
+              <chars>しるべ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -504,7 +591,10 @@
           <romaji>shi</romaji>
           <itemtext>士</itemtext>
           <inner>
-            <kanji>士</kanji>
+            <inneritem>
+              <kanji>士</kanji>
+              <chars>し</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -518,8 +608,13 @@
           <romaji>yon</romaji>
           <itemtext>呼ん</itemtext>
           <inner>
-            <kanji>呼</kanji>
-            <chars>ん</chars>
+            <inneritem>
+              <kanji>呼</kanji>
+              <chars>よ</chars>
+            </inneritem>
+            <inneritem>
+              <chars>ん</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -550,7 +645,10 @@
           <romaji>ma</romaji>
           <itemtext>魔</itemtext>
           <inner>
-            <kanji>魔</kanji>
+            <inneritem>
+              <kanji>魔</kanji>
+              <chars>ま</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -559,7 +657,10 @@
           <romaji>shirube</romaji>
           <itemtext>導</itemtext>
           <inner>
-            <kanji>導</kanji>
+            <inneritem>
+              <kanji>導</kanji>
+              <chars>しるべ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -568,7 +669,10 @@
           <romaji>shi</romaji>
           <itemtext>士</itemtext>
           <inner>
-            <kanji>士</kanji>
+            <inneritem>
+              <kanji>士</kanji>
+              <chars>し</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -610,8 +714,13 @@
           <romaji>zokushi</romaji>
           <itemtext>属し</itemtext>
           <inner>
-            <kanji>属</kanji>
-            <chars>し</chars>
+            <inneritem>
+              <kanji>属</kanji>
+              <chars>ぞく</chars>
+            </inneritem>
+            <inneritem>
+              <chars>し</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -637,7 +746,10 @@
           <romaji>irai</romaji>
           <itemtext>依頼</itemtext>
           <inner>
-            <kanji>依頼</kanji>
+            <inneritem>
+              <kanji>依頼</kanji>
+              <chars>いらい</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -651,8 +763,13 @@
           <romaji>ōji</romaji>
           <itemtext>応じ</itemtext>
           <inner>
-            <kanji>応</kanji>
-            <chars>じ</chars>
+            <inneritem>
+              <kanji>応</kanji>
+              <chars>おう</chars>
+            </inneritem>
+            <inneritem>
+              <chars>じ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -666,7 +783,10 @@
           <romaji>shigoto</romaji>
           <itemtext>仕事</itemtext>
           <inner>
-            <kanji>仕事</kanji>
+            <inneritem>
+              <kanji>仕事</kanji>
+              <chars>しごと</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -715,7 +835,10 @@
           <romaji>kokunai</romaji>
           <itemtext>国内</itemtext>
           <inner>
-            <kanji>国内</kanji>
+            <inneritem>
+              <kanji>国内</kanji>
+              <chars>こくない</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -729,7 +852,10 @@
           <romaji>tasū</romaji>
           <itemtext>多数</itemtext>
           <inner>
-            <kanji>多数</kanji>
+            <inneritem>
+              <kanji>多数</kanji>
+              <chars>たすう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -768,7 +894,10 @@
           <romaji>machi</romaji>
           <itemtext>街</itemtext>
           <inner>
-            <kanji>街</kanji>
+            <inneritem>
+              <kanji>街</kanji>
+              <chars>まち</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -790,7 +919,10 @@
           <romaji>ma</romaji>
           <itemtext>魔</itemtext>
           <inner>
-            <kanji>魔</kanji>
+            <inneritem>
+              <kanji>魔</kanji>
+              <chars>ま</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -799,7 +931,10 @@
           <romaji>shirube</romaji>
           <itemtext>導</itemtext>
           <inner>
-            <kanji>導</kanji>
+            <inneritem>
+              <kanji>導</kanji>
+              <chars>しるべ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -808,7 +943,10 @@
           <romaji>shi</romaji>
           <itemtext>士</itemtext>
           <inner>
-            <kanji>士</kanji>
+            <inneritem>
+              <kanji>士</kanji>
+              <chars>し</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -870,8 +1008,10 @@
           <romaji>atoato</romaji>
           <itemtext>後々</itemtext>
           <inner>
-            <kanji>後</kanji>
-            <chars>々</chars>
+            <inneritem>
+              <kanji>後々</kanji>
+              <chars>あとあと</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -885,8 +1025,13 @@
           <romaji>itaru</romaji>
           <itemtext>至る</itemtext>
           <inner>
-            <kanji>至</kanji>
-            <chars>る</chars>
+            <inneritem>
+              <kanji>至</kanji>
+              <chars>いた</chars>
+            </inneritem>
+            <inneritem>
+              <chars>る</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -903,8 +1048,10 @@
           <romaji>kazukazu</romaji>
           <itemtext>数々</itemtext>
           <inner>
-            <kanji>数</kanji>
-            <chars>々</chars>
+            <inneritem>
+              <kanji>数々</kanji>
+              <chars>かずかず</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -918,7 +1065,10 @@
           <romaji>densetsu</romaji>
           <itemtext>伝説</itemtext>
           <inner>
-            <kanji>伝説</kanji>
+            <inneritem>
+              <kanji>伝説</kanji>
+              <chars>でんせつ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -932,10 +1082,20 @@
           <romaji>umidashi</romaji>
           <itemtext>生み出し</itemtext>
           <inner>
-            <kanji>生</kanji>
-            <chars>み</chars>
-            <kanji>出</kanji>
-            <chars>し</chars>
+            <inneritem>
+              <kanji>生</kanji>
+              <chars>う</chars>
+            </inneritem>
+            <inneritem>
+              <chars>み</chars>
+            </inneritem>
+            <inneritem>
+              <kanji>出</kanji>
+              <chars>だ</chars>
+            </inneritem>
+            <inneritem>
+              <chars>し</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -989,7 +1149,10 @@
           <romaji>na</romaji>
           <itemtext>名</itemtext>
           <inner>
-            <kanji>名</kanji>
+            <inneritem>
+              <kanji>名</kanji>
+              <chars>な</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1184,7 +1347,10 @@
           <romaji>minatotyō</romaji>
           <itemtext>港町</itemtext>
           <inner>
-            <kanji>港町</kanji>
+            <inneritem>
+              <kanji>港町</kanji>
+              <chars>みなとちょう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1233,8 +1399,13 @@
           <romaji>okyakusama</romaji>
           <itemtext>お客様</itemtext>
           <inner>
-            <chars>お</chars>
-            <kanji>客様</kanji>
+            <inneritem>
+              <chars>お</chars>
+            </inneritem>
+            <inneritem>
+              <kanji>客様</kanji>
+              <chars>きゃくさま</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1289,8 +1460,13 @@
           <romaji>tsui</romaji>
           <itemtext>着い</itemtext>
           <inner>
-            <kanji>着</kanji>
-            <chars>い</chars>
+            <inneritem>
+              <kanji>着</kanji>
+              <chars>つ</chars>
+            </inneritem>
+            <inneritem>
+              <chars>い</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1319,8 +1495,13 @@
           <romaji>oki</romaji>
           <itemtext>起き</itemtext>
           <inner>
-            <kanji>起</kanji>
-            <chars>き</chars>
+            <inneritem>
+              <kanji>起</kanji>
+              <chars>お</chars>
+            </inneritem>
+            <inneritem>
+              <chars>き</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1334,8 +1515,13 @@
           <romaji>oki</romaji>
           <itemtext>起き</itemtext>
           <inner>
-            <kanji>起</kanji>
-            <chars>き</chars>
+            <inneritem>
+              <kanji>起</kanji>
+              <chars>お</chars>
+            </inneritem>
+            <inneritem>
+              <chars>き</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1379,7 +1565,10 @@
           <romaji>daijōbu</romaji>
           <itemtext>大丈夫</itemtext>
           <inner>
-            <kanji>大丈夫</kanji>
+            <inneritem>
+              <kanji>大丈夫</kanji>
+              <chars>だいじょうぶ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1475,8 +1664,13 @@
           <romaji>nidoto</romaji>
           <itemtext>二度と</itemtext>
           <inner>
-            <kanji>二度</kanji>
-            <chars>と</chars>
+            <inneritem>
+              <kanji>二度</kanji>
+              <chars>にど</chars>
+            </inneritem>
+            <inneritem>
+              <chars>と</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1485,7 +1679,10 @@
           <romaji>ressya</romaji>
           <itemtext>列車</itemtext>
           <inner>
-            <kanji>列車</kanji>
+            <inneritem>
+              <kanji>列車</kanji>
+              <chars>れっしゃ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1504,8 +1701,13 @@
           <romaji>non</romaji>
           <itemtext>乗ん</itemtext>
           <inner>
-            <kanji>乗</kanji>
-            <chars>ん</chars>
+            <inneritem>
+              <kanji>乗</kanji>
+              <chars>の</chars>
+            </inneritem>
+            <inneritem>
+              <chars>ん</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1541,7 +1743,10 @@
           <romaji>jōhō</romaji>
           <itemtext>情報</itemtext>
           <inner>
-            <kanji>情報</kanji>
+            <inneritem>
+              <kanji>情報</kanji>
+              <chars>じょうほう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1555,8 +1760,13 @@
           <romaji>tashika</romaji>
           <itemtext>確か</itemtext>
           <inner>
-            <kanji>確</kanji>
-            <chars>か</chars>
+            <inneritem>
+              <kanji>確</kanji>
+              <chars>たし</chars>
+            </inneritem>
+            <inneritem>
+              <chars>か</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1578,7 +1788,10 @@
           <romaji>machi</romaji>
           <itemtext>街</itemtext>
           <inner>
-            <kanji>街</kanji>
+            <inneritem>
+              <kanji>街</kanji>
+              <chars>まち</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1646,8 +1859,13 @@
           <romaji>iko</romaji>
           <itemtext>行こ</itemtext>
           <inner>
-            <kanji>行</kanji>
-            <chars>こ</chars>
+            <inneritem>
+              <kanji>行</kanji>
+              <chars>い</chars>
+            </inneritem>
+            <inneritem>
+              <chars>こ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1677,8 +1895,13 @@
           <romaji>yasuma</romaji>
           <itemtext>休ま</itemtext>
           <inner>
-            <kanji>休</kanji>
-            <chars>ま</chars>
+            <inneritem>
+              <kanji>休</kanji>
+              <chars>やす</chars>
+            </inneritem>
+            <inneritem>
+              <chars>ま</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1714,8 +1937,13 @@
           <romaji>tasuke</romaji>
           <itemtext>助け</itemtext>
           <inner>
-            <kanji>助</kanji>
-            <chars>け</chars>
+            <inneritem>
+              <kanji>助</kanji>
+              <chars>たす</chars>
+            </inneritem>
+            <inneritem>
+              <chars>け</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1749,7 +1977,10 @@
           <romaji>kiteki</romaji>
           <itemtext>汽笛</itemtext>
           <inner>
-            <kanji>汽笛</kanji>
+            <inneritem>
+              <kanji>汽笛</kanji>
+              <chars>きてき</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1780,7 +2011,10 @@
           <romaji>hassya</romaji>
           <itemtext>発車</itemtext>
           <inner>
-            <kanji>発車</kanji>
+            <inneritem>
+              <kanji>発車</kanji>
+              <chars>はっしゃ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1874,7 +2108,10 @@
           <romaji>machi</romaji>
           <itemtext>街</itemtext>
           <inner>
-            <kanji>街</kanji>
+            <inneritem>
+              <kanji>街</kanji>
+              <chars>まち</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1891,7 +2128,10 @@
           <romaji>mahō</romaji>
           <itemtext>魔法</itemtext>
           <inner>
-            <kanji>魔法</kanji>
+            <inneritem>
+              <kanji>魔法</kanji>
+              <chars>まほう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1900,7 +2140,10 @@
           <romaji>ya</romaji>
           <itemtext>屋</itemtext>
           <inner>
-            <kanji>屋</kanji>
+            <inneritem>
+              <kanji>屋</kanji>
+              <chars>や</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1909,7 +2152,10 @@
           <romaji>ichi</romaji>
           <itemtext>１</itemtext>
           <inner>
-            <kanji>１</kanji>
+            <inneritem>
+              <kanji>１</kanji>
+              <chars>いち</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1918,7 +2164,10 @@
           <romaji>ken</romaji>
           <itemtext>軒</itemtext>
           <inner>
-            <kanji>軒</kanji>
+            <inneritem>
+              <kanji>軒</kanji>
+              <chars>けん</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1976,7 +2225,10 @@
           <romaji>mahō</romaji>
           <itemtext>魔法</itemtext>
           <inner>
-            <kanji>魔法</kanji>
+            <inneritem>
+              <kanji>魔法</kanji>
+              <chars>まほう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -1993,7 +2245,10 @@
           <romaji>gyogyō</romaji>
           <itemtext>漁業</itemtext>
           <inner>
-            <kanji>漁業</kanji>
+            <inneritem>
+              <kanji>漁業</kanji>
+              <chars>ぎょぎょう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2007,8 +2262,13 @@
           <romaji>sakan</romaji>
           <itemtext>盛ん</itemtext>
           <inner>
-            <kanji>盛</kanji>
-            <chars>ん</chars>
+            <inneritem>
+              <kanji>盛</kanji>
+              <chars>さか</chars>
+            </inneritem>
+            <inneritem>
+              <chars>ん</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2022,7 +2282,10 @@
           <romaji>machi</romaji>
           <itemtext>街</itemtext>
           <inner>
-            <kanji>街</kanji>
+            <inneritem>
+              <kanji>街</kanji>
+              <chars>まち</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2063,7 +2326,10 @@
           <romaji>machi</romaji>
           <itemtext>街</itemtext>
           <inner>
-            <kanji>街</kanji>
+            <inneritem>
+              <kanji>街</kanji>
+              <chars>まち</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2077,7 +2343,10 @@
           <romaji>mono</romaji>
           <itemtext>者</itemtext>
           <inner>
-            <kanji>者</kanji>
+            <inneritem>
+              <kanji>者</kanji>
+              <chars>もの</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2094,7 +2363,10 @@
           <romaji>mahō</romaji>
           <itemtext>魔法</itemtext>
           <inner>
-            <kanji>魔法</kanji>
+            <inneritem>
+              <kanji>魔法</kanji>
+              <chars>まほう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2108,8 +2380,13 @@
           <romaji>tsukaeru</romaji>
           <itemtext>使える</itemtext>
           <inner>
-            <kanji>使</kanji>
-            <chars>える</chars>
+            <inneritem>
+              <kanji>使</kanji>
+              <chars>つか</chars>
+            </inneritem>
+            <inneritem>
+              <chars>える</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2131,7 +2408,10 @@
           <romaji>ichi</romaji>
           <itemtext>１</itemtext>
           <inner>
-            <kanji>１</kanji>
+            <inneritem>
+              <kanji>１</kanji>
+              <chars>いち</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2140,7 +2420,10 @@
           <romaji>wari</romaji>
           <itemtext>割</itemtext>
           <inner>
-            <kanji>割</kanji>
+            <inneritem>
+              <kanji>割</kanji>
+              <chars>わり</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2191,7 +2474,10 @@
           <romaji>mise</romaji>
           <itemtext>店</itemtext>
           <inner>
-            <kanji>店</kanji>
+            <inneritem>
+              <kanji>店</kanji>
+              <chars>みせ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2216,7 +2502,10 @@
           <romaji>tabi</romaji>
           <itemtext>旅</itemtext>
           <inner>
-            <kanji>旅</kanji>
+            <inneritem>
+              <kanji>旅</kanji>
+              <chars>たび</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2230,7 +2519,10 @@
           <romaji>ma</romaji>
           <itemtext>魔</itemtext>
           <inner>
-            <kanji>魔</kanji>
+            <inneritem>
+              <kanji>魔</kanji>
+              <chars>ま</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2239,7 +2531,10 @@
           <romaji>shirube</romaji>
           <itemtext>導</itemtext>
           <inner>
-            <kanji>導</kanji>
+            <inneritem>
+              <kanji>導</kanji>
+              <chars>しるべ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2248,7 +2543,10 @@
           <romaji>shi</romaji>
           <itemtext>士</itemtext>
           <inner>
-            <kanji>士</kanji>
+            <inneritem>
+              <kanji>士</kanji>
+              <chars>し</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2260,7 +2558,10 @@
           <romaji>semmon</romaji>
           <itemtext>専門</itemtext>
           <inner>
-            <kanji>専門</kanji>
+            <inneritem>
+              <kanji>専門</kanji>
+              <chars>せんもん</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2321,7 +2622,10 @@
           <romaji>ashi</romaji>
           <itemtext>足</itemtext>
           <inner>
-            <kanji>足</kanji>
+            <inneritem>
+              <kanji>足</kanji>
+              <chars>あし</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2390,8 +2694,13 @@
           <romaji>iwa</romaji>
           <itemtext>言わ</itemtext>
           <inner>
-            <kanji>言</kanji>
-            <chars>わ</chars>
+            <inneritem>
+              <kanji>言</kanji>
+              <chars>い</chars>
+            </inneritem>
+            <inneritem>
+              <chars>わ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2410,7 +2719,10 @@
           <romaji>mi</romaji>
           <itemtext>見</itemtext>
           <inner>
-            <kanji>見</kanji>
+            <inneritem>
+              <kanji>見</kanji>
+              <chars>み</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2466,7 +2778,10 @@
           <romaji>shin</romaji>
           <itemtext>新</itemtext>
           <inner>
-            <kanji>新</kanji>
+            <inneritem>
+              <kanji>新</kanji>
+              <chars>しん</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2475,7 +2790,10 @@
           <romaji>syōhin</romaji>
           <itemtext>商品</itemtext>
           <inner>
-            <kanji>商品</kanji>
+            <inneritem>
+              <kanji>商品</kanji>
+              <chars>しょうひん</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2497,8 +2815,13 @@
           <romaji>soro</romaji>
           <itemtext>揃っ</itemtext>
           <inner>
-            <kanji>揃</kanji>
-            <chars>っ</chars>
+            <inneritem>
+              <kanji>揃</kanji>
+              <chars>そろ</chars>
+            </inneritem>
+            <inneritem>
+              <chars>っ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2539,9 +2862,17 @@
           <romaji>onnanoko</romaji>
           <itemtext>女の子</itemtext>
           <inner>
-            <kanji>女</kanji>
-            <chars>の</chars>
-            <kanji>子</kanji>
+            <inneritem>
+              <kanji>女</kanji>
+              <chars>おんな</chars>
+            </inneritem>
+            <inneritem>
+              <chars>の</chars>
+            </inneritem>
+            <inneritem>
+              <kanji>子</kanji>
+              <chars>こ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2555,7 +2886,10 @@
           <romaji>ninki</romaji>
           <itemtext>人気</itemtext>
           <inner>
-            <kanji>人気</kanji>
+            <inneritem>
+              <kanji>人気</kanji>
+              <chars>にんき</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2596,7 +2930,10 @@
           <romaji>mahō</romaji>
           <itemtext>魔法</itemtext>
           <inner>
-            <kanji>魔法</kanji>
+            <inneritem>
+              <kanji>魔法</kanji>
+              <chars>まほう</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2647,7 +2984,10 @@
           <romaji>hi</romaji>
           <itemtext>日</itemtext>
           <inner>
-            <kanji>日</kanji>
+            <inneritem>
+              <kanji>日</kanji>
+              <chars>ひ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2661,7 +3001,10 @@
           <romaji>kibun</romaji>
           <itemtext>気分</itemtext>
           <inner>
-            <kanji>気分</kanji>
+            <inneritem>
+              <kanji>気分</kanji>
+              <chars>きぶん</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2675,8 +3018,13 @@
           <romaji>awase</romaji>
           <itemtext>合わせ</itemtext>
           <inner>
-            <kanji>合</kanji>
-            <chars>わせ</chars>
+            <inneritem>
+              <kanji>合</kanji>
+              <chars>あ</chars>
+            </inneritem>
+            <inneritem>
+              <chars>わせ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2693,7 +3041,10 @@
           <romaji>fuku</romaji>
           <itemtext>服</itemtext>
           <inner>
-            <kanji>服</kanji>
+            <inneritem>
+              <kanji>服</kanji>
+              <chars>ふく</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2707,7 +3058,10 @@
           <romaji>iro</romaji>
           <itemtext>色</itemtext>
           <inner>
-            <kanji>色</kanji>
+            <inneritem>
+              <kanji>色</kanji>
+              <chars>いろ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2785,8 +3139,13 @@
           <romaji>mo</romaji>
           <itemtext>持っ</itemtext>
           <inner>
-            <kanji>持</kanji>
-            <chars>っ</chars>
+            <inneritem>
+              <kanji>持</kanji>
+              <chars>も</chars>
+            </inneritem>
+            <inneritem>
+              <chars>っ</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2808,7 +3167,10 @@
           <romaji>watashi</romaji>
           <itemtext>私</itemtext>
           <inner>
-            <kanji>私</kanji>
+            <inneritem>
+              <kanji>私</kanji>
+              <chars>わたし</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2845,7 +3207,10 @@
           <romaji>kyōryoku</romaji>
           <itemtext>強力</itemtext>
           <inner>
-            <kanji>強力</kanji>
+            <inneritem>
+              <kanji>強力</kanji>
+              <chars>きょうりょく</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2863,8 +3228,13 @@
           <romaji>sagashi</romaji>
           <itemtext>探し</itemtext>
           <inner>
-            <kanji>探</kanji>
-            <chars>し</chars>
+            <inneritem>
+              <kanji>探</kanji>
+              <chars>さが</chars>
+            </inneritem>
+            <inneritem>
+              <chars>し</chars>
+            </inneritem>
           </inner>
         </item>
         <item>
@@ -2918,8 +3288,13 @@
           <romaji>mezurashī</romaji>
           <itemtext>珍しい</itemtext>
           <inner>
-            <kanji>珍</kanji>
-            <chars>しい</chars>
+            <inneritem>
+              <kanji>珍</kanji>
+              <chars>めずら</chars>
+            </inneritem>
+            <inneritem>
+              <chars>しい</chars>
+            </inneritem>
           </inner>
         </item>
         <item>

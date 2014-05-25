@@ -4,8 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="description"
 	content="SourceForge presents the easyjasub project. easyjasub is an open source application. easyjasub is a tool to add furigana and in-line translation to japanese subtitles, for language learning." />
-<meta name="keywords"
-	content="easyjasub, Japanese, furigana, subtitles" />
+<meta name="keywords" content="easyjasub, Japanese, furigana, subtitles" />
 <title>SourceForge.net: easyjasub</title>
 <style type="text/css">
 body {
@@ -88,7 +87,7 @@ table.sample {
 
 tr.top {
 	letter-spacing: -2px;
-	font-family: cinecaption, GT2000-01, arial;
+	font-family: cinecaption, arial;
 	font-size: 18pt;
 }
 
@@ -99,7 +98,7 @@ tr.bottom {
 }
 
 tr.center {
-	font-family: cinecaption, GT2000-01, arial;
+	font-family: cinecaption, arial;
 	font-size: 25pt;
 	padding-left: 2px;
 	padding-right: 2px;
@@ -118,7 +117,7 @@ td.sample {
 
 span.kk {
 	letter-spacing: -6px;
-	font-family: GT2000-01, cinecaption, arial;
+	font-family: cinecaption, arial;
 	font-size: 40pt;
 	margin-left: 0;
 	margin-right: 0;
@@ -146,7 +145,9 @@ span.kk {
 				opening a new ticket</a>
 		</p>
 		<p>
-		 	Visit <a href="http://easyjasub.wordpress.com">the project blog</a> to get support and discuss about the easyjasub tool usage and development.
+			Visit <a href="http://easyjasub.wordpress.com">the project blog</a>
+			to get support and discuss about the easyjasub tool usage and
+			development.
 		</p>
 
 		<p>The result of the automatic parsing of Japanese is not always
@@ -193,30 +194,21 @@ span.kk {
 				from <a href="http://java.com">Java.com</a> if your OS does not
 				provide a standard installation
 			</li>
-			<li><a href="https://github.com/mjuhasz/BDSup2Sub">BDSup2Sub</a>
-				is useful to convert easyjasub output (Sony BDN XML) to a format
-				usable by your video player: it can convert subtitles in Blu-Ray
-				SUP, VobSub (SUB/IDX) and DVD-SUP (SUP/IFO) format. The application
-				does not use this directly but you probably need it, most of video
-				players available can only visualize SUB/IDX subtitles.
-				There are many web sites where you can download it, for example <a href="http://www.softpedia.com/get/Multimedia/Video/Other-VIDEO-Tools/BDSup2Sub.shtml">softpedia.com</a></li>
 			<li><a href="http://wkhtmltopdf.org/">wkhtmltoimage</a> is used
 				to create the pictures from HTML files, if it is not available the
-				quality of rendering of subtitles may decrease</li>
+				quality of rendering of subtitles may decrease as there won't be
+				support for rendering the HTML5 ruby tag. Please install this in its
+				default installation directory.</li>
 			<li><a href="http://chiphead.jp/font/htm/cinecaption.htm">Cinecaption
 					font</a> from <a href="http://chiphead.jp">Chiphead</a> is used to
-				render Hiragana</li>
-			<li><a href="http://www.l.u-tokyo.ac.jp/GT/downloads.html">GT200001
-					font</a> from <a href="http://www.l.u-tokyo.ac.jp">University of
-					Tokio Faculty of Letters</a> is used to render Kanjii</li>
+				render text, see <a href="kana.png">this image</a> for a sample of
+				this font, you can also directly <a href="kana.html">see the
+					sample image picture HTML</a></li>
 		</ul>
-		<p>Not everything in the above list is mandatory but please try to
-			install all in their respective default installation directory, you
-			may face issues with the tool otherwise.</p>
 
 		<p>Subtitles are rendered as HTML pages, below you can see an
-			example text that you can use to verify that you have Cinecaption and
-			GT200001 fonts available</p>
+			example text that you can use to verify that you have Cinecaption
+			fonts available</p>
 
 		<table class="sample">
 			<tr class="top">
@@ -238,6 +230,15 @@ span.kk {
 				<td class="sample">。</td>
 			</tr>
 		</table>
+
+		<p>
+			<a href="https://github.com/mjuhasz/BDSup2Sub">BDSup2Sub</a> is used
+			to convert easyjasub intermediate output (Sony BDN XML) to DivX
+			subtitles (SUB/IDX), you can install and use it separately to convert
+			subtitles in Blu-Ray SUP or DVD-SUP (SUP/IFO) format. There are many
+			web sites where you can download it, for example <a
+				href="http://www.softpedia.com/get/Multimedia/Video/Other-VIDEO-Tools/BDSup2Sub.shtml">softpedia.com</a>
+		</p>
 
 		<p>
 			The <a href="http://rendersnake.org">rendersnake</a> Java library is
@@ -297,9 +298,9 @@ span.kk {
 			produced. The tool does not overwrite files already existing but uses
 			them.</p>
 
-		<p>wkhtmltoimage is searched in its default
-			installation folder, if it is not found you can use option
-			-wk to specify the full path to the executable.</p>
+		<p>wkhtmltoimage is searched in its default installation folder,
+			if it is not found you can use option -wk to specify the full path to
+			the executable.</p>
 		<pre>java -jar easyjasub-cmd.jar -ja subtitle.ja.srt -tr subtitle.en.srt -wk /usr/local/bin/wkhtmltoimage</pre>
 		<pre>easyjasub.exe -ja subtitle.ja.srt -tr subtitle.en.srt -wk D:\wkhtmltopdf\bin\wkhtmltoimage.exe</pre>
 		<p>You can customize the elements displayed in subtitles, for
@@ -321,60 +322,21 @@ span.kk {
 			And here a sample without Kanji <img src="sample11.png"
 				alt="Sample easyjasub subtitle picture" />
 		</p>
-		
+
 		<h2>Using JMdict</h2>
-		<p>easyjasub can use a JMdict (<a href="http://www.edrdg.org/jmdict/j_jmdict.html">http://www.edrdg.org</a>)
-		file to add a rough in-line translation of Japanese words, you can enable dictionary usage with the 
-		following options:</p>
+		<p>
+			easyjasub can use a JMdict (<a
+				href="http://www.edrdg.org/jmdict/j_jmdict.html">http://www.edrdg.org</a>)
+			file to add a rough in-line translation of Japanese words, you can
+			enable dictionary usage with the following options:
+		</p>
 		<ul>
 			<li>-d enabled: Enables dictionary in-word translation</li>
 			<li>--jmdict file: Reads file as a JMdict dictionary file</li>
 		</ul>
-		You need to download locally on your system a JMdict file. 
-		Only English is supported for the dictionary translation.
-		 
-		<h2>Using MeCab</h2>
+		You need to download locally on your system a JMdict file. Only
+		English is supported for the dictionary translation.
 
-		<p>Starting from version 0.3, easyjasub uses <a href="http://www.atilika.org/">Lucene Kuromoji Analyzer</a> 
-			for parsing Japanese text, but if you want you use
-			<a href="https://code.google.com/p/mecab">MeCab</a> tool, you can download it
-				from <a href=" https://code.google.com/p/mecab/downloads/list">MeCab
-					on Google Code download page</a>. Be sure you select UTF-8 usage.</p>
-
-		<p>MeCab is searched in its default
-			installation folder, if not found you can use option -mc
-			to specify the full path to the executable.</p>
-		<pre>java -jar easyjasub-cmd.jar -ja subtitle.ja.srt -tr subtitle.en.srt -mc /opt/mecab/mecab</pre>
-		<pre>easyjasub.exe -ja subtitle.ja.srt -tr subtitle.en.srt -mc D:\MeCab\bin\mecab.exe</pre>
-
-		<h2>Using online converter</h2>
-		<p>
-			Alternatively to MeCab, you can use the online Kanji Converter
-			available at <a href="http://nihongo.j-talk.com/">nihongo.j-talk.com</a>.
-			You need to manually use the Kanji Converter website:
-		</p>
-		<ul>
-			<li>Run easyjasub once, it will produce a text file (.txt) with
-				the content of Japanese subtitles, open it and copy the content to
-				the clipboard</li>
-			<li>Point your browser to the Kanji Converter, paste the content
-				of the text file and select conversion to Hiragana</li>
-			<li>Run the conversion and save the web page you obtain as an
-				HTML file</li>
-			<li>Run again easyjasub with -nj option followed by the HTML
-				file name path</li>
-		</ul>
-		<p>
-			With the online converter you get an automatic translation for some
-			of the words <img src="sample0.png"
-				alt="Sample easyjasub subtitle picture" />
-		</p>
-		<p>
-			Kanji Converter internally uses <a
-				href="http://sourceforge.jp/projects/chasen-legacy/">ChaSen</a>, the
-			accuracy of Japanese parsing may be different than the one you obtain
-			using MeCab or Lucene.
-		</p>
 		<h2>Advanced usage</h2>
 		<p>easyjasub has many options to tune subtitles generation, run it
 			with -h option to view them. Many options, if left unspecified, gets

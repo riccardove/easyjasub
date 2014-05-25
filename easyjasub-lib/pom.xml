@@ -85,6 +85,12 @@
 			<artifactId>stringtemplate</artifactId>
 			<version>${easyjasub.stringtemplate.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>net.sf.cssbox</groupId>
+			<artifactId>cssbox</artifactId>
+			<version>4.5</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<url>http://easyjasub.sourceforge.net</url>

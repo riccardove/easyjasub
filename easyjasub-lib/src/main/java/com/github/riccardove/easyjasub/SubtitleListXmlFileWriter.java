@@ -58,8 +58,10 @@ class SubtitleListXmlFileWriter {
 					if (item.getElements() != null) {
 						groupOpen(SubtitleListXmlElement.inner);
 						for (Inner inner : item.getElements()) {
+							groupOpen(SubtitleListXmlElement.inneritem);
 							tag(SubtitleListXmlElement.kanji, inner.getKanji());
 							tag(SubtitleListXmlElement.chars, inner.getText());
+							groupClose(SubtitleListXmlElement.inneritem);
 						}
 						groupClose(SubtitleListXmlElement.inner);
 					}

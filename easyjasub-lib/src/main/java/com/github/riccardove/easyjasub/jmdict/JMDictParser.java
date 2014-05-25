@@ -56,7 +56,11 @@ public class JMDictParser {
 				new EasyJaSubXmlHandlerAdapter<JMDictXmlElement>(
 						JMDictXmlElement.undef, JMDictXmlElement.values(),
 						new JMDictXmlHandler(observer, threeLetterlanguageCode)));
-		reader.setEntityExpansionLimit(12800000);
+		try {
+			reader.setEntityExpansionLimit(12800000);
+		} catch (Exception ex) {
+			// ignores errors due to setting that property
+		}
 		return reader;
 	}
 }

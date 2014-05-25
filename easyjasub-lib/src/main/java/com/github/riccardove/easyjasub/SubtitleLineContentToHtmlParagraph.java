@@ -20,10 +20,10 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.IOException;
 import java.util.List;
 
+import com.github.riccardove.easyjasub.SubtitleItem.Inner;
 import com.github.riccardove.easyjasub.rendersnake.RendersnakeHtmlCanvas;
 
 class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
@@ -127,20 +127,27 @@ class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
 				}
 			}
 		} else if (hasFurigana || hasRomaji || hasDictionary) {
-			html.ruby(item.getPartOfSpeech());
 			if (hasFurigana) {
-				// TODO: sometimes furigana may be limited to some kanji part of
-				// the word
-				appendElements(html, elements);
-				html.rt(item.getFurigana());
+				if (allKanjiElementsHaveFurigana(elements)) {
+					appendFuriganaElements(html, elements,
+							item.getPartOfSpeech());
+				} else {
+					html.ruby(item.getPartOfSpeech());
+					appendElements(html, elements);
+					html.rt(item.getFurigana());
+					html._ruby();
+				}
 			} else if (hasRomaji) {
+				html.ruby(item.getPartOfSpeech());
 				appendElements(html, elements);
 				html.rt(item.getRomaji());
+				html._ruby();
 			} else {
+				html.ruby(item.getPartOfSpeech());
 				appendElements(html, elements);
 				html.rt(item.getDictionary());
+				html._ruby();
 			}
-			html._ruby();
 		} else {
 			html.span(item.getPartOfSpeech());
 			appendElements(html, elements);
@@ -149,6 +156,15 @@ class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
 		if (addSpacing) {
 			html.newline();
 		}
+	}
+
+	private boolean allKanjiElementsHaveFurigana(List<Inner> elements) {
+		for (Inner element : elements) {
+			if (element.getKanji() != null && element.getText() == null) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private void appendRuby(RendersnakeHtmlCanvas html, String grammar,

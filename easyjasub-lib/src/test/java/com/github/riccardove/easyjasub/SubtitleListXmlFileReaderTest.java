@@ -25,9 +25,9 @@ public class SubtitleListXmlFileReaderTest extends EasyJaSubTestCase {
 
 	public void testSample() throws Exception {
 		SubtitleList list = new SubtitleList();
-		new SubtitleListXmlFileReader(list).read(getSampleFile("sample1.xml"));
+		new SubtitleListXmlFileReader(list)
+				.read(getSampleFile("sample1.easyjasub"));
 
-		assertEquals("Beginning", list.getTitle());
 		assertEquals(49, list.size());
 		assertEquals("The Kingdom of Fiore... ", list.get(0).getTranslation()
 				.get(0).getText());
