@@ -50,64 +50,71 @@ public class SubtitleLineToHtmlTest extends EasyJaSubTestCase {
 
 	private static String toHtml(SubtitleLine line, boolean isSingleLine,
 			boolean hasFurigana, boolean hasRomaji, boolean hasDictionary,
-			boolean hasKanji, boolean showTranslation) throws Exception {
-		return new SubtitleLineToHtml(isSingleLine, hasFurigana, hasRomaji,
+			boolean hasKanji, boolean showTranslation, boolean hasRuby) throws Exception {
+		return new SubtitleLineToHtml(isSingleLine, hasRuby, hasFurigana,
+				hasRomaji,
 				hasDictionary, hasKanji, showTranslation).toHtml(line, Css);
 	}
 
 	public void testDefault() throws Exception {
 		runTestOnSample("default", "sample1", sample1List, true, true, false,
-				false, true, true);
+				false, true, true, true);
 	}
 
 	public void testTableFormatDefault() throws Exception {
 		runTestOnSample("defaulttable", "sample1", sample1List, false, true,
-				false, false, true, true);
+				false, false, true, true, true);
+	}
+
+	public void testTableFormatNoRuby() throws Exception {
+		runTestOnSample("norubytable", "sample1", sample1List, false, true,
+				false, false, true, true, false);
 	}
 
 	public void testTableFormatNoFurigana() throws Exception {
 		runTestOnSample("nofuriganatable", "sample1", sample1List, false, false,
-				false, false, true, true);
+ false, false, true, true, true);
 	}
 
 	public void testTableFormatRomaji() throws Exception {
 		runTestOnSample("romajitable", "sample1", sample1List, false, false,
-				true, false, true, true);
+				true, false, true, true, true);
 	}
 
 	public void testAddRomaji() throws Exception {
 		runTestOnSample("addromaji", "sample1", sample1List, false, true, true,
-				false, true, true);
+				false, true, true, true);
 	}
 
 	public void testRomaji() throws Exception {
 		runTestOnSample("romaji", "sample1", sample1List, true, false, true,
-				false, true, true);
+				false, true, true, true);
 	}
 
 	public void testOnlyRomaji() throws Exception {
 		runTestOnSample("onlyromaji", "sample1", sample1List, true, false,
-				true, false, false, true);
+				true, false, false, true, true);
 	}
 
 	public void testOnlyFurigana() throws Exception {
 		runTestOnSample("onlyfurigana", "sample1", sample1List, true, true,
 				false,
-				false, false, true);
+ false, false, true, true);
 	}
 
 	public void testFuriganaAndRomaji() throws Exception {
 		runTestOnSample("furiganaromaji", "sample1", sample1List, true, true,
-				true, false, false, true);
+				true, false, false, true, true);
 	}
 
 	private void runTestOnSample(String name, String sample, SubtitleList list,
 			boolean isSingleLine, boolean hasFurigana, boolean hasRomaji,
-			boolean hasDictionary, boolean hasKanji, boolean showTranslation) throws Exception {
+			boolean hasDictionary, boolean hasKanji, boolean showTranslation,
+			boolean hasRuby) throws Exception {
 		File directory = getSampleHtmlOutputDirectory(name, sample);
 		for (SubtitleLine line : list) {
 			String html = toHtml(line, isSingleLine, hasFurigana, hasRomaji,
-					hasDictionary, hasKanji, showTranslation);
+					hasDictionary, hasKanji, showTranslation, hasRuby);
 
 			String fileName = "line" + String.format("%04d", line.getIndex())
 					+ ".html";

@@ -48,6 +48,7 @@ class SubtitleListToPictureSubtitleList {
 		for (SubtitleLine l : s) {
 			++index;
 			String htmlStr = new SubtitleLineToHtml(command.isSingleLine(),
+					command.getWkHtmlToImageCommand() != null,
 					command.showFurigana(), command.showRomaji(),
 					command.showDictionary(), command.showKanji(),
 					command.showTranslation()).toHtml(l, cssFileUrl);

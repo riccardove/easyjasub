@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.List;
 
 import com.github.riccardove.easyjasub.SubtitleItem.Inner;
-import com.github.riccardove.easyjasub.commons.CommonsLangStringUtils;
 import com.github.riccardove.easyjasub.rendersnake.RendersnakeHtmlCanvas;
 
 abstract class SubtitleLineContentToHtmlBase {
@@ -52,8 +51,7 @@ abstract class SubtitleLineContentToHtmlBase {
 	 * Appends furigana only over relevant Kanji item
 	 */
 	protected void appendFuriganaElements(RendersnakeHtmlCanvas html,
-			List<Inner> elements, String styleClass) throws IOException {
-		html.span(styleClass);
+			List<Inner> elements) throws IOException {
 		for (SubtitleItem.Inner element : elements) {
 			String kanji = element.getKanji();
 			if (kanji != null) {
@@ -65,7 +63,6 @@ abstract class SubtitleLineContentToHtmlBase {
 				html.write(element.getText());
 			}
 		}
-		html._span();
 	}
 
 	protected void appendText(RendersnakeHtmlCanvas html, String text)
@@ -94,11 +91,7 @@ abstract class SubtitleLineContentToHtmlBase {
 	}
 
 	private String normalizeText(String text) {
-		return CommonsLangStringUtils
-				.replaceChars(
-						text,
-						"０１２３４５６７８９ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ，．：；？！´｀¨＾～＜＞",
-						"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz,.:;?!'`¨＾~<>");
+		return JapaneseChar.normalizeText(text);
 	}
 
 	private boolean isSymbolicPartOfSpeech(String pos) {

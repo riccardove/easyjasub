@@ -21,5 +21,5 @@ package com.github.riccardove.easyjasub;
  */
 
 public enum EasyJaSubInputOption {
-	video, japanesesub, translatedsub, translation, romaji, dictionary, furigana, kanji, trsublang, outputtext, cssstyle, outputidx, outputhtml, outputbdmxml, wkhtmltoimage, height, width, matchdiff, approxdiff, selectlines, quiet, verbose, help, home, jmdict,
+	video, japanesesub, translatedsub, translation, romaji, dictionary, furigana, kanji, trsublang, outputtext, cssstyle, outputidx, outputhtml, outputbdmxml, wkhtmltoimage, height, width, matchdiff, approxdiff, selectlines, quiet, verbose, help, home, jmdict, font,
 }

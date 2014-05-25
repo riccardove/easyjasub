@@ -41,11 +41,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.ccil.cowan.tagsoup</groupId>
-			<artifactId>tagsoup</artifactId>
-			<version>${easyjasub.tagsoup.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.rendersnake</groupId>
 			<artifactId>rendersnake</artifactId>
 			<version>${easyjasub.rendersnake.version}</version>

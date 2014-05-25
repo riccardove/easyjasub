@@ -34,11 +34,13 @@ class SubtitleLineToHtml {
 	private final boolean hasKanji;
 	private final boolean hasRomaji;
 	private final boolean showTranslation;
+	private final boolean hasRuby;
 
-	public SubtitleLineToHtml(boolean isSingleLine, boolean hasFurigana,
-			boolean hasRomaji, boolean hasDictionary, boolean hasKanji,
-			boolean showTranslation) {
+	public SubtitleLineToHtml(boolean isSingleLine, boolean hasRuby,
+			boolean hasFurigana, boolean hasRomaji, boolean hasDictionary,
+			boolean hasKanji, boolean showTranslation) {
 		this.isSingleLine = isSingleLine;
+		this.hasRuby = hasRuby;
 		this.hasFurigana = hasFurigana;
 		this.hasRomaji = hasRomaji;
 		this.hasDictionary = hasDictionary;
@@ -85,7 +87,7 @@ class SubtitleLineToHtml {
 						hasFurigana, hasRomaji, hasDictionary, hasKanji);
 			} else {
 				itemsWriter = new SubtitleLineContentToHtmlTable(hasFurigana,
-						hasRomaji, hasDictionary, hasKanji);
+						hasRomaji, hasDictionary, hasKanji, hasRuby);
 			}
 			itemsWriter.appendItems(html, items);
 		} else {

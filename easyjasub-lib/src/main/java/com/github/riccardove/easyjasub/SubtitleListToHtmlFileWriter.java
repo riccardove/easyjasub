@@ -13,6 +13,7 @@ class SubtitleListToHtmlFileWriter {
 				.toRelativeURIStr(htmlDirectory) : "default.css";
 
 		String htmlStr = new SubtitleLineToHtml(command.isSingleLine(),
+				command.getWkHtmlToImageCommand() != null,
 				command.showFurigana(), command.showRomaji(),
 				command.showDictionary(), command.showKanji(),
 				command.showTranslation()).toHtml(list, cssFileUrl);

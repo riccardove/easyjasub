@@ -129,8 +129,9 @@ class SubtitleLineContentToHtmlParagraph extends SubtitleLineContentToHtmlBase {
 		} else if (hasFurigana || hasRomaji || hasDictionary) {
 			if (hasFurigana) {
 				if (allKanjiElementsHaveFurigana(elements)) {
-					appendFuriganaElements(html, elements,
-							item.getPartOfSpeech());
+					html.span(item.getPartOfSpeech());
+					appendFuriganaElements(html, elements);
+					html._span();
 				} else {
 					html.ruby(item.getPartOfSpeech());
 					appendElements(html, elements);

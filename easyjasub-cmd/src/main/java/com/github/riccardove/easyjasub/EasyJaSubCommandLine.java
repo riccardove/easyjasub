@@ -89,6 +89,7 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 				"approx-diff", "milliseconds");
 		list.addOption(EasyJaSubInputOption.selectlines, SELECT,
 				"select-lines", "n-m");
+		list.addOption(EasyJaSubInputOption.font, "fn", "font", "name");
 		list.addOption(EasyJaSubInputOption.quiet, QUIET, "quiet");
 		list.addOption(EasyJaSubInputOption.verbose, VERBOSE, "verbose");
 		list.addOption(EasyJaSubInputOption.help, HELP, "help");
@@ -234,6 +235,8 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 			selectLines = list.getOptionValue(EasyJaSubInputOption.selectlines);
 			home = list.getOptionValue(EasyJaSubInputOption.home);
 			jmdict = list.getOptionValue(EasyJaSubInputOption.jmdict);
+			cssHiraganaFont = cssKanjiFont = list
+					.getOptionValue(EasyJaSubInputOption.font);
 			if (list.hasOption(EasyJaSubInputOption.verbose)) {
 				verbose = 1;
 			} else if (list.hasOption(EasyJaSubInputOption.quiet)) {

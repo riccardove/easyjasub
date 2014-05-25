@@ -83,4 +83,17 @@ public final class JapaneseChar {
 
 		return CommonsLangStringUtils.charListToString(japaneseChars);
 	}
+
+	public static boolean isNumber(char c) {
+		return "0123456789０１２３４５６７８９".indexOf(c) >= 0;
+	}
+
+	public static String normalizeText(String text) {
+		return CommonsLangStringUtils
+				.replaceChars(
+						text,
+						"０１２３４５６７８９ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ，．：；？！´｀¨＾～＜＞",
+						"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz,.:;?!'`¨＾~<>");
+	}
+
 }

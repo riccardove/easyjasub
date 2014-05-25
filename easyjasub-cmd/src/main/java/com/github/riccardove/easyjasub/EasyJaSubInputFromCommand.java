@@ -521,9 +521,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		height = getDimension("height", command.getHeight(), 720);
 		width = getDimension("width", command.getWidth(), 1280);
 		defaultFileNamePrefix = defaultFileList.getDefaultFileNamePrefix();
-		cssHiraganaFont = getFont(command.getCssHiraganaFont(),
-				"cinecaption,arial");
-		cssKanjiFont = getFont(command.getCssKanjiFont(), "cinecaption,arial"); // GT2000-01
+		cssHiraganaFont = getFont(command.getCssHiraganaFont(), "arial");
+		cssKanjiFont = getFont(command.getCssKanjiFont(), "arial");
 		cssTranslationFont = getFont(command.getCssTranslationFont(), "arial");
 		jmDictFile = getJMDictFile(homeDir, command.getJMDictFileName());
 		showTranslation = getShowTranslation(command.getShowTranslation(),
@@ -550,8 +549,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		} else {
 			dir = defaultFileList.getDefaultDirectory();
 		}
-		return new File(dir,
-				defaultFileList.getDefaultFileNamePrefix() + ".html");
+		return new File(dir, defaultFileList.getDefaultFileNamePrefix()
+				+ ".html");
 	}
 
 	private EasyJaSubCmdHomeDir getHomeDir(String directoryName)

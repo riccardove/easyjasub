@@ -32,32 +32,38 @@ class SubtitleLineContentToHtmlTable extends SubtitleLineContentToHtmlBase {
 	private final boolean hasDictionary;
 	private final boolean hasKanji;
 	private final boolean hasRomaji;
+	private final boolean hasRuby;
 
 	public SubtitleLineContentToHtmlTable(boolean hasFurigana,
-			boolean hasRomaji, boolean hasDictionary, boolean hasKanji) {
+			boolean hasRomaji, boolean hasDictionary, boolean hasKanji,
+			boolean hasRuby) {
 		this.hasFurigana = hasFurigana;
 		this.hasRomaji = hasRomaji;
 		this.hasDictionary = hasDictionary;
 		this.hasKanji = hasKanji;
+		this.hasRuby = hasRuby;
 	}
 
+	@Override
 	public void appendItems(RendersnakeHtmlCanvas html, List<SubtitleItem> items)
 			throws IOException {
 		html.table();
 		html.newline();
-		if (hasFurigana && hasKanji) {
-			html.tr("top");
-			for (SubtitleItem item : items) {
-				html.space();
-				renderFurigana(html, item);
+		if (!hasRuby) {
+			if (hasFurigana && hasKanji) {
+				html.tr("top");
+				for (SubtitleItem item : items) {
+					html.space();
+					renderFurigana(html, item);
+					html.newline();
+				}
+				html._tr();
 				html.newline();
 			}
-			html._tr();
-			html.newline();
 		}
 		html.tr("center");
 		for (SubtitleItem item : items) {
-			renderOnCenter(html, item, hasKanji);
+			renderOnCenter(html, item);
 			html.newline();
 		}
 		html._tr();
@@ -117,8 +123,8 @@ class SubtitleLineContentToHtmlTable extends SubtitleLineContentToHtmlBase {
 
 	}
 
-	private void renderOnCenter(RendersnakeHtmlCanvas html, SubtitleItem item,
-			boolean showKanji) throws IOException {
+	private void renderOnCenter(RendersnakeHtmlCanvas html, SubtitleItem item)
+			throws IOException {
 		html.write("  ");
 		List<SubtitleItem.Inner> elements = item.getElements();
 		String text = item.getText();
@@ -133,9 +139,13 @@ class SubtitleLineContentToHtmlTable extends SubtitleLineContentToHtmlBase {
 			}
 			appendText(html, text);
 			html._td();
-		} else if (showKanji) {
+		} else if (hasKanji) {
 			html.tdOpen(item.getPartOfSpeech());
-			appendElements(html, elements);
+			if (hasRuby && hasFurigana) {
+				appendFuriganaElements(html, elements);
+			} else {
+				appendElements(html, elements);
+			}
 			html._td();
 		} else {
 			html.td(item.getPartOfSpeech(), item.getFurigana());

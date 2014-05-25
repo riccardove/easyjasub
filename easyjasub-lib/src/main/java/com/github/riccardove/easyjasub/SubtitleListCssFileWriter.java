@@ -52,11 +52,11 @@ class SubtitleListCssFileWriter {
 		final int kanjiSize = 40;
 		final int hiraganaSize = kanjiSize / 8 * 5;
 		final int inlineTranslationSize = hiraganaSize / 2;
-		final int furiganaSize = hiraganaSize * 2 / 3;
-		final int translationSize = furiganaSize;
+		final int furiganaSize = hiraganaSize * 4 / 5;
+		final int translationSize = hiraganaSize * 2 / 3;
 		final int lineHeight = (kanjiSize + furiganaSize) + 15;
 		final int kanjiSpacing = -(kanjiSize / 12);
-		final int hiraganaSpacing = -(hiraganaSize / 10);
+		final int hiraganaSpacing = 0; // -(hiraganaSize / 10);
 		w("body {");
 		w("	text-shadow: -" + shadow + "px 0 black, 0 " + shadow + "px black, "
 				+ shadow + "px 0 black, 0 -" + shadow + "px black;");
