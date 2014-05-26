@@ -56,7 +56,7 @@ class SubtitleLineToHtml {
 		return html.toString();
 	}
 
-	private RendersnakeHtmlCanvas createHtmlCanvas(String cssFileRef)
+	public RendersnakeHtmlCanvas createHtmlCanvas(String cssFileRef)
 			throws IOException {
 		RendersnakeHtmlCanvas html = new RendersnakeHtmlCanvas(
 				EasyJaSubWriter.Newline);
@@ -65,19 +65,7 @@ class SubtitleLineToHtml {
 		return html;
 	}
 
-	public String toHtml(SubtitleList list, String cssFileRef)
-			throws IOException {
-		RendersnakeHtmlCanvas html = createHtmlCanvas(cssFileRef);
-		for (SubtitleLine line : list) {
-			html.div();
-			appendHtmlBodyContent(line, html);
-			html._div();
-		}
-		html.footer();
-		return html.toString();
-	}
-
-	private void appendHtmlBodyContent(SubtitleLine s,
+	public void appendHtmlBodyContent(SubtitleLine s,
 			RendersnakeHtmlCanvas html) throws IOException {
 		List<SubtitleItem> items = s.getItems();
 		if (items != null) {
