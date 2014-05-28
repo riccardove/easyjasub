@@ -158,7 +158,7 @@ class EasyJaSubCommandLineApp {
 	}
 
 	private static String toRelativePath(File file, URI baseDirectory) {
-		return file.toURI().relativize(baseDirectory).getPath();
+		return baseDirectory.relativize(file.toURI()).getPath();
 	}
 
 	private static void printFile(PrintWriter outputStream, String message,

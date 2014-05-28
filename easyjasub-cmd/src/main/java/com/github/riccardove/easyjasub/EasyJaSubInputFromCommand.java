@@ -123,7 +123,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static String getExtension(File file) {
-		return FilenameUtils.getExtension(file.getName()).toUpperCase();
+		String ext = FilenameUtils.getExtension(file.getName());
+		return ext != null ? ext.toUpperCase() : null;
 	}
 
 	private static int getInteger(String name, String timeStr,
@@ -282,11 +283,18 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		return file;
 	}
 
-	private static SubtitleFileType getSubtitleFileType(File file) {
+	private static SubtitleFileType getSubtitleFileType(File file)
+			throws EasyJaSubException {
 		if (file == null) {
 			return SubtitleFileType.Undef;
 		}
-		return SubtitleFileType.valueOf(getExtension(file));
+		String extension = getExtension(file);
+		try {
+			return SubtitleFileType.valueOf(extension);
+		} catch (Throwable ex) {
+			throw new EasyJaSubException(
+					"Unrecognized subtitle file extension: " + extension);
+		}
 	}
 
 	private static String getSubtitleLanguageFromFileName(String fileName) {
@@ -299,8 +307,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 	}
 
 	private static File getTranslatedSubFile(EasyJaSubInputCommand command,
-			Iterable<File> defaultFileList, File japaneseSubFile)
-			throws EasyJaSubException {
+			Iterable<File> defaultFileList, File japaneseSubFile,
+			SubtitleFileType japaneseSubFileType) throws EasyJaSubException {
 		String fileName = command.getTranslatedSubFileName();
 		if (isDisabled(fileName)) {
 			return null;
@@ -319,11 +327,14 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 			}
 			return file;
 		}
-		for (File file : defaultFileList) {
-			String extension = getExtension(file);
-			if (!file.equals(japaneseSubFile) && isTextContentType(file)
-					&& isSubExtension(extension)) {
-				return file;
+		if (japaneseSubFileType != SubtitleFileType.TXT) {
+			// by default, no translation when japanese is in text format
+			for (File file : defaultFileList) {
+				String extension = getExtension(file);
+				if (!file.equals(japaneseSubFile) && isTextContentType(file)
+						&& isSubExtension(extension)) {
+					return file;
+				}
 			}
 		}
 		return null;
@@ -501,7 +512,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		japaneseSubFile = getJapaneseSubFile(command, defaultFileList);
 		japaneseSubFileType = getSubtitleFileType(japaneseSubFile);
 		translatedSubFile = getTranslatedSubFile(command, defaultFileList,
-				japaneseSubFile);
+				japaneseSubFile, japaneseSubFileType);
 		translatedSubFileType = getSubtitleFileType(translatedSubFile);
 		translatedSubLanguage = getTranslatedSubLanguage(command,
 				translatedSubFile);

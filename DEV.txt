@@ -2,9 +2,9 @@ Notes for developers
 
 To build a jar:
 mvn package
-optional:    jar:jar create a jar file for your project sources.
-optional:    jar:test-jar create a jar file for your project test classes.
-    
+optional:    jar:jar  create a jar file for your project sources.
+optional:    jar:test-jar  create a jar file for your project test classes.
+optional:    -Dmaven.test.skip=true  skip tests     
 
 When adding new files, update the license headers:
 mvn license:update-file-header
