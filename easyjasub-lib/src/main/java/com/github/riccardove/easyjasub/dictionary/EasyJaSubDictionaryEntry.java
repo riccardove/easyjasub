@@ -21,13 +21,19 @@ package com.github.riccardove.easyjasub.dictionary;
  */
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.github.riccardove.easyjasub.EasyJaSubWordTranslation;
 import com.github.riccardove.easyjasub.EasyJaSubWordTranslationSense;
 
-// TODO
-class EasyJaSubDictionaryEntry implements EasyJaSubWordTranslation {
+class EasyJaSubDictionaryEntry implements EasyJaSubWordTranslation,
+		Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4887511805998375341L;
 
 	public EasyJaSubDictionaryEntry() {
 		senses = new ArrayList<EasyJaSubWordTranslationSense>();
@@ -44,7 +50,13 @@ class EasyJaSubDictionaryEntry implements EasyJaSubWordTranslation {
 		return senses;
 	}
 
-	public static class Sense implements EasyJaSubWordTranslationSense {
+	public static class Sense implements EasyJaSubWordTranslationSense,
+			Serializable {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 5401702168567813271L;
 
 		public Sense(int index) {
 			posList = new ArrayList<String>();

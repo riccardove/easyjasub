@@ -971,7 +971,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 	@Override
 	public File getDictionaryCacheFile() {
-		return dictionaryCacheFile;
+		return null; // TODO: serialization seems slower than reading original
+						// file; dictionaryCacheFile;
 	}
 
 	@Override

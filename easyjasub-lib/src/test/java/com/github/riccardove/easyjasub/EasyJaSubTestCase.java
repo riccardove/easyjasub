@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.InputStream;
 
@@ -32,7 +31,7 @@ public abstract class EasyJaSubTestCase extends TestCase {
 
 	private static final File samplesFile = new File("samples");
 	private static final File samplesHtmlFile = new File(samplesFile, "html");
-	
+
 	private static final boolean IS_ECLIPSE;
 	static {
 		boolean isEclipse = false;
@@ -52,7 +51,8 @@ public abstract class EasyJaSubTestCase extends TestCase {
 
 	protected static File getSampleFile(String name) {
 		File file = new File(samplesFile, name);
-		assertTrue("Could not find file " + file.getAbsolutePath() + " from " + SystemProperty.getUserDir(), file.exists());
+		assertTrue("Could not find file " + file.getAbsolutePath() + " from "
+				+ SystemProperty.getUserDir(), file.exists());
 		return file;
 	}
 
@@ -79,18 +79,33 @@ public abstract class EasyJaSubTestCase extends TestCase {
 		}
 	}
 
-	protected File getJMDictFile() {
-		File jmDictFile = new File(
-				EasyJaSubHomeDir.getDefaultHomeDir("easyjasub"),
-				"JMDict_e.xml");
+	protected File getHomeDirFile(String fileName) {
+		File file = getHomeDirFileLocation(fileName);
 		assertTrue(
-				"Can not find JMDict file in " + jmDictFile.getAbsolutePath(),
-				jmDictFile.exists() || !isEclipse());
-		return jmDictFile;
+				"Can not find " + fileName + " file in "
+						+ file.getAbsolutePath(), file.exists() || !isEclipse());
+		return file;
+	}
+
+	protected File getHomeDirFileLocation(String fileName) {
+		File file = new File(EasyJaSubHomeDir.getDefaultHomeDir("easyjasub"),
+				fileName);
+		return file;
+	}
+
+	protected File getJMDictSampleFile() {
+		return getHomeDirFile("JMDict_sample");
+	}
+
+	protected File getJMDictSampleSerializeFile() {
+		return getHomeDirFileLocation("JMDict_sample.bin");
+	}
+
+	protected File getJMDictFile() {
+		return getHomeDirFile("JMDict_e.xml");
 	}
 
 	protected InputStream getJMDictTestResource() {
 		return JMDictParserTest.class.getResourceAsStream("JMdict_sample");
 	}
 }
-

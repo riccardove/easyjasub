@@ -45,7 +45,7 @@ public class EasyJaSubSerializeDictionaryFactory {
 		EasyJaSubDictionary dictionary = deserialize();
 		if (dictionary == null) {
 			dictionary = createNew();
-			// TODO serialize(dictionary);
+			serialize(dictionary);
 		}
 		return dictionary;
 	}
