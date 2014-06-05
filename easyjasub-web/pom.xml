@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ~ Copyright (c) 2014 Riccardo Vestrini ~ ~ This program is licensed 
+	to you under the Apache License Version 2.0, ~ and you may not use this file 
+	except in compliance with the Apache License Version 2.0. ~ You may obtain 
+	a copy of the Apache License Version 2.0 at http://www.apache.org/licenses/LICENSE-2.0. 
+	~ ~ Unless required by applicable law or agreed to in writing, ~ software 
+	distributed under the Apache License Version 2.0 is distributed on an ~ "AS 
+	IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
+	implied. ~ See the Apache License Version 2.0 for the specific language governing 
+	permissions and limitations there under. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>easyjasub-web</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.5-SNAPSHOT</version>
+	<name>easyjasub-web</name>
+	<url>http://easyjasub.sourceforge.net</url>
+
+	<parent>
+		<groupId>com.github.riccardove.easyjasub</groupId>
+		<artifactId>easyjasub</artifactId>
+		<version>0.5.0-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+	</properties>
+
+	<build>
+		<finalName>easyjasub-web</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>false</filtering>
+			</testResource>
+		</testResources>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.2.0.v20140526</version>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.jetty.orbit</groupId>
+			<artifactId>javax.servlet</artifactId>
+			<version>3.0.0.v201112011016</version>
+		</dependency>
+	</dependencies>
+
+
+</project>

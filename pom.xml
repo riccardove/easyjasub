@@ -44,6 +44,7 @@
 
 	<modules>
 		<module>easyjasub-lib</module>
+		<module>easyjasub-web</module>
 		<module>easyjasub-cmd</module>
 		<module>easyjasub-distribution</module>
 	</modules>
@@ -56,19 +57,6 @@
 			<id>riccardove</id>
 		</developer>
 	</developers>
-
-	<repositories>
-		<repository>
-			<id>rendersnake-repo</id>
-			<name>Repository for rendersnake</name>
-			<url>http://rendersnake.googlecode.com/svn/repo</url>
-		</repository>
-		<repository>
-			<id>yoava</id>
-			<name>Repository for html2image</name>
-			<url>http://yoava.artifactoryonline.com/yoava/repo</url>
-		</repository>
-	</repositories>
 
 	<properties>
 		<license.licenseName>apache_v2</license.licenseName>

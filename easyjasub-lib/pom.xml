@@ -22,6 +22,19 @@
 		<version>0.5.0-SNAPSHOT</version>
 	</parent>
 
+	<repositories>
+		<repository>
+			<id>rendersnake-repo</id>
+			<name>Repository for rendersnake</name>
+			<url>http://rendersnake.googlecode.com/svn/repo</url>
+		</repository>
+		<repository>
+			<id>yoava</id>
+			<name>Repository for html2image</name>
+			<url>http://yoava.artifactoryonline.com/yoava/repo</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<resources>
 			<resource>

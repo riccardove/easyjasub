@@ -28,3 +28,6 @@ mvn deploy -DperformRelease=true
 the Maven release plug-in seems to have problems with Git
 mvn release:rollback - rolls back the changes done in the pom and commits it to the scm
 mvn release:clean - cleans the workspace
+
+to run the web app:
+cd easyjasub-web && mvn jetty:run
