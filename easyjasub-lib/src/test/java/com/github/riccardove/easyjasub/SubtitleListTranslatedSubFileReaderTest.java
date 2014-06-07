@@ -41,7 +41,7 @@ public class SubtitleListTranslatedSubFileReaderTest extends EasyJaSubTestCase {
 			readTranslationSubtitles(s, file, SubtitleFileType.SRT, new Observer(), null, true);
 	}
 
-	private class Observer extends FakeEasyJaSubObserver {
+	private class Observer extends EasyJaSubObserverBase {
 		
 	}
 }

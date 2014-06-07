@@ -70,7 +70,7 @@ abstract class SubtitleLineContentToHtmlBase {
 		String trimmedText = normalizeText(text.replace('　', ' ').trim());
 		html.write(trimmedText);
 		if (trimmedText.length() < text.length()) {
-			html.write("&thinsp;");
+			html.writeUnescaped("&thinsp;");
 		}
 	}
 

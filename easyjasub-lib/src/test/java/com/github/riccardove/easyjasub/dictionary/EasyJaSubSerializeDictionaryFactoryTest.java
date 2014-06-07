@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.github.riccardove.easyjasub.EasyJaSubSerialize;
 import com.github.riccardove.easyjasub.EasyJaSubTestCase;
-import com.github.riccardove.easyjasub.FakeEasyJaSubObserver;
+import com.github.riccardove.easyjasub.EasyJaSubObserverBase;
 
 public class EasyJaSubSerializeDictionaryFactoryTest extends EasyJaSubTestCase {
 
@@ -28,7 +28,7 @@ public class EasyJaSubSerializeDictionaryFactoryTest extends EasyJaSubTestCase {
 
 		EasyJaSubSerializeDictionaryFactory obj = new EasyJaSubSerializeDictionaryFactory(
 				sampleFile, serializeFile,
-				new FakeEasyJaSubObserver());
+				new EasyJaSubObserverBase());
 		EasyJaSubDictionary dictionary1 = obj.createDictionary();
 		assertNotNull(dictionary1);
 		assertEquals(3, dictionary1.getEntry("基地局").getLength());

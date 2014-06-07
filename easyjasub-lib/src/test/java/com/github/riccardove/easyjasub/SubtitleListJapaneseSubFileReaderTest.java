@@ -60,7 +60,7 @@ public class SubtitleListJapaneseSubFileReaderTest extends EasyJaSubTestCase {
 		return line.getIndex() + " (" + line.getStartTime() + "->" + line.getEndTime() + ") " + line.getJapanese();
 	}
 	
-	private class Observer extends FakeEasyJaSubObserver {
+	private class Observer extends EasyJaSubObserverBase {
 		
 	}
 }

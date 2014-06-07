@@ -27,7 +27,6 @@ import java.nio.file.Files;
 import org.apache.commons.io.FilenameUtils;
 
 import com.github.riccardove.easyjasub.commons.CommonsLangSystemUtils;
-import com.github.riccardove.easyjasub.dictionary.EasyJaSubDictionary;
 
 /**
  * Checks input commands and determines valid program input using some heuristic
@@ -623,11 +622,6 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 
 	private final File jmDictFile;
 	private final File dictionaryCacheFile;
-
-	@Override
-	public EasyJaSubDictionary getDictionary() {
-		return null;
-	}
 
 	private boolean getSingleLine() {
 		if (wkhtmltoimageFile != null) {

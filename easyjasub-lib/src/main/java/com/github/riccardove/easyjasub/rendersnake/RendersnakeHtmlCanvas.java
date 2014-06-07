@@ -96,6 +96,10 @@ public class RendersnakeHtmlCanvas {
 	}
 
 	public void write(String trimmedText) throws IOException {
+		html.write(trimmedText, true);
+	}
+
+	public void writeUnescaped(String trimmedText) throws IOException {
 		html.write(trimmedText, false);
 	}
 

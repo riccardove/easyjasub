@@ -153,15 +153,13 @@ public class EasyJaSub {
 
 	private void addDictionary(EasyJaSubObserver observer, SubtitleList s,
 			EasyJaSubInput command) throws EasyJaSubException {
-		EasyJaSubDictionary dictionary = command.getDictionary();
-		if (dictionary == null) {
-			if (command.getDictionaryCacheFile() != null
-					|| command.getJMDictFile() != null) {
-				EasyJaSubSerializeDictionaryFactory factory = new EasyJaSubSerializeDictionaryFactory(
-						command.getJMDictFile(),
-						command.getDictionaryCacheFile(), observer);
-				dictionary = factory.createDictionary();
-			}
+		EasyJaSubDictionary dictionary = null;
+		if (command.getDictionaryCacheFile() != null
+				|| command.getJMDictFile() != null) {
+			EasyJaSubSerializeDictionaryFactory factory = new EasyJaSubSerializeDictionaryFactory(
+					command.getJMDictFile(), command.getDictionaryCacheFile(),
+					observer);
+			dictionary = factory.createDictionary();
 		}
 		if (dictionary == null) {
 			throw new EasyJaSubException("Could not get any valid dictionary!");

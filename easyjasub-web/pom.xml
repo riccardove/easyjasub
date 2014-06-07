@@ -14,7 +14,6 @@
 
 	<artifactId>easyjasub-web</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.5-SNAPSHOT</version>
 	<name>easyjasub-web</name>
 	<url>http://easyjasub.sourceforge.net</url>
 
@@ -51,6 +50,11 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.github.riccardove.easyjasub</groupId>
+			<artifactId>easyjasub-lib</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty.orbit</groupId>
 			<artifactId>javax.servlet</artifactId>

@@ -22,8 +22,6 @@ package com.github.riccardove.easyjasub;
 
 import java.io.File;
 
-import com.github.riccardove.easyjasub.dictionary.EasyJaSubDictionary;
-
 /**
  * Input arguments for EasyJaSub
  */
@@ -243,13 +241,6 @@ public interface EasyJaSubInput {
 	 * @return
 	 */
 	public abstract File getJGlossFile();
-
-	/**
-	 * Dictionary class
-	 * 
-	 * @return
-	 */
-	EasyJaSubDictionary getDictionary();
 
 	File getJMDictFile();
 

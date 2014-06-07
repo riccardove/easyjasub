@@ -71,7 +71,7 @@ class SubtitleLineContentToHtmlTable extends SubtitleLineContentToHtmlBase {
 		if (hasRomaji) {
 			html.tr("bottom");
 			for (SubtitleItem item : items) {
-				html.write("  ");
+				html.writeUnescaped("  ");
 				renderRomaji(html, item);
 				html.newline();
 			}
@@ -125,7 +125,7 @@ class SubtitleLineContentToHtmlTable extends SubtitleLineContentToHtmlBase {
 
 	private void renderOnCenter(RendersnakeHtmlCanvas html, SubtitleItem item)
 			throws IOException {
-		html.write("  ");
+		html.writeUnescaped("  ");
 		List<SubtitleItem.Inner> elements = item.getElements();
 		String text = item.getText();
 		if (text == null) {

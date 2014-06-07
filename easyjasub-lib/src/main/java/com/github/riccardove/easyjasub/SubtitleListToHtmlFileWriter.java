@@ -57,7 +57,7 @@ class SubtitleListToHtmlFileWriter {
 			html.div();
 			int s = line.getStartTime() / 1000;
 			String time = s / 60 + ":" + s % 60;
-			html.write("<h2>" + time + "</h2>");
+			html.writeUnescaped("<h2>" + time + "</h2>");
 			converter.appendHtmlBodyContent(line, html);
 			html._div();
 		}
