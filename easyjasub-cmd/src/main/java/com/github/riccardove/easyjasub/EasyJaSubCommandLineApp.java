@@ -20,10 +20,13 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URI;
+import java.net.URL;
 
 class EasyJaSubCommandLineApp {
 	public EasyJaSubCommandLineApp(EasyJaSubCommandLine commandLine) {
@@ -35,29 +38,10 @@ class EasyJaSubCommandLineApp {
 	public int run(String[] args, PrintWriter outputStream,
 			PrintWriter errorStream) {
 		if (!commandLine.parse(args)) {
-			printVersion(errorStream);
-			errorStream.println("Command invocation error:");
-			errorStream.println(commandLine.getMessage());
-			suggestHelp(errorStream);
-			errorStream.flush();
-			return -1;
+			return error(errorStream);
 		}
 		if (commandLine.isHelp()) {
-			printVersion(outputStream);
-			outputStream.println();
-			outputStream.println(EasyJaSubCmdLicense.getLicense());
-			outputStream.println();
-			outputStream.println(EasyJaSubLicense.getLicense());
-			outputStream.println();
-			outputStream.println();
-
-			commandLine.printHelp(outputStream, getCommandSample()
-					+ " [options]", null, null);
-			outputStream.println();
-			outputStream.print("Issues management: ");
-			outputStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
-			outputStream.flush();
-			return 0;
+			return printHelp(outputStream);
 		}
 		EasyJaSubInputFromCommand input = null;
 		try {
@@ -65,74 +49,177 @@ class EasyJaSubCommandLineApp {
 			if (input.getDefaultFileNamePrefix() == null) {
 				throw new EasyJaSubException("No input file specified");
 			}
-			outputStream.println("Processing "
-					+ input.getDefaultFileNamePrefix());
-			URI baseDirectory = new File(SystemProperty.getUserDir()).toURI();
-			printFile(outputStream, "Video file: ", input.getVideoFile(),
-					baseDirectory);
-			printFile(outputStream, "Japanese subtitles file: ",
-					input.getJapaneseSubFile(), baseDirectory);
-			printFile(outputStream, "Translated subtitles file: ",
-					input.getTranslatedSubFile(), baseDirectory);
-			printFile(outputStream, "CSS file: ", input.getCssFile(),
-					baseDirectory);
-			printFile(outputStream, "HTML intermediate directory: ",
-					input.getOutputHtmlDirectory(), baseDirectory);
-			printFile(outputStream, "Japanese text file: ",
-					input.getOutputJapaneseTextFile(), baseDirectory);
-			printFile(outputStream, "BDN XML file: ", input.getBdnXmlFile(),
-					baseDirectory);
-			printFile(outputStream, "IDX file: ", input.getOutputIdxFile(),
-					baseDirectory);
-			outputStream.flush();
+			printInput(outputStream, input);
 		} catch (EasyJaSubException ex) {
-			outputStream.println();
-			outputStream.flush();
-			printVersion(errorStream);
-			errorStream.println("Command error:");
-			errorStream.println(ex.getMessage());
-			suggestHelp(errorStream);
-			errorStream.flush();
-			return -2;
+			return commandError(outputStream, errorStream, ex);
 		} catch (Exception ex) {
-			outputStream.println();
-			outputStream.flush();
-			printVersion(errorStream);
-			errorStream.println("Unexpected command error:");
-			errorStream.println(ex.getMessage());
-			ex.printStackTrace(errorStream);
-			errorStream
-					.println("This error may be a problem in the program, please report it.");
-			errorStream.print("Issues management: ");
-			errorStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
-			errorStream.flush();
-			return -100;
+			return commandUnexpectedError(outputStream, errorStream, ex);
 		}
+		return execute(outputStream, errorStream, input);
+	}
+
+	private int commandUnexpectedError(PrintWriter outputStream,
+			PrintWriter errorStream, Exception ex) {
+		outputStream.println();
+		outputStream.flush();
+		printVersion(errorStream);
+		errorStream.println("Unexpected command error:");
+		errorStream.println(ex.getMessage());
+		ex.printStackTrace(errorStream);
+		errorStream
+				.println("This error may be a problem in the program, please report it.");
+		errorStream.print("Issues management: ");
+		errorStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
+		errorStream.flush();
+		return -100;
+	}
+
+	private int commandError(PrintWriter outputStream, PrintWriter errorStream,
+			EasyJaSubException ex) {
+		outputStream.println();
+		outputStream.flush();
+		printVersion(errorStream);
+		errorStream.println("Command error:");
+		errorStream.println(ex.getMessage());
+		suggestHelp(errorStream);
+		errorStream.flush();
+		return -2;
+	}
+
+	private int error(PrintWriter errorStream) {
+		printVersion(errorStream);
+		errorStream.println("Command invocation error:");
+		errorStream.println(commandLine.getMessage());
+		suggestHelp(errorStream);
+		errorStream.flush();
+		return -1;
+	}
+
+	private int printHelp(PrintWriter outputStream) {
+		printVersion(outputStream);
+		outputStream.println();
+		outputStream.println(EasyJaSubCmdLicense.getLicense());
+		outputStream.println();
+		outputStream.println(EasyJaSubLicense.getLicense());
+		outputStream.println();
+		outputStream.println();
+
+		commandLine.printHelp(outputStream, getCommandSample()
+				+ " [options]", null, null);
+		outputStream.println();
+		outputStream.print("Issues management: ");
+		outputStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
+		outputStream.flush();
+		return 0;
+	}
+
+	private void printInput(PrintWriter outputStream,
+			EasyJaSubInputFromCommand input) throws IOException {
+		outputStream.println("Processing "
+				+ input.getDefaultFileNamePrefix());
+		URI baseDirectory = new File(SystemProperty.getUserDir()).toURI();
+		printFile(outputStream, "Video file: ", input.getVideoFile(),
+				baseDirectory);
+		printFile(outputStream, "Japanese subtitles file: ",
+				input.getJapaneseSubFile(), baseDirectory);
+		printFile(outputStream, "Translated subtitles file: ",
+				input.getTranslatedSubFile(), baseDirectory);
+		printFile(outputStream, "CSS file: ", input.getCssFile(),
+				baseDirectory);
+		printFile(outputStream, "HTML intermediate directory: ",
+				input.getOutputHtmlDirectory(), baseDirectory);
+		printFile(outputStream, "Japanese text file: ",
+				input.getOutputJapaneseTextFile(), baseDirectory);
+		printFile(outputStream, "BDN XML file: ", input.getBdnXmlFile(),
+				baseDirectory);
+		printFile(outputStream, "IDX file: ", input.getOutputIdxFile(),
+				baseDirectory);
+		if (input.getUrl() != null) {
+			outputStream.println("URL: " + input.getUrl().toString());
+		}
+		outputStream.flush();
+	}
+
+	private int execute(PrintWriter outputStream, PrintWriter errorStream,
+			EasyJaSubInputFromCommand input) {
 		try {
-			return new EasyJaSub().run(input, new EasyJaSubConsole(
-					outputStream, errorStream, commandLine.getVerbose()));
+			if (input.getUrl() != null) {
+				return sendInputToEasyJaSubServlet(outputStream,
+						input.getUrl(), input);
+			} else {
+				return runEasyJaSub(outputStream, errorStream, input);
+			}
 		} catch (EasyJaSubException ex) {
-			outputStream.println();
-			outputStream.flush();
-			printVersion(errorStream);
-			errorStream.println("Execution error:");
-			errorStream.println(ex.getMessage());
-			errorStream.flush();
+			executionError(outputStream, errorStream, ex);
 			return -3;
 		} catch (Exception ex) {
-			outputStream.println();
-			outputStream.flush();
-			printVersion(errorStream);
-			errorStream.println("Unexpected error:");
-			errorStream.println(ex.getMessage());
-			ex.printStackTrace(errorStream);
-			errorStream
-					.println("This error may be a problem in the program, please report it.");
-			errorStream.print("Issues management: ");
-			errorStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
-			errorStream.flush();
+			unexpectedError(outputStream, errorStream, ex);
 			return -100;
 		}
+	}
+
+	private int sendInputToEasyJaSubServlet(PrintWriter outputStream, URL url,
+			EasyJaSubInput input) throws EasyJaSubException {
+		EasyJaSubSendInputHttpConnection connection = null;
+		try {
+			connection = EasyJaSubSendInputHttpConnection.open(url);
+		} catch (IOException e) {
+			throw new EasyJaSubException("Can not connect to URL "
+					+ url.toString() + ": " + e.getLocalizedMessage());
+		}
+		try {
+			connection.execute(input);
+		} catch (IOException e) {
+			throw new EasyJaSubException("Error sending request to URL "
+					+ url.toString() + ": " + e.getLocalizedMessage());
+		}
+		outputStream.println("Response:");
+		try {
+			BufferedReader s = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
+			for (String line = s.readLine(); line != null; line = s.readLine()) {
+				outputStream.println(line);
+			}
+		} catch (IOException e) {
+			throw new EasyJaSubException(
+					"Error sending reading response from URL " + url.toString()
+							+ ": " + e.getLocalizedMessage());
+		} finally {
+			outputStream.println("End of response.");
+			outputStream.flush();
+		}
+		return 0;
+	}
+
+	private int runEasyJaSub(PrintWriter outputStream, PrintWriter errorStream,
+			EasyJaSubInput input) throws EasyJaSubException {
+		return new EasyJaSub().run(input, new EasyJaSubConsole(outputStream,
+				errorStream, commandLine.getVerbose()));
+	}
+
+	private void unexpectedError(PrintWriter outputStream,
+			PrintWriter errorStream, Exception ex) {
+		outputStream.println();
+		outputStream.flush();
+		printVersion(errorStream);
+		errorStream.println("Unexpected error:");
+		errorStream.println(ex.getMessage());
+		ex.printStackTrace(errorStream);
+		errorStream
+				.println("This error may be a problem in the program, please report it.");
+		errorStream.print("Issues management: ");
+		errorStream.println(EasyJaSubCmdProperty.getIssuesManagementUrl());
+		errorStream.flush();
+	}
+
+	private void executionError(PrintWriter outputStream,
+			PrintWriter errorStream, EasyJaSubException ex) {
+		outputStream.println();
+		outputStream.flush();
+		printVersion(errorStream);
+		errorStream.println("Execution error:");
+		errorStream.println(ex.getMessage());
+		errorStream.flush();
 	}
 
 	private void suggestHelp(PrintWriter errorStream) {

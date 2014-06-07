@@ -79,4 +79,6 @@ public interface EasyJaSubInputCommand {
 	String getHomeDirectoryName();
 
 	String getJMDictFileName();
+
+	String getUrl();
 }

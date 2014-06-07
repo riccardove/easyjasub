@@ -90,6 +90,8 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 		list.addOption(EasyJaSubInputOption.selectlines, SELECT,
 				"select-lines", "n-m");
 		list.addOption(EasyJaSubInputOption.font, "fn", "font", "name");
+		list.addOption(EasyJaSubInputOption.remoteUrl, "url", "remote-url",
+				"URL");
 		list.addOption(EasyJaSubInputOption.quiet, QUIET, "quiet");
 		list.addOption(EasyJaSubInputOption.verbose, VERBOSE, "verbose");
 		list.addOption(EasyJaSubInputOption.help, HELP, "help");
@@ -175,7 +177,13 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 	private String selectLines;
 	private String home;
 	private String jmdict;
+	private String url;
 	private int verbose;
+
+	@Override
+	public String getUrl() {
+		return url;
+	}
 
 	@Override
 	public String getOutputIdxDirectory() {
@@ -237,6 +245,7 @@ class EasyJaSubCommandLine implements EasyJaSubInputCommand {
 			jmdict = list.getOptionValue(EasyJaSubInputOption.jmdict);
 			cssHiraganaFont = cssKanjiFont = list
 					.getOptionValue(EasyJaSubInputOption.font);
+			url = list.getOptionValue(EasyJaSubInputOption.remoteUrl);
 			if (list.hasOption(EasyJaSubInputOption.verbose)) {
 				verbose = 1;
 			} else if (list.hasOption(EasyJaSubInputOption.quiet)) {

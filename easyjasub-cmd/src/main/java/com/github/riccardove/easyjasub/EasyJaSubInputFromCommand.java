@@ -22,6 +22,8 @@ package com.github.riccardove.easyjasub;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
+import java.net.URL;
 import java.nio.file.Files;
 
 import org.apache.commons.io.FilenameUtils;
@@ -33,7 +35,7 @@ import com.github.riccardove.easyjasub.commons.CommonsLangSystemUtils;
  * 
  * TODO: split into multiple classes
  */
-class EasyJaSubInputFromCommand implements EasyJaSubInput {
+class EasyJaSubInputFromCommand implements EasyJaSubInput, Serializable {
 
 	private static void checkDirectory(String fileName, File file)
 			throws EasyJaSubException {
@@ -549,6 +551,25 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput {
 		getSelectLines(command.getSelectLines());
 		dictionaryCacheFile = getDictionaryCacheFile(homeDir);
 		htmlFile = getHtmlFile(defaultFileList, bdnXmlFile);
+		url = getUrl(command.getUrl());
+	}
+
+	private final URL url;
+
+	private static URL getUrl(String urlStr) throws EasyJaSubException {
+		if (urlStr != null) {
+			try {
+				return new URL(urlStr);
+			} catch (Exception ex) {
+				throw new EasyJaSubException("Invalid URL: "
+						+ ex.getLocalizedMessage());
+			}
+		}
+		return null;
+	}
+
+	public URL getUrl() {
+		return url;
 	}
 
 	private static File getHtmlFile(DefaultFileList defaultFileList,

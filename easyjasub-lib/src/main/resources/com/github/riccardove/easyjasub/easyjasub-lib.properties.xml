@@ -53,6 +53,7 @@ If not found it is created automatically.</entry>
 <entry key="optiondesc.jmdict">Uses specified JMdict dictionary file, defaults to JMdict_e.gz in easyjasub home directory.</entry>
 <entry key="optiondesc.home">easyjasub home directory, where user configuration files are located, defaults to ~/.easyjasub on Unix and %APPDATA%\easyjasub on Windows.</entry>
 <entry key="optiondesc.font">Name of the font to be used in CSS to style Japanese text</entry>
+<entry key="optiondesc.remoteUrl">Sends the command to a URL where a EasyJaSub servlet is running</entry>
 <entry key="optiondesc.quiet">Suppresses output messages</entry>
 <entry key="optiondesc.verbose">More verbose output messages</entry>
 <entry key="optiondesc.help">Displays help</entry>
