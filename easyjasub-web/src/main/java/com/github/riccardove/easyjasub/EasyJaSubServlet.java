@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
@@ -50,10 +49,21 @@ public class EasyJaSubServlet extends HttpServlet {
 		response.setContentType("text/html");
 		response.setStatus(HttpServletResponse.SC_OK);
 		PrintWriter writer = response.getWriter();
+		writer.println("<h1>Retry</h1>");
+		writer.println("Use post");
+		response.flushBuffer();
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		response.setStatus(HttpServletResponse.SC_OK);
+		PrintWriter writer = response.getWriter();
 
 		try {
 			EasyJaSubInput input = deserializeInputCommand(request);
-			runCommand(input);
+			runCommand(input, writer);
 		} catch (EasyJaSubException ex) {
 			writer.println("<h1>Error</h1>");
 			writer.println("Error: " + ex.getMessage());
@@ -62,21 +72,18 @@ public class EasyJaSubServlet extends HttpServlet {
 			writer.println("Error: " + ex.getMessage());
 			ex.printStackTrace(writer);
 		}
+		response.flushBuffer();
 	}
 
-	private void runCommand(EasyJaSubInput input) throws EasyJaSubException {
-		main.run(input, new Observer());
+	private void runCommand(EasyJaSubInput input, PrintWriter writer)
+			throws EasyJaSubException {
+		main.run(input, new EasyJaSubFeedback(writer, writer, 10));
 	}
 
 	private EasyJaSubInput deserializeInputCommand(HttpServletRequest request)
 			throws IOException, ClassNotFoundException {
-		ObjectInputStream in = new ObjectInputStream(
-				request.getInputStream());
+		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
 		EasyJaSubInput input = ((EasyJaSubInput) in.readObject());
 		return input;
-	}
-
-	private static class Observer extends EasyJaSubObserverBase {
-
 	}
 }

@@ -20,7 +20,6 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-
 import java.io.File;
 import java.io.Serializable;
 
@@ -35,6 +34,45 @@ public class EasyJaSubInputBase implements EasyJaSubInput, Serializable {
 	private String cssHiraganaFont;
 	private String cssKanjiFont;
 	private String cssTranslationFont;
+
+	public EasyJaSubInputBase() {
+
+	}
+
+	public EasyJaSubInputBase(EasyJaSubInput input) {
+		approxMatchTimeDiff = input.getApproxMatchTimeDiff();
+		bdnXmlFile = input.getBdnXmlFile();
+		cssFile = input.getCssFile();
+		cssHiraganaFont = input.getCssHiraganaFont();
+		cssKanjiFont = input.getCssKanjiFont();
+		cssTranslationFont = input.getCssTranslationFont();
+		defaultFileNamePrefix = input.getDefaultFileNamePrefix();
+		endLine = input.getEndLine();
+		exactMatchTimeDiff = input.getExactMatchTimeDiff();
+		height = input.getHeight();
+		htmlFile = input.getHtmlFile();
+		isSingleLine = input.isSingleLine();
+		japaneseSubFile = input.getJapaneseSubFile();
+		japaneseSubFileType = input.getJapaneseSubFileType();
+		jglossFile = input.getJGlossFile();
+		jmDictFile = input.getJMDictFile();
+		outputHtmlDirectory = input.getOutputHtmlDirectory();
+		outputIdxFile = input.getOutputIdxFile();
+		outputJapaneseTextFile = input.getOutputJapaneseTextFile();
+		showDictionary = input.showDictionary();
+		showFurigana = input.showFurigana();
+		showKanji = input.showKanji();
+		showRomaji = input.showRomaji();
+		showTranslation = input.showTranslation();
+		startLine = input.getStartLine();
+		translatedSubFile = input.getTranslatedSubFile();
+		translatedSubFileType = input.getTranslatedSubFileType();
+		translatedSubLanguage = input.getTranslatedSubLanguage();
+		videoFile = input.getVideoFile();
+		width = input.getWidth();
+		wkhtmltoimageFile = input.getWkHtmlToImageCommand();
+		xmlFile = input.getXmlFile();
+	}
 
 	@Override
 	public int getApproxMatchTimeDiff() {

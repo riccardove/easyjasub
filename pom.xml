@@ -75,6 +75,7 @@
 		<easyjasub.lucene-analyzers-kuromoji.version>4.7.2</easyjasub.lucene-analyzers-kuromoji.version>
 		<easyjasub.bdsup2sub.version>5.2.0-SNAPSHOT</easyjasub.bdsup2sub.version>
 		<easyjasub.stringtemplate.version>4.0.2</easyjasub.stringtemplate.version>
+		<easyjasub.jetty.version>3.0.0.v201112011016</easyjasub.jetty.version>
 		<wix.version>${project.version}.1</wix.version>
 		<main.class>com.github.riccardove.easyjasub.App</main.class>
 		<assembly.name>easyjasub-${project.version}</assembly.name>
@@ -83,6 +84,28 @@
 	</properties>
 
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>set-system-properties</goal>
+						</goals>
+						<configuration>
+							<properties>
+								<property>
+									<name>file.encoding</name>
+									<value>UTF-8</value>
+								</property>
+							</properties>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -154,6 +177,39 @@
 					<configuration>
 						<goals>deploy</goals>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
+					</configuration>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											properties-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.0-alpha-2,)
+										</versionRange>
+										<goals>
+											<goal>
+												set-system-properties
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
 			</plugins>

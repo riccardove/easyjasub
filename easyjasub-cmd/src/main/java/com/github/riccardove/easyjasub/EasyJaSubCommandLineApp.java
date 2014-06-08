@@ -168,7 +168,7 @@ class EasyJaSubCommandLineApp {
 					+ url.toString() + ": " + e.getLocalizedMessage());
 		}
 		try {
-			connection.execute(input);
+			connection.execute(new EasyJaSubInputBase(input));
 		} catch (IOException e) {
 			throw new EasyJaSubException("Error sending request to URL "
 					+ url.toString() + ": " + e.getLocalizedMessage());
