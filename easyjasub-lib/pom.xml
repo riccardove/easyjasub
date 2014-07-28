@@ -19,7 +19,7 @@
 	<parent>
 		<groupId>com.github.riccardove.easyjasub</groupId>
 		<artifactId>easyjasub</artifactId>
-		<version>0.5.0-SNAPSHOT</version>
+		<version>0.5.0</version>
 	</parent>
 
 	<repositories>
@@ -84,7 +84,7 @@
 			<version>${easyjasub.lucene-analyzers-kuromoji.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>bdsup2sub</groupId>
+			<groupId>com.github.riccardove.easyjasub</groupId>
 			<artifactId>bdsup2sub-lib</artifactId>
 			<version>${easyjasub.bdsup2sub.version}</version>
 		</dependency>
