@@ -504,28 +504,34 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput, Serializable {
 	private final boolean isSingleLine;
 	private final File htmlFile;
 
+	private static File abs(File file) {
+		return file != null ? file.getAbsoluteFile() : null;
+	}
+
 	public EasyJaSubInputFromCommand(EasyJaSubInputCommand command)
 			throws EasyJaSubException {
 
 		EasyJaSubCmdHomeDir homeDir = getHomeDir(command.getHomeDirectoryName());
 
 		DefaultFileList defaultFileList = new DefaultFileList(command);
-		japaneseSubFile = getJapaneseSubFile(command, defaultFileList);
+		japaneseSubFile = abs(getJapaneseSubFile(command, defaultFileList));
 		japaneseSubFileType = getSubtitleFileType(japaneseSubFile);
-		translatedSubFile = getTranslatedSubFile(command, defaultFileList,
-				japaneseSubFile, japaneseSubFileType);
+		translatedSubFile = abs(getTranslatedSubFile(command, defaultFileList,
+				japaneseSubFile, japaneseSubFileType));
 		translatedSubFileType = getSubtitleFileType(translatedSubFile);
 		translatedSubLanguage = getTranslatedSubLanguage(command,
 				translatedSubFile);
-		videoFile = getVideoFile(command, defaultFileList);
-		outputIdxFile = getOutputIdxFile(command, videoFile, defaultFileList);
-		bdnXmlFile = getOutputBdnFile(command, outputIdxFile, defaultFileList);
-		outputHtmlDirectory = getOutputHtmlDirectory(command, bdnXmlFile,
-				defaultFileList);
+		videoFile = abs(getVideoFile(command, defaultFileList));
+		outputIdxFile = abs(getOutputIdxFile(command, videoFile,
+				defaultFileList));
+		bdnXmlFile = abs(getOutputBdnFile(command, outputIdxFile,
+				defaultFileList));
+		outputHtmlDirectory = abs(getOutputHtmlDirectory(command, bdnXmlFile,
+				defaultFileList));
 		wkhtmltoimageFile = getWkhtmltoimageFile(command);
-		outputJapaneseTextFile = getOutputJapaneseTextFile(command, bdnXmlFile,
-				defaultFileList);
-		cssFile = getCssFile(command, outputHtmlDirectory, defaultFileList);
+		outputJapaneseTextFile = abs(getOutputJapaneseTextFile(command,
+				bdnXmlFile, defaultFileList));
+		cssFile = abs(getCssFile(command, outputHtmlDirectory, defaultFileList));
 		exactMatchTimeDiff = getTimeDiff("exact match time",
 				command.getExactMatchTimeDiff(), 2000);
 		approxMatchTimeDiff = getTimeDiff("approximate match time",
@@ -536,7 +542,7 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput, Serializable {
 		cssHiraganaFont = getFont(command.getCssHiraganaFont(), "arial");
 		cssKanjiFont = getFont(command.getCssKanjiFont(), "arial");
 		cssTranslationFont = getFont(command.getCssTranslationFont(), "arial");
-		jmDictFile = getJMDictFile(homeDir, command.getJMDictFileName());
+		jmDictFile = abs(getJMDictFile(homeDir, command.getJMDictFileName()));
 		showTranslation = getShowTranslation(command.getShowTranslation(),
 				translatedSubFile);
 		showKanji = getShowKanji(command.getShowKanji());
@@ -544,13 +550,13 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput, Serializable {
 		showDictionary = getShowDictionary(command.getShowDictionary(),
 				jmDictFile);
 		showRomaji = getShowRomaji(command.getShowRomaji(), showFurigana);
-		xmlFile = getXmlFile(defaultFileList, outputJapaneseTextFile,
-				bdnXmlFile);
-		jglossFile = getJGlossFile(defaultFileList, bdnXmlFile);
+		xmlFile = abs(getXmlFile(defaultFileList, outputJapaneseTextFile,
+				bdnXmlFile));
+		jglossFile = abs(getJGlossFile(defaultFileList, bdnXmlFile));
 		isSingleLine = getSingleLine();
 		getSelectLines(command.getSelectLines());
-		dictionaryCacheFile = getDictionaryCacheFile(homeDir);
-		htmlFile = getHtmlFile(defaultFileList, bdnXmlFile);
+		dictionaryCacheFile = abs(getDictionaryCacheFile(homeDir));
+		htmlFile = abs(getHtmlFile(defaultFileList, bdnXmlFile));
 		url = getUrl(command.getUrl());
 	}
 
