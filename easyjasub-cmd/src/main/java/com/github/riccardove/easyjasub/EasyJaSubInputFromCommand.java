@@ -37,6 +37,11 @@ import com.github.riccardove.easyjasub.commons.CommonsLangSystemUtils;
  */
 class EasyJaSubInputFromCommand implements EasyJaSubInput, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3080110516084720076L;
+
 	private static void checkDirectory(String fileName, File file)
 			throws EasyJaSubException {
 		if (!file.isDirectory()) {
@@ -642,7 +647,10 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput, Serializable {
 			return file;
 		}
 		if (homeDir != null) {
-			return homeDir.getJMDictFile();
+			File file = homeDir.getJMDictFile();
+			if (file != null && file.isFile() && file.canRead()) {
+				return file;
+			}
 		}
 		return null;
 	}

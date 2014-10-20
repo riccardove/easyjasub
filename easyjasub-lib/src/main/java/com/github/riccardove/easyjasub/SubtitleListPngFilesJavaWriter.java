@@ -57,7 +57,7 @@ class SubtitleListPngFilesJavaWriter {
 				} else {
 					observer.onWriteImageError(pngFile, file);
 				}
-				imageGenerator.saveAsImage(file.getAbsolutePath());
+				imageGenerator.saveAsImage(pngFile.getAbsolutePath());
 				// TODO store the image size
 			}
 		}

@@ -92,4 +92,17 @@ public class LuceneParserTest extends EasyJaSubTestCase {
 		return tokens;
 	}
 
+	public void testParse2() throws Exception {
+		parse("今週の日曜日海にいく予定", 7);
+		parse("あなたの意見はどうですか", 7);
+		parse("その金で　弁護士の最高ステータス\n虎ノ門に事務所を構えたい", 13);
+	}
+
+	private void parse(String text, int count) throws Exception {
+		LuceneParser parser = new LuceneParser(false);
+		List<LuceneToken> tokens = parse(parser, text);
+		assertEquals(count, tokens.size());
+		parser.close();
+	}
+
 }

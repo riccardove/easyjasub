@@ -51,7 +51,7 @@ public class LuceneParser {
 		Set<String> stopTags = ignoreDefaultWordSet ? JapaneseAnalyzer
 				.getDefaultStopTags() : new HashSet<String>();
 		analyzer = new JapaneseAnalyzer(Version.LUCENE_47, null,
-				JapaneseTokenizer.Mode.SEARCH, stopSet, stopTags);
+				JapaneseTokenizer.Mode.NORMAL, stopSet, stopTags);
 	}
 
 	private final JapaneseAnalyzer analyzer;

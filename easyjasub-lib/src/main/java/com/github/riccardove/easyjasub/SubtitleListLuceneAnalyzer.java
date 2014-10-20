@@ -98,11 +98,7 @@ public class SubtitleListLuceneAnalyzer {
 			LuceneParser parser = new LuceneParser(false);
 			for (SubtitleLine line : subs) {
 				if (line.getJapaneseSubKey() != null) {
-					List<LuceneToken> tokens = parser.parse("easyjasub",
-							line.getJapanese());
-					if (tokens != null && tokens.size() > 0) {
-						analyzeLine(line, tokens, pronunciationErrors);
-					}
+					parseLine(pronunciationErrors, parser, line);
 				}
 			}
 			parser.close();
@@ -112,6 +108,24 @@ public class SubtitleListLuceneAnalyzer {
 
 		if (pronunciationErrors.size() > 0) {
 			observer.onLuceneErrors(pronunciationErrors);
+		}
+	}
+
+	private void parseLine(List<String> pronunciationErrors,
+			LuceneParser parser, SubtitleLine line) throws IOException,
+			EasyJaSubException {
+		try {
+			List<LuceneToken> tokens = parser.parse("easyjasub",
+					line.getJapanese());
+			if (tokens != null && tokens.size() > 0) {
+				analyzeLine(line, tokens, pronunciationErrors);
+			}
+		} catch (IOException ex) {
+			throw new EasyJaSubException("I/O Error while reading line "
+					+ line.getIndex() + ": " + line.getSubText(), ex);
+		} catch (Throwable ex) {
+			throw new IllegalArgumentException("Error while processing line "
+					+ line.getIndex() + ": " + line.getSubText(), ex);
 		}
 	}
 

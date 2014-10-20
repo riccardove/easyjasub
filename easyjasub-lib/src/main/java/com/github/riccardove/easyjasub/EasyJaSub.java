@@ -385,6 +385,10 @@ public class EasyJaSub {
 				new SubtitleListJapaneseSubFileReader().readJapaneseSubtitles(
 						s, jaF, command.getJapaneseSubFileType(), observer,
 						selection);
+				if (s.size() <= 0) {
+					throw new IOException(
+							"Could not read any valid subtitle line");
+				}
 				observer.onReadJapaneseSubtitlesEnd(jaF);
 			} catch (IOException ex) {
 				observer.onReadJapaneseSubtitlesIOError(jaF, ex);

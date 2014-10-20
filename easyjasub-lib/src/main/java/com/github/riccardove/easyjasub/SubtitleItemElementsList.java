@@ -27,6 +27,7 @@ import com.github.riccardove.easyjasub.SubtitleItem.Inner;
 
 class SubtitleItemElementsList {
 
+	// TODO: better algorithm to assign furigana to parts of the word
 	public List<SubtitleItem.Inner> createElementsList(String text,
 			String furigana, SubtitleItem item) {
 
@@ -36,7 +37,8 @@ class SubtitleItemElementsList {
 		boolean hasKanji = false;
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
-			if (!JapaneseChar.isSmallSizeJapaneseChar(c) || c == '々') {
+			if (!JapaneseChar.isSmallSizeJapaneseChar(c) || c == '々'
+					|| furigana.indexOf(c) < 0) {
 				// assumes this is Kanji chars, 々 is considered part of the
 				// kanji; It's a repetition kanji or
 				// "ideographic iteration mark", it means that the kanji just
@@ -99,11 +101,17 @@ class SubtitleItemElementsList {
 								"It seems there are two subsequent kanji elements in list");
 					} else {
 						int index = furigana.indexOf(second.getText());
-						first.setText(furigana.substring(0, index));
-						furiganaToElements(
-								removeFuriganaTwoFirstItems(furigana, second,
-										index),
-								sublistExcludingTwoItemsAtStart(list));
+						if (index >= 0) {
+							first.setText(furigana.substring(0, index));
+							furiganaToElements(
+									removeFuriganaTwoFirstItems(furigana,
+											second, index),
+									sublistExcludingTwoItemsAtStart(list));
+						} else {
+							throw new IllegalArgumentException(
+									"Could not find " + second.getText()
+											+ " in " + furigana);
+						}
 					}
 				} else {
 					throw new IllegalArgumentException(
