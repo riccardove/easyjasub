@@ -37,7 +37,6 @@ import org.apache.lucene.analysis.ja.tokenattributes.PartOfSpeechAttribute;
 import org.apache.lucene.analysis.ja.tokenattributes.ReadingAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.util.CharArraySet;
-import org.apache.lucene.util.Version;
 
 /**
  * Parser using Lucene JapaneseAnalyzer
@@ -46,11 +45,11 @@ public class LuceneParser {
 
 	public LuceneParser(boolean ignoreDefaultWordSet) throws IOException {
 		CharArraySet stopSet = ignoreDefaultWordSet ? JapaneseAnalyzer
-				.getDefaultStopSet() : new CharArraySet(Version.LUCENE_47,
+				.getDefaultStopSet() : new CharArraySet(
 				new ArrayList<String>(), true);
 		Set<String> stopTags = ignoreDefaultWordSet ? JapaneseAnalyzer
 				.getDefaultStopTags() : new HashSet<String>();
-		analyzer = new JapaneseAnalyzer(Version.LUCENE_47, null,
+		analyzer = new JapaneseAnalyzer(null,
 				JapaneseTokenizer.Mode.NORMAL, stopSet, stopTags);
 	}
 

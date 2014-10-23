@@ -41,8 +41,10 @@ class SubtitleListToPictureSubtitleList {
 		PictureSubtitleList list = new PictureSubtitleList();
 		list.setTitle(s.getTitle());
 
-		String cssFileUrl = cssFile != null ? cssFile
-				.toRelativeURIStr(htmlDirectory) : "default.css";
+		String wkhtml = command.getWkHtmlToImageCommand();
+		String cssFileUrl = wkhtml != null ? getRelativeUrl(cssFile,
+				htmlDirectory) : getAbsoluteUrl(cssFile, htmlDirectory);
+		// String cssFileUrl = getRelativeUrl(cssFile, htmlDirectory);
 
 		int index = 0;
 		for (SubtitleLine l : s) {
@@ -67,5 +69,19 @@ class SubtitleListToPictureSubtitleList {
 			}
 		}
 		return list;
+	}
+
+	private static final String DefaultCssFileName = "default.css";
+
+	private static String getAbsoluteUrl(EasyJaSubCssFile cssFile,
+			File htmlDirectory) {
+		return cssFile != null ? cssFile.toRelativeURIStr(null) : new File(
+				htmlDirectory, DefaultCssFileName).toURI().toString();
+	}
+
+	private static String getRelativeUrl(EasyJaSubCssFile cssFile,
+			File htmlDirectory) {
+		return cssFile != null ? cssFile.toRelativeURIStr(htmlDirectory)
+				: DefaultCssFileName;
 	}
 }

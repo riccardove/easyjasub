@@ -31,8 +31,9 @@
 		<repository>
 			<id>yoava</id>
 			<name>Repository for html2image</name>
-			<url>http://yoava.artifactoryonline.com/yoava/repo</url>
-		</repository>
+			<url>http://evgenyg.artifactoryonline.com/evgenyg/repo</url>
+<!-- 			<url>http://yoava.artifactoryonline.com/yoava/repo</url>
+ -->		</repository>
 	</repositories>
 
 	<build>

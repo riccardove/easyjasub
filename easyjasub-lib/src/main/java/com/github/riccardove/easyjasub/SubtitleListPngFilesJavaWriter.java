@@ -20,24 +20,22 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-import gui.ava.html.image.generator.HtmlImageGenerator;
+import gui.ava.html.Html2Image;
 
-import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 
 class SubtitleListPngFilesJavaWriter {
 
 	private final EasyJaSubObserver observer;
+	private final int width;
 
 	public SubtitleListPngFilesJavaWriter(int width, EasyJaSubObserver observer) {
+		this.width = width;
 		this.observer = observer;
-		imageGenerator = new HtmlImageGenerator();
-		imageGenerator.setSize(new Dimension(width, MaxHeight));
 	}
 
 	private static final int MaxHeight = 1000;
-	private final HtmlImageGenerator imageGenerator;
 
 	public void writeImages(PictureSubtitleList s) throws IOException,
 			InterruptedException,
@@ -49,15 +47,17 @@ class SubtitleListPngFilesJavaWriter {
 				observer.onWriteImageSkipped(pngFile, file);
 			} else {
 				observer.onWriteImage(pngFile, file);
-
+				Html2Image imageGenerator = null;
 				if (l.getHtml() != null) {
-					imageGenerator.loadHtml(l.getHtml());
+					imageGenerator = Html2Image.fromHtml(l.getHtml());
 				} else if (file != null && file.exists()) {
-					imageGenerator.loadUrl(file.toURI().toURL());
+					imageGenerator = Html2Image.fromFile(file);
 				} else {
 					observer.onWriteImageError(pngFile, file);
 				}
-				imageGenerator.saveAsImage(pngFile.getAbsolutePath());
+				imageGenerator.getImageRenderer().setWidth(width)
+						.setHeight(MaxHeight).setImageType("png")
+						.saveImage(pngFile);
 				// TODO store the image size
 			}
 		}
