@@ -22,7 +22,7 @@
 		<artifactId>easyjasub</artifactId>
 		<version>0.6.0</version>
 	</parent>
-	
+
 	<properties>
 		<launch4j.jremin>1.7.0</launch4j.jremin>
 		<launch4j.jreheap>128</launch4j.jreheap>
@@ -89,6 +89,16 @@
 				<configuration>
 					<shadedArtifactAttached>true</shadedArtifactAttached>
 					<shadedClassifierName>${launch4j.sourceclassifier}</shadedClassifierName>
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/*.SF</exclude>
+								<exclude>META-INF/*.DSA</exclude>
+								<exclude>META-INF/*.RSA</exclude>
+							</excludes>
+						</filter>
+					</filters>
 				</configuration>
 			</plugin>
 			<plugin>
