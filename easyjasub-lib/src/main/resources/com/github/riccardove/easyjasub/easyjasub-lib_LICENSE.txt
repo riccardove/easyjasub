@@ -11,7 +11,11 @@ Libraries available under "MIT" license:
 - subtitleConvert ${easyjasub.subtitleConvert.version} retrieved on 2014/02/20. For details see https://github.com/JDaren/subtitleConverter
 
 Libraries available under "GNU LESSER GENERAL PUBLIC LICENSE" license:
-- html2image ${easyjasub.html2image.version}.  For details see http://code.google.com/p/java-html2image/
+- html2image ${easyjasub.html2image.version} - http://code.google.com/p/java-html2image/
+- CSSBox ${easyjasub.cssbox.version} - http://cssbox.sourceforge.net
+
+Libraries available under "BSD" license:
+- ANTLR v3 ${easyjasub.antlr.version} - http://www.antlr3.org (included by CSSBox and html2image)
 
 ${project.name} includes a part of BDSup2Sub tool version ${easyjasub.bdsup2sub.version}, 
 which is distributed under "Apache Software License, Version 2.0" license and contains

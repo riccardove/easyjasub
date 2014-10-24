@@ -20,10 +20,12 @@ package com.github.riccardove.easyjasub;
  * #L%
  */
 
-import gui.ava.html.Html2Image;
-
 import java.io.File;
 import java.io.IOException;
+
+import org.xml.sax.SAXException;
+
+import com.github.riccardove.easyjasub.cssbox.CssBoxPngRenderer;
 
 class SubtitleListPngFilesJavaWriter {
 
@@ -38,7 +40,6 @@ class SubtitleListPngFilesJavaWriter {
 	private static final int MaxHeight = 1000;
 
 	public void writeImages(PictureSubtitleList s) throws IOException,
-			InterruptedException,
 			EasyJaSubException {
 		for (PictureSubtitleLine l : s) {
 			File file = l.getHtmlFile();
@@ -47,17 +48,21 @@ class SubtitleListPngFilesJavaWriter {
 				observer.onWriteImageSkipped(pngFile, file);
 			} else {
 				observer.onWriteImage(pngFile, file);
-				Html2Image imageGenerator = null;
-				if (l.getHtml() != null) {
-					imageGenerator = Html2Image.fromHtml(l.getHtml());
-				} else if (file != null && file.exists()) {
-					imageGenerator = Html2Image.fromFile(file);
+				/*
+				 * if (l.getHtml() != null) { new
+				 * Html2ImagePngRenderer().fromHtml(l.getHtml(), width,
+				 * MaxHeight, pngFile); } else
+				 */
+				if (file != null && file.exists()) {
+					try {
+						new CssBoxPngRenderer().fromFile(file, width,
+								MaxHeight, pngFile);
+					} catch (SAXException ex) {
+						throw new IOException("Error parsing HTML file", ex);
+					}
 				} else {
 					observer.onWriteImageError(pngFile, file);
 				}
-				imageGenerator.getImageRenderer().setWidth(width)
-						.setHeight(MaxHeight).setImageType("png")
-						.saveImage(pngFile);
 				// TODO store the image size
 			}
 		}

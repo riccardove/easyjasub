@@ -19,7 +19,7 @@
 	<parent>
 		<groupId>com.github.riccardove.easyjasub</groupId>
 		<artifactId>easyjasub</artifactId>
-		<version>0.5.1-SNAPSHOT</version>
+		<version>0.6.0</version>
 	</parent>
 
 	<repositories>
@@ -33,7 +33,8 @@
 			<name>Repository for html2image</name>
 			<url>http://evgenyg.artifactoryonline.com/evgenyg/repo</url>
 <!-- 			<url>http://yoava.artifactoryonline.com/yoava/repo</url>
- -->		</repository>
+ -->
+		</repository>
 	</repositories>
 
 	<build>
@@ -55,6 +56,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr-runtime</artifactId>
+			<version>${easyjasub.antlr.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.rendersnake</groupId>
 			<artifactId>rendersnake</artifactId>
 			<version>${easyjasub.rendersnake.version}</version>
@@ -63,6 +69,11 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>${easyjasub.commons-io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.cssbox</groupId>
+			<artifactId>cssbox</artifactId>
+			<version>${easyjasub.cssbox.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>gui.ava</groupId>
@@ -93,12 +104,6 @@
 			<groupId>org.antlr</groupId>
 			<artifactId>stringtemplate</artifactId>
 			<version>${easyjasub.stringtemplate.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.cssbox</groupId>
-			<artifactId>cssbox</artifactId>
-			<version>4.5</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

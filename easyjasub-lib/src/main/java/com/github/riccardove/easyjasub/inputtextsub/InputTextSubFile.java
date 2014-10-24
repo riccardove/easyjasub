@@ -25,6 +25,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.input.BOMInputStream;
+
 import subtitleFile.Caption;
 import subtitleFile.FatalParsingException;
 import subtitleFile.FormatASS;
@@ -64,7 +66,8 @@ public class InputTextSubFile {
 	public InputTextSubFile(SubtitleFileType inputFormat, String fileName,
 			InputStream is) throws InputTextSubException, IOException {
 		try {
-			tto = createFormat(inputFormat).parseFile(fileName, is);
+			tto = createFormat(inputFormat).parseFile(fileName,
+					new BOMInputStream(is));
 		} catch (FatalParsingException ex) {
 			throw new InputTextSubException(
 					"Parse error returned by subtitle read library", ex);

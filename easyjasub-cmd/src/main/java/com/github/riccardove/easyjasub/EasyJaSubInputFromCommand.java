@@ -415,7 +415,8 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput, Serializable {
 				return file.getAbsolutePath();
 			}
 		}
-		return null;
+		throw new EasyJaSubException(
+				"Could not find the wkhtmltoimage program, use the -wk option, if you want to try the internal renderer use the \"-wk disabled\" option");
 	}
 
 	private static boolean isCssContentType(File file) {

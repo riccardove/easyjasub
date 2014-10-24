@@ -37,13 +37,15 @@ class SubtitleItemElementsList {
 		boolean hasKanji = false;
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
-			if (!JapaneseChar.isSmallSizeJapaneseChar(c) || c == '々'
-					|| furigana.indexOf(c) < 0) {
-				// assumes this is Kanji chars, 々 is considered part of the
-				// kanji; It's a repetition kanji or
-				// "ideographic iteration mark", it means that the kanji just
-				// before should be repeated.
-				hasKanji = true;
+			boolean isKanji = isKanjiChar(c);
+			// the second check is useful to process words with kanji and
+			// katakana
+			if (isKanji || furigana.indexOf(c) < 0) {
+				if (isKanji) {
+					// use furigana only if there is at least one kanji in the
+					// word
+					hasKanji = true;
+				}
 				if (chars != null) {
 					addText(list, chars);
 					chars = null;
@@ -76,6 +78,14 @@ class SubtitleItemElementsList {
 			return list;
 		}
 		return null;
+	}
+
+	private boolean isKanjiChar(char c) {
+		return !JapaneseChar.isSmallSizeJapaneseChar(c) || c == '々';
+		// assumes this is Kanji chars, 々 is considered part of the
+		// kanji; It's a repetition kanji or
+		// "ideographic iteration mark", it means that the kanji just
+		// before should be repeated.
 	}
 
 	private void furiganaToElements(StringBuilder furigana, List<Inner> list) {

@@ -4,7 +4,7 @@
 
 	<groupId>com.github.riccardove.easyjasub</groupId>
 	<artifactId>easyjasub</artifactId>
-	<version>0.5.1-SNAPSHOT</version>
+	<version>0.6.0</version>
 	<packaging>pom</packaging>
 
 	<inceptionYear>2014</inceptionYear>
@@ -76,6 +76,8 @@
 		<easyjasub.bdsup2sub.version>5.2.0</easyjasub.bdsup2sub.version>
 		<easyjasub.stringtemplate.version>4.0.2</easyjasub.stringtemplate.version>
 		<easyjasub.jetty.version>3.0.0.v201112011016</easyjasub.jetty.version>
+		<easyjasub.cssbox.version>4.7</easyjasub.cssbox.version>
+		<easyjasub.antlr.version>3.5.2</easyjasub.antlr.version>
 		<wix.version>${project.version}.1</wix.version>
 		<main.class>com.github.riccardove.easyjasub.App</main.class>
 		<assembly.name>easyjasub-${project.version}</assembly.name>
