@@ -2,4 +2,4 @@ language: java
 jdk: oraclejdk7
 before_install:
   - sudo apt-get update
-  - sudo apt-get install ia32-libs
+  - sudo apt-get install gcc-multilib
