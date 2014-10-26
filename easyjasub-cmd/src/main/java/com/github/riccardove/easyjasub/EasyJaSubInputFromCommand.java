@@ -446,9 +446,11 @@ class EasyJaSubInputFromCommand implements EasyJaSubInput, Serializable {
 		return SubtitleFileType.isValue(ext);
 	}
 
+	// TODO: check the file type of all supported subtitles formats
 	private static boolean isTextContentType(File file) {
-		String type = probeContentType(file);
-		return type == null || type.startsWith("text/");
+		return true;
+		// String type = probeContentType(file);
+		// return type == null || type.startsWith("text/");
 	}
 
 	private static boolean isVideoContentType(File file) {
