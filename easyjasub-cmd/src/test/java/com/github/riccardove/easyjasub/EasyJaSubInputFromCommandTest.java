@@ -38,6 +38,7 @@ public class EasyJaSubInputFromCommandTest extends EasyJaSubCmdTestCase {
 		
 		FakeEasyJaSubInputCommand fakeInput = new FakeEasyJaSubInputCommand();
 		fakeInput.setJapaneseSubFileName(Sample1JaSub);
+		fakeInput.setWkhtmltoimage("disabled");
 		EasyJaSubInputFromCommand obj = new EasyJaSubInputFromCommand(fakeInput);
 
 		assertEquals("sample1", obj.getDefaultFileNamePrefix());
@@ -64,6 +65,7 @@ public class EasyJaSubInputFromCommandTest extends EasyJaSubCmdTestCase {
 		assertTrue(new File(Sample1TrSub).exists());
 		
 		FakeEasyJaSubInputCommand fakeInput = new FakeEasyJaSubInputCommand();
+		fakeInput.setWkhtmltoimage("disabled");
 		fakeInput.setTranslatedSubFileName(Sample1TrSub);
 		EasyJaSubInputFromCommand obj = new EasyJaSubInputFromCommand(fakeInput);
 
