@@ -1,1 +1,4 @@
 language: java
+jdk: oraclejdk7
+before_install:
+	- sudo apt-get install ia32-libs
