@@ -27,8 +27,10 @@ import org.junit.Test;
 
 public class EasyJaSubInputFromCommandTest extends EasyJaSubCmdTestCase {
 
-	private static final String Sample1JaSub = "samples\\sample1.jp.ass";
-	private static final String Sample1TrSub = "samples\\sample1.en.srt";
+	private static final String Sample1JaSub = "samples" + File.separator
+			+ "sample1.jp.ass";
+	private static final String Sample1TrSub = "samples" + File.separator
+			+ "sample1.en.srt";
 	
 	@Test
 	public void testGiveOnlyJapaneseSubtitleFile() throws Exception {

@@ -35,4 +35,8 @@ public abstract class EasyJaSubCmdTestCase extends TestCase {
 				+ SystemProperty.getUserDir(), file.exists());
 		return file;
 	}
+
+	protected File getSamplesDir() {
+		return samplesFile;
+	}
 }
