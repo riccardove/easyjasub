@@ -4,7 +4,7 @@
 
 	<groupId>com.github.riccardove.easyjasub</groupId>
 	<artifactId>easyjasub</artifactId>
-	<version>0.6.0</version>
+	<version>0.6.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<inceptionYear>2014</inceptionYear>
@@ -145,10 +145,17 @@
 					<version>1.4</version>
 				</plugin>
 				<plugin>
+					<groupId>com.akathist.maven.plugins.launch4j</groupId>
+					<artifactId>launch4j-maven-plugin</artifactId>
+					<version>1.7</version>
+				</plugin>
+<!-- 				
+				<plugin>
 					<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
 					<artifactId>launch4j-plugin</artifactId>
 					<version>1.5.0.0</version>
 				</plugin>
+ -->
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>license-maven-plugin</artifactId>
