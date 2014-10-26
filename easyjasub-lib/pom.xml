@@ -15,6 +15,7 @@
 	<artifactId>easyjasub-lib</artifactId>
 	<packaging>jar</packaging>
 	<name>easyjasub-lib</name>
+	<url>http://easyjasub.sourceforge.net</url>
 
 	<parent>
 		<groupId>com.github.riccardove.easyjasub</groupId>
@@ -32,8 +33,6 @@
 			<id>yoava</id>
 			<name>Repository for html2image</name>
 			<url>http://evgenyg.artifactoryonline.com/evgenyg/repo</url>
-<!-- 			<url>http://yoava.artifactoryonline.com/yoava/repo</url>
- -->
 		</repository>
 	</repositories>
 
@@ -107,5 +106,4 @@
 		</dependency>
 	</dependencies>
 
-	<url>http://easyjasub.sourceforge.net</url>
 </project>
