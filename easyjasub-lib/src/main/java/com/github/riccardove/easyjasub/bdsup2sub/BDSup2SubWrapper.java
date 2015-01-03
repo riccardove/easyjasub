@@ -69,7 +69,7 @@ import com.github.riccardove.easyjasub.EasyJaSubObserver;
 import com.mortennobel.imagescaling.ResampleFilter;
 
 /**
- * This class contains some code copied from BDSup2Sub "Core" class
+ * This class contains mostly code copied from BDSup2Sub "Core" class
  */
 public class BDSup2SubWrapper {
 
@@ -140,31 +140,7 @@ public class BDSup2SubWrapper {
 			luminanceThreshold[0] = 210;
 			luminanceThreshold[1] = 160;
 		}
-
-		// // find language idx
-		// for (int i=0; i < LANGUAGES.length; i++) {
-		// if (LANGUAGES[i][2].equalsIgnoreCase(supXml.getLanguage())) {
-		// configuration.setLanguageIdx(i);
-		// break;
-		// }
-		// }
-
-		// // set frame rate
-		// configuration.setFpsSrc(supXml.getFps());
-		// configuration.setFpsSrcCertain(true);
-		// if (configuration.isKeepFps()) {
-		// configuration.setFpsTrg(configuration.getFPSSrc());
-		// }
-
 	}
-
-	// private SubPicture getSubPictureSrc(int index) {
-	// return subtitleStream.getSubPicture(index);
-	// }
-	//
-	// private int getNumFrames() {
-	// return subtitleStream == null ? 0 : subtitleStream.getFrameCount();
-	// }
 
 	/**
 	 * Create a copy of the loaded subpicture information frames.<br>
@@ -177,23 +153,10 @@ public class BDSup2SubWrapper {
 		double factTS = convertFPS ? configuration.getFPSSrc()
 				/ configuration.getFpsTrg() : 1.0;
 
-		// // change target resolution to source resolution if no conversion is
-		// // needed
-		// if (!configuration.getConvertResolution() && getNumFrames() > 0) {
-		// configuration.setOutputResolution(getResolutionForDimension(
-		// getSubPictureSrc(0).getWidth(), getSubPictureSrc(0)
-		// .getHeight()));
-		// }
-
 		double fx;
 		double fy;
-		// if (configuration.getApplyFreeScale()) {
-		// fx = configuration.getFreeScaleFactorX();
-		// fy = configuration.getFreeScaleFactorY();
-		// } else {
 		fx = 1.0;
 		fy = 1.0;
-		// }
 
 		// first run: clone source subpics, apply speedup/down,
 		SubPicture picSrc;
@@ -223,14 +186,6 @@ public class BDSup2SubWrapper {
 
 			// set forced flag
 			SubPicture picTrg = subPictures[i];
-			// switch (configuration.getForceAll()) {
-			// case SET:
-			// picTrg.setForced(true);
-			// break;
-			// case CLEAR:
-			// picTrg.setForced(false);
-			// break;
-			// }
 
 			double scaleX;
 			double scaleY;
@@ -317,7 +272,6 @@ public class BDSup2SubWrapper {
 	 */
 	private void validateTimes(int idx, SubPicture subPic,
 			SubPicture subPicNext, SubPicture subPicPrev) {
-		// long tpf = (long)(90000/fpsTrg); // time per frame
 		long startTime = subPic.getStartTime();
 		long endTime = subPic.getEndTime();
 		final long delay = 5000 * 90; // default delay for missing end time (5
@@ -329,8 +283,6 @@ public class BDSup2SubWrapper {
 		long lastEndTime = subPicPrev != null ? subPicPrev.getEndTime() : -1;
 
 		if (startTime < lastEndTime) {
-			// logger.warn("start time of frame " + idx +
-			// " < end of last frame -> fixed\n");
 			startTime = lastEndTime;
 		}
 
@@ -348,20 +300,11 @@ public class BDSup2SubWrapper {
 		}
 
 		if (endTime <= startTime) {
-			if (endTime == 0) {
-				// logger.warn("missing end time of frame " + idx +
-				// " -> fixed\n");
-			} else {
-				// logger.warn("end time of frame " + idx +
-				// " <= start time -> fixed\n");
-			}
 			endTime = startTime + delay;
 			if (endTime > nextStartTime) {
 				endTime = nextStartTime;
 			}
 		} else if (endTime > nextStartTime) {
-			// logger.warn("end time of frame " + idx +
-			// " > start time of next frame -> fixed\n");
 			endTime = nextStartTime;
 		}
 
@@ -372,12 +315,6 @@ public class BDSup2SubWrapper {
 				if (endTime > nextStartTime) {
 					endTime = nextStartTime;
 				}
-				// logger.warn("duration of frame " + idx + " was shorter than "
-				// + (ToolBox.formatDouble(minTimePTS / 90.0)) +
-				// "ms -> fixed\n");
-			} else {
-				// logger.warn("duration of frame " + idx + " is shorter than "
-				// + (ToolBox.formatDouble(minTimePTS / 90.0)) + "ms\n");
 			}
 		}
 
@@ -405,13 +342,10 @@ public class BDSup2SubWrapper {
 		SortedMap<Integer, SubPicture> exportedSubPictures = new TreeMap<Integer, SubPicture>();
 		int frameNum = 0;
 		String fn = "";
-		// logger.resetErrorCounter();
-		// logger.resetWarningCounter();
 
 		List<Integer> subPicturesToBeExported = getSubPicturesToBeExported();
 
 		if (subPicturesToBeExported.isEmpty()) {
-			// logger.warn("There is no subpicture to be exported.");
 			return;
 		}
 
@@ -433,18 +367,10 @@ public class BDSup2SubWrapper {
 				fn = FilenameUtils.removeExtension(fname);
 				fname = fn + ".xml";
 			}
-			// logger.info("\nWriting " + fname + "\n");
 
 			// main loop
 			int offset = 0;
 			for (int i : subPicturesToBeExported) {
-				// // for threaded version
-				// if (isCanceled()) {
-				// throw new CoreException("Canceled by user!");
-				// }
-				// // for threaded version (progress bar);
-				// setProgress(i);
-
 				SubPicture subPicture = subPictures[i];
 				if (outputMode == OutputMode.VOBSUB) {
 					offsets.add(offset);
@@ -498,11 +424,7 @@ public class BDSup2SubWrapper {
 			}
 		}
 
-		boolean importedDVDPalette = (inMode == InputMode.VOBSUB)
-				|| (inMode == InputMode.SUPIFO);
-
 		Palette trgPallete = null;
-		PaletteMode paletteMode = configuration.getPaletteMode();
 		if (outputMode == OutputMode.VOBSUB) {
 			// VobSub - write IDX
 			/* return offsets as array of ints */
@@ -515,41 +437,12 @@ public class BDSup2SubWrapper {
 				ts[i] = timestamps.get(i);
 			}
 			fname = FilenameUtils.removeExtension(fname) + ".idx";
-			// logger.info("\nWriting " + fname + "\n");
-			// if (!importedDVDPalette || paletteMode !=
-			// PaletteMode.KEEP_EXISTING) {
 			trgPallete = currentDVDPalette;
-			// } else {
-			// trgPallete = currentSourceDVDPalette;
-			// }
 			SubDvdWriter.writeIdx(fname, subPictures[0], ofs, ts, trgPallete);
 		} else if (outputMode == OutputMode.XML) {
 			// XML - write XML
-			// logger.info("\nWriting " + fname + "\n");
 			SupXml.writeXml(fname, exportedSubPictures);
-			// } else if (outputMode == OutputMode.SUPIFO) {
-			// // SUP/IFO - write IFO
-			// if (!importedDVDPalette || paletteMode !=
-			// PaletteMode.KEEP_EXISTING) {
-			// trgPallete = currentDVDPalette;
-			// } else {
-			// trgPallete = currentSourceDVDPalette;
-			// }
-			// fname = FilenameUtils.removeExtension(fname) + ".ifo";
-			// // logger.info("\nWriting " + fname + "\n");
-			// IfoWriter.writeIFO(fname, subPictures[0].getHeight(),
-			// trgPallete);
 		}
-
-		// // only possible for SUB/IDX and SUP/IFO (else there is no public
-		// // palette)
-		// if (trgPallete != null && configuration.getWritePGCEditPalette()) {
-		// String fnp = FilenameUtils.removeExtension(fname) + ".txt";
-		// logger.info("\nWriting " + fnp + "\n");
-		// writePGCEditPal(fnp, trgPallete);
-		// }
-
-		// state = CoreThreadState.FINISHED;
 	}
 
 	/**
@@ -653,12 +546,7 @@ public class BDSup2SubWrapper {
 	private void convertSup(int index, int displayNum, int displayMax,
 			boolean skipScaling) throws CoreException {
 		int w, h;
-		int startOfs = (int) subtitleStream.getStartOffset(index);
 		SubPicture subPic = subtitleStream.getSubPicture(index);
-
-		// logger.info("Decoding frame " + displayNum + "/" + displayMax +
-		// ((subtitleStream == supXml) ? "\n" : (" at offset " +
-		// ToolBox.toHexLeftZeroPadded(startOfs, 8) + "\n")));
 
 		// synchronized (semaphore)
 		{
@@ -816,13 +704,6 @@ public class BDSup2SubWrapper {
 			trgPal = tPal;
 
 		}
-
-		// if (configuration.isCliMode()) {
-		// moveToBounds(picTrg, displayNum, configuration.getCineBarFactor(),
-		// configuration.getMoveOffsetX(), configuration.getMoveOffsetY(),
-		// configuration.getMoveModeX(), configuration.getMoveModeY(),
-		// configuration.getCropOffsetY());
-		// }
 	}
 
 	/**
@@ -901,35 +782,6 @@ public class BDSup2SubWrapper {
 			subVobTrg.setPal(palFrame);
 
 			trgPal = SupDvdUtil.decodePalette(subVobTrg, trgPallete);
-			// } else {
-			// // use palette from loaded VobSub or SUP/IFO
-			// Palette miniPal = new Palette(4, true);
-			// int alpha[];
-			// int palFrame[];
-			// DvdSubtitleStream substreamDvd;
-			//
-			// if (inMode == InputMode.VOBSUB) {
-			// substreamDvd = subDVD;
-			// } else {
-			// substreamDvd = supDVD;
-			// }
-			//
-			// alpha = substreamDvd.getFrameAlpha(index);
-			// palFrame = substreamDvd.getFramePalette(index);
-			//
-			// for (int i = 0; i < 4; i++) {
-			// int a = (alpha[i] * 0xff) / 0xf;
-			// if (a >= configuration.getAlphaCrop()) {
-			// miniPal.setARGB(i,
-			// currentSourceDVDPalette.getARGB(palFrame[i]));
-			// miniPal.setAlpha(i, a);
-			// } else {
-			// miniPal.setARGB(i, 0);
-			// }
-			// }
-			// subVobTrg.setAlpha(alpha);
-			// subVobTrg.setPal(palFrame);
-			// trgPal = miniPal;
 		}
 	}
 

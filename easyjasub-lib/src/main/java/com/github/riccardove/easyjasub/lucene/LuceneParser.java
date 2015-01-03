@@ -21,6 +21,7 @@ package com.github.riccardove.easyjasub.lucene;
  */
 
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ import org.apache.lucene.analysis.util.CharArraySet;
 /**
  * Parser using Lucene JapaneseAnalyzer
  */
-public class LuceneParser {
+public class LuceneParser implements Closeable {
 
 	public LuceneParser(boolean ignoreDefaultWordSet) throws IOException {
 		CharArraySet stopSet = ignoreDefaultWordSet ? JapaneseAnalyzer
@@ -124,9 +125,9 @@ public class LuceneParser {
 				.getAttribute(InflectionAttribute.class);
 		if (inflection != null) {
 			token.setInflectionForm(LuceneUtil
-					.TranslateInflectedForm(inflection.getInflectionForm()));
+					.translateInflectedForm(inflection.getInflectionForm()));
 			token.setInflectionType(LuceneUtil
-					.TranslateInflectionType(inflection.getInflectionType()));
+					.translateInflectionType(inflection.getInflectionType()));
 		}
 	}
 
@@ -136,7 +137,7 @@ public class LuceneParser {
 		if (partOfSpeech != null) {
 			String str = partOfSpeech.getPartOfSpeech();
 			if (str != null) {
-				token.setPartOfSpeech(LuceneUtil.TranslatePartOfSpeech(str));
+				token.setPartOfSpeech(LuceneUtil.translatePartOfSpeech(str));
 			}
 		}
 	}
@@ -159,6 +160,7 @@ public class LuceneParser {
 		}
 	}
 
+	@Override
 	public void close() {
 		analyzer.close();
 	}

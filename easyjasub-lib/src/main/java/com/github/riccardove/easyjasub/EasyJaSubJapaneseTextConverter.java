@@ -54,7 +54,7 @@ class EasyJaSubJapaneseTextConverter {
 			return Kurikosu.convertKatakanaToRomaji(katakana);
 		} catch (EasyJaSubException ex) {
 			try {
-				return LuceneUtil.KatakanaToRomaji(katakana);
+				return LuceneUtil.katakanaToRomaji(katakana);
 			} catch (Throwable luceneEx) {
 				throw ex;
 			}

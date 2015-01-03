@@ -21,6 +21,8 @@ package com.github.riccardove.easyjasub.lucene;
  */
 
 
+import java.io.IOException;
+
 import org.apache.lucene.analysis.ja.util.ToStringUtil;
 
 public final class LuceneUtil {
@@ -32,22 +34,32 @@ public final class LuceneUtil {
 	/**
 	 * Romanize katakana with modified hepburn
 	 */
-	public static String KatakanaToRomaji(String text) {
+	public static String katakanaToRomaji(String text) {
 		return ToStringUtil.getRomanization(text);
 	}
 
-	public static String TranslatePartOfSpeech(String partOfSpeech) {
+	/**
+	 * Romanize katakana with modified hepburn
+	 * 
+	 * @throws IOException
+	 */
+	public static void katakanaToRomaji(Appendable builder, CharSequence s)
+			throws IOException {
+		ToStringUtil.getRomanization(builder, s);
+	}
+
+	public static String translatePartOfSpeech(String partOfSpeech) {
 		String translation = ToStringUtil.getPOSTranslation(partOfSpeech);
 		return translation != null ? translation : partOfSpeech;
 	}
 
-	public static String TranslateInflectedForm(String inflectedForm) {
+	public static String translateInflectedForm(String inflectedForm) {
 		String translation = ToStringUtil
 				.getInflectedFormTranslation(inflectedForm);
 		return translation != null ? translation : inflectedForm;
 	}
 
-	public static String TranslateInflectionType(String inflectionType) {
+	public static String translateInflectionType(String inflectionType) {
 		String translation = ToStringUtil
 				.getInflectionTypeTranslation(inflectionType);
 		return translation != null ? translation : inflectionType;

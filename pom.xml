@@ -71,7 +71,7 @@
 		<easyjasub.subtitleConvert.version>1.0.2</easyjasub.subtitleConvert.version>
 		<easyjasub.commons-cli.version>1.2</easyjasub.commons-cli.version>
 		<easyjasub.nv-i18n.version>1.11</easyjasub.nv-i18n.version>
-		<easyjasub.lucene-analyzers-kuromoji.version>4.10.1</easyjasub.lucene-analyzers-kuromoji.version>
+		<easyjasub.lucene-analyzers-kuromoji.version>4.10.3</easyjasub.lucene-analyzers-kuromoji.version>
 		<easyjasub.bdsup2sub.version>5.2.0</easyjasub.bdsup2sub.version>
 		<easyjasub.stringtemplate.version>4.0.2</easyjasub.stringtemplate.version>
 		<easyjasub.jetty.version>3.0.0.v201112011016</easyjasub.jetty.version>

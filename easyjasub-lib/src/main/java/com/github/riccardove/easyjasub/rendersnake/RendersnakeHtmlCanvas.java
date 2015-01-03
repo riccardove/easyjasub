@@ -63,8 +63,49 @@ public class RendersnakeHtmlCanvas {
 		return html.toHtml();
 	}
 
-	public void newline() throws IOException {
+	public RendersnakeHtmlCanvas h1() throws IOException {
+		html.h1();
+		return this;
+	}
+
+	public RendersnakeHtmlCanvas _h1() throws IOException {
+		html._h1();
+		return this;
+	}
+
+	public RendersnakeHtmlCanvas h2() throws IOException {
+		html.h2();
+		return this;
+	}
+
+	public RendersnakeHtmlCanvas _h2() throws IOException {
+		html._h2();
+		return this;
+	}
+
+	public RendersnakeHtmlCanvas _ul() throws IOException {
+		html._ul();
+		return this;
+	}
+
+	public RendersnakeHtmlCanvas ul() throws IOException {
+		html.ul();
+		return this;
+	}
+
+	public RendersnakeHtmlCanvas li() throws IOException {
+		html.li();
+		return this;
+	}
+
+	public RendersnakeHtmlCanvas _li() throws IOException {
+		html._li();
+		return this;
+	}
+
+	public RendersnakeHtmlCanvas newline() throws IOException {
 		html.write(newLineStr, false);
+		return this;
 	}
 
 	public void table() throws IOException {
@@ -95,8 +136,9 @@ public class RendersnakeHtmlCanvas {
 		html.td().content(dict);
 	}
 
-	public void write(String trimmedText) throws IOException {
+	public RendersnakeHtmlCanvas write(String trimmedText) throws IOException {
 		html.write(trimmedText, true);
+		return this;
 	}
 
 	public void writeUnescaped(String trimmedText) throws IOException {
@@ -150,12 +192,14 @@ public class RendersnakeHtmlCanvas {
 		newline();
 	}
 
-	public void p() throws IOException {
+	public RendersnakeHtmlCanvas p() throws IOException {
 		html.p(class_("ja"));
+		return this;
 	}
 
-	public void _p() throws IOException {
+	public RendersnakeHtmlCanvas _p() throws IOException {
 		html._p();
+		return this;
 	}
 
 	public void ruby() throws IOException {

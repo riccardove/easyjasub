@@ -32,6 +32,8 @@ public class SubtitleItem {
 	private String partOfSpeech;
 	private List<Inner> elements;
 	private String baseForm;
+	private String inflectionForm;
+	private String inflectionType;
 
 	public String getBaseForm() {
 		return baseForm;
@@ -132,5 +134,21 @@ public class SubtitleItem {
 			}
 		}
 		return result.toString();
+	}
+
+	public String getInflectionForm() {
+		return inflectionForm;
+	}
+
+	public void setInflectionForm(String inflectionForm) {
+		this.inflectionForm = inflectionForm;
+	}
+
+	public String getInflectionType() {
+		return inflectionType;
+	}
+
+	public void setInflectionType(String inflectionType) {
+		this.inflectionType = inflectionType;
 	}
 }

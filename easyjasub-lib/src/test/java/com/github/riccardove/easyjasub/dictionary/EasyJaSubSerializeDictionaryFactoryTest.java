@@ -23,15 +23,17 @@ package com.github.riccardove.easyjasub.dictionary;
 
 import java.io.File;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+import com.github.riccardove.easyjasub.EasyJaSubObserverBase;
 import com.github.riccardove.easyjasub.EasyJaSubSerialize;
 import com.github.riccardove.easyjasub.EasyJaSubTestCase;
-import com.github.riccardove.easyjasub.EasyJaSubObserverBase;
 
 public class EasyJaSubSerializeDictionaryFactoryTest extends EasyJaSubTestCase {
 
 	@Test
+	@Ignore
 	public void testSerialize() throws Exception {
 		File sampleFile = getJMDictSampleFile();
 		if (sampleFile == null || !sampleFile.exists()) {

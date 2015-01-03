@@ -58,6 +58,8 @@ public class SubtitleListLuceneAnalyzer {
 			subsItem.setPartOfSpeech(pos);
 			subsItem.setText(text);
 			subsItem.setBaseForm(token.getBaseForm());
+			subsItem.setInflectionForm(token.getInflectionForm());
+			subsItem.setInflectionType(token.getInflectionType());
 
 			String reading = token.getReading();
 			if (reading != null) {
