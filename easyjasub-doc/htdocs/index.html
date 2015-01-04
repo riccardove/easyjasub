@@ -87,7 +87,7 @@ table.sample {
 
 tr.top {
 	letter-spacing: -2px;
-	font-family: cinecaption, arial;
+	font-family: arial;
 	font-size: 18pt;
 }
 
@@ -98,7 +98,7 @@ tr.bottom {
 }
 
 tr.center {
-	font-family: cinecaption, arial;
+	font-family: arial;
 	font-size: 25pt;
 	padding-left: 2px;
 	padding-right: 2px;
@@ -117,7 +117,7 @@ td.sample {
 
 span.kk {
 	letter-spacing: -6px;
-	font-family: cinecaption, arial;
+	font-family: arial;
 	font-size: 40pt;
 	margin-left: 0;
 	margin-right: 0;
@@ -129,11 +129,11 @@ span.kk {
 	<div>
 		<h1>easyjasub</h1>
 		<p>
-			<strong>easyjasub</strong> is a tool to add furigana and in-line
-			translation to Japanese subtitles, for language learning. It takes
-			Japanese and an other language (say English) text subtitles and
-			combines them in picture-basted subtitles.
-
+			<strong>easyjasub</strong> is a tool to assist in understanding
+			Japanese subtitles those who have a little knowledge of Japanese
+			language, for language learning. It allows you to get subtitles with
+			furigana and in-line translation, in several formats suitable for
+			both video rendering and self-study.
 		</p>
 		<p>It is designed to work as a command-line utility or as a Java
 			library to be integrated in other applications, or maybe a custom UI.
@@ -195,20 +195,12 @@ span.kk {
 				provide a standard installation
 			</li>
 			<li><a href="http://wkhtmltopdf.org/">wkhtmltoimage</a> is used
-				to create the pictures from HTML files, if it is not available the
-				quality of rendering of subtitles may decrease as there won't be
-				support for rendering the HTML5 ruby tag. Please install this in its
+				to create the pictures from HTML files. Please install this in its
 				default installation directory.</li>
-			<li><a href="http://chiphead.jp/font/htm/cinecaption.htm">Cinecaption
-					font</a> from <a href="http://chiphead.jp">Chiphead</a> is used to
-				render text, see <a href="kana.png">this image</a> for a sample of
-				this font, you can also directly <a href="kana.html">see the
-					sample image picture HTML</a></li>
 		</ul>
 
 		<p>Subtitles are rendered as HTML pages, below you can see an
-			example text that you can use to verify that you have Cinecaption
-			fonts available</p>
+			example text</p>
 
 		<table class="sample">
 			<tr class="top">
@@ -231,39 +223,40 @@ span.kk {
 			</tr>
 		</table>
 
-		<p>
-			<a href="https://github.com/mjuhasz/BDSup2Sub">BDSup2Sub</a> is used
-			to convert easyjasub intermediate output (Sony BDN XML) to DivX
-			subtitles (SUB/IDX), you can install and use it separately to convert
-			subtitles in Blu-Ray SUP or DVD-SUP (SUP/IFO) format. There are many
-			web sites where you can download it, for example <a
-				href="http://www.softpedia.com/get/Multimedia/Video/Other-VIDEO-Tools/BDSup2Sub.shtml">softpedia.com</a>
-		</p>
-
-		<p>
-			The <a href="http://rendersnake.org">rendersnake</a> Java library is
-			used to write HTML files, and <a
-				href="http://code.google.com/p/kurikosu/">Kurikosu</a> library is
-			used for Japanese text conversion
-		</p>
-
 		<p>Additional software may be required, you may need to edit or
 			produce text based subtitles, and visualize your video with external
 			subtitles file.</p>
-
+		<ul>
+			<li><a href="https://github.com/mjuhasz/BDSup2Sub">BDSup2Sub</a>
+				can be used to convert easyjasub intermediate output (Sony BDN XML),
+				in Blu-Ray SUP or DVD-SUP (SUP/IFO) format. There are many web sites
+				where you can download it, for example <a
+				href="http://www.softpedia.com/get/Multimedia/Video/Other-VIDEO-Tools/BDSup2Sub.shtml">softpedia.com</a>.
+				DivX subtitles (SUB/IDX) can be produced with the BDSup2Sub version
+				embedded in easyjasub but if you want to fine-tune the conversion
+				you will have to run the tool separately</li>
+			<li>You may need to manually edit input subtitles files to
+				remove special effects and unnecessary text, my personal suggestion
+				is to use <a href="http://www.aegisub.org/">Aegisub</a> and save the
+				input files in .ASS format.
+			</li>
+			<li>You may want to try special fonts for Japanese language,
+				like <a href="http://chiphead.jp/font/htm/cinecaption.htm">Cinecaption
+					font</a> from <a href="http://chiphead.jp">Chiphead</a>
+			</li>
+		</ul>
 
 		<h2>Basic usage</h2>
 
 		<ol>
-			<li>As input, you need to provide Japanese and translated
-				subtitles in text format, both of them must be in sync with your
-				video. Supported formats for input text subtitles are: EBU's STL,
-				.SCC, .ASS/.SSA, .SRT, TTML (<a
-				href="https://github.com/JDaren/subtitleConverter">subtitleConverter</a>
-				library is used to read the text subtitles). Make sure subtitle file
-				names have an extension matching one of supported ones above and
-				copy them into a new empty directory.
-			</li>
+			<li>As input, you need to provide Japanese and optionally
+				translated subtitles in text format, both of them must be in sync
+				with your video. Supported formats for input text subtitles are:
+				EBU's STL, .SCC, .ASS/.SSA, .SRT, TTML; .ASS is preferred. Make sure
+				subtitle file names have an extension matching one of supported ones
+				above and copy them into a new empty directory. Note that
+				picture-based subtitles (normally available in DVDs) can not be used
+				as an input.</li>
 			<li>The timing of generated subtitles will be the same timing of
 				the Japanese subtitles, the secondary subtitles may be repeated into
 				multiple lines if their timings does not match perfectly (this is ok
@@ -282,13 +275,34 @@ span.kk {
 			<li>Run a terminal or a command line (on Windows, execute "cmd")
 				and run: <pre>java -jar easyjasub-cmd.jar -ja subtitle.ja.srt -tr subtitle.en.srt</pre>
 				Where subtitle.ja.srt is the filename for Japanese subtitles and
-				subtitle.en.srt is the filename for translated subtitles On Windows
+				subtitle.en.srt is the filename for translated subtitles. On Windows
 				you can use the executable file: <pre>easyjasub.exe -ja subtitle.ja.srt -tr subtitle.en.srt</pre>
+				If you do not have translated subtitles or you do not want to use
+				them, you can exclude them using &quot;disabled&quot; keyword: <pre>java -jar easyjasub-cmd.jar -ja subtitle.ja.srt -tr disabled</pre>
 			</li>
 		</ol>
 		<p>A new folder will be produced to store output and intermediate
-			files, and if the process is successfull a command to run BDSup2Sub
-			and convert subtitles is suggested</p>
+			files, with the exception of SUB/IDX subtitles which are by default
+			produced in the same folder of input files. Files produced by default
+			are:</p>
+		<ul>
+			<li>text (.TXT) file with the Japanese subtitles in text format,
+				you can use it as an input to an automatic translator or any other
+				software to assist you in reading Japanese text.</li>
+			<li>.JGLOSS file that you can use with <a
+				href="http://jgloss.sourceforge.net/">JGloss</a> to manually
+				annotate the text and view furigana. You can use this file to
+				manually fix errors in the automatic processing and obtain a
+				flawless script.
+			</li>
+			<li>.HTML page with the transcription of subtitles (you need a
+				browser supporting the <a
+				href="http://www.w3schools.com/tags/tag_ruby.asp">&lt;ruby&gt;
+					tag</a> to view furigana) and the list of all words divided by part of
+				speech.
+			</li>
+			<li>a pair of .IDX and .SUB files with SUB/IDX subtitles</li>
+		</ul>
 		<p>
 			Subtitles look like this: <img src="sample.png"
 				alt="Sample easyjasub subtitle picture" />
@@ -375,15 +389,24 @@ span.kk {
 		<p>easyjasub performs the following actions:</p>
 		<ol>
 			<li>Reads Japanese subtitles file</li>
-			<li>Converts Japanese subtitles in plain text format and write
-				it in a text .txt file</li>
-			<li>Read translated subtitles file</li>
-			<li>Parses the Japanese text</li>
+			<li>Converts Japanese subtitles in plain text format</li>
+			<li>Writes a text file with subtitles</li>
+			<li>Read translated subtitles file (<a
+				href="https://github.com/JDaren/subtitleConverter">subtitleConverter</a>
+				library is used to read the text subtitles)
+			</li>
+			<li>Parses the Japanese text (<a href="http://www.atilika.org/">Kuromoji</a>
+				analyzer of <a href="http://lucene.apache.org/">Apache Lucene</a> is
+				used)
+			</li>
 			<li>Create the output folder to store files</li>
 			<li>Writes a CSS file to style subtitles</li>
+			<li>Writes a .JGLOSS file with furigana annotation</li>
+			<li>Writes a HTML page with furigana annotation and vocab</li>
 			<li>Writes one HTML file for each subtitle line</li>
 			<li>Renders HTML files in PNG pictures</li>
 			<li>Writes the BDN XML file</li>
+			<li>Converts the BDN XML file in a SUB/IDX subtitles file</li>
 		</ol>
 		<p>easyjasub never overwrites an existing file, so make sure you
 			manually delete them if you need to run the tool again. You can
@@ -415,7 +438,7 @@ span.kk {
 				alt="SourceForge.net"></a>
 		</p>
 		<p>
-			©Copyright 1999-2009 - <a href="http://geek.net/"
+			©Copyright 1999-2015 - <a href="http://geek.net/"
 				title="Network which provides and promotes Open Source software downloads, development, discussion and news.">
 				Geeknet</a>, Inc., All Rights Reserved
 		</p>
