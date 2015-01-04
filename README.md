@@ -1,7 +1,10 @@
 easyjasub
 =========
 
-EasyJaSub (http://easyjasub.sf.net) is a tool to add furigana and in-line translation to japanese subtitles, for language learning.
+easyjasub (http://easyjasub.sf.net) is a tool to assist in understanding Japanese subtitles those who have a little knowledge of Japanese language, for language learning. It allows you to get subtitles with furigana and in-line translation, in several formats suitable for both video rendering and self-study.
+
+It is designed to work as a command-line utility or as a Java library to be integrated in other applications, or maybe a custom UI.
+
 It takes Japanese and an other language (say English) text subtitles and combines them in picture-basted (IDX/SUB) subtitles.
 
 Timing for the Japanese subtitles is used, the secondary subtitles may be repeated into multiple lines.
