@@ -65,7 +65,7 @@ class SubtitleListToHtmlFileWriter {
 			converter.appendHtmlBodyContent(line, html);
 			html._div();
 		}
-		html.h1().write("Vocabolary")._h1();
+		html.h1().write("Vocabulary")._h1();
 		writeVocabolary(html, list);
 		html.footer();
 		return html.toString();
