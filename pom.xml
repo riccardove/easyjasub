@@ -6,14 +6,14 @@
 	<version>0.6.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<inceptionYear>2014</inceptionYear>
+	<inceptionYear>2015</inceptionYear>
 	<organization>
 		<name>Riccardo Vestrini</name>
 		<url>https://github.com/riccardove</url>
 	</organization>
 	<name>easyjasub</name>
 	<url>http://easyjasub.sourceforge.net</url>
-	<description>Tool to add furigana and in-line translation to Japanese subtitles, for language learning</description>
+	<description>Tool to assist in understanding Japanese subtitles those who have a little knowledge of Japanese language, for language learning. It allows you to get subtitles with furigana and in-line translation, in several formats suitable for both video rendering and self-study.</description>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -256,4 +256,8 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<ciManagement>
+		<url>https://travis-ci.org/riccardove/easyjasub</url>
+		<system>Travis CI</system>
+	</ciManagement>
 </project>

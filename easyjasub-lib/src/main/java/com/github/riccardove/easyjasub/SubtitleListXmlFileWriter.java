@@ -48,13 +48,17 @@ class SubtitleListXmlFileWriter {
 				groupOpen(SubtitleListXmlElement.items);
 				for (SubtitleItem item : l.getItems()) {
 					groupOpen(SubtitleListXmlElement.item);
-					tag(SubtitleListXmlElement.grammar,
-							item.getPartOfSpeech());
+					tag(SubtitleListXmlElement.grammar, item.getPartOfSpeech());
 					tag(SubtitleListXmlElement.dictionary, item.getDictionary());
 					tag(SubtitleListXmlElement.furigana, item.getFurigana());
 					tag(SubtitleListXmlElement.romaji, item.getRomaji());
 					tag(SubtitleListXmlElement.itemtext, item.getText());
 					tag(SubtitleListXmlElement.comment, item.getComment());
+					tag(SubtitleListXmlElement.baseform, item.getBaseForm());
+					tag(SubtitleListXmlElement.inflectionform,
+							item.getInflectionForm());
+					tag(SubtitleListXmlElement.inflectiontype,
+							item.getInflectionType());
 					if (item.getElements() != null) {
 						groupOpen(SubtitleListXmlElement.inner);
 						for (Inner inner : item.getElements()) {

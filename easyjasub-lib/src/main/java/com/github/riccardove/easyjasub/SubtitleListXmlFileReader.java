@@ -150,6 +150,18 @@ class SubtitleListXmlFileReader implements
 			item.setPartOfSpeech(text);
 			break;
 		}
+		case inflectiontype: {
+			item.setInflectionType(text);
+			break;
+		}
+		case inflectionform: {
+			item.setInflectionForm(text);
+			break;
+		}
+		case baseform: {
+			item.setBaseForm(text);
+			break;
+		}
 		case dictionary: {
 			item.setDictionary(text);
 			break;
