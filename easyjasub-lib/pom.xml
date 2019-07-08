@@ -24,14 +24,9 @@
 
 	<repositories>
 		<repository>
-			<id>rendersnake-repo</id>
-			<name>Repository for rendersnake</name>
-			<url>http://rendersnake.googlecode.com/svn/repo</url>
-		</repository>
-		<repository>
-			<id>yoava</id>
-			<name>Repository for html2image</name>
-			<url>http://evgenyg.artifactoryonline.com/evgenyg/repo</url>
+			<id>springplugins</id>
+			<name>springplugins</name>
+			<url>https://repo.spring.io/plugins-release</url>
 		</repository>
 	</repositories>
 

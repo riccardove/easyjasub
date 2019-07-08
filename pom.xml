@@ -65,7 +65,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<github.global.server>github</github.global.server>
 		<easyjasub.kurikosu.version>0.0.2</easyjasub.kurikosu.version>
-		<easyjasub.rendersnake.version>1.7.1</easyjasub.rendersnake.version>
+		<easyjasub.rendersnake.version>1.9.0</easyjasub.rendersnake.version>
 		<easyjasub.commons-io.version>2.4</easyjasub.commons-io.version>
 		<easyjasub.html2image.version>2.0.1</easyjasub.html2image.version>
 		<easyjasub.subtitleConvert.version>1.0.2</easyjasub.subtitleConvert.version>
